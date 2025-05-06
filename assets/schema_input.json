@@ -62,19 +62,20 @@
             },
             "PAIRED_END": {
                 "type": "boolean",
-                "default": false,
-                "description": "Indicates if the input is paired-end or single-end. Default is false (single-end).",
+                "default": true,
+                "description": "Indicates if the input is paired-end or single-end. Default is true (paired-end).",
                 "meta": ["paired_end"]
             },
             "COUNT_MODE": {
                 "type": "string",
-                "description": "Count mode",
-                "meta": ["count_mode"]
+                "description": "Count mode. Default is 'IntersectionStrict'.",
+                "meta": ["count_mode"],
+                "default": "IntersectionStrict"
             },
             "COUNT_OVERLAPS": {
                 "type": "boolean",
-                "default": false,
-                "description": "Indicates if overlaps should be counted. Default is false.",
+                "default": true,
+                "description": "Indicates if overlaps should be counted. Default is true.",
                 "meta": ["count_overlaps"]
             },
             "STRAND": {
