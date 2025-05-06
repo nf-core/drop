@@ -12,7 +12,7 @@
                 "pattern": "^\\S+$",
                 "errorMessage": "RNA ID must be provided and cannot contain spaces",
                 "description": "Unique identifier for the RNA sample. Must not contain spaces.",
-                "meta": ["rna_id"]
+                "meta": ["id"]
             },
             "RNA_BAM_FILE": {
                 "type": "string",
