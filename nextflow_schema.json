@@ -587,9 +587,6 @@
     },
     "allOf": [
         {
-            "$ref": "#/$defs/input_output_options"
-        },
-        {
             "$ref": "#/$defs/global_parameters"
         },
         {
