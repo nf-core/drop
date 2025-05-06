@@ -70,6 +70,7 @@
                 "type": "string",
                 "description": "Count mode. Default is 'IntersectionStrict'.",
                 "meta": ["count_mode"],
+                "enum": ["union", "IntersectionStrict", "IntersectionNotEmpty"],
                 "default": "IntersectionStrict"
             },
             "COUNT_OVERLAPS": {
@@ -81,7 +82,9 @@
             "STRAND": {
                 "type": "string",
                 "description": "Strand of the RNA-seq data",
-                "meta": ["strand"]
+                "enum": ["yes", "no", "reverse"],
+                "meta": ["strand"],
+                "default": "no"
             },
             "HPO_TERMS": {
                 "type": "string",
@@ -104,7 +107,9 @@
             "GENOME": {
                 "type": "string",
                 "description": "Genome source",
-                "meta": ["genome"]
+                "meta": ["genome"],
+                "enum": ["ncbi", "ucsc"],
+                "default": "ncbi"
             },
             "SPLICE_COUNTS_DIR": {
                 "type": "string",
@@ -113,8 +118,21 @@
                 "pattern": "^\\S+$",
                 "errorMessage": "The splice counts directory has to exist and cannot contain spaces",
                 "description": "Path to the splice counts directory. Must exist and cannot contain spaces."
+            },
+            "SEX": {
+                "type": "string",
+                "enum": ["m", "male", "f", "female"],
+                "description": "The sex of the sample"
+            },
+            "TISSUE": {
+                "type": "string",
+                "description": "The tissue type of the sample"
+            },
+            "DISEASE": {
+                "type": "string",
+                "description": "The disease type of the sample"
             }
         },
-        "required": ["RNA_ID", "DROP_GROUP"]
+        "required": ["RNA_ID", "DROP_GROUP", "RNA_BAM_FILE"]
     }
 }
