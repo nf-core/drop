@@ -320,6 +320,95 @@
                 }
             }
         },
+        "mono_allelic_expression": {
+            "title": "Mono-allelic expression options",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Mono-allelic expression options.",
+            "properties": {
+                "mae_run": {
+                    "type": "boolean",
+                    "description": "Run mono-allelic expression analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of mono-allelic expression groups to run. If empty, all groups are run."
+                },
+                "mae_gatk_header_check": {
+                    "type": "boolean",
+                    "description": "If true (recommended), it emits the header warnings of a VCF file when performing the allelic counts",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_padj_cutoff": {
+                    "type": "number",
+                    "description": "Same as in aberrant expression.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_allelic_ratio_cutoff": {
+                    "type": "number",
+                    "description": "A number between [0.5, 1) indicating the maximum allelic ratio allele1/(allele1+allele2) for the test to be significant.",
+                    "default": 0.8,
+                    "minimum": 0.5,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_skip_af": {
+                    "type": "boolean",
+                    "description": "Skip the addition of the allele frequencies from gnomAD",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_max_af": {
+                    "type": "number",
+                    "description": "Maximum allele frequency (of the minor allele) cut-off. Variants with AF equal or below this number are considered rare.",
+                    "default": 0.001,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_max_var_freq_cohort": {
+                    "type": "number",
+                    "description": "Maximum variant frequency among the cohort.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_qc_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.vcf\\.gz$",
+                    "description": "Full path to the vcf file used for VCF-BAM matching.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "mae_qc_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.tbi$",
+                    "description": "Full path to the index of the vcf file used for VCF-BAM matching.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "mae_qc_groups": {
+                    "type": "string",
+                    "description": "Same as 'groups', but for the VCF-BAM matching"
+                },
+                "mae_dna_rna_match_cutoff": {
+                    "type": "number",
+                    "description": "fraction (0-1) used to seperate 'matching' samples and 'non-matching' samples comparing the DNA and RNA data during QC.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                }
+            }
+        },
         "reference_genome_options": {
             "title": "Reference genome options",
             "type": "object",
