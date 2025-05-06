@@ -119,13 +119,28 @@
                 }
             }
         },
+        "export_counts": {
+            "title": "Export counts dictionary",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Export counts dictionary.",
+            "properties": {
+                "ec_gene_annotations": {
+                    "type": "string",
+                    "description": "A comma-separated list of gene annotations to export."
+                },
+                "ec_exclude_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of aberrant expression and aberrant splicing groups whose counts should not be exported. If empty, all groups are exported."
+                }
+            }
+        },
         "reference_genome_options": {
             "title": "Reference genome options",
             "type": "object",
             "fa_icon": "fas fa-dna",
             "description": "Reference genome related files and options required for the workflow.",
             "properties": {
-
                 "igenomes_ignore": {
                     "type": "boolean",
                     "description": "Do not load the iGenomes reference config.",
