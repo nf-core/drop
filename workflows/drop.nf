@@ -6,6 +6,9 @@
 include { SAMTOOLS_INDEX         } from '../modules/nf-core/samtools/index/main'
 include { TABIX_TABIX            } from '../modules/nf-core/tabix/tabix/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
+
+include { ABBERANTEXPRESSION     } from '../subworkflows/local/abberantexpression/main'
+
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -20,13 +23,13 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_drop
 workflow DROP {
 
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    samplesheet // queue channel: samplesheet read in from --input
     main:
 
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
-    def preprocess = ch_samplesheet.multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
+    def preprocess = samplesheet.multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
         bam: [ meta, rna_bam, rna_bai ]
         vcf: [ meta, dna_vcf, dna_tbi ]
         counts: [ meta, gene_counts, splice_counts ]
@@ -78,8 +81,18 @@ workflow DROP {
         .join(vcfs, failOnDuplicate:true, failOnMismatch:true)
         .join(preprocess.counts, failOnDuplicate:true, failOnMismatch:true)
         .multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
+            abberantexpression: [ meta, rna_bam, rna_bai ]
             // TODO: Create channels for each subworkflow here
         }
+
+    //
+    // Abberant expression
+    //
+
+    ABBERANTEXPRESSION(
+        input.abberantexpression,
+    )
+    ch_versions = ch_versions.mix(ABBERANTEXPRESSION.out.versions)
 
     //
     // Collate and save software versions
