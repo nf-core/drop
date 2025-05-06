@@ -29,8 +29,7 @@ workflow DROP {
     def preprocess = ch_samplesheet.multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
         bam: [ meta, rna_bam, rna_bai ]
         vcf: [ meta, dna_vcf, dna_tbi ]
-        gene_counts: [ meta, gene_counts ]
-        splice_counts: [ meta, splice_counts ]
+        counts: [ meta, gene_counts, splice_counts ]
     }
 
     //
@@ -70,6 +69,17 @@ workflow DROP {
     def vcfs = vcfs_to_index.yes
         .join(TABIX_TABIX.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         .mix(vcfs_to_index.no)
+
+    //
+    // Define inputs for each subworkflow
+    //
+
+    def input = bams
+        .join(vcfs, failOnDuplicate:true, failOnMismatch:true)
+        .join(preprocess.counts, failOnDuplicate:true, failOnMismatch:true)
+        .multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
+            // TODO: Create channels for each subworkflow here
+        }
 
     //
     // Collate and save software versions
