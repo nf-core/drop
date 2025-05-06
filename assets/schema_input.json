@@ -122,15 +122,18 @@
             "SEX": {
                 "type": "string",
                 "enum": ["m", "male", "f", "female"],
-                "description": "The sex of the sample"
+                "description": "The sex of the sample",
+                "meta": "sex"
             },
             "TISSUE": {
                 "type": "string",
-                "description": "The tissue type of the sample"
+                "description": "The tissue type of the sample",
+                "meta": "tissue"
             },
             "DISEASE": {
                 "type": "string",
-                "description": "The disease type of the sample"
+                "description": "The disease type of the sample",
+                "meta": "disease"
             }
         },
         "required": ["RNA_ID", "DROP_GROUP", "RNA_BAM_FILE"]
