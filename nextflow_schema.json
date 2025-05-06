@@ -201,6 +201,125 @@
                 }
             }
         },
+        "aberrant_splicing": {
+            "title": "Aberrant splicing options",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Aberrant splicing options.",
+            "properties": {
+                "as_run": {
+                    "type": "boolean",
+                    "description": "Run aberrant splicing analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of aberrant splicing groups to run. If empty, all groups are run."
+                },
+                "as_min_ids": {
+                    "type": "integer",
+                    "description": "A positive number indicating the minimum number of samples that a group needs in order to be analyzed. We recommend at least 50.",
+                    "default": 1,
+                    "minimum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_recount": {
+                    "type": "boolean",
+                    "description": "If true, it forces samples to be recounted.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_long_read": {
+                    "type": "boolean",
+                    "description": "Set to true only if counting Nanopore or PacBio long reads.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_keep_non_standard_chrs": {
+                    "type": "boolean",
+                    "description": "Set to true if non standard chromosomes are to be kept for further analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_skip_filter": {
+                    "type": "boolean",
+                    "description": "If true, no filter is applied. We recommend filtering.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_min_expression_in_one_sample": {
+                    "type": "integer",
+                    "description": "The minimal read count in at least one sample required for an intron to pass the filter.",
+                    "default": 1,
+                    "minimum": 20,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_quantile_min_expression": {
+                    "type": "integer",
+                    "description": "The minimum total read count (N) an intron needs to have at the specified quantile across samples to pass the filter. See --as_quantile_for_filtering.",
+                    "default": 1,
+                    "minimum": 10,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_quantile_for_filtering": {
+                    "type": "number",
+                    "description": "Defines at which percentile the as_quantile_min_expression filter is applied.",
+                    "help_text": "A value of 0.95 means that at least 5% of the samples need to have a total read count N >= as_quantile_min_expression to pass the filter.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_min_delta_psi": {
+                    "type": "number",
+                    "description": "The minimal variation (in delta psi) required for an intron to pass the filter.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_implementation": {
+                    "type": "string",
+                    "description": "Methods to remove sample covariation in FRASER.",
+                    "enum": ["PCA", "PCA-BB-Decoder"],
+                    "default": "PCA",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_fraser_version": {
+                    "type": "string",
+                    "description": "Version of FRASER to use.",
+                    "enume": ["FRASER", "FRASER2"],
+                    "default": "FRASER",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_delta_psi_cutoff": {
+                    "type": "number",
+                    "description": "A non-negative number. Delta psi values greater than this cutoff are considered as outliers. Set to 0.1 when using FRASER2.",
+                    "default": 0.3,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_padj_cutoff": {
+                    "type": "number",
+                    "description": "Same as in aberrant expression.",
+                    "default": 0.1,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_max_tested_dimension_proportion": {
+                    "type": "integer",
+                    "description": "An integer that controls the maximum value that the encoding dimension can take.",
+                    "minimum": 1,
+                    "default": 6
+                },
+                "as_genes_to_test": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_genes_to_test.json",
+                    "pattern": "^\\S+\\.(yaml|yml)$",
+                    "description": "Full path to a yaml file specifying lists of candidate genes per sample to test during FDR correction. See the documentation for details on the structure of this file."
+                }
+            }
+        },
         "reference_genome_options": {
             "title": "Reference genome options",
             "type": "object",
@@ -389,6 +508,9 @@
         },
         {
             "$ref": "#/$defs/aberrant_expression"
+        },
+        {
+            "$ref": "#/$defs/aberrant_splicing"
         },
         {
             "$ref": "#/$defs/reference_genome_options"
