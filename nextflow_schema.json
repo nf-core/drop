@@ -246,15 +246,15 @@
                 "as_min_expression_in_one_sample": {
                     "type": "integer",
                     "description": "The minimal read count in at least one sample required for an intron to pass the filter.",
-                    "default": 1,
-                    "minimum": 20,
+                    "default": 20,
+                    "minimum": 1,
                     "fa_icon": "fas fa-file-export"
                 },
                 "as_quantile_min_expression": {
                     "type": "integer",
                     "description": "The minimum total read count (N) an intron needs to have at the specified quantile across samples to pass the filter. See --as_quantile_for_filtering.",
-                    "default": 1,
-                    "minimum": 10,
+                    "default": 10,
+                    "minimum": 1,
                     "fa_icon": "fas fa-file-export"
                 },
                 "as_quantile_for_filtering": {
