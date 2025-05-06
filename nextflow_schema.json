@@ -602,6 +602,9 @@
             "$ref": "#/$defs/aberrant_splicing"
         },
         {
+            "$ref": "#/$defs/mono_allelic_expression"
+        },
+        {
             "$ref": "#/$defs/reference_genome_options"
         },
         {
