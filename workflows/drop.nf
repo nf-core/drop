@@ -3,7 +3,8 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { FASTQC                 } from '../modules/nf-core/fastqc/main'
+include { SAMTOOLS_INDEX         } from '../modules/nf-core/samtools/index/main'
+include { TABIX_TABIX            } from '../modules/nf-core/tabix/tabix/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -25,6 +26,50 @@ workflow DROP {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
+    def preprocess = ch_samplesheet.multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
+        bam: [ meta, rna_bam, rna_bai ]
+        vcf: [ meta, dna_vcf, dna_tbi ]
+        gene_counts: [ meta, gene_counts ]
+        splice_counts: [ meta, splice_counts ]
+    }
+
+    //
+    // Preprocess BAM files
+    //
+
+    def bams_to_index = preprocess.bam.branch { meta, bam, bai ->
+        yes: !bai
+            return [ meta, bam ]
+        no: true
+    }
+
+    SAMTOOLS_INDEX(
+        bams_to_index.yes
+    )
+    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
+
+    def bams = bams_to_index.yes
+        .join(SAMTOOLS_INDEX.out.bai, failOnDuplicate:true, failOnMismatch:true)
+        .mix(bams_to_index.no)
+
+    //
+    // Preprocess VCF files
+    //
+
+    def vcfs_to_index = preprocess.vcf.branch { meta, vcf, tbi ->
+        yes: vcf && !tbi
+            return [ meta, vcf ]
+        no: true
+    }
+
+    TABIX_TABIX(
+        vcfs_to_index.yes
+    )
+    ch_versions = ch_versions.mix(TABIX_TABIX.out.versions.first())
+
+    def vcfs = vcfs_to_index.yes
+        .join(TABIX_TABIX.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .mix(vcfs_to_index.no)
 
     //
     // Collate and save software versions
