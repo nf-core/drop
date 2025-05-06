@@ -120,10 +120,10 @@
             }
         },
         "export_counts": {
-            "title": "Export counts dictionary",
+            "title": "Export counts options",
             "type": "object",
             "fa_icon": "fas fa-file-export",
-            "description": "Export counts dictionary.",
+            "description": "Export counts options.",
             "properties": {
                 "ec_gene_annotations": {
                     "type": "string",
@@ -132,6 +132,72 @@
                 "ec_exclude_groups": {
                     "type": "string",
                     "description": "A comma-separated list of aberrant expression and aberrant splicing groups whose counts should not be exported. If empty, all groups are exported."
+                }
+            }
+        },
+        "aberrant_expression": {
+            "title": "Aberrant expression options",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Aberrant expression options.",
+            "properties": {
+                "ae_run": {
+                    "type": "boolean",
+                    "description": "Run aberrant expression analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of aberrant expression groups to run. If empty, all groups are run."
+                },
+                "ae_min_ids": {
+                    "type": "integer",
+                    "description": "A positive number indicating the minimum number of samples that a group needs in order to be analyzed. We recommend at least 50.",
+                    "default": 1,
+                    "minimum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_fpkm_cutoff": {
+                    "type": "integer",
+                    "description": "A positive number indicating the minimum FPKM value for a gene to be considered expressed.",
+                    "default": 1,
+                    "minimum": 0,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_implementation": {
+                    "type": "string",
+                    "description": "Methods to remove sample covariation in OUTRIDER.",
+                    "enum": ["autoencoder", "pca", "peer"],
+                    "default": "autoencoder",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_z_score_cutoff": {
+                    "type": "number",
+                    "description": "A number between (0, 1] indicating the maximum FDR an event can have in order to be considered an outlier.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_max_tested_dimension_proportion": {
+                    "type": "integer",
+                    "description": "An integer that controls the maximum value that the encoding dimension can take.",
+                    "minimum": 1,
+                    "default": 3
+                },
+                "ae_yield_size": {
+                    "type": "integer",
+                    "description": "An integer that sets the batch size for counting reads within a bam file. If memory issues persist lower the yieldSize.",
+                    "minimum": 1,
+                    "default": 2000000
+                },
+                "ae_genes_to_test": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_genes_to_test.json",
+                    "pattern": "^\\S+\\.(yaml|yml)$",
+                    "description": "Full path to a yaml file specifying lists of candidate genes per sample to test during FDR correction. See the documentation for details on the structure of this file."
                 }
             }
         },
@@ -317,6 +383,12 @@
         },
         {
             "$ref": "#/$defs/global_parameters"
+        },
+        {
+            "$ref": "#/$defs/export_counts"
+        },
+        {
+            "$ref": "#/$defs/aberrant_expression"
         },
         {
             "$ref": "#/$defs/reference_genome_options"
