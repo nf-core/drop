@@ -38,6 +38,7 @@ process PREPROCESSGENEANNOTATION {
     close(a)
     a <- file("${prefix}.gene_name_mapping.tsv", "w")
     close(a)
+
     ## VERSIONS FILE
     writeLines(
         c(
