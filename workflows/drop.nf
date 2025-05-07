@@ -19,7 +19,13 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_drop
 workflow DROP {
 
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    // Global parameters
+    ch_samplesheet  // queue channel: samplesheet read in from --input
+    project_title   // string:        title of the project to add to the HTML file
+    fasta           // value channel: [ val(meta), path(fasta) ]
+    fai             // value channel: [ val(meta), path(fai) ]
+    gene_annotation // map:           A map containing key value pairs of gene annotations with their corresponding GTF file
+    hpo_file        // value channel: [ val(meta), path(hpo_file) ]
     main:
 
     ch_versions = Channel.empty()
