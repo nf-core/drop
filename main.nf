@@ -109,7 +109,7 @@ workflow {
         // Mono Allelic Expression parameters
         params.mae_run,
         mae_groups,
-        mae_qc_groups,
+        mae_qc_groups
     )
 
     //
