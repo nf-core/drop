@@ -29,7 +29,7 @@ runs:
         nftest_output=$(nf-test test \
           --dry-run \
           --profile +docker \
-          --filter function,workflow,pipeline \
+          --filter function,workflow,pipeline,process \
           --ci \
           --changed-since HEAD^) || {
             echo "nf-test command failed with exit code $?"
