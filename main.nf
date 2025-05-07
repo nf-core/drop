@@ -54,6 +54,10 @@ workflow {
         params.input
     )
 
+    //
+    // Parse and convert parameters to their expected input format
+    //
+
     def fasta = params.fasta ? Channel.value([id: 'fasta'], file(params.fasta)) : [[:], []]
     def fai   = params.fai   ? Channel.value([id: 'fai'], file(params.fai))     : [[:], []]
     // TODO accomodate for the ncbi and ucsc fasta
@@ -64,6 +68,11 @@ workflow {
         ? samplesheetToList(params.gene_annotation).collectEntries { name, gtf -> [ name, file(gtf) ] }
         : [:]
 
+    def ec_gene_annotations = params.ec_gene_annotations ? params.ec_gene_annotations.tokenize(",") : []
+    def ec_exclude_groups = params.ec_exclude_groups ? params.ec_exclude_groups.tokenize(",") : []
+
+    def ae_groups = params.ae_groups ? params.ae_groups.tokenize(",") : []
+    def ae_genes_to_test = params.ae_genes_to_test ? Utils.readYamlFile(file(params.ae_genes_to_test)) : [:]
     //
     // WORKFLOW: Run main workflow
     //
@@ -74,7 +83,16 @@ workflow {
         fasta,
         fai,
         gene_annotation,
-        hpo_file
+        hpo_file,
+
+        // Export counts parameters
+        ec_gene_annotations,
+        ec_exclude_groups,
+
+        // Aberrant expression parameters
+        params.ae_run,
+        ae_groups,
+        ae_genes_to_test,
     )
 
     //

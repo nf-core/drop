@@ -20,12 +20,21 @@ workflow DROP {
 
     take:
     // Global parameters
-    ch_samplesheet  // queue channel: samplesheet read in from --input
-    project_title   // string:        title of the project to add to the HTML file
-    fasta           // value channel: [ val(meta), path(fasta) ]
-    fai             // value channel: [ val(meta), path(fai) ]
-    gene_annotation // map:           A map containing key value pairs of gene annotations with their corresponding GTF file
-    hpo_file        // value channel: [ val(meta), path(hpo_file) ]
+    ch_samplesheet      // queue channel: samplesheet read in from --input
+    project_title       // string:        title of the project to add to the HTML file
+    fasta               // value channel: [ val(meta), path(fasta) ]
+    fai                 // value channel: [ val(meta), path(fai) ]
+    gene_annotation     // map:           A map containing key value pairs of gene annotations with their corresponding GTF file
+    hpo_file            // value channel: [ val(meta), path(hpo_file) ]
+
+    // Export count parameters
+    ec_gene_annotations // list:          A list of gene annotations to export the counts of
+    ec_exclude_groups   // list:          A list of groups to exclude from the counts export
+
+    // Aberrant expression parameters
+    ae_run              // boolean:       Run aberrant expression analysis
+    ae_groups           // list:          A list of groups to exclude from the aberrant expression analysis
+    ae_genes_to_test    // map:
     main:
 
     ch_versions = Channel.empty()
