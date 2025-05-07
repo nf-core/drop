@@ -34,7 +34,13 @@ workflow DROP {
     // Aberrant expression parameters
     ae_run              // boolean:       Run aberrant expression analysis
     ae_groups           // list:          A list of groups to exclude from the aberrant expression analysis
-    ae_genes_to_test    // map:
+    ae_genes_to_test    // map:           A map containing the names of genes to test
+
+    // Aberrant splicing parameters
+    as_run              // boolean:       Run aberrant splicing analysis
+    as_groups           // list:          A list of groups to exclude from the aberrant splicing analysis
+    as_fraser_version   // string:        Fraser version to use for aberrant splicing analysis
+    as_genes_to_test    // map:           A map containing the names of genes to test
     main:
 
     ch_versions = Channel.empty()

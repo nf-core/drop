@@ -73,6 +73,9 @@ workflow {
 
     def ae_groups = params.ae_groups ? params.ae_groups.tokenize(",") : []
     def ae_genes_to_test = params.ae_genes_to_test ? Utils.readYamlFile(file(params.ae_genes_to_test)) : [:]
+
+    def as_groups = params.as_groups ? params.as_groups.tokenize(",") : []
+    def as_genes_to_test = params.as_genes_to_test ? Utils.readYamlFile(file(params.as_genes_to_test)) : [:]
     //
     // WORKFLOW: Run main workflow
     //
@@ -93,6 +96,12 @@ workflow {
         params.ae_run,
         ae_groups,
         ae_genes_to_test,
+
+        // Aberrant splicing parameters
+        params.as_run,
+        as_groups,
+        params.as_fraser_version,
+        as_genes_to_test,
     )
 
     //
