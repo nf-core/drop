@@ -10,10 +10,10 @@ inputs:
 outputs:
   shard:
     description: "Array of shard numbers"
-    value: ${{ steps.shards.outputs.shard }}
+    value: ${{ steps.set-outputs.outputs.shard }}
   total_shards:
     description: "Total number of shards"
-    value: ${{ steps.shards.outputs.total_shards }}
+    value: ${{ steps.set-outputs.outputs.total_shards }}
 runs:
   using: "composite"
   steps:
@@ -58,8 +58,8 @@ runs:
         fi
 
         # Write to GitHub Actions outputs
-        echo "shard=$shard" >> $GITHUB_OUTPUT
-        echo "total_shards=$total_shards" >> $GITHUB_OUTPUT
+        echo "shard=$shard" >> $GITHUB_ENV
+        echo "total_shards=$total_shards" >> $GITHUB_ENV
 
         # Debugging output
         echo "Final shard array: $shard"
