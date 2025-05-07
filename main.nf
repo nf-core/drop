@@ -15,7 +15,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { DROP  } from './workflows/drop'
+include { DROP                    } from './workflows/drop'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_drop_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_drop_pipeline'
 include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_drop_pipeline'
