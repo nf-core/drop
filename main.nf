@@ -76,6 +76,9 @@ workflow {
 
     def as_groups = params.as_groups ? params.as_groups.tokenize(",") : []
     def as_genes_to_test = params.as_genes_to_test ? Utils.readYamlFile(file(params.as_genes_to_test)) : [:]
+
+    def mae_groups = params.mae_groups ? params.mae_groups.tokenize(",") : []
+    def mae_qc_groups = params.mae_qc_groups ? params.mae_qc_groups.tokenize(",") : []
     //
     // WORKFLOW: Run main workflow
     //
@@ -102,6 +105,11 @@ workflow {
         as_groups,
         params.as_fraser_version,
         as_genes_to_test,
+
+        // Mono Allelic Expression parameters
+        params.mae_run,
+        mae_groups,
+        mae_qc_groups,
     )
 
     //

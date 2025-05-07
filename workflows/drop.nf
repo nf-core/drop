@@ -41,6 +41,12 @@ workflow DROP {
     as_groups           // list:          A list of groups to exclude from the aberrant splicing analysis
     as_fraser_version   // string:        Fraser version to use for aberrant splicing analysis
     as_genes_to_test    // map:           A map containing the names of genes to test
+
+    // Mono Allelic Expression parameters
+    mae_run             // boolean:       Run mono allelic expression analysis
+    mae_groups          // list:          A list of groups to exclude from the mono allelic expression analysis
+    mae_qc_groups       // list:          A list of groups to exclude from QC steps in the mono allelic expression analysis
+
     main:
 
     ch_versions = Channel.empty()
