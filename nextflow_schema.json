@@ -171,12 +171,19 @@
                     "default": "autoencoder",
                     "fa_icon": "fas fa-file-export"
                 },
-                "ae_z_score_cutoff": {
+                "ae_padj_cutoff": {
                     "type": "number",
                     "description": "A number between (0, 1] indicating the maximum FDR an event can have in order to be considered an outlier.",
                     "default": 0.05,
                     "minimum": 0,
                     "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_z_score_cutoff": {
+                    "type": "number",
+                    "description": "A non-negative number. Z scores (in absolute value) greater than this cutoff are considered as outliers.",
+                    "default": 0,
+                    "minimum": 0,
                     "fa_icon": "fas fa-file-export"
                 },
                 "ae_max_tested_dimension_proportion": {
