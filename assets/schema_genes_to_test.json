@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/nf-core/drop/master/assets/schema_input.json",
+    "title": "nf-core/drop pipeline - params.gene_annotation schema",
+    "description": "Schema for the file provided with params.gene_annotation",
+    "type": "object",
+    "properties": {
+        "Genes_to_test_on_all_samples": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "Genes_with_rare_splice_variants": {
+            "type": "object",
+            "patternProperties": {
+                "^\\S+$": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

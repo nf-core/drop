@@ -23,7 +23,34 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_drop
 workflow DROP {
 
     take:
-    samplesheet // queue channel: samplesheet read in from --input
+    // Global parameters
+    samplesheet      // queue channel: samplesheet read in from --input
+    project_title       // string:        title of the project to add to the HTML file
+    fasta               // value channel: [ val(meta), path(fasta) ]
+    fai                 // value channel: [ val(meta), path(fai) ]
+    gene_annotation     // map:           A map containing key value pairs of gene annotations with their corresponding GTF file
+    hpo_file            // value channel: [ val(meta), path(hpo_file) ]
+
+    // Export count parameters
+    ec_gene_annotations // list:          A list of gene annotations to export the counts of
+    ec_exclude_groups   // list:          A list of groups to exclude from the counts export
+
+    // Aberrant expression parameters
+    ae_run              // boolean:       Run aberrant expression analysis
+    ae_groups           // list:          A list of groups to exclude from the aberrant expression analysis
+    ae_genes_to_test    // map:           A map containing the names of genes to test
+
+    // Aberrant splicing parameters
+    as_run              // boolean:       Run aberrant splicing analysis
+    as_groups           // list:          A list of groups to exclude from the aberrant splicing analysis
+    as_fraser_version   // string:        Fraser version to use for aberrant splicing analysis
+    as_genes_to_test    // map:           A map containing the names of genes to test
+
+    // Mono Allelic Expression parameters
+    mae_run             // boolean:       Run mono allelic expression analysis
+    mae_groups          // list:          A list of groups to exclude from the mono allelic expression analysis
+    mae_qc_groups       // list:          A list of groups to exclude from QC steps in the mono allelic expression analysis
+
     main:
 
     ch_versions = Channel.empty()
