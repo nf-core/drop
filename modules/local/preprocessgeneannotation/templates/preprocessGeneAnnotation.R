@@ -47,7 +47,6 @@ gtf_dt[, N := NULL]
 fwrite(gtf_dt, paste(prefix, ".gene_name_mapping.tsv", sep=""), na = NA)
 
 # Write the versions file
-
 writeLines(
     c(
         '"${task.process}":',
