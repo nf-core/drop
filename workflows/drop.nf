@@ -36,18 +36,18 @@ workflow DROP {
     ec_exclude_groups   // list:          A list of groups to exclude from the counts export
 
     // Aberrant expression parameters
-    ae_skip             // boolean:       Skip aberrant expression analysis
+    ae_run              // boolean:       Run aberrant expression analysis
     ae_groups           // list:          A list of groups to exclude from the aberrant expression analysis
     ae_genes_to_test    // map:           A map containing the names of genes to test
 
     // Aberrant splicing parameters
-    as_skip             // boolean:       Skip aberrant splicing analysis
+    as_run              // boolean:       Run aberrant splicing analysis
     as_groups           // list:          A list of groups to exclude from the aberrant splicing analysis
     as_fraser_version   // string:        Fraser version to use for aberrant splicing analysis
     as_genes_to_test    // map:           A map containing the names of genes to test
 
     // Mono Allelic Expression parameters
-    mae_skip            // boolean:       Skip mono allelic expression analysis
+    mae_run             // boolean:       Run mono allelic expression analysis
     mae_groups          // list:          A list of groups to exclude from the mono allelic expression analysis
     mae_qc_groups       // list:          A list of groups to exclude from QC steps in the mono allelic expression analysis
 

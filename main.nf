@@ -96,18 +96,18 @@ workflow {
         ec_exclude_groups,
 
         // Aberrant expression parameters
-        params.ae_skip,
+        params.ae_run,
         ae_groups,
         ae_genes_to_test,
 
         // Aberrant splicing parameters
-        params.as_skip,
+        params.as_run,
         as_groups,
         params.as_fraser_version,
         as_genes_to_test,
 
         // Mono Allelic Expression parameters
-        params.mae_skip,
+        params.mae_run,
         mae_groups,
         mae_qc_groups
     )
