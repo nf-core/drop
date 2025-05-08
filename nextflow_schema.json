@@ -141,9 +141,9 @@
             "fa_icon": "fas fa-file-export",
             "description": "Aberrant expression options.",
             "properties": {
-                "ae_run": {
+                "ae_skip": {
                     "type": "boolean",
-                    "description": "Run aberrant expression analysis.",
+                    "description": "Skip aberrant expression analysis.",
                     "fa_icon": "fas fa-file-export"
                 },
                 "ae_groups": {
@@ -214,9 +214,9 @@
             "fa_icon": "fas fa-file-export",
             "description": "Aberrant splicing options.",
             "properties": {
-                "as_run": {
+                "as_skip": {
                     "type": "boolean",
-                    "description": "Run aberrant splicing analysis.",
+                    "description": "Skip aberrant splicing analysis.",
                     "fa_icon": "fas fa-file-export"
                 },
                 "as_groups": {
@@ -333,9 +333,9 @@
             "fa_icon": "fas fa-file-export",
             "description": "Mono-allelic expression options.",
             "properties": {
-                "mae_run": {
+                "mae_skip": {
                     "type": "boolean",
-                    "description": "Run mono-allelic expression analysis.",
+                    "description": "Skip mono-allelic expression analysis.",
                     "fa_icon": "fas fa-file-export"
                 },
                 "mae_groups": {
