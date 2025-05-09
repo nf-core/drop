@@ -12,3 +12,6 @@ template:
   org: nf-core
   outdir: .
   version: 1.0dev
+lint:
+  files_exist:
+    - .github/workflows/ci.yml

@@ -1,0 +1,60 @@
+nextflow_process {
+
+    name "Test Process PREPROCESSGENEANNOTATION"
+    script "../main.nf"
+    process "PREPROCESSGENEANNOTATION"
+
+    tag "modules"
+    tag "modules_local"
+    tag "preprocessgeneannotation"
+
+    test("homo_sapiens - gtf") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.gtf', checkIfExists: true) ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.db.collect { meta, db -> [ meta, file(db).name ] },
+                    process.out.count_ranges.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.gene_name_mapping,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - gtf - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.gtf', checkIfExists: true) ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
