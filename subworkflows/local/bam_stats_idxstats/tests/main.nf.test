@@ -1,0 +1,41 @@
+nextflow_workflow {
+
+    name "Test Workflow BAM_STATS_IDXSTATS"
+    script "../main.nf"
+    workflow "BAM_STATS_IDXSTATS"
+
+    test("Should run without failures") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    // File with NCBI chromosome notations
+                    [id:"test1"],
+                    file(params.modules_testdata_base_path + "genomics/homo_sapiens/illumina/bam/test.PGx.CYP2D6.bam", checkIfExists:true),
+                    file(params.modules_testdata_base_path + "genomics/homo_sapiens/illumina/bam/test.PGx.CYP2D6.bam.bai", checkIfExists:true)
+                ],
+                [
+                    // File with UCSC chromosome notations
+                    [id:"test2"],
+                    file(params.modules_testdata_base_path + "genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam", checkIfExists:true),
+                    file(params.modules_testdata_base_path + "genomics/homo_sapiens/illumina/bam/test.paired_end.sorted.bam.bai", checkIfExists:true)
+                ])
+                input[1] = Channel.value(["test3", "test4"])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.merged_bam_stats[0].collect { file(it).text },
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+
+    }
+
+}
