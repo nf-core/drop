@@ -1,0 +1,70 @@
+nextflow_process {
+
+    name "Test Process COUNTREADS"
+    script "../main.nf"
+    process "COUNTREADS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "preprocessgeneannotation"
+    tag "countreads"
+
+    test("homo_sapiens - bam, bai, count_ranges") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'HG00096'],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam'),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai'),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/HG00096.count_ranges.Rds'),
+                    "yes", // STRAND
+                    "IntersectionStrict", // COUNT MODE
+                    true, // PAIRED END
+                    true  // COUNT OVERLAPS
+                ]
+                input[1] = 2000000 // yield size
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - bam, bai, count_ranges - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'HG00096'],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam'),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai'),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/HG00096.count_ranges.Rds'),
+                    "yes", // STRAND
+                    "IntersectionStrict", // COUNT MODE
+                    true, // PAIRED END
+                    true  // COUNT OVERLAPS
+                ]
+                input[1] = 2000000 // yield size
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

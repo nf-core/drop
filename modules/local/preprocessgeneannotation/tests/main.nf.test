@@ -14,8 +14,8 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'test' ],
-                    [ file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.gtf', checkIfExists: true) ]
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'genome/gencode_annotation_trunc.gtf', checkIfExists: true)
                 ])
                 """
             }
@@ -42,8 +42,8 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'test' ],
-                    [ file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.gtf', checkIfExists: true) ]
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'genome/gencode_annotation_trunc.gtf', checkIfExists: true)
                 ])
                 """
             }
