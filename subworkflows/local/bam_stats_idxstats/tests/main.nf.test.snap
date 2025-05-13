@@ -2,7 +2,7 @@
     "Should run without failures": {
         "content": [
             [
-                "sampleID\tread_count\ntest1\t8412\ntest2\t5642\ntest3\tNA\ntest4\tNA\n"
+                "sampleID\tread_count\nHG00096\t62349\nHG00103\t58181\ntest3\tNA\ntest4\tNA\n"
             ],
             [
                 "versions.yml:md5,a8032c0748af151eec95d22438cf9186"
@@ -12,6 +12,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.0"
         },
-        "timestamp": "2025-05-13T14:24:30.573138207"
+        "timestamp": "2025-05-13T17:24:17.316326066"
     }
 }
