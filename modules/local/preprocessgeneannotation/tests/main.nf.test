@@ -14,7 +14,7 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'HG00096' ],
+                    [ id: 'genome' ],
                     file(params.pipelines_testdata_base_path + 'genome/gencode_annotation_trunc.gtf', checkIfExists: true)
                 ])
                 """
@@ -42,7 +42,7 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'HG00096' ],
+                    [ id: 'genome' ],
                     file(params.pipelines_testdata_base_path + 'genome/gencode_annotation_trunc.gtf', checkIfExists: true)
                 ])
                 """

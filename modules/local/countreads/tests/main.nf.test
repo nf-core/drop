@@ -18,7 +18,7 @@ nextflow_process {
                     [id: 'HG00096'],
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam'),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai'),
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/HG00096.count_ranges.Rds'),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds'),
                     "yes", // STRAND
                     "IntersectionStrict", // COUNT MODE
                     true, // PAIRED END
@@ -48,7 +48,7 @@ nextflow_process {
                     [id: 'HG00096'],
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam'),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai'),
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/HG00096.count_ranges.Rds'),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds'),
                     "yes", // STRAND
                     "IntersectionStrict", // COUNT MODE
                     true, // PAIRED END

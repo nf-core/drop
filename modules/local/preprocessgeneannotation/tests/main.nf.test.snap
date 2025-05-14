@@ -7,17 +7,17 @@
             [
                 [
                     {
-                        "id": "HG00096"
+                        "id": "genome"
                     },
-                    "HG00096.count_ranges.Rds"
+                    "genome.count_ranges.Rds"
                 ]
             ],
             [
                 [
                     {
-                        "id": "HG00096"
+                        "id": "genome"
                     },
-                    "HG00096.gene_name_mapping.tsv:md5,d4ac1fb206288bf58639f69c1479703b"
+                    "genome.gene_name_mapping.tsv:md5,d4ac1fb206288bf58639f69c1479703b"
                 ]
             ],
             [
@@ -28,7 +28,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.0"
         },
-        "timestamp": "2025-05-13T17:08:53.224902349"
+        "timestamp": "2025-05-14T09:40:03.121041333"
     },
     "homo_sapiens - gtf - stub": {
         "content": [
@@ -36,25 +36,25 @@
                 "0": [
                     [
                         {
-                            "id": "HG00096"
+                            "id": "genome"
                         },
-                        "HG00096.db:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.db:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "1": [
                     [
                         {
-                            "id": "HG00096"
+                            "id": "genome"
                         },
-                        "HG00096.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
                     [
                         {
-                            "id": "HG00096"
+                            "id": "genome"
                         },
-                        "HG00096.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "3": [
@@ -63,25 +63,25 @@
                 "count_ranges": [
                     [
                         {
-                            "id": "HG00096"
+                            "id": "genome"
                         },
-                        "HG00096.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "gene_name_mapping": [
                     [
                         {
-                            "id": "HG00096"
+                            "id": "genome"
                         },
-                        "HG00096.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "txdb": [
                     [
                         {
-                            "id": "HG00096"
+                            "id": "genome"
                         },
-                        "HG00096.db:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.db:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "versions": [
@@ -93,6 +93,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.0"
         },
-        "timestamp": "2025-05-13T17:09:09.432885031"
+        "timestamp": "2025-05-14T09:40:17.872046595"
     }
 }
