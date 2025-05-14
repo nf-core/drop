@@ -8,7 +8,8 @@ process COUNTREADS {
         'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-genomicalignments_bioconductor-rsamtools_r-base_r-data.table:195b16b35d0c9f89' }"
 
     input:
-    tuple val(meta), path(bam), path(bai), path(count_ranges), val(strand), val(count_mode), val(paired_end), val(count_overlaps)
+    tuple val(meta), path(bam), path(bai), val(strand), val(count_mode), val(paired_end), val(count_overlaps)
+    tuple val(meta2), path(count_ranges)
     val(yield_size)
 
     output:

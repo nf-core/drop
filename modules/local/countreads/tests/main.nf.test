@@ -18,13 +18,16 @@ nextflow_process {
                     [id: 'HG00096'],
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam'),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai'),
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds'),
                     "yes", // STRAND
                     "IntersectionStrict", // COUNT MODE
                     true, // PAIRED END
                     true  // COUNT OVERLAPS
                 ]
-                input[1] = 2000000 // yield size
+                input[1] = [
+                    [id: 'genome'],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds')
+                ]
+                input[2] = 2000000 // yield size
                 """
             }
         }
@@ -48,13 +51,16 @@ nextflow_process {
                     [id: 'HG00096'],
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam'),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai'),
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds'),
                     "yes", // STRAND
                     "IntersectionStrict", // COUNT MODE
                     true, // PAIRED END
                     true  // COUNT OVERLAPS
                 ]
-                input[1] = 2000000 // yield size
+                input[1] = [
+                    [id: 'genome'],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds')
+                ]
+                input[2] = 2000000 // yield size
                 """
             }
         }
