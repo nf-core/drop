@@ -44,7 +44,7 @@ workflow BAM_STATS_IDXSTATS {
         .collect()
         // Add the file header and sort the lines on sample name
         .map { lines ->
-            return ["sampleID\tread_count"] + lines.sort()
+            return ["sampleID\trecord_count"] + lines.sort()
         }
         .flatten()
         // Create the merged bam stats file
