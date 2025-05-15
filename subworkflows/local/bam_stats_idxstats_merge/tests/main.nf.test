@@ -1,8 +1,8 @@
 nextflow_workflow {
 
-    name "Test Workflow BAM_STATS_IDXSTATS"
+    name "Test Workflow BAM_STATS_IDXSTATS_MERGE"
     script "../main.nf"
-    workflow "BAM_STATS_IDXSTATS"
+    workflow "BAM_STATS_IDXSTATS_MERGE"
 
     test("Should run without failures") {
 
