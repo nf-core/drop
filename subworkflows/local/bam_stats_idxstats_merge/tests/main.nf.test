@@ -1,0 +1,41 @@
+nextflow_workflow {
+
+    name "Test Workflow BAM_STATS_IDXSTATS_MERGE"
+    script "../main.nf"
+    workflow "BAM_STATS_IDXSTATS_MERGE"
+
+    test("Should run without failures") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    // File with NCBI chromosome notations
+                    [id:"HG00096"],
+                    file(params.pipelines_testdata_base_path + "inputs/HG00096_ncbi.bam", checkIfExists:true),
+                    file(params.pipelines_testdata_base_path + "inputs/HG00096_ncbi.bam.bai", checkIfExists:true)
+                ],
+                [
+                    // File with UCSC chromosome notations
+                    [id:"HG00103"],
+                    file(params.pipelines_testdata_base_path + "inputs/HG00103.bam", checkIfExists:true),
+                    file(params.pipelines_testdata_base_path + "inputs/HG00103.bam.bai", checkIfExists:true)
+                ])
+                input[1] = Channel.value(["test3", "test4"])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.merged_bam_stats[0].collect { file(it).text },
+                    workflow.out.versions
+                ).match() }
+            )
+        }
+
+    }
+
+}
