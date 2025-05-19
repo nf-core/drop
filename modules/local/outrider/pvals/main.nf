@@ -1,4 +1,4 @@
-process PVALSOUTRIDER {
+process OUTRIDER_PVALS {
     tag "${meta.id}"
     label 'process_low'
 

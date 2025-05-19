@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process PVALSOUTRIDER"
+    name "Test Process OUTRIDER_PVALS"
     script "../main.nf"
-    process "PVALSOUTRIDER"
+    process "OUTRIDER_PVALS"
 
     tag "modules"
     tag "modules_local"
-    tag "pvaloutrider"
+    tag "outrider_pvals"
 
     test("homo_sapiens - ods fitted") {
 
