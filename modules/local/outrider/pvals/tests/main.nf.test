@@ -23,7 +23,7 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
                 ]
                 input[2] = [
-                    [ id: 'gene_name_mapping' ],
+                    [ id: 'genes_to_test' ],
                     file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml', checkIfExists: true)
                 ]
                 input[3] = 'autoencoder'
@@ -57,7 +57,7 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
                 ]
                 input[2] = [
-                    [ id: 'gene_name_mapping' ],
+                    [ id: 'genes_to_test' ],
                     file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml', checkIfExists: true)
                 ]
                 input[3] = 'autoencoder'
