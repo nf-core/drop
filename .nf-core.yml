@@ -15,3 +15,5 @@ template:
 lint:
   files_exist:
     - .github/workflows/ci.yml
+  files_unchanged:
+    - .gitignore
