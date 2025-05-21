@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process AE_OUTRIDER_RUNOUTRIDER"
-    script "modules/local/ae_outrider_runoutrider/main.nf"
-    process "AE_OUTRIDER_RUNOUTRIDER"
+    name "Test Process OUTRIDER_RUN"
+    script "../main.nf"
+    process "OUTRIDER_RUN"
 
     tag "modules"
     tag "modules_local"
-    tag "ae_outrider_runoutrider"
+    tag "OUTRIDER_RUN"
 
     test("drop demo - ods_unfitted.Rds") {
 
@@ -15,8 +15,10 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file('../../../tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
+                    [ file('/data/nasif12/home_if12/wayu0/nf-core-drop/tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
                 ])
+                input[1] = 'autoencoder'
+                input[2] = 3
                 """
             }
         }
@@ -40,8 +42,10 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file('../../../tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
+                    [ file('/data/nasif12/home_if12/wayu0/nf-core-drop/tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
                 ])
+                input[1] = 'autoencoder'
+                input[2] = 3
                 """
             }
         }

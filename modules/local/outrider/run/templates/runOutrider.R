@@ -33,12 +33,12 @@ suppressPackageStartupMessages({
 })
 
 ods <- readRDS("$ods")
-implementation <- params.ae_implementation
-mp <- params.ae_max_tested_dimension_proportion
+implementation <- "$implementation"
+mp <- "$ae_max_tested_dimension_proportion"
 register(MulticoreParam(${task.cpus}))
 
 ## subset filtered
-ods <- ods[mcols(ods)$passedFilter,] 
+ods <- ods[mcols(ods)\$passedFilter,] 
 
 # add gene ranges to rowData
 gr <- unlist(endoapply(rowRanges(ods), range))
@@ -78,4 +78,4 @@ if (implementation == "peer" || implementation == "pca"){
 }
 message("outrider fitting finished")
 
-saveRDS(ods, paste(prefix, ".ods_fitted.Rds", sep="")
+saveRDS(ods, paste(prefix, ".Rds", sep="")

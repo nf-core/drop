@@ -9,10 +9,12 @@ process OUTRIDER_RUN {
 
     input:
     tuple val(meta), path(ods)
+    val(implementation)
+    val(ae_max_tested_dimension_proportion)
 
     output:
-    tuple val(meta), path("*fitted.Rds")            , emit: ods_fitted
-    path  "versions.yml"                            , emit: versions
+    tuple val(meta), path("*.Rds")            , emit: ods_fitted
+    path  "versions.yml"                      , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
