@@ -7,17 +7,17 @@
             [
                 [
                     {
-                        "id": "test"
+                        "id": "genome"
                     },
-                    "test.count_ranges.Rds"
+                    "genome.count_ranges.Rds"
                 ]
             ],
             [
                 [
                     {
-                        "id": "test"
+                        "id": "genome"
                     },
-                    "test.gene_name_mapping.tsv:md5,9055f16f89d34c2cc1369fab8d881abf"
+                    "genome.gene_name_mapping.tsv:md5,d4ac1fb206288bf58639f69c1479703b"
                 ]
             ],
             [
@@ -26,9 +26,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
+            "nextflow": "25.04.0"
         },
-        "timestamp": "2025-05-07T16:03:27.612072766"
+        "timestamp": "2025-05-14T09:40:03.121041333"
     },
     "homo_sapiens - gtf - stub": {
         "content": [
@@ -36,25 +36,25 @@
                 "0": [
                     [
                         {
-                            "id": "test"
+                            "id": "genome"
                         },
-                        "test.db:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.db:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "1": [
                     [
                         {
-                            "id": "test"
+                            "id": "genome"
                         },
-                        "test.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
                     [
                         {
-                            "id": "test"
+                            "id": "genome"
                         },
-                        "test.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "3": [
@@ -63,25 +63,25 @@
                 "count_ranges": [
                     [
                         {
-                            "id": "test"
+                            "id": "genome"
                         },
-                        "test.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.count_ranges.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "gene_name_mapping": [
                     [
                         {
-                            "id": "test"
+                            "id": "genome"
                         },
-                        "test.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.gene_name_mapping.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "txdb": [
                     [
                         {
-                            "id": "test"
+                            "id": "genome"
                         },
-                        "test.db:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "genome.db:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "versions": [
@@ -91,8 +91,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
+            "nextflow": "25.04.0"
         },
-        "timestamp": "2025-05-07T15:39:22.73380844"
+        "timestamp": "2025-05-14T09:40:17.872046595"
     }
 }

@@ -1,0 +1,77 @@
+nextflow_process {
+
+    name "Test Process OUTRIDER_PVALS"
+    script "../main.nf"
+    process "OUTRIDER_PVALS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "outrider_pvals"
+
+    test("homo_sapiens - ods fitted") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/runoutrider/ods_fitted.Rds', checkIfExists: true),
+                    [ 'HG00096', 'HG00103', 'HG00106', 'HG00111', 'HG00116', 'HG00126', 'HG00132', 'HG00149', 'HG00150', 'HG00176' ]
+                ])
+                input[1] = [
+                    [ id: 'gene_name_mapping' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
+                ]
+                input[2] = [
+                    [ id: 'genes_to_test' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml', checkIfExists: true)
+                ]
+                input[3] = 'autoencoder'
+                input[4] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true)
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - ods fitted - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/runoutrider/ods_fitted.Rds', checkIfExists: true),
+                    [ 'HG00096', 'HG00103', 'HG00106', 'HG00111', 'HG00116', 'HG00126', 'HG00132', 'HG00149', 'HG00150', 'HG00176' ]
+                ])
+                input[1] = [
+                    [ id: 'gene_name_mapping' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
+                ]
+                input[2] = [
+                    [ id: 'genes_to_test' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml', checkIfExists: true)
+                ]
+                input[3] = 'autoencoder'
+                input[4] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true)
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
