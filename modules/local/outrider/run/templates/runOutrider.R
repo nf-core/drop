@@ -1,24 +1,6 @@
 #!/usr/bin/env Rscript
 #https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-expression-pipeline/OUTRIDER/runOutrider.R
 
-#'---
-#' title: Filter Counts for OUTRIDER
-#' author: Michaela Mueller
-#' wb:
-#'  log:
-#'   - snakemake: '`sm str(tmp_dir / "AE" / "{annotation}" / "{dataset}" / "runOUTRIDER.Rds")`'
-#'  input:
-#'   - ods: '`sm cfg.getProcessedResultsDir() + 
-#'           "/aberrant_expression/{annotation}/outrider/{dataset}/ods_unfitted.Rds"`'
-#'  output:
-#'   - ods_fitted: '`sm cfg.getProcessedResultsDir() + 
-#'           "/aberrant_expression/{annotation}/outrider/{dataset}/ods_fitted.Rds"`'
-#'  type: script
-#'  threads: 30
-#'---
-
-#+ echo=F
-
 # Initialize the prefix from the module
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
