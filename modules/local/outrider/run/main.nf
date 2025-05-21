@@ -4,8 +4,8 @@ process OUTRIDER_RUN {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/65/6586ceea612bc211a55c10d444e660c29be0ca3087538a06fce79267d07a82f7/data' :
-        'community.wave.seqera.io/library/bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-dplyr_pruned:0b2146d44ef9304b' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/c7/c76d0f6d35c84c2e9f9b883f1d7683c1fbdc09e8b8019f38b0915cc038dfd76f/data' :
+        'community.wave.seqera.io/library/bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-data.table_pruned:bf4693f792c006ff' }"
 
     input:
     tuple val(meta), path(ods)
@@ -38,7 +38,6 @@ process OUTRIDER_RUN {
             paste('    r-data.table:', as.character(packageVersion('data.table'))),
             paste('    r-ggplot2:', as.character(packageVersion('ggplot2'))),
             paste('    r-dplyr:', as.character(packageVersion('dplyr'))),
-            paste('    r-tools:', as.character(packageVersion('tools'))),
             paste('    bioconductor-summarizedexperiment:', as.character(packageVersion('SummarizedExperiment'))),
             paste('    bioconductor-outrider:', as.character(packageVersion('OUTRIDER')))
         ),
