@@ -72,7 +72,7 @@ ods <- estimateSizeFactors(ods)
 message(date(), ": Controlling for confounders ...")
 implementation <- tolower(implementation)
 ods <- controlForConfounders(ods, q=opt_q, implementation=implementation)
-if(grepl("^(peer|pca)$", implementation)){
+if (implementation == "peer" || implementation == "pca"){
     message(date(), ": Fitting the data ...")
     ods <- fit(ods)
 }

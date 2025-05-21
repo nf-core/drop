@@ -1,0 +1,56 @@
+nextflow_process {
+
+    name "Test Process AE_OUTRIDER_RUNOUTRIDER"
+    script "modules/local/ae_outrider_runoutrider/main.nf"
+    process "AE_OUTRIDER_RUNOUTRIDER"
+
+    tag "modules"
+    tag "modules_local"
+    tag "ae_outrider_runoutrider"
+
+    test("drop demo - ods_unfitted.Rds") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file('../../../tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.ods_fitted.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+        test("homo_sapiens - gtf - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file('../../../tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

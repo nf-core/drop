@@ -1,0 +1,40 @@
+{
+    "drop demo - ods_unfitted.Rds": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-05-12T16:33:50.311146646"
+    },
+    "homo_sapiens - gtf - stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "ods_fitted": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-05-12T16:34:04.605150296"
+    }
+}
