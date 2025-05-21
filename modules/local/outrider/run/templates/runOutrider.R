@@ -34,7 +34,7 @@ suppressPackageStartupMessages({
 
 ods <- readRDS("$ods")
 implementation <- "$implementation"
-mp <- "$ae_max_tested_dimension_proportion"
+mp <- $ae_max_tested_dimension_proportion
 register(MulticoreParam(${task.cpus}))
 
 ## subset filtered
@@ -78,4 +78,20 @@ if (implementation == "peer" || implementation == "pca"){
 }
 message("outrider fitting finished")
 
-saveRDS(ods, paste(prefix, ".Rds", sep="")
+saveRDS(ods, paste(prefix, ".Rds", sep=""))
+
+## VERSIONS FILE
+writeLines(
+    c(
+        '"${task.process}":',
+        paste('    r-base:', strsplit(version[['version.string']], ' ')[[1]][3]),
+        paste('    r-magrittr:', as.character(packageVersion('magrittr'))),
+        paste('    r-data.table:', as.character(packageVersion('data.table'))),
+        paste('    r-ggplot2:', as.character(packageVersion('ggplot2'))),
+        paste('    r-dplyr:', as.character(packageVersion('dplyr'))),
+        paste('    r-tools:', as.character(packageVersion('tools'))),
+        paste('    r-yaml:', as.character(packageVersion('yaml'))),
+        paste('    bioconductor-summarizedexperiment:', as.character(packageVersion('SummarizedExperiment'))),
+        paste('    bioconductor-outrider:', as.character(packageVersion('OUTRIDER')))
+    ),
+'versions.yml')
