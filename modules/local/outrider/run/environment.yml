@@ -7,5 +7,6 @@ dependencies:
   - conda-forge::r-data.table=1.17.0
   - conda-forge::r-ggplot2=3.5.2
   - conda-forge::r-dplyr=1.1.4
+  - conda-forge::r-tools=4.5.0
   - bioconda::bioconductor-outrider=1.24.0
   - bioconda::bioconductor-summarizedexperiment=1.36.0

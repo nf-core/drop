@@ -72,7 +72,6 @@ writeLines(
         paste('    r-ggplot2:', as.character(packageVersion('ggplot2'))),
         paste('    r-dplyr:', as.character(packageVersion('dplyr'))),
         paste('    r-tools:', as.character(packageVersion('tools'))),
-        paste('    r-yaml:', as.character(packageVersion('yaml'))),
         paste('    bioconductor-summarizedexperiment:', as.character(packageVersion('SummarizedExperiment'))),
         paste('    bioconductor-outrider:', as.character(packageVersion('OUTRIDER')))
     ),
