@@ -20,7 +20,7 @@ mp <- $ae_max_tested_dimension_proportion
 register(MulticoreParam(${task.cpus}))
 
 ## subset filtered
-ods <- ods[mcols(ods)\$passedFilter,] 
+ods <- ods[mcols(ods)\$passedFilter,]
 
 # add gene ranges to rowData
 gr <- unlist(endoapply(rowRanges(ods), range))
@@ -33,7 +33,7 @@ if(length(gr) > 0){
 ods <- estimateSizeFactors(ods)
 
 ## find optimal encoding dimension
-a <- 5 
+a <- 5
 b <- min(ncol(ods), nrow(ods)) / mp   # N/3
 
 maxSteps <- 15
