@@ -15,7 +15,7 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file('/data/nasif12/home_if12/wayu0/nf-core-drop/tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
                 ])
                 input[1] = 'autoencoder'
                 input[2] = 3
@@ -42,7 +42,7 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file('/data/nasif12/home_if12/wayu0/nf-core-drop/tests/data/aberrantExpression/ods_unfitted.Rds', checkIfExists: true) ]
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
                 ])
                 input[1] = 'autoencoder'
                 input[2] = 3
