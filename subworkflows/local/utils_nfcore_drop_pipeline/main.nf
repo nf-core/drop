@@ -72,8 +72,24 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
+    def samplesheet_list = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
+
+    // Check that each group contains at least 30 samples
+    def group_counts = [:]
+    samplesheet_list.each { it ->
+        def groups = it[0].drop_group.tokenize(",")
+        groups.each { group ->
+            group_counts[group] = group_counts.get(group, 0) + 1
+        }
+    }
+    group_counts.each { group, count ->
+        if (count < 30) {
+            log.warn("Less than 30 IDs in DROP_GROUP ${group}")
+        }
+    }
+
     Channel
-        .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
+        .fromList(samplesheet_list)
         .set { ch_samplesheet }
 
     emit:
