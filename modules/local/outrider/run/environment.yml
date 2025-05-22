@@ -1,0 +1,11 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - conda-forge::r-base=4.4.3
+  - conda-forge::r-magrittr=2.0.3
+  - conda-forge::r-data.table=1.17.0
+  - conda-forge::r-ggplot2=3.5.2
+  - conda-forge::r-dplyr=1.1.4
+  - bioconda::bioconductor-outrider=1.24.0
+  - bioconda::bioconductor-summarizedexperiment=1.36.0
