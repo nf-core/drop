@@ -113,7 +113,7 @@
                     "format": "file-path",
                     "exists": true,
                     "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.tsv$",
+                    "pattern": "^\\S+\\.tsv(\\.gz)?$",
                     "description": "Full path of the file containing HPO terms. If missing, it reads it from our webserver. Refer to files-to-download. Equivalent to the `hpoFile` parameter in the snakemake pipeline.",
                     "fa_icon": "far fa-file-code"
                 }

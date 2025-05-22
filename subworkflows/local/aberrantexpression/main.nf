@@ -1,8 +1,9 @@
-include { COUNTREADS     } from '../../../modules/local/countreads/'
-include { MERGECOUNTS    } from '../../../modules/local/mergecounts/'
-include { FILTERCOUNTS   } from '../../../modules/local/filtercounts/'
-include { OUTRIDER_RUN   } from '../../../modules/local/outrider/run'
-include { OUTRIDER_PVALS } from '../../../modules/local/outrider/pvals'
+include { COUNTREADS       } from '../../../modules/local/countreads/'
+include { MERGECOUNTS      } from '../../../modules/local/mergecounts/'
+include { FILTERCOUNTS     } from '../../../modules/local/filtercounts/'
+include { OUTRIDER_RUN     } from '../../../modules/local/outrider/run'
+include { OUTRIDER_PVALS   } from '../../../modules/local/outrider/pvals'
+include { OUTRIDER_RESULTS } from '../../../modules/local/outrider/results'
 
 workflow ABERRANTEXPRESSION {
     take:
@@ -12,6 +13,7 @@ workflow ABERRANTEXPRESSION {
     gene_name_mapping   // queue channel: [ val(meta), path(gene_name_mapping) ]
     samplesheet         // value channel: [ val(meta), path(samplesheet) ]
     genes_to_test       // value channel: [ val(meta), path(genes_to_test) ]
+    hpo                 // value channel: [ val(meta), path(hpo) ]
 
     include_groups      // list:          A list of groups to exclude from the aberrant expression analysis
 
@@ -108,9 +110,27 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(OUTRIDER_PVALS.out.versions.first())
 
-    OUTRIDER_PVALS.out.ods_with_pvals.view()
+    def outrider_results_input = OUTRIDER_PVALS.out.ods_with_pvals
+        .map { meta, ods_with_pvals ->
+            [ [id:meta.id], meta, ods_with_pvals ]
+        }
+        .combine(gene_name_mapping, by:0)
+        .map { _gene_meta, meta, ods_with_pvals, gene_name_mapping_ ->
+            [ meta, ods_with_pvals, gene_name_mapping_ ]
+        }
+
+    OUTRIDER_RESULTS(
+        outrider_results_input,
+        samplesheet,
+        hpo,
+        params.ae_padj_cutoff,
+        params.ae_z_score_cutoff,
+        file("${projectDir}/assets/helpers/add_HPO_cols.R")
+    )
+    ch_versions = ch_versions.mix(OUTRIDER_RESULTS.out.versions.first())
 
     emit:
     versions = ch_versions
+    results  = OUTRIDER_RESULTS.out.results
 }
 

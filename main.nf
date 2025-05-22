@@ -64,7 +64,7 @@ workflow {
 
     def samplesheet_file = Channel.value([[id: 'samplesheet'], file(params.input)])
 
-    def hpo_file = params.hpo_file ? Channel.value([id: 'hpo'], file(params.hpo_file)) : [[:], []]
+    def hpo_file = params.hpo_file ? Channel.value([[id: 'hpo'], file(params.hpo_file)]) : [[:], []]
 
     def gene_annotation = params.gene_annotation
         ? Channel.fromList(samplesheetToList(params.gene_annotation, "assets/schema_gene_annotation.json"))

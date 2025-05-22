@@ -8,10 +8,9 @@ process OUTRIDER_RESULTS {
         'community.wave.seqera.io/library/bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-data.table_pruned:242dc589aa3ec32c' }"
 
     input:
-    tuple val(meta), path(ods)
-    tuple val(meta2), path(gene_name_mapping)
-    tuple val(meta3), path(samplesheet) // revisit this later, should be a file in CSV or TSV format
-    tuple val(meta4), path(hpo_file)
+    tuple val(meta), path(ods), path(gene_name_mapping)
+    tuple val(meta2), path(samplesheet) // revisit this later, should be a file in CSV or TSV format
+    tuple val(meta3), path(hpo_file)
     val(padjCutoff)
     val(zScoreCutoff)
     path(add_HPO_cols) // Pass ${projectDir}/assets/helpers/add_HPO_cols.R to this input

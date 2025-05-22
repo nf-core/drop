@@ -15,23 +15,20 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/pvalsoutrider/ods_pvals.Rds', checkIfExists: true)
+                    file(params.pipelines_testdata_base_path + 'intermediates/pvalsoutrider/ods_pvals.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
                 ])
                 input[1] = [
-                    [ id: 'gene_name_mapping' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
-                ]
-                input[2] = [
                     [ id: 'samplesheet' ],
                     file(params.pipelines_testdata_base_path + 'inputs/samplesheet.tsv', checkIfExists: true)
                 ]
-                input[3] = [
+                input[2] = [
                     [ id: 'hpo' ],
                     file(params.pipelines_testdata_base_path + 'genome/hpo_genes.tsv.gz', checkIfExists: true)
                 ]
-                input[4] = 0.05
-                input[5] = 0
-                input[6] = file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
+                input[3] = 0.05
+                input[4] = 0
+                input[5] = file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
                 """
             }
         }
@@ -53,23 +50,20 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/pvalsoutrider/ods_pvals.Rds', checkIfExists: true)
+                    file(params.pipelines_testdata_base_path + 'intermediates/pvalsoutrider/ods_pvals.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
                 ])
                 input[1] = [
-                    [ id: 'gene_name_mapping' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv', checkIfExists: true)
-                ]
-                input[2] = [
                     [ id: 'samplesheet' ],
                     file(params.pipelines_testdata_base_path + 'inputs/samplesheet.tsv', checkIfExists: true)
                 ]
-                input[3] = [
+                input[2] = [
                     [ id: 'hpo' ],
                     file(params.pipelines_testdata_base_path + 'genome/hpo_genes.tsv.gz', checkIfExists: true)
                 ]
-                input[4] = 0.05
-                input[5] = 0
-                input[6] = file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
+                input[3] = 0.05
+                input[4] = 0
+                input[5] = file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
                 """
             }
         }

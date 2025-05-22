@@ -136,6 +136,7 @@ workflow DROP {
             PREPROCESSGENEANNOTATION.out.gene_name_mapping,
             samplesheet_file,
             ae_genes_to_test,
+            hpo_file,
             ae_groups,
         )
         ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)
