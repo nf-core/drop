@@ -8,8 +8,7 @@ process OUTRIDER_PVALS {
         'community.wave.seqera.io/library/bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-dplyr_pruned:0b2146d44ef9304b' }"
 
     input:
-    tuple val(meta) , path(ods_fitted), val(ids)
-    tuple val(meta2), path(gene_name_mapping)
+    tuple val(meta) , path(ods_fitted), val(ids), path(gene_name_mapping)
     tuple val(meta3), path(genes_to_test)
     val(implementation)
     path(parse_subsets_for_FDR) // Pass ${projectDir}/assets/helpers/parse_subsets_for_FDR.R to this input

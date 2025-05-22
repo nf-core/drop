@@ -1,16 +1,19 @@
-include { COUNTREADS   } from '../../../modules/local/countreads/'
-include { MERGECOUNTS  } from '../../../modules/local/mergecounts/'
-include { FILTERCOUNTS } from '../../../modules/local/filtercounts/'
-include { OUTRIDER_RUN } from '../../../modules/local/outrider/run'
+include { COUNTREADS     } from '../../../modules/local/countreads/'
+include { MERGECOUNTS    } from '../../../modules/local/mergecounts/'
+include { FILTERCOUNTS   } from '../../../modules/local/filtercounts/'
+include { OUTRIDER_RUN   } from '../../../modules/local/outrider/run'
+include { OUTRIDER_PVALS } from '../../../modules/local/outrider/pvals'
 
 workflow ABERRANTEXPRESSION {
     take:
-    bams            // queue channel: [ val(meta), path(bam), path(bai) ]
-    count_ranges    // queue channel: [ val(meta), path(count_ranges) ]
-    txdb            // queue channel: [ val(meta), path(txdb) ]
-    samplesheet     // value channel: [ val(meta), path(samplesheet) ]
+    bams                // queue channel: [ val(meta), path(bam), path(bai) ]
+    count_ranges        // queue channel: [ val(meta), path(count_ranges) ]
+    txdb                // queue channel: [ val(meta), path(txdb) ]
+    gene_name_mapping   // queue channel: [ val(meta), path(gene_name_mapping) ]
+    samplesheet         // value channel: [ val(meta), path(samplesheet) ]
+    genes_to_test       // value channel: [ val(meta), path(genes_to_test) ]
 
-    include_groups  // list:          A list of groups to exclude from the aberrant expression analysis
+    include_groups      // list:          A list of groups to exclude from the aberrant expression analysis
 
     main:
     def ch_versions = Channel.empty()
@@ -50,10 +53,14 @@ workflow ABERRANTEXPRESSION {
     // Group samples based on gene annotation
     def mergereads_input = COUNTREADS.out.counts
         .map { meta, count ->
-            [ [id: meta.gene_annotation], count ]
+            [ [id: meta.gene_annotation], count, meta.id ]
         }
         .groupTuple()
         .combine(count_ranges, by: 0)
+        .map { meta, counts, ids, count_ranges_ ->
+            def new_meta = meta + [ ids:ids ]
+            [ new_meta, counts, count_ranges_ ]
+        }
 
     MERGECOUNTS(
         mergereads_input,
@@ -63,15 +70,19 @@ workflow ABERRANTEXPRESSION {
     ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
 
     def filtercounts_input = MERGECOUNTS.out.output
+        .map { meta, counts ->
+            [ [ id: meta.id ], meta, counts ]
+        }
         .combine(txdb, by: 0)
+        .map { _gene_meta, meta, counts, txdb_ ->
+            [ meta, counts, txdb_ ]
+        }
 
     FILTERCOUNTS(
         filtercounts_input,
         params.ae_fpkm_cutoff
     )
     ch_versions = ch_versions.mix(FILTERCOUNTS.out.versions.first())
-
-    FILTERCOUNTS.out.output.view()
 
     OUTRIDER_RUN(
         FILTERCOUNTS.out.output,
@@ -80,7 +91,24 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(OUTRIDER_RUN.out.versions.first())
 
-    OUTRIDER_RUN.out.ods_fitted.view()
+    def outrider_pvals_input = OUTRIDER_RUN.out.ods_fitted
+        .map { meta, ods_fitted ->
+            [ [id:meta.id], meta, ods_fitted ]
+        }
+        .combine(gene_name_mapping, by:0)
+        .map { _gene_meta, meta, ods_fitted, gene_name_mapping_ ->
+            [ meta, ods_fitted, meta.ids, gene_name_mapping_ ]
+        }
+
+    OUTRIDER_PVALS(
+        outrider_pvals_input,
+        genes_to_test,
+        params.ae_implementation,
+        file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
+    )
+    ch_versions = ch_versions.mix(OUTRIDER_PVALS.out.versions.first())
+
+    OUTRIDER_PVALS.out.ods_with_pvals.view()
 
     emit:
     versions = ch_versions

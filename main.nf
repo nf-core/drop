@@ -74,10 +74,10 @@ workflow {
     def ec_exclude_groups = params.ec_exclude_groups ? params.ec_exclude_groups.tokenize(",") : []
 
     def ae_groups = params.ae_groups ? params.ae_groups.tokenize(",") : []
-    def ae_genes_to_test = params.ae_genes_to_test ? Utils.readYamlFile(file(params.ae_genes_to_test)) : [:]
+    def ae_genes_to_test = params.ae_genes_to_test ? Channel.value([[id: 'genes_to_test'], file(params.ae_genes_to_test)]) : [[:], []]
 
     def as_groups = params.as_groups ? params.as_groups.tokenize(",") : []
-    def as_genes_to_test = params.as_genes_to_test ? Utils.readYamlFile(file(params.as_genes_to_test)) : [:]
+    def as_genes_to_test = params.as_genes_to_test ? Channel.value([[id: 'genes_to_test'], file(params.as_genes_to_test)]) : [[:], []]
 
     def mae_groups = params.mae_groups ? params.mae_groups.tokenize(",") : []
     def mae_qc_groups = params.mae_qc_groups ? params.mae_qc_groups.tokenize(",") : []
