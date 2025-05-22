@@ -26,7 +26,8 @@ workflow DROP {
 
     take:
     // Global parameters
-    samplesheet      // queue channel: samplesheet read in from --input
+    samplesheet         // queue channel: samplesheet read in from --input
+    samplesheet_file    // value channel: [ val(meta), path(samplesheet) ]
     project_title       // string:        title of the project to add to the HTML file
     fasta               // value channel: [ val(meta), path(fasta) ]
     fai                 // value channel: [ val(meta), path(fai) ]
@@ -131,6 +132,7 @@ workflow DROP {
         ABERRANTEXPRESSION(
             input.abberantexpression,
             PREPROCESSGENEANNOTATION.out.count_ranges,
+            samplesheet_file,
             ae_groups,
         )
         ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)

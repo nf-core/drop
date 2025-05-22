@@ -8,10 +8,8 @@ process MERGECOUNTS {
         'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-summarizedexperiment_r-base_r-data.table_r-dplyr:a612bfc9c2b3630e' }"
 
     input:
-    // TODO: Filter out the exclude ID files in the subworkflow
-    tuple val(meta), path(counts)
-    tuple val(meta2), path(count_ranges)
-    tuple val(meta3), path(samplesheet) // Revisit this later, should be a samplesheet in CSV or TSV format
+    tuple val(meta), path(counts), path(count_ranges)
+    tuple val(meta2), path(samplesheet) // Revisit this later, should be a samplesheet in CSV or TSV format
     val(exclude_ids)
 
     output:

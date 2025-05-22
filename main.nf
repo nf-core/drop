@@ -62,6 +62,8 @@ workflow {
     def fai   = params.fai   ? Channel.value([id: 'fai'], file(params.fai))     : [[:], []]
     // TODO accomodate for the ncbi and ucsc fasta
 
+    def samplesheet_file = Channel.value([[id: 'samplesheet'], file(params.input)])
+
     def hpo_file = params.hpo_file ? Channel.value([id: 'hpo'], file(params.hpo_file)) : [[:], []]
 
     def gene_annotation = params.gene_annotation
@@ -85,6 +87,7 @@ workflow {
     DROP (
         // Global parameters
         PIPELINE_INITIALISATION.out.samplesheet, // derived from --input
+        samplesheet_file,
         params.project_title,
         fasta,
         fai,

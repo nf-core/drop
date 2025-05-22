@@ -1,9 +1,11 @@
-include { COUNTREADS } from '../../../modules/local/countreads/'
+include { COUNTREADS  } from '../../../modules/local/countreads/'
+include { MERGECOUNTS } from '../../../modules/local/mergecounts/'
 
 workflow ABERRANTEXPRESSION {
     take:
     bams            // queue channel: [ val(meta), path(bam), path(bai) ]
     count_ranges    // queue channel: [ val(meta), path(count_ranges) ]
+    samplesheet     // value channel: [ val(meta), path(samplesheet) ]
 
     include_groups  // list:          A list of groups to exclude from the aberrant expression analysis
 
@@ -21,7 +23,7 @@ workflow ABERRANTEXPRESSION {
         // Get the IDs of the BAM files that are excluded
         exclude_ids = include_branch.no.collect { meta, _bam, _bai ->
             meta.id
-        }
+        }.ifEmpty([])
         // Get the BAM files that are included
         bams_to_analyse = include_branch.yes
     } else {
@@ -42,7 +44,22 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(COUNTREADS.out.versions.first())
 
-    COUNTREADS.out.counts.view()
+    // Group samples based on gene annotation
+    def mergereads_input = COUNTREADS.out.counts
+        .map { meta, count ->
+            [ [id: meta.gene_annotation], count ]
+        }
+        .groupTuple()
+        .combine(count_ranges, by: 0)
+
+    MERGECOUNTS(
+        mergereads_input,
+        samplesheet,
+        exclude_ids
+    )
+    ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
+
+    MERGECOUNTS.out.output.view()
 
     emit:
     versions = ch_versions
