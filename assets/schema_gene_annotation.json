@@ -11,7 +11,8 @@
                 "type": "string",
                 "pattern": "^\\S+$",
                 "errorMessage": "Name must be provided and cannot contain spaces",
-                "description": "Unique identifier for the gene annotation. Must not contain spaces."
+                "description": "Unique identifier for the gene annotation. Must not contain spaces.",
+                "meta": "id"
             },
             "gtf": {
                 "type": "string",
