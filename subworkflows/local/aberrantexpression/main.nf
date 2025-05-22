@@ -1,10 +1,12 @@
-include { COUNTREADS  } from '../../../modules/local/countreads/'
-include { MERGECOUNTS } from '../../../modules/local/mergecounts/'
+include { COUNTREADS   } from '../../../modules/local/countreads/'
+include { MERGECOUNTS  } from '../../../modules/local/mergecounts/'
+include { FILTERCOUNTS } from '../../../modules/local/filtercounts/'
 
 workflow ABERRANTEXPRESSION {
     take:
     bams            // queue channel: [ val(meta), path(bam), path(bai) ]
     count_ranges    // queue channel: [ val(meta), path(count_ranges) ]
+    txdb            // queue channel: [ val(meta), path(txdb) ]
     samplesheet     // value channel: [ val(meta), path(samplesheet) ]
 
     include_groups  // list:          A list of groups to exclude from the aberrant expression analysis
@@ -59,7 +61,16 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
 
-    MERGECOUNTS.out.output.view()
+    def filtercounts_input = MERGECOUNTS.out.output
+        .combine(txdb, by: 0)
+
+    FILTERCOUNTS(
+        filtercounts_input,
+        params.ae_fpkm_cutoff
+    )
+    ch_versions = ch_versions.mix(FILTERCOUNTS.out.versions.first())
+
+    FILTERCOUNTS.out.output.view()
 
     emit:
     versions = ch_versions

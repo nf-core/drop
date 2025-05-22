@@ -132,6 +132,7 @@ workflow DROP {
         ABERRANTEXPRESSION(
             input.abberantexpression,
             PREPROCESSGENEANNOTATION.out.count_ranges,
+            PREPROCESSGENEANNOTATION.out.txdb,
             samplesheet_file,
             ae_groups,
         )
