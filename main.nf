@@ -65,8 +65,8 @@ workflow {
     def hpo_file = params.hpo_file ? Channel.value([id: 'hpo'], file(params.hpo_file)) : [[:], []]
 
     def gene_annotation = params.gene_annotation
-        ? samplesheetToList(params.gene_annotation).collectEntries { name, gtf -> [ name, file(gtf) ] }
-        : [:]
+        ? Channel.fromList(samplesheetToList(params.gene_annotation, "assets/schema_gene_annotation.json"))
+        : Channel.empty()
 
     def ec_gene_annotations = params.ec_gene_annotations ? params.ec_gene_annotations.tokenize(",") : []
     def ec_exclude_groups = params.ec_exclude_groups ? params.ec_exclude_groups.tokenize(",") : []

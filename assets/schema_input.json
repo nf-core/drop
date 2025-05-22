@@ -136,6 +136,6 @@
                 "meta": "disease"
             }
         },
-        "required": ["RNA_ID", "DROP_GROUP", "RNA_BAM_FILE"]
+        "required": ["RNA_ID", "DROP_GROUP", "RNA_BAM_FILE", "STRAND"]
     }
 }

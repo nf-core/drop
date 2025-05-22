@@ -3,16 +3,18 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { SAMTOOLS_INDEX         } from '../modules/nf-core/samtools/index/main'
-include { TABIX_TABIX            } from '../modules/nf-core/tabix/tabix/main'
-include { MULTIQC                } from '../modules/nf-core/multiqc/main'
+include { SAMTOOLS_INDEX            } from '../modules/nf-core/samtools/index/main'
+include { TABIX_TABIX               } from '../modules/nf-core/tabix/tabix/main'
+include { MULTIQC                   } from '../modules/nf-core/multiqc/main'
 
-include { ABBERANTEXPRESSION     } from '../subworkflows/local/abberantexpression/main'
+include { PREPROCESSGENEANNOTATION  } from '../modules/local/preprocessgeneannotation/main'
 
-include { paramsSummaryMap       } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_drop_pipeline'
+include { ABERRANTEXPRESSION        } from '../subworkflows/local/aberrantexpression/main'
+
+include { paramsSummaryMap          } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText    } from '../subworkflows/local/utils_nfcore_drop_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,7 +30,7 @@ workflow DROP {
     project_title       // string:        title of the project to add to the HTML file
     fasta               // value channel: [ val(meta), path(fasta) ]
     fai                 // value channel: [ val(meta), path(fai) ]
-    gene_annotation     // map:           A map containing key value pairs of gene annotations with their corresponding GTF file
+    gene_annotation     // queue channel: [ val(meta), path(gtf) ]
     hpo_file            // value channel: [ val(meta), path(hpo_file) ]
 
     // Export count parameters
@@ -113,13 +115,25 @@ workflow DROP {
         }
 
     //
+    // Preprocess gene annotation
+    //
+
+    PREPROCESSGENEANNOTATION(
+        gene_annotation
+    )
+    ch_versions = ch_versions.mix(PREPROCESSGENEANNOTATION.out.versions.first())
+
+    //
     // Abberant expression
     //
 
-    ABBERANTEXPRESSION(
-        input.abberantexpression,
-    )
-    ch_versions = ch_versions.mix(ABBERANTEXPRESSION.out.versions)
+    if(ae_run) {
+        ABERRANTEXPRESSION(
+            input.abberantexpression,
+            PREPROCESSGENEANNOTATION.out.count_ranges,
+        )
+        ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)
+    }
 
     //
     // Collate and save software versions

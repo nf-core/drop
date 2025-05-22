@@ -103,7 +103,7 @@
                     "format": "file-path",
                     "exists": true,
                     "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.tsv$",
+                    "pattern": "^\\S+\\.(csv|tsv|json|yml|yaml)$",
                     "schema": "assets/schema_gene_annotation.json",
                     "description": "Path to GTF gene annotations file. Equivalent to the `geneAnnotation` parameter in the snakemake pipeline, with the difference that a file depicting the kev-value pairs is expected here instead.",
                     "fa_icon": "far fa-file-code"
