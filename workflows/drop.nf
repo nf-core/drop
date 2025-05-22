@@ -131,6 +131,7 @@ workflow DROP {
         ABERRANTEXPRESSION(
             input.abberantexpression,
             PREPROCESSGENEANNOTATION.out.count_ranges,
+            ae_groups,
         )
         ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)
     }

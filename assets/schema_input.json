@@ -58,6 +58,7 @@
                 "pattern": "^\\S+$",
                 "errorMessage": "DROP group must be provided and cannot contain spaces",
                 "meta": ["drop_group"],
+                "default": "",
                 "description": "A comma-separated list of groups this sample belongs to. Must not contain spaces."
             },
             "PAIRED_END": {
