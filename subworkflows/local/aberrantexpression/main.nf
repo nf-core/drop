@@ -1,6 +1,7 @@
 include { COUNTREADS   } from '../../../modules/local/countreads/'
 include { MERGECOUNTS  } from '../../../modules/local/mergecounts/'
 include { FILTERCOUNTS } from '../../../modules/local/filtercounts/'
+include { OUTRIDER_RUN } from '../../../modules/local/outrider/run'
 
 workflow ABERRANTEXPRESSION {
     take:
@@ -71,6 +72,15 @@ workflow ABERRANTEXPRESSION {
     ch_versions = ch_versions.mix(FILTERCOUNTS.out.versions.first())
 
     FILTERCOUNTS.out.output.view()
+
+    OUTRIDER_RUN(
+        FILTERCOUNTS.out.output,
+        params.ae_implementation,
+        params.ae_max_tested_dimension_proportion
+    )
+    ch_versions = ch_versions.mix(OUTRIDER_RUN.out.versions.first())
+
+    OUTRIDER_RUN.out.ods_fitted.view()
 
     emit:
     versions = ch_versions
