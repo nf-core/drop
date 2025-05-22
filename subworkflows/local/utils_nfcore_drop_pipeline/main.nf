@@ -74,12 +74,15 @@ workflow PIPELINE_INITIALISATION {
 
     def samplesheet_list = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
 
-    // Check that each group contains at least 30 samples
+    // Check that each AE and AS group contains at least 30 samples
     def group_counts = [:]
+    def groups_to_warn = (params.ae_groups.tokenize(",") + params.as_groups.tokenize(",")).toSet()
     samplesheet_list.each { it ->
         def groups = it[0].drop_group.tokenize(",")
         groups.each { group ->
-            group_counts[group] = group_counts.get(group, 0) + 1
+            if (groups_to_warn.contains(group)) {
+                group_counts[group] = group_counts.get(group, 0) + 1
+            }
         }
     }
     group_counts.each { group, count ->
