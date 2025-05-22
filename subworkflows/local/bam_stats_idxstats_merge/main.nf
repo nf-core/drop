@@ -48,7 +48,7 @@ workflow BAM_STATS_IDXSTATS_MERGE {
         }
         .flatten()
         // Create the merged bam stats file
-        .collectFile(name: "merged_bam_stats.tsv", newLine:true, sort:false) // TODO this should be another name + add storeDir with the output dir location
+        .collectFile(name: "merged_bam_stats.tsv", newLine:true, sort:false, storeDir:"${params.outdir}/aberrantexpression/bam_stats/") // TODO this should be another name + add storeDir with the output dir location
         .collect()
 
 

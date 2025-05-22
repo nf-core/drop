@@ -1,9 +1,11 @@
-include { COUNTREADS       } from '../../../modules/local/countreads/'
-include { MERGECOUNTS      } from '../../../modules/local/mergecounts/'
-include { FILTERCOUNTS     } from '../../../modules/local/filtercounts/'
-include { OUTRIDER_RUN     } from '../../../modules/local/outrider/run'
-include { OUTRIDER_PVALS   } from '../../../modules/local/outrider/pvals'
-include { OUTRIDER_RESULTS } from '../../../modules/local/outrider/results'
+include { COUNTREADS                } from '../../../modules/local/countreads/'
+include { MERGECOUNTS               } from '../../../modules/local/mergecounts/'
+include { FILTERCOUNTS              } from '../../../modules/local/filtercounts/'
+include { OUTRIDER_RUN              } from '../../../modules/local/outrider/run'
+include { OUTRIDER_PVALS            } from '../../../modules/local/outrider/pvals'
+include { OUTRIDER_RESULTS          } from '../../../modules/local/outrider/results'
+
+include { BAM_STATS_IDXSTATS_MERGE  } from "../bam_stats_idxstats_merge/"
 
 workflow ABERRANTEXPRESSION {
     take:
@@ -129,8 +131,15 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(OUTRIDER_RESULTS.out.versions.first())
 
+    BAM_STATS_IDXSTATS_MERGE(
+        bams_to_analyse,
+        exclude_ids
+    )
+    ch_versions = ch_versions.mix(BAM_STATS_IDXSTATS_MERGE.out.versions)
+
     emit:
-    versions = ch_versions
-    results  = OUTRIDER_RESULTS.out.results
+    versions  = ch_versions
+    results   = OUTRIDER_RESULTS.out.results
+    bam_stats = BAM_STATS_IDXSTATS_MERGE.out.merged_bam_stats
 }
 
