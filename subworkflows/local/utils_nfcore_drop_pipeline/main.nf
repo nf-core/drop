@@ -76,22 +76,24 @@ workflow PIPELINE_INITIALISATION {
 
     // Check that each AE and AS group contains at least 30 samples
     def group_counts = [:]
-    def groups_to_warn = (params.ae_groups.tokenize(",") + params.as_groups.tokenize(",")).toSet()
     samplesheet_list.each { it ->
         def groups = it[0].drop_group.tokenize(",")
         groups.each { group ->
-            if (groups_to_warn.contains(group)) {
-                group_counts[group] = group_counts.get(group, 0) + 1
-            }
+            group_counts[group] = group_counts.get(group, 0) + 1
         }
     }
+    def groups_to_warn = (params.ae_groups.tokenize(",") + params.as_groups.tokenize(",")).toSet()
     group_counts.each { group, count ->
-        if (count < 30) {
+        if (count < 30 && groups_to_warn.contains(group)) {
             log.warn("Less than 30 IDs in DROP_GROUP ${group}")
         }
     }
 
     def ch_samplesheet = Channel.fromList(samplesheet_list)
+        .map { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
+            def new_meta = meta + [ drop_group_counts:group_counts ]
+            [ new_meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ]
+        }
 
     emit:
     samplesheet = ch_samplesheet

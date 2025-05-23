@@ -54,16 +54,24 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(COUNTREADS.out.versions.first())
 
-    // Group samples based on gene annotation
+    // Group samples based on gene annotation and drop group
     def mergereads_input = COUNTREADS.out.counts
         .map { meta, count ->
-            [ [id: meta.gene_annotation], count, meta.id ]
+            [ meta, count, meta.drop_group.tokenize(",").intersect(include_groups) ]
+        }
+        .transpose(by: 2)
+        .map { meta, count, group ->
+            def new_meta = [ id:meta.gene_annotation, drop_group:group ]
+            [ groupKey(new_meta, meta.drop_group_counts.get(group)), count, meta.id ]
         }
         .groupTuple()
-        .combine(count_ranges, by: 0)
-        .map { meta, counts, ids, count_ranges_ ->
+        .map { meta, counts, ids ->
             def new_meta = meta + [ ids:ids ]
-            [ new_meta, counts, count_ranges_ ]
+            [ [id: meta.id], new_meta, counts ]
+        }
+        .combine(count_ranges, by: 0)
+        .map { _gene_meta, meta, counts, count_ranges_ ->
+            [ meta, counts, count_ranges_ ]
         }
 
     MERGECOUNTS(
