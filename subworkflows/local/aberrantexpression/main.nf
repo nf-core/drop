@@ -40,6 +40,10 @@ workflow ABERRANTEXPRESSION {
         bams_to_analyse = bams
     }
 
+    //
+    // Count the reads in the BAM files
+    //
+
     def countreads_input = bams_to_analyse.map { meta, bam, bai ->
             [ [id: meta.gene_annotation], meta, bam, bai ]
         }
@@ -54,17 +58,21 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(COUNTREADS.out.versions.first())
 
+    //
+    // Merge the counts per gene annotation and drop group
+    //
+
     // Group samples based on gene annotation and drop group
     def mergereads_input = COUNTREADS.out.counts
         .map { meta, count ->
             [ meta, count, meta.drop_group.tokenize(",").intersect(include_groups) ]
         }
-        .transpose(by: 2)
+        .transpose(by: 2) // Split the entries per included group
         .map { meta, count, group ->
             def new_meta = [ id:meta.gene_annotation, drop_group:group ]
             [ groupKey(new_meta, meta.drop_group_counts.get(group)), count, meta.id ]
         }
-        .groupTuple()
+        .groupTuple() // Group the counts by gene annotation and drop group
         .map { meta, counts, ids ->
             def new_meta = meta + [ ids:ids ]
             [ [id: meta.id], new_meta, counts ]
@@ -81,6 +89,10 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
 
+    //
+    // Filter the merged counts
+    //
+
     def filtercounts_input = MERGECOUNTS.out.output
         .map { meta, counts ->
             [ [ id: meta.id ], meta, counts ]
@@ -96,12 +108,20 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(FILTERCOUNTS.out.versions.first())
 
+    //
+    // Run OUTRIDER
+    //
+
     OUTRIDER_RUN(
         FILTERCOUNTS.out.output,
         params.ae_implementation,
         params.ae_max_tested_dimension_proportion
     )
     ch_versions = ch_versions.mix(OUTRIDER_RUN.out.versions.first())
+
+    //
+    // Calculate p-values of the OUTRIDER output
+    //
 
     def outrider_pvals_input = OUTRIDER_RUN.out.ods_fitted
         .map { meta, ods_fitted ->
@@ -119,6 +139,10 @@ workflow ABERRANTEXPRESSION {
         file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
     )
     ch_versions = ch_versions.mix(OUTRIDER_PVALS.out.versions.first())
+
+    //
+    // Get the OUTRIDER results
+    //
 
     def outrider_results_input = OUTRIDER_PVALS.out.ods_with_pvals
         .map { meta, ods_with_pvals ->
@@ -138,6 +162,10 @@ workflow ABERRANTEXPRESSION {
         file("${projectDir}/assets/helpers/add_HPO_cols.R")
     )
     ch_versions = ch_versions.mix(OUTRIDER_RESULTS.out.versions.first())
+
+    //
+    // Calculate and merge the BAM stats
+    //
 
     BAM_STATS_IDXSTATS_MERGE(
         bams_to_analyse,
