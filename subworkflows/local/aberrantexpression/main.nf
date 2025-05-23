@@ -141,7 +141,7 @@ workflow ABERRANTEXPRESSION {
 
     BAM_STATS_IDXSTATS_MERGE(
         bams_to_analyse,
-        exclude_ids
+        include_groups
     )
     ch_versions = ch_versions.mix(BAM_STATS_IDXSTATS_MERGE.out.versions)
 
