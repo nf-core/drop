@@ -91,9 +91,7 @@ workflow PIPELINE_INITIALISATION {
         }
     }
 
-    Channel
-        .fromList(samplesheet_list)
-        .set { ch_samplesheet }
+    def ch_samplesheet = Channel.fromList(samplesheet_list)
 
     emit:
     samplesheet = ch_samplesheet
