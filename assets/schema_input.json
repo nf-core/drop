@@ -139,5 +139,14 @@
             }
         },
         "required": ["RNA_ID", "DROP_GROUP", "RNA_BAM_FILE", "STRAND"]
-    }
+    },
+    "allOf": [
+        {
+            "uniqueEntries": ["RNA_ID"]
+        },
+        {
+            "uniqueEntries": ["DNA_ID"]
+        }
+    ]
+
 }
