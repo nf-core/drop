@@ -44,12 +44,15 @@ workflow ABERRANTEXPRESSION {
     // Count the reads in the BAM files
     //
 
-    def countreads_input = bams_to_analyse.map { meta, bam, bai ->
-            [ [id: meta.gene_annotation], meta, bam, bai ]
+    def countreads_input = bams_to_analyse
+        .combine(count_ranges)
+        .filter { meta, _bam, _bai, annotation_meta, _count_ranges ->
+            // Determine which gene annotation versions should be used for each sample
+            meta.gene_annotation == "" || meta.gene_annotation == annotation_meta.id
         }
-        .combine(count_ranges, by: 0)
-        .map { _gene_meta, meta, bam, bai, count_ranges_ ->
-            [ meta, bam, bai, meta.strand, meta.count_mode, meta.paired_end, meta.count_overlaps, count_ranges_ ]
+        .map { meta, bam, bai, annotation_meta, count_ranges_ ->
+            def new_meta = meta + [gene_annotation: annotation_meta.id]
+            [ new_meta, bam, bai, meta.strand, meta.count_mode, meta.paired_end, meta.count_overlaps, count_ranges_ ]
         }
 
     COUNTREADS(
@@ -70,7 +73,7 @@ workflow ABERRANTEXPRESSION {
         .transpose(by: 2) // Split the entries per included group
         .map { meta, count, group ->
             def new_meta = [ id:meta.gene_annotation, drop_group:group ]
-            [ groupKey(new_meta, meta.drop_group_counts.get(group)), count, meta.id ]
+            [ groupKey(new_meta, meta.drop_group_ann_counts.get(group).get(meta.gene_annotation)), count, meta.id ]
         }
         .groupTuple() // Group the counts by gene annotation and drop group
         .map { meta, counts, ids ->

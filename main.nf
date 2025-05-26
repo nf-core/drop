@@ -66,10 +66,6 @@ workflow {
 
     def hpo_file = params.hpo_file ? Channel.value([[id: 'hpo'], file(params.hpo_file)]) : [[:], []]
 
-    def gene_annotation = params.gene_annotation
-        ? Channel.fromList(samplesheetToList(params.gene_annotation, "assets/schema_gene_annotation.json"))
-        : Channel.empty()
-
     def ec_gene_annotations = params.ec_gene_annotations ? params.ec_gene_annotations.tokenize(",") : []
     def ec_exclude_groups = params.ec_exclude_groups ? params.ec_exclude_groups.tokenize(",") : []
 
@@ -91,7 +87,7 @@ workflow {
         params.project_title,
         fasta,
         fai,
-        gene_annotation,
+        PIPELINE_INITIALISATION.out.gene_annotation,
         hpo_file,
 
         // Export counts parameters

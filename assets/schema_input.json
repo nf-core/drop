@@ -102,8 +102,9 @@
             },
             "GENE_ANNOTATION": {
                 "type": "string",
-                "description": "Gene annotation version",
-                "meta": ["gene_annotation"]
+                "description": "Gene annotation version to use for this sample. All available versions will be used if this field is empty.",
+                "meta": ["gene_annotation"],
+                "default": ""
             },
             "GENOME": {
                 "type": "string",
