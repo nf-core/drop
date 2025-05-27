@@ -31,15 +31,14 @@ workflow ABERRANTSPLICING {
         .groupTuple()
         .tap { ch_group_files }
         .map { group, metas, bams, _bais ->
-            def header = ["sampleID\tbamFile\tpairedEnd\tstrand"]
+            def header = ["sampleID\tbamFile\tpairedEnd"]
             def lines = []
             def index = 0
             metas.each {
                 lines += [
                     metas[index].id,
                     bams[index].name,
-                    metas[index].paired_end ? "TRUE" : "FALSE",
-                    metas[index].strand ?: ""
+                    metas[index].paired_end ? "TRUE" : "FALSE"
                 ].join("\t")
                 index += 1
             }
