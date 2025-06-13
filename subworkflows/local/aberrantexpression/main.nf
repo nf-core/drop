@@ -17,7 +17,7 @@ workflow ABERRANTEXPRESSION {
     genes_to_test       // value channel: [ val(meta), path(genes_to_test) ]
     hpo                 // value channel: [ val(meta), path(hpo) ]
 
-    include_groups      // list:          A list of groups to exclude from the aberrant expression analysis
+    include_groups      // list:          A list of groups to include in the aberrant expression analysis
 
     main:
     def ch_versions = Channel.empty()
