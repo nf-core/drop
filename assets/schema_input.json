@@ -138,8 +138,16 @@
                 "meta": "disease"
             }
         },
-        "required": ["RNA_ID", "DROP_GROUP", "RNA_BAM_FILE", "STRAND"]
+        "required": ["RNA_ID", "DROP_GROUP", "STRAND"]
     },
+    "oneOf": [
+        {
+            "required": ["RNA_BAM_FILE"]
+        },
+        {
+            "required": ["GENE_COUNTS_FILE", "GENE_ANNOTATION"]
+        }
+    ],
     "allOf": [
         {
             "uniqueEntries": ["RNA_ID"]

@@ -70,7 +70,7 @@ workflow DROP {
     //
 
     def bams_to_index = preprocess.bam.branch { meta, bam, bai ->
-        yes: !bai
+        yes: !bai && bam
             return [ meta, bam ]
         no: true
     }
@@ -111,7 +111,7 @@ workflow DROP {
         .join(vcfs, failOnDuplicate:true, failOnMismatch:true)
         .join(preprocess.counts, failOnDuplicate:true, failOnMismatch:true)
         .multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
-            abberantexpression: [ meta, rna_bam, rna_bai ]
+            abberantexpression: [ meta, rna_bam, rna_bai, gene_counts ]
             // TODO: Create channels for each subworkflow here
         }
 

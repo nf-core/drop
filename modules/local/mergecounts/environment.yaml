@@ -1,9 +1,10 @@
 channels:
-  - conda-forge
-  - bioconda
+- conda-forge
+- bioconda
 dependencies:
-  - bioconda::bioconductor-biocparallel=1.40.0
-  - bioconda::bioconductor-summarizedexperiment=1.36.0
-  - conda-forge::r-base=4.4.3
-  - conda-forge::r-data.table=1.17.2
-  - conda-forge::r-dplyr=1.1.4
+- bioconda::bioconductor-biocparallel=1.40.0
+- bioconda::bioconductor-summarizedexperiment=1.36.0
+- conda-forge::r-base=4.4.3
+- conda-forge::r-data.table=1.17.2
+- conda-forge::r-dplyr=1.1.4
+- conda-forge::r-r.utils=2.13.0

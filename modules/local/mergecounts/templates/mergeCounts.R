@@ -21,8 +21,8 @@ counts_list <- bplapply(list(${counts.collect { file -> "\"$file\""}.join(', ')}
     else {
         ex_counts <- as.matrix(fread(f), rownames = "geneID")
         print(head(ex_counts))
-        stopifnot(! list(${exclude_ids.collect { id -> "\"$id\""}.join(', ')}) %in% names(ex_counts))
-        subset(ex_counts, select = ${exclude_ids.collect { id -> "\"$id\""}.join(', ')})
+        stopifnot(! list(${external_counts_ids.collect { id -> "\"$id\""}.join(', ')}) %in% names(ex_counts))
+        subset(ex_counts, select = ${external_counts_ids.collect { id -> "\"$id\""}.join(', ')})
     }
 })
 message(paste("read", length(counts_list), 'files'))

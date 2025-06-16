@@ -9,7 +9,7 @@ include { BAM_STATS_IDXSTATS_MERGE  } from "../bam_stats_idxstats_merge/"
 
 workflow ABERRANTEXPRESSION {
     take:
-    bams                // queue channel: [ val(meta), path(bam), path(bai) ]
+    input               // queue channel: [ val(meta), path(bam), path(bai), path(gene_counts) ]
     count_ranges        // queue channel: [ val(meta), path(count_ranges) ]
     txdb                // queue channel: [ val(meta), path(txdb) ]
     gene_name_mapping   // queue channel: [ val(meta), path(gene_name_mapping) ]
@@ -22,29 +22,36 @@ workflow ABERRANTEXPRESSION {
     main:
     def ch_versions = Channel.empty()
 
-    def bams_to_analyse = Channel.empty()
-    def exclude_ids = Channel.value([])
+    def inputs_to_analyse = Channel.empty()
     if (include_groups) {
         // Filter out the BAM files that don't have a group in the include_groups list
-        def include_branch = bams.branch { meta, _bam, _bai ->
+        def include_branch = input.branch { meta, _bam, _bai, _gene_counts ->
             yes: meta.drop_group.tokenize(",").intersect(include_groups).size() > 0
             no: true
         }
-        // Get the IDs of the BAM files that are excluded
-        exclude_ids = include_branch.no.collect { meta, _bam, _bai ->
-            meta.id
-        }.ifEmpty([])
+
         // Get the BAM files that are included
-        bams_to_analyse = include_branch.yes
+        inputs_to_analyse = include_branch.yes
     } else {
-        bams_to_analyse = bams
+        inputs_to_analyse = input
     }
 
     //
     // Count the reads in the BAM files
     //
 
-    def countreads_input = bams_to_analyse
+    def inputs_branch = inputs_to_analyse.branch { meta, bam, bai, gene_counts ->
+        counts_present: gene_counts
+            return [ meta, gene_counts ]
+        counts_missing: true
+            return [ meta, bam, bai ]
+    }
+
+    def external_counts_ids = inputs_branch.counts_present.map { meta, _gene_counts ->
+        meta.id
+    }.collect().ifEmpty([])
+
+    def countreads_input = inputs_branch.counts_missing
         .combine(count_ranges)
         .filter { meta, _bam, _bai, annotation_meta, _count_ranges ->
             // Determine which gene annotation versions should be used for each sample
@@ -67,6 +74,7 @@ workflow ABERRANTEXPRESSION {
 
     // Group samples based on gene annotation and drop group
     def mergereads_input = COUNTREADS.out.counts
+        .mix(inputs_branch.counts_present)
         .map { meta, count ->
             [ meta, count, meta.drop_group.tokenize(",").intersect(include_groups) ]
         }
@@ -88,7 +96,7 @@ workflow ABERRANTEXPRESSION {
     MERGECOUNTS(
         mergereads_input,
         samplesheet,
-        exclude_ids
+        external_counts_ids
     )
     ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
 
@@ -171,7 +179,9 @@ workflow ABERRANTEXPRESSION {
     //
 
     BAM_STATS_IDXSTATS_MERGE(
-        bams_to_analyse,
+        inputs_to_analyse.map { meta, bam, bai, _gene_counts ->
+            [ meta, bam, bai ]
+        }.filter { _meta, bam, _bai -> bam },
         include_groups
     )
     ch_versions = ch_versions.mix(BAM_STATS_IDXSTATS_MERGE.out.versions)
