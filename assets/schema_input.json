@@ -140,12 +140,16 @@
         },
         "required": ["RNA_ID", "DROP_GROUP", "STRAND"]
     },
-    "oneOf": [
+    "dependentRequired":
+    {
+        "GENE_COUNTS_FILE": ["GENE_ANNOTATION"]
+    },
+    "anyOf": [
         {
             "required": ["RNA_BAM_FILE"]
         },
         {
-            "required": ["GENE_COUNTS_FILE", "GENE_ANNOTATION"]
+            "required": ["GENE_COUNTS_FILE"]
         }
     ],
     "allOf": [
