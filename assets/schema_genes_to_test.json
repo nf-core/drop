@@ -5,7 +5,7 @@
     "description": "Schema for the file provided with params.gene_annotation",
     "type": "object",
     "properties": {
-        "Test_subset": {
+        "Genes_to_test_on_all_samples": {
             "type": "array",
             "items": {
                 "type": "array",
@@ -14,7 +14,7 @@
                 }
             }
         },
-        "Sample_specific_genes": {
+        "Genes_with_rare_splice_variants": {
             "type": "object",
             "patternProperties": {
                 "^\\S+$": {
