@@ -47,27 +47,24 @@ workflow ABERRANTEXPRESSION {
             return [ meta, bam, bai ]
     }
 
-    def external_counts_ids = inputs_branch.counts_present.map { meta, _gene_counts ->
-        [[meta.id, meta.drop_group]]
-    }
-    .collect()
-    .map { list ->
-        def group_ids = [:]
-        list.each { sample ->
-            sample[1].tokenize(",").each { group ->
-                group_ids[group] = group_ids.get(group, []) + sample[0]
-            }
+    def external_counts_ids = inputs_branch.counts_present
+        .map { meta, _gene_counts ->
+            [[meta.id, meta.drop_group]]
         }
-        return group_ids
-    }
-    .ifEmpty([:])
+        .collect()
+        .map { list ->
+            def group_ids = [:]
+            list.each { sample ->
+                sample[1].tokenize(",").each { group ->
+                    group_ids[group] = group_ids.get(group, []) + sample[0]
+                }
+            }
+            return group_ids
+        }
+        .ifEmpty([:])
 
     def countreads_input = inputs_branch.counts_missing
         .combine(count_ranges)
-        .filter { meta, _bam, _bai, annotation_meta, _count_ranges ->
-            // Determine which gene annotation versions should be used for each sample
-            meta.gene_annotation == "" || meta.gene_annotation == annotation_meta.id
-        }
         .map { meta, bam, bai, annotation_meta, count_ranges_ ->
             def new_meta = meta + [gene_annotation: annotation_meta.id]
             [ new_meta, bam, bai, meta.strand, meta.count_mode, meta.paired_end, meta.count_overlaps, count_ranges_ ]

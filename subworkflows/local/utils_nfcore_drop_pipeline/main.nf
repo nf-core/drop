@@ -106,9 +106,9 @@ workflow PIPELINE_INITIALISATION {
 
     // Calculate counts for combination of drop group count and gene annotation
     def group_annotation_counts = [:]
-    samplesheet_list.each { it ->
-        def groups = it[0].drop_group
-        def annotations = it[0].gene_annotation != "" ? [it[0].gene_annotation] : all_gene_annotations
+    samplesheet_list.each { meta, _bam, _bai, _vcf, _tbi, gene_counts, _splice_counts ->
+        def groups = meta.drop_group
+        def annotations = gene_counts ? [meta.gene_annotation] : all_gene_annotations // Only use the gene_annotation for samples that have external counts
         groups.tokenize(",").each { group ->
             def group_ann_counts = group_annotation_counts.get(group, [:])
             annotations.each { annotation ->

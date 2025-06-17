@@ -8,8 +8,8 @@ include { TABIX_TABIX               } from '../modules/nf-core/tabix/tabix/main'
 include { MULTIQC                   } from '../modules/nf-core/multiqc/main'
 
 include { PREPROCESSGENEANNOTATION  } from '../modules/local/preprocessgeneannotation/main'
-include { ABBERANTEXPRESSION     } from '../subworkflows/local/abberantexpression/main'
-include { ABERRANTSPLICING       } from '../subworkflows/local/aberrantsplicing/main'
+include { ABERRANTEXPRESSION        } from '../subworkflows/local/aberrantexpression/main'
+include { ABERRANTSPLICING          } from '../subworkflows/local/aberrantsplicing/main'
 
 include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc      } from '../subworkflows/nf-core/utils_nfcore_pipeline'

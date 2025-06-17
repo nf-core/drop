@@ -23,6 +23,8 @@
                 "processed_data/aberrant_expression/v29/counts/HG00149.counts.Rds",
                 "processed_data/aberrant_expression/v29/counts/HG00150.counts.Rds",
                 "processed_data/aberrant_expression/v29/counts/HG00176.counts.Rds",
+                "processed_data/aberrant_splicing/annotations/fraser.tsv",
+                "processed_data/aberrant_splicing/annotations/fraser_external.tsv",
                 "processed_results/aberrant_expression/v29/outrider/outrider/OUTRIDER_results.tsv",
                 "processed_results/aberrant_expression/v29/outrider/outrider/OUTRIDER_results_all.Rds",
                 "processed_results/aberrant_expression/v29/outrider/outrider/ods.Rds",
@@ -41,6 +43,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-06-17T10:54:12.754303723"
+        "timestamp": "2025-06-17T13:41:03.723411179"
     }
 }
