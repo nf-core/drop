@@ -102,7 +102,8 @@ workflow ABERRANTEXPRESSION {
         .combine(count_ranges, by: 0)
         .combine(external_counts_ids)
         .map { _gene_meta, meta, counts, count_ranges_, external_counts_ids_ ->
-            [ meta, counts, count_ranges_, external_counts_ids_.get(meta.drop_group, []) ]
+            def unique_counts = counts.unique() // Remove duplicates in case a merged count file was given as an external count for multiple samples
+            [ meta, unique_counts, count_ranges_, external_counts_ids_.get(meta.drop_group, []) ]
         }
 
     MERGECOUNTS(
