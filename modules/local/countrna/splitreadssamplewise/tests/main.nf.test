@@ -28,12 +28,12 @@ nextflow_process {
             process {
                 """
                 input[0] = UNTAR.out.untar.map { _meta, fds -> [
-                    [ id: 'HG00096' ],
+                    [ id: 'HG00103' ],
                     fds,
-                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
-                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam.bai', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
                     'fraser',
-                    'HG00096'
+                    'HG00103'
                 ]}
                 input[1] = false
                 input[2] = false
