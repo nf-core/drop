@@ -8,6 +8,7 @@ include { TABIX_TABIX            } from '../modules/nf-core/tabix/tabix/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 
 include { ABBERANTEXPRESSION     } from '../subworkflows/local/abberantexpression/main'
+include { ABERRANTSPLICING       } from '../subworkflows/local/aberrantsplicing/main'
 
 include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -109,6 +110,7 @@ workflow DROP {
         .join(preprocess.counts, failOnDuplicate:true, failOnMismatch:true)
         .multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
             abberantexpression: [ meta, rna_bam, rna_bai ]
+            aberrantsplicing: [ meta, rna_bam, rna_bai ]
             // TODO: Create channels for each subworkflow here
         }
 
@@ -120,6 +122,20 @@ workflow DROP {
         input.abberantexpression,
     )
     ch_versions = ch_versions.mix(ABBERANTEXPRESSION.out.versions)
+
+    //
+    // Aberrant splicing
+    //
+
+    if (as_run) {
+        ABERRANTSPLICING(
+            input.aberrantsplicing,
+            as_fraser_version,
+            as_groups,
+            as_genes_to_test
+        )
+        ch_versions = ch_versions.mix(ABERRANTSPLICING.out.versions)
+    }
 
     //
     // Collate and save software versions
