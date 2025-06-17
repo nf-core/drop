@@ -8,9 +8,8 @@ process MERGECOUNTS {
         'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-summarizedexperiment_r-base_r-data.table_pruned:c96d6e13d480e41d' }"
 
     input:
-    tuple val(meta), path(counts), path(count_ranges)
+    tuple val(meta), path(counts), path(count_ranges), val(external_counts_ids)
     tuple val(meta2), path(samplesheet) // Revisit this later, should be a samplesheet in CSV or TSV format
-    val(external_counts_ids)
 
     output:
     tuple val(meta), path("*.Rds")   , emit: output

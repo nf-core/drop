@@ -22,7 +22,7 @@ counts_list <- bplapply(list(${counts.collect { file -> "\"$file\""}.join(', ')}
         ex_counts <- as.matrix(fread(f), rownames = "geneID")
         print(head(ex_counts))
         stopifnot(! list(${external_counts_ids.collect { id -> "\"$id\""}.join(', ')}) %in% names(ex_counts))
-        subset(ex_counts, select = ${external_counts_ids.collect { id -> "\"$id\""}.join(', ')})
+        subset(ex_counts, select = c(${external_counts_ids.join(', ')}))
     }
 })
 message(paste("read", length(counts_list), 'files'))
@@ -60,7 +60,7 @@ writeLines(
         '"${task.process}":',
         paste('    r-base:', strsplit(version[['version.string']], ' ')[[1]][3]),
         paste('    r-data.table:', as.character(packageVersion('data.table'))),
-        paste('    r-data.table:', as.character(packageVersion('dplyr'))),
+        paste('    r-dplyr:', as.character(packageVersion('dplyr'))),
         paste('    bioconductor-biocparallel:', as.character(packageVersion('BiocParallel'))),
         paste('    bioconductor-summarizedexperiment:', as.character(packageVersion('SummarizedExperiment')))
     ),

@@ -48,8 +48,19 @@ workflow ABERRANTEXPRESSION {
     }
 
     def external_counts_ids = inputs_branch.counts_present.map { meta, _gene_counts ->
-        meta.id
-    }.collect().ifEmpty([])
+        [[meta.id, meta.drop_group]]
+    }
+    .collect()
+    .map { list ->
+        def group_ids = [:]
+        list.each { sample ->
+            sample[1].tokenize(",").each { group ->
+                group_ids[group] = group_ids.get(group, []) + sample[0]
+            }
+        }
+        return group_ids
+    }
+    .ifEmpty([:])
 
     def countreads_input = inputs_branch.counts_missing
         .combine(count_ranges)
@@ -89,14 +100,14 @@ workflow ABERRANTEXPRESSION {
             [ [id: meta.id], new_meta, counts ]
         }
         .combine(count_ranges, by: 0)
-        .map { _gene_meta, meta, counts, count_ranges_ ->
-            [ meta, counts, count_ranges_ ]
+        .combine(external_counts_ids)
+        .map { _gene_meta, meta, counts, count_ranges_, external_counts_ids_ ->
+            [ meta, counts, count_ranges_, external_counts_ids_.get(meta.drop_group, []) ]
         }
 
     MERGECOUNTS(
         mergereads_input,
-        samplesheet,
-        external_counts_ids
+        samplesheet
     )
     ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
 
