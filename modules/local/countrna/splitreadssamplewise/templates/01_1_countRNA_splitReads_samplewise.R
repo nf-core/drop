@@ -8,7 +8,7 @@ dataset    <- "$drop_group"
 genomeAssembly <- "$genome_assembly"
 
 # Read FRASER object
-fds <- loadFraserDataSet(dir="./", name=paste0("raw-local"))
+fds <- loadFraserDataSet(dir="./", name=paste0("raw-local-", dataset))
 
 # Get sample id from wildcard
 sample_id <- "$sample_id"

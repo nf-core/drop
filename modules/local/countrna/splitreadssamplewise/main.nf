@@ -9,15 +9,15 @@ process COUNTRNA_SPLITREADSSAMPLEWISE {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(bam), path(bai), path(fds, name: "savedObjects/raw-local/fds-object.RDS"), val(drop_group), val(sample_id)
+    tuple val(meta), path(fds), path(bam), path(bai), val(drop_group), val(sample_id)
     val(keep_non_standard_chrs)
     val(recount)
     val(genome_assembly)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("cache/splitCounts/*.RDS") , emit: split_counts
-    path  "versions.yml"                             , emit: versions
+    tuple val(meta), path("cache") , emit: split_counts
+    path  "versions.yml"           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
