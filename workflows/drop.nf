@@ -3,17 +3,18 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { SAMTOOLS_INDEX         } from '../modules/nf-core/samtools/index/main'
-include { TABIX_TABIX            } from '../modules/nf-core/tabix/tabix/main'
-include { MULTIQC                } from '../modules/nf-core/multiqc/main'
+include { SAMTOOLS_INDEX            } from '../modules/nf-core/samtools/index/main'
+include { TABIX_TABIX               } from '../modules/nf-core/tabix/tabix/main'
+include { MULTIQC                   } from '../modules/nf-core/multiqc/main'
 
-include { ABBERANTEXPRESSION     } from '../subworkflows/local/abberantexpression/main'
-include { ABERRANTSPLICING       } from '../subworkflows/local/aberrantsplicing/main'
+include { PREPROCESSGENEANNOTATION  } from '../modules/local/preprocessgeneannotation/main'
+include { ABERRANTEXPRESSION        } from '../subworkflows/local/aberrantexpression/main'
+include { ABERRANTSPLICING          } from '../subworkflows/local/aberrantsplicing/main'
 
-include { paramsSummaryMap       } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_drop_pipeline'
+include { paramsSummaryMap          } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText    } from '../subworkflows/local/utils_nfcore_drop_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,11 +26,12 @@ workflow DROP {
 
     take:
     // Global parameters
-    samplesheet      // queue channel: samplesheet read in from --input
+    samplesheet         // queue channel: samplesheet read in from --input
+    samplesheet_file    // value channel: [ val(meta), path(samplesheet) ]
     project_title       // string:        title of the project to add to the HTML file
     fasta               // value channel: [ val(meta), path(fasta) ]
     fai                 // value channel: [ val(meta), path(fai) ]
-    gene_annotation     // map:           A map containing key value pairs of gene annotations with their corresponding GTF file
+    gene_annotation     // queue channel: [ val(meta), path(gtf) ]
     hpo_file            // value channel: [ val(meta), path(hpo_file) ]
 
     // Export count parameters
@@ -68,7 +70,7 @@ workflow DROP {
     //
 
     def bams_to_index = preprocess.bam.branch { meta, bam, bai ->
-        yes: !bai
+        yes: !bai && bam
             return [ meta, bam ]
         no: true
     }
@@ -109,19 +111,37 @@ workflow DROP {
         .join(vcfs, failOnDuplicate:true, failOnMismatch:true)
         .join(preprocess.counts, failOnDuplicate:true, failOnMismatch:true)
         .multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
-            abberantexpression: [ meta, rna_bam, rna_bai ]
+            abberantexpression: [ meta, rna_bam, rna_bai, gene_counts ]
             aberrantsplicing: [ meta, rna_bam, rna_bai ]
             // TODO: Create channels for each subworkflow here
         }
 
     //
+    // Preprocess gene annotation
+    //
+
+    PREPROCESSGENEANNOTATION(
+        gene_annotation
+    )
+    ch_versions = ch_versions.mix(PREPROCESSGENEANNOTATION.out.versions.first())
+
+    //
     // Abberant expression
     //
 
-    ABBERANTEXPRESSION(
-        input.abberantexpression,
-    )
-    ch_versions = ch_versions.mix(ABBERANTEXPRESSION.out.versions)
+    if(ae_run) {
+        ABERRANTEXPRESSION(
+            input.abberantexpression,
+            PREPROCESSGENEANNOTATION.out.count_ranges,
+            PREPROCESSGENEANNOTATION.out.txdb,
+            PREPROCESSGENEANNOTATION.out.gene_name_mapping,
+            samplesheet_file,
+            ae_genes_to_test,
+            hpo_file,
+            ae_groups,
+        )
+        ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)
+    }
 
     //
     // Aberrant splicing
