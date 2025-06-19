@@ -1,0 +1,137 @@
+{
+    "homo_sapiens - fds, cache - false": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "cache": [
+                    
+                ],
+                "fdsobj": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
+        },
+        "timestamp": "2025-06-17T17:22:13.818788856"
+    },
+    "homo_sapiens - fds, cache - true": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "cache": [
+                    
+                ],
+                "fdsobj": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
+        },
+        "timestamp": "2025-06-17T17:22:22.377534678"
+    },
+    "homo_sapiens - fds, cache - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        [
+                            [
+                                [
+                                    "gRanges_NonSplitCounts.rds:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                    "gRanges_splitCounts.rds:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                    "spliceSites_splitCounts.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                                ],
+                                "splitCounts-HG00103.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                            ]
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        [
+                            [
+                                "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                "rawCountsJ.h5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                            ]
+                        ]
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,07a8dcf97b2dc5876261ce7b1c8a0b80"
+                ],
+                "cache": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        [
+                            [
+                                [
+                                    "gRanges_NonSplitCounts.rds:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                    "gRanges_splitCounts.rds:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                    "spliceSites_splitCounts.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                                ],
+                                "splitCounts-HG00103.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                            ]
+                        ]
+                    ]
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        [
+                            [
+                                "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                "rawCountsJ.h5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                            ]
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,07a8dcf97b2dc5876261ce7b1c8a0b80"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.2"
+        },
+        "timestamp": "2025-06-19T10:37:40.901982829"
+    }
+}

@@ -1,7 +1,10 @@
+#!/usr/bin/env Rscript
+# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_2_countRNA_splitReads_merge.R
+
 source("$config", echo=FALSE)
 
 dataset    <- "$drop_group"
-workingDir <- "$fds"
+workingDir <- "."
 minExpressionInOneSample <- $min_expression_in_one_sample
 
 
