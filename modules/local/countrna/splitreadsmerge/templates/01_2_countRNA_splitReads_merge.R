@@ -28,12 +28,14 @@ splitCounts <- getSplitReadCountsForAllSamples(fds=fds,
 # Extract, annotate and save granges
 splitCountRanges <- rowRanges(splitCounts)
 
+dir.create(paste0("cache/raw-local-", dataset))
+
 # Annotate granges from the split counts
 splitCountRanges <- FRASER:::annotateSpliceSite(splitCountRanges)
-saveRDS(splitCountRanges, paste("cache/raw-local-", dataset, "/gRanges_splitCounts.rds"))
+saveRDS(splitCountRanges, paste0("cache/raw-local-", dataset, "/gRanges_splitCounts.rds"))
 # additionally save as tsv.gz (for easier AbSplice input)
 fwrite(as.data.table(splitCountRanges),
-        gsub(".Rds", ".tsv.gz", paste("cache/raw-local-", dataset, "/gRanges_splitCounts.rds"),
+        gsub(".Rds", ".tsv.gz", paste0("cache/raw-local-", dataset, "/gRanges_splitCounts.rds"),
             ignore.case=TRUE))
 
 # Create ranges for non split counts
@@ -43,13 +45,35 @@ passed <- maxCount >= minExpressionInOneSample
 # extract granges after filtering
 splitCountRanges <- splitCountRanges[passed,]
 
-saveRDS(splitCountRanges, paste("cache/raw-local-", dataset, "/gRanges_NonSplitCounts.rds"))
+saveRDS(splitCountRanges, paste0("cache/raw-local-", dataset, "/gRanges_NonSplitCounts.rds"))
 
 # Extract splitSiteCoodinates: extract donor and acceptor sites
 # take either filtered or full fds
 spliceSiteCoords <- FRASER:::extractSpliceSiteCoordinates(splitCountRanges)
-saveRDS(spliceSiteCoords, paste("cache/raw-local-", dataset, "/spliceSites_splitCounts.rds"))
+saveRDS(spliceSiteCoords, paste0("cache/raw-local-", dataset, "/spliceSites_splitCounts.rds"))
 
 
 message(date(), ": ", dataset, " total no. splice junctions = ",
         length(splitCounts))
+
+## VERSIONS FILE
+writeLines(
+    c(
+        '"${task.process}":',
+        paste('    r-base:', strsplit(version[['version.string']], ' ')[[1]][3]),
+        paste('    r-rmarkdown:', as.character(packageVersion('rmarkdown'))),
+        paste('    r-knitr:', as.character(packageVersion('knitr'))),
+        paste('    r-devtools:', as.character(packageVersion('devtools'))),
+        paste('    r-yaml:', as.character(packageVersion('yaml'))),
+        paste('    r-bbmisc:', as.character(packageVersion('BBmisc'))),
+        paste('    r-tidyr:', as.character(packageVersion('tidyr'))),
+        paste('    r-data.table:', as.character(packageVersion('data.table'))),
+        paste('    r-dplyr:', as.character(packageVersion('dplyr'))),
+        paste('    r-plotly:', as.character(packageVersion('plotly'))),
+        paste('    r-rhdf5:', as.character(packageVersion('rhdf5'))),
+        paste('    bioconductor-genomicalignments:', as.character(packageVersion('GenomicAlignments'))),
+        paste('    bioconductor-delayedmatrixstats:', as.character(packageVersion('DelayedMatrixStats'))),
+        paste('    bioconductor-bsgenome:', as.character(packageVersion('BSgenome'))),
+        paste('    bioconductor-fraser:', as.character(packageVersion('FRASER')))
+    ),
+'versions.yml')

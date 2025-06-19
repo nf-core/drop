@@ -28,12 +28,12 @@ process COUNTRNA_SPLITREADSMERGE {
     stub:
     """
     #!/usr/bin/env Rscript
-    dir.create("cache/splitCounts/raw-local-${drop_group}")
-    a <- file("cache/splitCounts/raw-local-${drop_group}/gRanges_splitCounts.rds", "w")
+    dir.create("cache/raw-local-${drop_group}")
+    a <- file("cache/raw-local-${drop_group}/gRanges_splitCounts.rds", "w")
     close(a)
-    a <- file("cache/splitCounts/raw-local-${drop_group}/gRanges_NonSplitCounts.rds", "w")
+    a <- file("cache/raw-local-${drop_group}/gRanges_NonSplitCounts.rds", "w")
     close(a)
-    a <- file("cache/splitCounts/raw-local-${drop_group}/spliceSites_splitCounts.rds", "w")
+    a <- file("cache/raw-local-${drop_group}/spliceSites_splitCounts.rds", "w")
     close(a)
     a <- file("savedObjects/raw-local-${drop_group}/rawCountsJ.h5", "w")
     close(a)
