@@ -1,7 +1,7 @@
 
 process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     tag "${meta.id}"
-    label 'process_single'
+    label 'process_low'
 
     // TODO discuss if this container should be split up, library loading should be done in the module script instead in that case
     conda "${moduleDir}/environment.yml"
@@ -10,15 +10,15 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "savedObjects"), path(bam), path(bai), val(drop_group), val(sample_id)
-    val(keep_non_standard_chrs)
+    tuple val(meta), path(fds, stageAs: "savedObjects"), path(cache, stageAs: "cache"), val(drop_group), val(sample_id)
+    val(long_read)
     val(recount)
-    val(genome_assembly)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("cache") , emit: split_counts
-    path  "versions.yml"           , emit: versions
+    tuple val(meta), path("savedObjects", includeInputs:true)   , emit: fds
+    tuple val(meta), path("cache", includeInputs:true)          , emit: cache
+    path  "versions.yml"                                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -29,9 +29,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     stub:
     """
     #!/usr/bin/env Rscript
-    dir.create("cache")
-    dir.create("cache/splitCounts")
-    a <- file("cache/splitCounts/splitCounts-${sample_id}.RDS", "w")
+    dir.create("cache/raw-local-${drop_group}/sample_tmp")
     close(a)
     ## VERSIONS FILE
     writeLines(
