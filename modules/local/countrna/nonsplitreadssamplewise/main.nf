@@ -10,7 +10,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "savedObjects"), path(cache, stageAs: "cache"), val(drop_group), val(sample_id)
+    tuple val(meta), path(fds, stageAs: "savedObjects"), path(cache, stageAs: "cache"), path(bam), path(bai), val(drop_group), val(sample_id)
     val(long_read)
     val(recount)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
@@ -29,8 +29,6 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     stub:
     """
     #!/usr/bin/env Rscript
-    dir.create("cache/raw-local-${drop_group}/sample_tmp")
-    close(a)
     ## VERSIONS FILE
     writeLines(
         c(

@@ -22,9 +22,9 @@ sample_result <- countNonSplicedReads(sample_id,
                                     fds = fds,
                                     NcpuPerSample = $task.cpus,
                                     minAnchor=5,
-                                    recount=$recount,
+                                    recount=${recount ? "TRUE" : "FALSE"},
                                     spliceSiteCoords=spliceSiteCoords,
-                                    longRead=$long_read)
+                                    longRead=${long_read ? "TRUE" : "FALSE"})
 
 message(date(), ": ", dataset, ", ", sample_id,
         " no. splice junctions (non split counts) = ", length(sample_result))
@@ -50,4 +50,3 @@ writeLines(
         paste('    bioconductor-fraser:', as.character(packageVersion('FRASER')))
     ),
 'versions.yml')
-"""
