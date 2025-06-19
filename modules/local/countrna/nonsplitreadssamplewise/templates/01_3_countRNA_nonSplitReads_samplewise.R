@@ -14,7 +14,7 @@ sample_id <- "$sample_id"
 
 
 # Read splice site coordinates from RDS
-spliceSiteCoords <- readRDS("${cache}/raw-local-${drop_group}/spliceSites_splitCounts.rds")
+spliceSiteCoords <- readRDS("$splice_sites")
 
 # Count nonSplitReads for given sample id
 sample_result <- countNonSplicedReads(sample_id,

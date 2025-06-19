@@ -101,7 +101,7 @@ nextflow_process {
                 .combine(UNTAR_FDS.out.untar.map { it[1] })
                 .combine(UNTAR_CACHE.out.untar.map { it[1] })
                 .map { meta, bam, bai, drop_group, id, fds, cache ->
-                    [ meta, fds, cache, bam, bai, drop_group, id ]
+                    [ meta, fds, cache.resolve("raw-local-fraser/spliceSites_splitCounts.rds"), bam, bai, drop_group, id ]
                 }
                 input[1] = false
                 input[2] = false
@@ -133,7 +133,7 @@ nextflow_process {
                 .combine(UNTAR_FDS.out.untar.map { it[1] })
                 .combine(UNTAR_CACHE.out.untar.map { it[1] })
                 .map { meta, bam, bai, drop_group, id, fds, cache ->
-                    [ meta, fds, cache, bam, bai, drop_group, id ]
+                    [ meta, fds, cache.resolve("raw-local-fraser/spliceSites_splitCounts.rds"), bam, bai, drop_group, id ]
                 }
                 input[1] = false
                 input[2] = true
@@ -167,7 +167,7 @@ nextflow_process {
                 .combine(UNTAR_FDS.out.untar.map { it[1] })
                 .combine(UNTAR_CACHE.out.untar.map { it[1] })
                 .map { meta, bam, bai, drop_group, id, fds, cache ->
-                    [ meta, fds, cache, bam, bai, drop_group, id ]
+                    [ meta, fds, cache.resolve("raw-local-fraser/spliceSites_splitCounts.rds"), bam, bai, drop_group, id ]
                 }
                 input[1] = false
                 input[2] = false
