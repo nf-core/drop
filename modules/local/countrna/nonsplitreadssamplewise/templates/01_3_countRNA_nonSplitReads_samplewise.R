@@ -2,6 +2,7 @@
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_3_countRNA_nonSplitReads_samplewise.R
 
 source("$config", echo=FALSE)
+configure_fraser("$fraser_version")
 
 dataset    <- "$drop_group"
 workingDir <- "./"

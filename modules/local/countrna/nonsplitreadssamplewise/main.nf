@@ -13,6 +13,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     tuple val(meta), path(fds, stageAs: "savedObjects"), path(splice_sites), path(bam), path(bai), val(drop_group), val(sample_id)
     val(long_read)
     val(recount)
+    val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
