@@ -12,6 +12,7 @@ process COUNTRNA_SPLITREADSMERGE {
     tuple val(meta), path(fds, stageAs: "savedObjects"), path(split_counts, stageAs: "cache"), path(bams), path(bais), val(drop_group)
     val(min_expression_in_one_sample)
     val(recount)
+    val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
