@@ -1,0 +1,80 @@
+
+nextflow_process {
+
+    name "Test Process PSIVALUECALCULATIONFRASER"
+    script "../main.nf"
+    process "PSIVALUECALCULATIONFRASER"
+
+    tag "modules"
+    tag "modules_local"
+    tag "psivaluecalculationfraser"
+
+    setup {
+        run("UNTAR") {
+            script "../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/countrna/collect/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens - fds") {
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds,
+                        "fraser"
+                    ]
+                }
+                input[1] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - fds, cache - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds,
+                        "fraser"
+                    ]
+                }
+                input[1] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
