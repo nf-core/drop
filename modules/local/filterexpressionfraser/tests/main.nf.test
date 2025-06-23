@@ -1,0 +1,109 @@
+nextflow_process {
+
+    name "Test Process FILTEREXPRESSIONFRASER"
+    script "../main.nf"
+    process "FILTEREXPRESSIONFRASER"
+
+    tag "modules"
+    tag "modules_local"
+    tag "filterexpressionfraser"
+
+    setup {
+        run("UNTAR", alias: "FDS_UNTAR") {
+            script "../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/psivaluecalculationfraser/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens") {
+
+        when {
+            process {
+                """
+                input[0] = FDS_UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds,
+                        [],
+                        [],
+                        "fraser"
+                    ]
+                }
+                input[1] = [
+                    [id:'samplesheet'],
+                    file("https://github.com/nf-core/test-datasets/raw/refs/heads/drop/data/inputs/samplesheet.tsv", checkIfExists:true)
+                ]
+                input[2] = 20 // min expressions in one sample
+                input[3] = 0.05 // quantile filter
+                input[4] = 10 // quantile min expression
+                input[5] = 0.05 // min delta psi
+                input[6] = true // filter
+                input[7] = "FRASER" // fraser version
+                input[8] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            assertAll (
+                { assert process.success },
+                { assert process.success },
+                { assert snapshot(
+                    file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
+                    file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = FDS_UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds,
+                        [],
+                        [],
+                        "fraser"
+                    ]
+                }
+                input[1] = [
+                    [id:'samplesheet'],
+                    file("https://github.com/nf-core/test-datasets/raw/refs/heads/drop/data/inputs/samplesheet.tsv", checkIfExists:true)
+                ]
+                input[2] = 20 // min expressions in one sample
+                input[3] = 0.05 // quantile filter
+                input[4] = 10 // quantile min expression
+                input[5] = 0.05 // min delta psi
+                input[6] = true // filter
+                input[7] = "FRASER" // fraser version
+                input[8] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
