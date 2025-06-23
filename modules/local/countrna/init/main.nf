@@ -10,6 +10,7 @@ process COUNTRNA_INIT {
 
     input:
     tuple val(meta), path(col_data), val(drop_group)
+    val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:

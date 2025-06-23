@@ -5,6 +5,7 @@
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
 source("$config", echo=FALSE)
+configure_fraser("$fraser_version")
 
 dataset    <- "$drop_group"
 colDataFile <- "$col_data"

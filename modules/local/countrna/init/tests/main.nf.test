@@ -18,7 +18,8 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'intermediates/definedatasetsfromanno/fraser.tsv', checkIfExists: true),
                     "fraser"
                 ])
-                input[1] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[1] = "FRASER"
+                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
@@ -43,7 +44,8 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'intermediates/definedatasetsfromanno/fraser.tsv', checkIfExists: true),
                     "fraser"
                 ])
-                input[1] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[1] = "FRASER"
+                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
