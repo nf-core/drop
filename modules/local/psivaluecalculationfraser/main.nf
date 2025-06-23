@@ -10,6 +10,7 @@ process PSIVALUECALCULATIONFRASER {
 
     input:
     tuple val(meta), path(fds, stageAs: "savedObjects"), val(drop_group)
+    val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
