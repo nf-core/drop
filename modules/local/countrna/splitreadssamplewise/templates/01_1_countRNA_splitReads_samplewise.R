@@ -2,6 +2,7 @@
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_1_countRNA_splitReads_samplewise.R
 
 source("$config", echo=FALSE)
+configure_fraser("$fraser_version")
 library(BSgenome)
 
 dataset    <- "$drop_group"

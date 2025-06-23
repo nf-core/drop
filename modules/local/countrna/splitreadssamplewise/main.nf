@@ -13,6 +13,7 @@ process COUNTRNA_SPLITREADSSAMPLEWISE {
     val(keep_non_standard_chrs)
     val(recount)
     val(genome_assembly)
+    val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
