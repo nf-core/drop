@@ -13,7 +13,6 @@ process COUNTRNA_COLLECT {
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    // tuple val(meta), path("cache", includeInputs:true)        , emit: cache
     tuple val(meta), path("savedObjects", includeInputs: true), emit: fdsobj
     path  "versions.yml"                                      , emit: versions
 
