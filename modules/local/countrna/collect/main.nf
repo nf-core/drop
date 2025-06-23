@@ -10,6 +10,7 @@ process COUNTRNA_COLLECT {
 
     input:
     tuple val(meta), path(fds, stageAs: "savedObjects"), path(splitcounts_granges), path(splicesites_splitcounts), val(drop_group)
+    val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
