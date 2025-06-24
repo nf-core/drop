@@ -1,4 +1,4 @@
-process PSIVALUECALCULATIONFRASER {
+process FRASER_PSIVALUECALCULATION {
     tag "${meta.id}"
     label 'process_low'
 

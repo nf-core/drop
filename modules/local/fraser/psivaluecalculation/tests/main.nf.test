@@ -1,17 +1,17 @@
 
 nextflow_process {
 
-    name "Test Process PSIVALUECALCULATIONFRASER"
+    name "Test Process FRASER_PSIVALUECALCULATION"
     script "../main.nf"
-    process "PSIVALUECALCULATIONFRASER"
+    process "FRASER_PSIVALUECALCULATION"
 
     tag "modules"
     tag "modules_local"
-    tag "psivaluecalculationfraser"
+    tag "fraser_psivaluecalculation"
 
     setup {
         run("UNTAR") {
-            script "../../../nf-core/untar/main.nf"
+            script "../../../../nf-core/untar/main.nf"
             process {
                 """
                 input[0] = Channel.of([
