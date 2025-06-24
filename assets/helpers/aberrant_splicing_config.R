@@ -44,3 +44,4 @@ configure_fraser <- function(fraser_version) {
         psiTypesNotUsed <- c("jaccard")
     }
 }
+

@@ -11,6 +11,11 @@ suppressPackageStartupMessages({
 # Initialize the prefix from the module
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
+# Rename the BAM file to make sure the correct ID is used
+if ("$bam" != "${meta.id}.bam") {
+    file.rename("$bam", "${meta.id}.bam")
+}
+
 # Get strand specific information from sample annotation
 
 strand <- tolower("$strand")
@@ -34,13 +39,13 @@ if (strand == "yes") {
 }
 
 # read files
-bam_file <- BamFile("$bam", yieldSize = $yield_size)
+bam_file <- BamFile("${meta.id}.bam", yieldSize = $yield_size)
 count_ranges <- readRDS("$count_ranges")
 # set chromosome style
 seqlevelsStyle(count_ranges) <- seqlevelsStyle(bam_file)
 
 # show info
-message(paste("input:", "$bam"))
+message(paste("input:", "${meta.id}.bam"))
 message(paste("output:", paste(prefix, ".Rds", sep="")))
 message(paste('\tcount mode:', count_mode, sep = "\t"))
 message(paste('\tpaired end:', paired_end, sep = "\t"))

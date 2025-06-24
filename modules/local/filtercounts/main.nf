@@ -8,12 +8,11 @@ process FILTERCOUNTS {
         'community.wave.seqera.io/library/bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-data.table:c6ad593656300741' }"
 
     input:
-    tuple val(meta), path(counts)
-    tuple val(meta2), path(txdb)
+    tuple val(meta), path(counts), path(txdb)
     val(fpkmCutoff)
 
     output:
-    tuple val(meta), path("*.Rds")  , emit: txdb
+    tuple val(meta), path("*.Rds")  , emit: output
     path  "versions.yml"            , emit: versions
 
     when:

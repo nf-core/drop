@@ -2,8 +2,8 @@ include { SAMTOOLS_IDXSTATS } from '../../../modules/nf-core/samtools/idxstats'
 
 workflow BAM_STATS_IDXSTATS_MERGE {
     take:
-    bams        // queue channel:   [ val(meta), path(bam), path(bai) ]
-    exclude_ids // value channel:   A list of ids to exclude from the bam stats
+    bams            // queue channel:   [ val(meta), path(bam), path(bai) ]
+    include_groups  // list:            A list of groups to include in the bam stats
 
 
     main:
@@ -16,12 +16,6 @@ workflow BAM_STATS_IDXSTATS_MERGE {
         bams
     )
     ch_versions = ch_versions.mix(SAMTOOLS_IDXSTATS.out.versions.first())
-
-    def exclude_ids_entries = exclude_ids
-        .flatten()
-        .map { id ->
-            return "${id}\tNA"
-        }
 
     def ch_merged_bam_stats = SAMTOOLS_IDXSTATS.out.idxstats
         // Get the total read count for each sample
@@ -37,19 +31,34 @@ workflow BAM_STATS_IDXSTATS_MERGE {
                 }
                 total_mapped_reads += line[2].toInteger()
             }
-            return "${meta.id}\t${total_mapped_reads}"
+            return [ meta, "${meta.id}\t${total_mapped_reads}" ]
         }
-        // Mix in the excluded IDs that will have unknown read counts
-        .mix(exclude_ids_entries)
-        .collect()
+        .tap { ch_individuals }
+        .collectFile(newLine:true, storeDir:"${params.outdir}/processed_data/aberrant_expression/bam_stats/") { meta, line ->
+            [ "${meta.id}.txt", line]
+        }
+
+    ch_individuals
+        .map { meta, line ->
+            def groups = meta.drop_group.tokenize(",").intersect(include_groups)
+            [ groups, meta, line ]
+        }
+        .transpose(by: 0)
+        .map { group, meta, line ->
+            [ groupKey(group, meta.drop_group_counts.get(group)), line ]
+        }
+        .groupTuple()
         // Add the file header and sort the lines on sample name
-        .map { lines ->
-            return ["sampleID\trecord_count"] + lines.sort()
+        .map { group, lines ->
+            return [ group, (["sampleID\trecord_count"] + lines.sort()).join("\n") ]
         }
-        .flatten()
         // Create the merged bam stats file
-        .collectFile(name: "merged_bam_stats.tsv", newLine:true, sort:false) // TODO this should be another name + add storeDir with the output dir location
+        .collectFile(newLine:true, storeDir:"${params.outdir}/processed_data/aberrant_expression/bam_stats/") { group, line ->
+            [ "${group}.txt", line ]
+        }
         .collect()
+
+
 
 
     emit:
