@@ -1,4 +1,4 @@
-process FILTEREXPRESSIONFRASER {
+process FRASER_FILTEREXPRESSION {
     tag "${meta.id}"
     label 'process_low'
 

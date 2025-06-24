@@ -1,21 +1,21 @@
 nextflow_process {
 
-    name "Test Process FILTEREXPRESSIONFRASER"
+    name "Test Process FRASER_FILTEREXPRESSION"
     script "../main.nf"
-    process "FILTEREXPRESSIONFRASER"
+    process "FRASER_FILTEREXPRESSION"
 
     tag "modules"
     tag "modules_local"
-    tag "filterexpressionfraser"
+    tag "fraser/filterexpression"
 
     setup {
         run("UNTAR", alias: "FDS_UNTAR") {
-            script "../../../nf-core/untar/main.nf"
+            script "../../../../nf-core/untar/main.nf"
             process {
                 """
                 input[0] = Channel.of([
                     [id:"savedObjects"],
-                    file(params.pipelines_testdata_base_path + 'intermediates/psivaluecalculationfraser/savedObjects.tar.gz')
+                    file(params.pipelines_testdata_base_path + 'intermediates/fraser/psivaluecalculation/savedObjects.tar.gz')
                 ])
                 """
             }
