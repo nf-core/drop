@@ -18,7 +18,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
 
     output:
     tuple val(meta), path("savedObjects", includeInputs:true)   , emit: fds
-    tuple val(meta), path("cache", includeInputs:true)          , emit: cache
+    tuple val(meta), path("cache")                              , emit: cache
     path  "versions.yml"                                        , emit: versions
 
     when:
