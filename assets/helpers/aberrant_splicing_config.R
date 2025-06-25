@@ -36,11 +36,11 @@ h5disableFileLocking()
 configure_fraser <- function(fraser_version) {
     if(fraser_version == "FRASER2"){
         pseudocount(0.1)
-        psiTypes <<- c("jaccard")
-        psiTypesNotUsed <<- c("psi5", "psi3", "theta")
+        psiTypes <- c("jaccard")
+        psiTypesNotUsed <- c("psi5", "psi3", "theta")
     } else{
         pseudocount(1)
-        psiTypes <<- c("psi5", "psi3", "theta")
-        psiTypesNotUsed <<- c("jaccard")
+        psiTypes <- c("psi5", "psi3", "theta")
+        psiTypesNotUsed <- c("jaccard")
     }
 }
