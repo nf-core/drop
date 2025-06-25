@@ -1,4 +1,5 @@
-include { COUNTRNA_INIT } from '../../../modules/local/countrna/init'
+include { COUNTRNA_INIT                 } from '../../../modules/local/countrna/init'
+include { COUNTRNA_SPLITREADSSAMPLEWISE } from '../../../modules/local/countrna/splitreadssamplewise'
 
 workflow ABERRANTSPLICING {
     take:
@@ -50,6 +51,10 @@ workflow ABERRANTSPLICING {
             [ "${group}.tsv", lines.join("\n") ]
         }
 
+    //
+    // COUNTRNA_INIT
+    //
+
     def ch_abberant_splicing_input = ch_group_datasets
         .map { dataset ->
             def id = dataset.name.replace(".tsv", "")
@@ -59,7 +64,9 @@ workflow ABERRANTSPLICING {
         .multiMap { id, tsv, metas, bams, bais ->
             def meta = [
                 id: id,
-                samples: metas.collect { entry -> entry.id }.sort().join(",") // Sort the sample IDs for reproducibility
+                drop_group: id,
+                samples: metas.collect { entry -> entry.id }.sort().join(","), // Sort the sample IDs for reproducibility
+                group_size: metas.size()
             ]
             dataset: [ meta, tsv ]
             bams: [ meta, bams, bais ]
@@ -67,14 +74,45 @@ workflow ABERRANTSPLICING {
 
     COUNTRNA_INIT(
         ch_abberant_splicing_input.dataset.map { meta, dataset ->
-            [ meta, dataset, meta.id ]
+            [ meta, dataset, meta.drop_group ]
         },
         fraser_version,
         file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true),
     )
     ch_versions = ch_versions.mix(COUNTRNA_INIT.out.versions.first())
 
-    COUNTRNA_INIT.out.fdsobj.view()
+    //
+    // COUNTRNA_SPLITREADSSAMPLEWISE
+    //
+
+    def ch_bams_per_sample = inputs_to_analyse
+        .map { meta, bam, bai ->
+            [ meta.id, bam, bai ]
+        }
+
+    // Note for later: Rethink this so that split counting only happens once per sample
+    def splitreadssamplewise_input = COUNTRNA_INIT.out.fdsobj
+        .map { meta, fds ->
+            [ meta.samples.tokenize(","), meta, fds ]
+        }
+        .transpose(by:0)
+        .combine(ch_bams_per_sample, by:0)
+        .map { sample, meta, fds, bam, bai ->
+            def new_meta = meta + [id:sample]
+            [ new_meta, fds, bam, bai, meta.drop_group, sample ]
+        }
+
+    COUNTRNA_SPLITREADSSAMPLEWISE(
+        splitreadssamplewise_input,
+        params.as_keep_non_standard_chrs,
+        params.as_recount,
+        params.genome,
+        fraser_version,
+        file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
+    )
+    ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSSAMPLEWISE.out.versions.first())
+
+    COUNTRNA_SPLITREADSSAMPLEWISE.out.split_counts.view()
 
 
     emit:

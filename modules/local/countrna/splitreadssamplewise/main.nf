@@ -17,8 +17,8 @@ process COUNTRNA_SPLITREADSSAMPLEWISE {
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("cache") , emit: split_counts
-    path  "versions.yml"           , emit: versions
+    tuple val(meta), path("cache/splitCounts/splitCounts-${sample_id}.RDS") , emit: split_counts
+    path  "versions.yml"                                                    , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

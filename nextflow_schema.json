@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-cogs",
             "description": "Global parameters for the pipeline.",
-            "required": ["input", "outdir"],
+            "required": ["input", "outdir", "genome"],
             "properties": {
                 "input": {
                     "type": "string",
