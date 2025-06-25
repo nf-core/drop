@@ -1,3 +1,5 @@
+include { COUNTRNA_INIT } from '../../../modules/local/countrna/init'
+
 workflow ABERRANTSPLICING {
     take:
     inputs         // queue channel: [ val(meta), path(bam), path(bai), path(vcf), path(tbi), path(gene_count), path(splice_count) ]
@@ -47,6 +49,32 @@ workflow ABERRANTSPLICING {
         .collectFile(newLine:true, storeDir:"${params.outdir}/processed_data/aberrant_splicing/annotations/") { group, lines ->
             [ "${group}.tsv", lines.join("\n") ]
         }
+
+    def ch_abberant_splicing_input = ch_group_datasets
+        .map { dataset ->
+            def id = dataset.name.replace(".tsv", "")
+            [ id, dataset ]
+        }
+        .join(ch_group_files, failOnMismatch: true, failOnDuplicate: true)
+        .multiMap { id, tsv, metas, bams, bais ->
+            def meta = [
+                id: id,
+                samples: metas.collect { entry -> entry.id }.sort().join(",") // Sort the sample IDs for reproducibility
+            ]
+            dataset: [ meta, tsv ]
+            bams: [ meta, bams, bais ]
+        }
+
+    COUNTRNA_INIT(
+        ch_abberant_splicing_input.dataset.map { meta, dataset ->
+            [ meta, dataset, meta.id ]
+        },
+        fraser_version,
+        file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true),
+    )
+    ch_versions = ch_versions.mix(COUNTRNA_INIT.out.versions.first())
+
+    COUNTRNA_INIT.out.fdsobj.view()
 
 
     emit:
