@@ -1,5 +1,6 @@
 include { COUNTRNA_INIT                 } from '../../../modules/local/countrna/init'
 include { COUNTRNA_SPLITREADSSAMPLEWISE } from '../../../modules/local/countrna/splitreadssamplewise'
+include { COUNTRNA_SPLITREADSMERGE      } from '../../../modules/local/countrna/splitreadsmerge'
 
 workflow ABERRANTSPLICING {
     take:
@@ -112,8 +113,32 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSSAMPLEWISE.out.versions.first())
 
-    COUNTRNA_SPLITREADSSAMPLEWISE.out.split_counts.view()
+    //
+    // COUNTRNA_SPLITREADSMERGE
+    //
 
+    def ch_splitreadsmerge_input = COUNTRNA_SPLITREADSSAMPLEWISE.out.split_counts
+        .map { meta, split_counts ->
+            def new_meta = meta + [id:meta.drop_group]
+            [ groupKey(new_meta, meta.group_size), split_counts ]
+        }
+        .groupTuple()
+        .join(COUNTRNA_INIT.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
+        .map { meta, split_counts, fds, bams, bais ->
+            [ meta, fds, split_counts, bams, bais, meta.drop_group ]
+        }
+
+    COUNTRNA_SPLITREADSMERGE(
+        ch_splitreadsmerge_input,
+        params.as_min_expression_in_one_sample,
+        params.as_recount,
+        fraser_version,
+        file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
+    )
+    ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSMERGE.out.versions.first())
+
+    COUNTRNA_SPLITREADSMERGE.out.cache.view()
 
     emit:
     versions = ch_versions
