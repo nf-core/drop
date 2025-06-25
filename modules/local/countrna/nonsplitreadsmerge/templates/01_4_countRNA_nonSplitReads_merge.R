@@ -2,6 +2,7 @@
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_4_countRNA_nonSplitReads_merge.R
 
 source("$config", echo=FALSE)
+configure_fraser("$fraser_version")
 
 dataset    <- "$drop_group"
 workingDir <- "./"
@@ -9,6 +10,9 @@ workingDir <- "./"
 register(MulticoreParam($task.cpus))
 # Limit number of threads for DelayedArray operations
 setAutoBPPARAM(MulticoreParam($task.cpus))
+
+# Move non split counts to the correct cache directory
+system("mv cache/nonSplicedCounts/raw-local cache/nonSplicedCounts/raw-local-${drop_group}")
 
 # Read FRASER object
 fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-local-", dataset))

@@ -2,6 +2,7 @@ include { COUNTRNA_INIT                     } from '../../../modules/local/count
 include { COUNTRNA_SPLITREADSSAMPLEWISE     } from '../../../modules/local/countrna/splitreadssamplewise'
 include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/countrna/splitreadsmerge'
 include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
+include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
 
 workflow ABERRANTSPLICING {
     take:
@@ -165,7 +166,34 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(COUNTRNA_NONSPLITREADSSAMPLEWISE.out.versions.first())
 
-    COUNTRNA_NONSPLITREADSSAMPLEWISE.out.cache.view()
+    //
+    // COUNTRNA_NONSPLITREADSMERGE
+    //
+
+    def ch_nonsplitreadsmerge_input = COUNTRNA_NONSPLITREADSSAMPLEWISE.out.non_split_counts
+        .map { meta, non_split_counts ->
+            def new_meta = meta + [id:meta.drop_group]
+            [ groupKey(new_meta, meta.group_size), non_split_counts ]
+        }
+        .groupTuple()
+        .join(COUNTRNA_SPLITREADSMERGE.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+        .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
+        .map { meta, non_split_counts, fds, cache, bams, bais ->
+
+            [ meta, fds, cache.resolve("raw-local-${meta.drop_group}/gRanges_NonSplitCounts.rds"), non_split_counts, bams, bais, meta.drop_group ]
+        }
+
+    COUNTRNA_NONSPLITREADSMERGE(
+        ch_nonsplitreadsmerge_input,
+        params.as_long_read,
+        params.as_recount,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(COUNTRNA_NONSPLITREADSMERGE.out.versions.first())
+
+    COUNTRNA_NONSPLITREADSMERGE.out.cache.view()
 
     emit:
     versions = ch_versions

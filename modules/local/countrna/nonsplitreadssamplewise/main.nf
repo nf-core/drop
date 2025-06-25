@@ -18,7 +18,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
 
     output:
     tuple val(meta), path("savedObjects", includeInputs:true)                                               , emit: fds
-    tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}/nonSplicedCounts-${sample_id}.h5"), emit: cache
+    tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}/nonSplicedCounts-${sample_id}.h5"), emit: non_split_counts
     path  "versions.yml"                                                                                    , emit: versions
 
     when:
