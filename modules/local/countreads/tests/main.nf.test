@@ -21,13 +21,10 @@ nextflow_process {
                     "yes", // STRAND
                     "IntersectionStrict", // COUNT MODE
                     true, // PAIRED END
-                    true  // COUNT OVERLAPS
-                ]
-                input[1] = [
-                    [id: 'genome'],
+                    true, // COUNT OVERLAPS
                     file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds')
                 ]
-                input[2] = 2000000 // yield size
+                input[1] = 2000000 // yield size
                 """
             }
         }
@@ -54,13 +51,10 @@ nextflow_process {
                     "yes", // STRAND
                     "IntersectionStrict", // COUNT MODE
                     true, // PAIRED END
-                    true  // COUNT OVERLAPS
-                ]
-                input[1] = [
-                    [id: 'genome'],
+                    true, // COUNT OVERLAPS
                     file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds')
                 ]
-                input[2] = 2000000 // yield size
+                input[1] = 2000000 // yield size
                 """
             }
         }

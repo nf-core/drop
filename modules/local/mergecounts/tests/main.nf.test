@@ -18,17 +18,14 @@ nextflow_process {
                     [
                         file(params.pipelines_testdata_base_path + 'intermediates/countreads/HG00096.Rds', checkIfExists: true),
                         file(params.pipelines_testdata_base_path + 'intermediates/countreads/HG00103.Rds', checkIfExists: true)
-                    ]
+                    ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds'),
+                    ["test1", "test2"]
                 ])
                 input[1] = [
-                    [ id: 'genome' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds')
-                ]
-                input[2] = [
                     [ id: 'input' ],
                     file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv')
                 ]
-                input[3] = ["test1", "test2"]
                 """
             }
         }
@@ -53,17 +50,14 @@ nextflow_process {
                     [
                         file(params.pipelines_testdata_base_path + 'intermediates/countreads/HG00096.Rds', checkIfExists: true),
                         file(params.pipelines_testdata_base_path + 'intermediates/countreads/HG00103.Rds', checkIfExists: true)
-                    ]
+                    ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds'),
+                    ["test1", "test2"]
                 ])
                 input[1] = [
-                    [ id: 'genome' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.count_ranges.Rds')
-                ]
-                input[2] = [
                     [ id: 'input' ],
                     file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv')
                 ]
-                input[3] = ["test1", "test2"]
                 """
             }
         }

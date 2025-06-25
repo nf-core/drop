@@ -7,21 +7,25 @@ nextflow_workflow {
     test("Should run without failures") {
 
         when {
+            params {
+                outdir = "${outputDir}"
+            }
+
             workflow {
                 """
                 input[0] = Channel.of([
                     // File with NCBI chromosome notations
-                    [id:"HG00096"],
+                    [id:"HG00096", drop_group:"test1,test2,test3", drop_group_counts:[test1:1, test2:2]],
                     file(params.pipelines_testdata_base_path + "inputs/HG00096_ncbi.bam", checkIfExists:true),
                     file(params.pipelines_testdata_base_path + "inputs/HG00096_ncbi.bam.bai", checkIfExists:true)
                 ],
                 [
                     // File with UCSC chromosome notations
-                    [id:"HG00103"],
+                    [id:"HG00103", drop_group:"test2", drop_group_counts:[test1:1, test2:2]],
                     file(params.pipelines_testdata_base_path + "inputs/HG00103.bam", checkIfExists:true),
                     file(params.pipelines_testdata_base_path + "inputs/HG00103.bam.bai", checkIfExists:true)
                 ])
-                input[1] = Channel.value(["test3", "test4"])
+                input[1] = ["test1", "test2"]
                 """
             }
         }
@@ -30,7 +34,7 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                    workflow.out.merged_bam_stats[0].collect { file(it).text },
+                    getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore'),
                     workflow.out.versions
                 ).match() }
             )

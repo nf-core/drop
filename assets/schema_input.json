@@ -58,6 +58,7 @@
                 "pattern": "^\\S+$",
                 "errorMessage": "DROP group must be provided and cannot contain spaces",
                 "meta": ["drop_group"],
+                "default": "",
                 "description": "A comma-separated list of groups this sample belongs to. Must not contain spaces."
             },
             "PAIRED_END": {
@@ -101,8 +102,9 @@
             },
             "GENE_ANNOTATION": {
                 "type": "string",
-                "description": "Gene annotation version",
-                "meta": ["gene_annotation"]
+                "description": "Gene annotation version to use for this sample. All available versions will be used if this field is empty.",
+                "meta": ["gene_annotation"],
+                "default": ""
             },
             "GENOME": {
                 "type": "string",
@@ -136,6 +138,22 @@
                 "meta": "disease"
             }
         },
-        "required": ["RNA_ID", "DROP_GROUP", "RNA_BAM_FILE"]
-    }
+        "required": ["RNA_ID", "DROP_GROUP", "STRAND"],
+        "oneOf": [
+            {
+                "required": ["RNA_BAM_FILE"]
+            },
+            {
+                "required": ["GENE_COUNTS_FILE", "GENE_ANNOTATION"]
+            }
+        ]
+    },
+    "allOf": [
+        {
+            "uniqueEntries": ["RNA_ID"]
+        },
+        {
+            "uniqueEntries": ["DNA_ID"]
+        }
+    ]
 }

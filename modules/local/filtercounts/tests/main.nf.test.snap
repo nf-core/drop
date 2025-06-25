@@ -13,7 +13,7 @@
                 "1": [
                     "versions.yml:md5,d27f5c2ba6ecbdf591bb1fbd77608723"
                 ],
-                "txdb": [
+                "output": [
                     [
                         {
                             "id": "filter"
@@ -46,7 +46,7 @@
                 "1": [
                     "versions.yml:md5,d27f5c2ba6ecbdf591bb1fbd77608723"
                 ],
-                "txdb": [
+                "output": [
                     [
                         {
                             "id": "filter"

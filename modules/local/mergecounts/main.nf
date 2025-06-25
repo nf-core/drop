@@ -5,14 +5,11 @@ process MERGECOUNTS {
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/cb/cb2dbc5c5064366648e38ce9b36fe579eaa92c1980b3257c55d3314d330f0a97/data' :
-        'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-summarizedexperiment_r-base_r-data.table_r-dplyr:a612bfc9c2b3630e' }"
+        'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-summarizedexperiment_r-base_r-data.table_pruned:c96d6e13d480e41d' }"
 
     input:
-    // TODO: Filter out the exclude ID files in the subworkflow
-    tuple val(meta), path(counts)
-    tuple val(meta2), path(count_ranges)
-    tuple val(meta3), path(samplesheet) // Revisit this later, should be a samplesheet in CSV or TSV format
-    val(exclude_ids)
+    tuple val(meta), path(counts), path(count_ranges), val(external_counts_ids)
+    tuple val(meta2), path(samplesheet) // Revisit this later, should be a samplesheet in CSV or TSV format
 
     output:
     tuple val(meta), path("*.Rds")   , emit: output
