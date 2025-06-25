@@ -152,7 +152,8 @@ workflow DROP {
             input.aberrantsplicing,
             as_fraser_version,
             as_groups,
-            as_genes_to_test
+            as_genes_to_test,
+            file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
         )
         ch_versions = ch_versions.mix(ABERRANTSPLICING.out.versions)
     }

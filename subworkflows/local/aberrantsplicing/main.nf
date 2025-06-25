@@ -1,13 +1,15 @@
-include { COUNTRNA_INIT                 } from '../../../modules/local/countrna/init'
-include { COUNTRNA_SPLITREADSSAMPLEWISE } from '../../../modules/local/countrna/splitreadssamplewise'
-include { COUNTRNA_SPLITREADSMERGE      } from '../../../modules/local/countrna/splitreadsmerge'
+include { COUNTRNA_INIT                     } from '../../../modules/local/countrna/init'
+include { COUNTRNA_SPLITREADSSAMPLEWISE     } from '../../../modules/local/countrna/splitreadssamplewise'
+include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/countrna/splitreadsmerge'
+include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
 
 workflow ABERRANTSPLICING {
     take:
-    inputs         // queue channel: [ val(meta), path(bam), path(bai), path(vcf), path(tbi), path(gene_count), path(splice_count) ]
-    fraser_version // string:        Fraser version to use for aberrant splicing analysis
-    include_groups // list:          A list of groups to include in the aberrant splicing analysis
-    genes_to_test  // value channel: [ val(meta), path(genes_to_test) ]
+    inputs                      // queue channel: [ val(meta), path(bam), path(bai), path(vcf), path(tbi), path(gene_count), path(splice_count) ]
+    fraser_version              // string:        Fraser version to use for aberrant splicing analysis
+    include_groups              // list:          A list of groups to include in the aberrant splicing analysis
+    genes_to_test               // value channel: [ val(meta), path(genes_to_test) ]
+    aberrant_splicing_config_R  // file:          Path to the R script with configuration for aberrant splicing analysis
 
     main:
     def ch_versions = Channel.empty()
@@ -78,7 +80,7 @@ workflow ABERRANTSPLICING {
             [ meta, dataset, meta.drop_group ]
         },
         fraser_version,
-        file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true),
+        aberrant_splicing_config_R,
     )
     ch_versions = ch_versions.mix(COUNTRNA_INIT.out.versions.first())
 
@@ -109,7 +111,7 @@ workflow ABERRANTSPLICING {
         params.as_recount,
         params.genome,
         fraser_version,
-        file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
+        aberrant_splicing_config_R
     )
     ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSSAMPLEWISE.out.versions.first())
 
@@ -134,11 +136,36 @@ workflow ABERRANTSPLICING {
         params.as_min_expression_in_one_sample,
         params.as_recount,
         fraser_version,
-        file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
+        aberrant_splicing_config_R
     )
     ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSMERGE.out.versions.first())
 
-    COUNTRNA_SPLITREADSMERGE.out.cache.view()
+    //
+    // COUNTRNA_NONSPLITREADSSAMPLEWISE
+    //
+
+    def ch_nonsplitreadssamplewise_input = COUNTRNA_SPLITREADSMERGE.out.fdsobj
+        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+        .map { meta, fds, cache ->
+            [ meta.samples.tokenize(","), meta, fds, cache ]
+        }
+        .transpose(by:0)
+        .combine(ch_bams_per_sample, by:0)
+        .map { sample, meta, fds, cache, bam, bai ->
+            def new_meta = meta + [id:sample]
+            [ new_meta, fds, cache.resolve("raw-local-${meta.drop_group}/spliceSites_splitCounts.rds"), bam, bai, meta.drop_group, sample ]
+        }
+
+    COUNTRNA_NONSPLITREADSSAMPLEWISE(
+        ch_nonsplitreadssamplewise_input,
+        params.as_long_read,
+        params.as_recount,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(COUNTRNA_NONSPLITREADSSAMPLEWISE.out.versions.first())
+
+    COUNTRNA_NONSPLITREADSSAMPLEWISE.out.cache.view()
 
     emit:
     versions = ch_versions
