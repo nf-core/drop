@@ -22,7 +22,7 @@ res <- results(ods, padjCutoff = $padjCutoff,
 res[, foldChange := round(2^l2fc, 2)]
 
 # Save all the results and significant ones
-saveRDS(res, paste(prefix, ".Rds", sep=""))
+saveRDS(res, paste(prefix, "_all", ".Rds", sep=""))
 
 # Subset to significant results
 padj_cols <- grep("padjust", colnames(res), value=TRUE)

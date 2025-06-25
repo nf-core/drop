@@ -16,7 +16,6 @@
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
-                    "schema": "assets/schema_input.json",
                     "pattern": "^\\S+\\.(csv|tsv|json|yaml|yml)$",
                     "description": "Path to the samplesheet file used by the pipeline. The file should be a CSV, TSV, JSON or YAML file. Equivalent to the `sampleAnnotation` parameter in the snakemake pipeline.",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. See [usage docs](https://nf-co.re/drop/usage#samplesheet-input).",
@@ -103,8 +102,7 @@
                     "format": "file-path",
                     "exists": true,
                     "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.tsv$",
-                    "schema": "assets/schema_gene_annotation.json",
+                    "pattern": "^\\S+\\.(csv|tsv|json|yml|yaml)$",
                     "description": "Path to GTF gene annotations file. Equivalent to the `geneAnnotation` parameter in the snakemake pipeline, with the difference that a file depicting the kev-value pairs is expected here instead.",
                     "fa_icon": "far fa-file-code"
                 },
@@ -113,7 +111,7 @@
                     "format": "file-path",
                     "exists": true,
                     "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.tsv$",
+                    "pattern": "^\\S+\\.tsv(\\.gz)?$",
                     "description": "Full path of the file containing HPO terms. If missing, it reads it from our webserver. Refer to files-to-download. Equivalent to the `hpoFile` parameter in the snakemake pipeline.",
                     "fa_icon": "far fa-file-code"
                 }

@@ -62,20 +62,18 @@ workflow {
     def fai   = params.fai   ? Channel.value([id: 'fai'], file(params.fai))     : [[:], []]
     // TODO accomodate for the ncbi and ucsc fasta
 
-    def hpo_file = params.hpo_file ? Channel.value([id: 'hpo'], file(params.hpo_file)) : [[:], []]
+    def samplesheet_file = Channel.value([[id: 'samplesheet'], file(params.input)])
 
-    def gene_annotation = params.gene_annotation
-        ? samplesheetToList(params.gene_annotation).collectEntries { name, gtf -> [ name, file(gtf) ] }
-        : [:]
+    def hpo_file = params.hpo_file ? Channel.value([[id: 'hpo'], file(params.hpo_file)]) : [[:], []]
 
     def ec_gene_annotations = params.ec_gene_annotations ? params.ec_gene_annotations.tokenize(",") : []
     def ec_exclude_groups = params.ec_exclude_groups ? params.ec_exclude_groups.tokenize(",") : []
 
     def ae_groups = params.ae_groups ? params.ae_groups.tokenize(",") : []
-    def ae_genes_to_test = params.ae_genes_to_test ? Utils.readYamlFile(file(params.ae_genes_to_test)) : [:]
+    def ae_genes_to_test = params.ae_genes_to_test ? Channel.value([[id: 'genes_to_test'], file(params.ae_genes_to_test)]) : [[:], []]
 
     def as_groups = params.as_groups ? params.as_groups.tokenize(",") : []
-    def as_genes_to_test = params.as_genes_to_test ? Utils.readYamlFile(file(params.as_genes_to_test)) : [:]
+    def as_genes_to_test = params.as_genes_to_test ? Channel.value([[id: 'genes_to_test'], file(params.as_genes_to_test)]) : [[:], []]
 
     def mae_groups = params.mae_groups ? params.mae_groups.tokenize(",") : []
     def mae_qc_groups = params.mae_qc_groups ? params.mae_qc_groups.tokenize(",") : []
@@ -85,10 +83,11 @@ workflow {
     DROP (
         // Global parameters
         PIPELINE_INITIALISATION.out.samplesheet, // derived from --input
+        samplesheet_file,
         params.project_title,
         fasta,
         fai,
-        gene_annotation,
+        PIPELINE_INITIALISATION.out.gene_annotation,
         hpo_file,
 
         // Export counts parameters

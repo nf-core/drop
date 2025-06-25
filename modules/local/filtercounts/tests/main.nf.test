@@ -15,13 +15,10 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'filter' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/mergecounts/HG00096_HG00103_merged.Rds', checkIfExists: true)
-                ])
-                input[1] = [
-                    [ id: 'genome' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/mergecounts/HG00096_HG00103_merged.Rds', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db')
-                ]
-                input[2] = 1
+                ])
+                input[1] = 1
                 """
             }
         }
@@ -43,13 +40,10 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'filter' ],
-                    file(params.pipelines_testdata_base_path + 'intermediates/mergecounts/HG00096_HG00103_merged.Rds', checkIfExists: true)
-                ])
-                input[1] = [
-                    [ id: 'genome' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/mergecounts/HG00096_HG00103_merged.Rds', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db')
-                ]
-                input[2] = 1
+                ])
+                input[1] = 1
                 """
             }
         }
