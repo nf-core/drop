@@ -6,6 +6,7 @@ include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/count
 include { COUNTRNA_COLLECT                  } from '../../../modules/local/countrna/collect'
 include { FRASER_PSIVALUECALCULATION        } from '../../../modules/local/fraser/psivaluecalculation'
 include { FRASER_FILTEREXPRESSION           } from '../../../modules/local/fraser/filterexpression'
+include { FRASER_FITHYPERPARAMETERS         } from '../../../modules/local/fraser/fithyperparameters'
 
 workflow ABERRANTSPLICING {
     take:
@@ -263,7 +264,8 @@ workflow ABERRANTSPLICING {
             def splice_counts_group = splice_counts.get(meta.drop_group, [])
             def count_dirs = splice_counts_group.collect { it.file }.unique() // Prevent the same directory from being used multiple times
             def count_ids = splice_counts_group.collect { it.id }
-            [ meta, fds, count_dirs, count_ids, meta.drop_group ]
+            def new_meta = meta + [group_size: meta.group_size + count_ids.size(), samples: (meta.samples.tokenize(",") + count_ids).sort().join(",")]
+            [ new_meta, fds, count_dirs, count_ids, meta.drop_group ]
         }
 
     FRASER_FILTEREXPRESSION(
@@ -279,7 +281,24 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(FRASER_FILTEREXPRESSION.out.versions.first())
 
-    FRASER_FILTEREXPRESSION.out.fdsobj.view()
+    //
+    // FRASER_FITHYPERPARAMETERS
+    //
+
+    def ch_fithyperparameters_input = FRASER_FILTEREXPRESSION.out.fdsobj
+        .map { meta, fds -> [ meta, fds, meta.drop_group ] }
+
+    FRASER_FITHYPERPARAMETERS(
+        ch_fithyperparameters_input,
+        params.random_seed,
+        params.as_implementation,
+        params.as_max_tested_dimension_proportion,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(FRASER_FITHYPERPARAMETERS.out.versions.first())
+
+    FRASER_FITHYPERPARAMETERS.out.fdsobj.view()
 
     emit:
     versions = ch_versions
