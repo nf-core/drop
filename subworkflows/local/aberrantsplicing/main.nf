@@ -7,6 +7,7 @@ include { COUNTRNA_COLLECT                  } from '../../../modules/local/count
 include { FRASER_PSIVALUECALCULATION        } from '../../../modules/local/fraser/psivaluecalculation'
 include { FRASER_FILTEREXPRESSION           } from '../../../modules/local/fraser/filterexpression'
 include { FRASER_FITHYPERPARAMETERS         } from '../../../modules/local/fraser/fithyperparameters'
+include { FRASER_FITAUTOENCODER             } from '../../../modules/local/fraser/fitautoencoder'
 
 workflow ABERRANTSPLICING {
     take:
@@ -298,7 +299,22 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(FRASER_FITHYPERPARAMETERS.out.versions.first())
 
-    FRASER_FITHYPERPARAMETERS.out.fdsobj.view()
+    //
+    // FRASER_FITAUTOENCODER
+    //
+
+    def ch_fitautoencoder_input = FRASER_FITHYPERPARAMETERS.out.fdsobj
+        .map { meta, fds -> [ meta, fds, meta.drop_group ] }
+
+    FRASER_FITAUTOENCODER(
+        ch_fitautoencoder_input,
+        params.as_implementation,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(FRASER_FITAUTOENCODER.out.versions.first())
+
+    FRASER_FITAUTOENCODER.out.fdsobj.view()
 
     emit:
     versions = ch_versions
