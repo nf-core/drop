@@ -3,6 +3,7 @@ include { COUNTRNA_SPLITREADSSAMPLEWISE     } from '../../../modules/local/count
 include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/countrna/splitreadsmerge'
 include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
 include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
+include { COUNTRNA_COLLECT                  } from '../../../modules/local/countrna/collect'
 
 workflow ABERRANTSPLICING {
     take:
@@ -193,8 +194,30 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(COUNTRNA_NONSPLITREADSMERGE.out.versions.first())
 
-    COUNTRNA_NONSPLITREADSMERGE.out.cache.view()
+    //
+    // COUNTRNA_COLLECT
+    //
 
+    def ch_collect_input = COUNTRNA_NONSPLITREADSMERGE.out.fdsobj
+        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+        .map { meta, fds, cache ->
+            [
+                meta,
+                fds,
+                cache.resolve("raw-local-${meta.drop_group}/gRanges_splitCounts.rds"),
+                cache.resolve("raw-local-${meta.drop_group}/spliceSites_splitCounts.rds"),
+                meta.drop_group
+            ]
+        }
+
+    COUNTRNA_COLLECT(
+        ch_collect_input,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(COUNTRNA_COLLECT.out.versions.first())
+
+    COUNTRNA_COLLECT.out.fdsobj.view()
     emit:
     versions = ch_versions
 }
