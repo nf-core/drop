@@ -4,6 +4,7 @@ include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/count
 include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
 include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
 include { COUNTRNA_COLLECT                  } from '../../../modules/local/countrna/collect'
+include { FRASER_PSIVALUECALCULATION        } from '../../../modules/local/fraser/psivaluecalculation'
 
 workflow ABERRANTSPLICING {
     take:
@@ -217,7 +218,22 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(COUNTRNA_COLLECT.out.versions.first())
 
-    COUNTRNA_COLLECT.out.fdsobj.view()
+    //
+    // FRASER_PSIVALUECALCULATION
+    //
+
+    def ch_psivaluecalculation_input = COUNTRNA_COLLECT.out.fdsobj
+        .map { meta, fds -> [ meta, fds, meta.drop_group ] }
+
+    FRASER_PSIVALUECALCULATION(
+        ch_psivaluecalculation_input,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(FRASER_PSIVALUECALCULATION.out.versions.first())
+
+    FRASER_PSIVALUECALCULATION.out.cache.view()
+
     emit:
     versions = ch_versions
 }
