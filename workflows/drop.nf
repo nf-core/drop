@@ -112,7 +112,7 @@ workflow DROP {
         .join(preprocess.counts, failOnDuplicate:true, failOnMismatch:true)
         .multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
             abberantexpression: [ meta, rna_bam, rna_bai, gene_counts ]
-            aberrantsplicing: [ meta, rna_bam, rna_bai ]
+            aberrantsplicing: [ meta, rna_bam, rna_bai, splice_counts ]
             // TODO: Create channels for each subworkflow here
         }
 
@@ -150,6 +150,7 @@ workflow DROP {
     if (as_run) {
         ABERRANTSPLICING(
             input.aberrantsplicing,
+            file(params.input),
             as_fraser_version,
             as_groups,
             as_genes_to_test,

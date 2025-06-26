@@ -16,8 +16,8 @@
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
-                    "pattern": "^\\S+\\.(csv|tsv|json|yaml|yml)$",
-                    "description": "Path to the samplesheet file used by the pipeline. The file should be a CSV, TSV, JSON or YAML file. Equivalent to the `sampleAnnotation` parameter in the snakemake pipeline.",
+                    "pattern": "^\\S+\\.tsv$",
+                    "description": "Path to the samplesheet file used by the pipeline. The file should be a TSV file. Equivalent to the `sampleAnnotation` parameter in the snakemake pipeline.",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. See [usage docs](https://nf-co.re/drop/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
                 },

@@ -5,10 +5,12 @@ include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/count
 include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
 include { COUNTRNA_COLLECT                  } from '../../../modules/local/countrna/collect'
 include { FRASER_PSIVALUECALCULATION        } from '../../../modules/local/fraser/psivaluecalculation'
+include { FRASER_FILTEREXPRESSION           } from '../../../modules/local/fraser/filterexpression'
 
 workflow ABERRANTSPLICING {
     take:
-    inputs                      // queue channel: [ val(meta), path(bam), path(bai), path(vcf), path(tbi), path(gene_count), path(splice_count) ]
+    inputs                      // queue channel: [ val(meta), path(bam), path(bai), path(splice_count) ]
+    samplesheet                 // file:          The pipeline samplesheet in TSV format
     fraser_version              // string:        Fraser version to use for aberrant splicing analysis
     include_groups              // list:          A list of groups to include in the aberrant splicing analysis
     genes_to_test               // value channel: [ val(meta), path(genes_to_test) ]
@@ -17,15 +19,22 @@ workflow ABERRANTSPLICING {
     main:
     def ch_versions = Channel.empty()
 
-    def inputs_to_analyse = Channel.empty()
+    def inputs_to_analyse_unfiltered = Channel.empty()
     if (include_groups) {
         // Filter out the BAM files that don't have a group in the include_groups list
-        inputs_to_analyse = inputs.filter { it ->
+        inputs_to_analyse_unfiltered = inputs.filter { it ->
             it[0].drop_group.tokenize(",").intersect(include_groups).size() > 0
         }
     } else {
-        inputs_to_analyse = inputs
+        inputs_to_analyse_unfiltered = inputs
     }
+
+    // Filter out samples that have external splice counts
+    def inputs_to_analyse = inputs_to_analyse_unfiltered
+        .filter { _meta, _bam, _bai, splice_counts -> !splice_counts }
+        .map { meta, bam, bai, _splice_counts ->
+            [ meta, bam, bai ]
+        }
 
     //
     // Create a datasets file
@@ -232,7 +241,45 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(FRASER_PSIVALUECALCULATION.out.versions.first())
 
-    FRASER_PSIVALUECALCULATION.out.cache.view()
+    //
+    // FRASER_FILTEREXPRESSION
+    //
+
+    def splice_counts = [:]
+
+    samplesheet.splitCsv(header:true, sep:"\t")
+        .each { row ->
+            if (!row.SPLICE_COUNTS_DIR) {
+                return
+            }
+            def groups = row.DROP_GROUP.tokenize(",")
+            groups.each { group ->
+                splice_counts[group] = splice_counts.get(group, []) + [[id:row.RNA_ID, file:row.SPLICE_COUNTS_DIR]]
+            }
+        }
+
+    def ch_filterexpression_input = FRASER_PSIVALUECALCULATION.out.fdsobj
+        .map { meta, fds ->
+            def splice_counts_group = splice_counts.get(meta.drop_group, [])
+            def count_dirs = splice_counts_group.collect { it.file }.unique() // Prevent the same directory from being used multiple times
+            def count_ids = splice_counts_group.collect { it.id }
+            [ meta, fds, count_dirs, count_ids, meta.drop_group ]
+        }
+
+    FRASER_FILTEREXPRESSION(
+        ch_filterexpression_input,
+        Channel.value([[id:'samplesheet'], samplesheet]),
+        params.as_min_expression_in_one_sample,
+        params.as_quantile_for_filtering,
+        params.as_quantile_min_expression,
+        params.as_min_delta_psi,
+        !params.as_skip_filter,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(FRASER_FILTEREXPRESSION.out.versions.first())
+
+    FRASER_FILTEREXPRESSION.out.fdsobj.view()
 
     emit:
     versions = ch_versions
