@@ -9,10 +9,21 @@ process EXPRESSIONCOUNTING_SUMMARY {
 
     input:
     tuple val(meta), path(ods)
-    val(bam_cov)
+    tuple val(meta2), val(bam_cov)
 
     output:
-    path  "versions.yml"                      , emit: versions
+    tuple val(meta), path(sample_count_mqc.tsv)               , emit: sample_mqc
+    tuple val(meta), path(read_counts_mqc.png)                , emit: reads_mqc_1
+    tuple val(meta), path(mapped_vs_counted_mqc.png)          , emit: reads_mqc_2
+    tuple val(meta), path(size_factors_mqc.png)               , emit: reads_mqc_3
+    tuple val(meta), path(reads_statistics_mqc.tsv)           , emit: reads_mqc_4
+    tuple val(meta), path(meanCounts_mqc.png)                 , emit: filtering_mqc_1
+    tuple val(meta), path(expressedGenes_mqc.png)             , emit: filtering_mqc_2
+    tuple val(meta), path(expressed_genes_mqc.tsv)            , emit: filtering_mqc_3
+    tuple val(meta), path(expression_sex_mqc.tsv)             , emit: sex_mqc_1
+    tuple val(meta), path(sex_mathced_mqc.png)                , emit: sex_mqc_2
+
+    path  "versions.yml"                            , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
