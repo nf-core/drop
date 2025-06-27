@@ -9,6 +9,7 @@ include { FRASER_FILTEREXPRESSION           } from '../../../modules/local/frase
 include { FRASER_FITHYPERPARAMETERS         } from '../../../modules/local/fraser/fithyperparameters'
 include { FRASER_FITAUTOENCODER             } from '../../../modules/local/fraser/fitautoencoder'
 include { FRASER_ANNOTATEGENES              } from '../../../modules/local/fraser/annotategenes'
+include { FRASER_CALCULATIONSTATS           } from '../../../modules/local/fraser/calculationstats'
 
 workflow ABERRANTSPLICING {
     take:
@@ -337,7 +338,25 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(FRASER_ANNOTATEGENES.out.versions.first())
 
-    FRASER_ANNOTATEGENES.out.fdsobj.view()
+    //
+    // FRASER_CALCULATIONSTATS
+    //
+
+    def ch_calculationstats_input = FRASER_ANNOTATEGENES.out.fdsobj
+        .map { meta, fds ->
+            [ meta, fds, meta.drop_group, meta.annotation, meta.samples.tokenize(",") ]
+        }
+
+    FRASER_CALCULATIONSTATS(
+        ch_calculationstats_input,
+        genes_to_test,
+        fraser_version,
+        aberrant_splicing_config_R,
+        file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true),
+    )
+    ch_versions = ch_versions.mix(FRASER_CALCULATIONSTATS.out.versions.first())
+
+    FRASER_CALCULATIONSTATS.out.fdsobj.view()
 
     emit:
     versions = ch_versions
