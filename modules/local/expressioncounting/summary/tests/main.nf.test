@@ -17,8 +17,10 @@ nextflow_process {
                     [ id: 'test' ],
                     [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
                 ])
-                input[1] = 'autoencoder'
-                input[2] = 3
+                input[1] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
+                ])
                 """
             }
         }
@@ -44,8 +46,10 @@ nextflow_process {
                     [ id: 'test' ],
                     [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
                 ])
-                input[1] = 'autoencoder'
-                input[2] = 3
+                input[1] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
+                ])
                 """
             }
         }
