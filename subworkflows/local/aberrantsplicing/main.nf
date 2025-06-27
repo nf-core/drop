@@ -10,6 +10,7 @@ include { FRASER_FITHYPERPARAMETERS         } from '../../../modules/local/frase
 include { FRASER_FITAUTOENCODER             } from '../../../modules/local/fraser/fitautoencoder'
 include { FRASER_ANNOTATEGENES              } from '../../../modules/local/fraser/annotategenes'
 include { FRASER_CALCULATIONSTATS           } from '../../../modules/local/fraser/calculationstats'
+include { FRASER_EXTRACTRESULTS             } from '../../../modules/local/fraser/extractresults'
 
 workflow ABERRANTSPLICING {
     take:
@@ -20,6 +21,7 @@ workflow ABERRANTSPLICING {
     fraser_version              // string:        Fraser version to use for aberrant splicing analysis
     include_groups              // list:          A list of groups to include in the aberrant splicing analysis
     genes_to_test               // value channel: [ val(meta), path(genes_to_test) ]
+    hpo_file                    // value channel: [ val(meta), path(hpo_file) ]
     aberrant_splicing_config_R  // file:          Path to the R script with configuration for aberrant splicing analysis
 
     main:
@@ -356,7 +358,31 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(FRASER_CALCULATIONSTATS.out.versions.first())
 
-    FRASER_CALCULATIONSTATS.out.fdsobj.view()
+    //
+    // FRASER_EXTRACTRESULTS
+    //
+
+    def ch_extractresults_input = FRASER_CALCULATIONSTATS.out.fdsobj
+        .map { meta, fds ->
+            [meta.annotation, meta, fds]
+        }
+        .combine(txdb.map { meta, txdb_ -> [meta.id, txdb_] }, by:0)
+        .map { annotation, meta, fds, txdb_ ->
+            [meta, fds, txdb_, meta.drop_group, annotation, meta.samples.tokenize(",")]
+        }
+
+    FRASER_EXTRACTRESULTS(
+        ch_extractresults_input,
+        Channel.value([[id:'samplesheet'], samplesheet]),
+        hpo_file,
+        params.as_padj_cutoff,
+        params.as_delta_psi_cutoff,
+        params.genome,
+        fraser_version,
+        aberrant_splicing_config_R,
+        file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
+    )
+    ch_versions = ch_versions.mix(FRASER_EXTRACTRESULTS.out.versions.first())
 
     emit:
     versions = ch_versions
