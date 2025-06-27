@@ -1,6 +1,36 @@
 #!/usr/bin/env Rscript
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-expression-pipeline/Counting/Summary.R
 
+# --- helper to emit a MultiQC table with metadata header to replace DT::datatable --- #
+write_mqc_table <- function(df= NULL, outf,
+                            id, section_name, description = "",
+                            format = "tsv", plot_type = "table",
+                            sep = "\t", quote = FALSE, html_text = NULL) {
+    # build the header lines
+    header <- c(
+        sprintf('# id: "%s"',         id),
+        sprintf('# section_name: "%s"', section_name),
+        sprintf('# description: "%s"',  description),
+        sprintf('# format: "%s"',       format),
+        sprintf('# plot_type: "%s"',    plot_type),
+        html_text
+    )
+    # write once (overwrites if exists), then append the table
+    writeLines(header, con = outf)
+
+    if (!is.null(df)) {
+        write.table(
+            df,
+            file      = outf,
+            sep       = sep,
+            row.names = FALSE,
+            col.names = TRUE,
+            append    = TRUE,
+            quote     = quote
+        )
+    }
+}
+
 suppressPackageStartupMessages({
     library(OUTRIDER)
     library(SummarizedExperiment)
@@ -29,6 +59,23 @@ cnts_mtx <- counts(ods, normalized = F)
 #' The `Mapped vs Counted Reads` plot does not include external counts.
 #' Consider removing samples with too low or too high size factors.
 #'
+n_local    <- sum(!as.logical(colData(ods)$isExternal))
+n_external <- sum( as.logical(colData(ods)$isExternal))
+sample_count_df <- data.frame(
+    sample_type = c("Local", "External"),
+    count       = c(n_local, n_external),
+    stringsAsFactors = FALSE
+)
+
+# multiqc table
+write_mqc_table(
+    df            = sample_count_df,
+    outf          = file.path("sample_count_mqc.tsv"),
+    id            = "samples_count",
+    section_name  = "Sample Counts",
+    description   = "Total number of local vs. external samples."
+)
+
 bam_coverage <- fread("$bam_cov")
 bam_coverage[, RNA_ID := as.character(sampleID)]
 bam_coverage[, sampleID := NULL]
@@ -50,7 +97,7 @@ if (has_external == T) {
         geom_point(size = 3, show.legend = has_external) + theme_cowplot() + background_grid() +
         labs(title = "Obtained Read Counts", x = "Sample Rank", y = "Counted Reads") +
         ylim(c(0, NA)) + scale_color_brewer(palette = "Dark2")
-    p_depth
+    ggsave("read_counts_mqc.png", p_depth, width = 5, height = 3.75, dpi = 196, bg = "white")
 }
 
 
@@ -58,19 +105,29 @@ p_comp <- ggplot(coverage_dt[isExternal == F], aes(x = total_count, y = read_cou
     geom_point(size = 3, show.legend = has_external, color = "#1B9E77") + theme_cowplot() +
     background_grid() + labs(title = "Total mapped vs. Counted Reads", x = "Mapped Reads",
     y = "Counted Reads") + xlim(c(0, NA)) + ylim(c(0, NA))
-p_comp
+ggsave("mapped_vs_counted_mqc.png", p_comp, width = 5, height = 3.75, dpi = 196, bg = "white")
+
 # ggExtra::ggMarginal(p_comp, type = 'histogram') # could be a nice add-on
 
 p_sf <- ggplot(coverage_dt, aes(sf_rank, size_factors, col = isExternal)) + geom_point(size = 3,
     show.legend = has_external) + ylim(c(0, NA)) + theme_cowplot() + background_grid() +
     labs(title = "Size Factors", x = "Sample Rank", y = "Size Factors") + scale_color_brewer(palette = "Dark2")
 
-p_sf
+ggsave("size_factors_mqc.png", p_sf, width = 5, height = 3.75, dpi = 196, bg = "white")
 
 setnames(coverage_dt, old = c("total_count", "read_count", "size_factors"), new = c("Reads Mapped",
     "Reads Counted", "Size Factors"))
-DT::datatable(coverage_dt[, .(RNA_ID, `Reads Mapped`, `Reads Counted`, `Size Factors`)][order(`Reads Mapped`)],
-    caption = "Reads summary statistics")
+
+# Reads summary statistics
+reads_statistics <- coverage_dt[, .(RNA_ID, `Reads Mapped`, `Reads Counted`, `Size Factors`)][order(`Reads Mapped`)]
+# multiqc table
+write_mqc_table(
+    df            = reads_statistics,
+    outf          = file.path("reads_statistics_mqc.tsv"),
+    id            = "reads_summary",
+    section_name  = "Reads Summary Statistics",
+    description   = "Reads mapped, counted and size factors per RNA sample."
+)
 
 #' # Filtering
 #' **local**: A pre-filtered summary of counts using only the local (from BAM) counts. Omitted if no external counts
@@ -118,7 +175,7 @@ p_dens <- ggplot(filter_dt, aes(x = median_counts, col = filter)) + geom_density
     legend.background = element_rect(color = NA))
 
 #+ meanCounts, fig.height=6, fig.width=12
-plot_grid(p_hist, p_dens)
+cowplot::save_plot("meanCounts_mqc.png", plot_grid(p_hist, p_dens), base_height = 6, base_width = 12, bg = "white")
 
 #' ### Expressed Genes
 exp_genes_cols <- c(Rank = "expressedGenesRank", `Expressed\ngenes` = "expressedGenes",
@@ -129,15 +186,26 @@ expressed_genes <- as.data.table(colData(ods)[, exp_genes_cols], keep.rownames =
 colnames(expressed_genes) <- c("RNA_ID", names(exp_genes_cols))
 
 #+ expressedGenes, fig.height=6, fig.width=8
-plotExpressedGenes(ods) + theme_cowplot() + background_grid(major = "y") + geom_point(data = melt(expressed_genes,
+p_expressedGenes <- plotExpressedGenes(ods) + theme_cowplot() + background_grid(major = "y") + geom_point(data = melt(expressed_genes,
     id.vars = c("RNA_ID", "Rank", "Is External")), aes(Rank, value, col = variable,
     shape = `Is External`), show.legend = has_external)
+ggsave("expressedGenes_mqc.png", p_expressedGenes, width = 8, height = 6, dpi = 196, bg = "white")
 
 if (has_external) {
-    DT::datatable(expressed_genes[order(Rank)], rownames = F)
+    expressed_genes_df <- expressed_genes[order(Rank)]
 } else {
-    DT::datatable(expressed_genes[order(Rank), -"Is External"], rownames = F)
+    expressed_genes_df <- expressed_genes[order(Rank),-"Is External"]
 }
+
+colnames(expressed_genes_df) <- gsub("\n", " ", colnames(expressed_genes_df))
+# multiqc table
+write_mqc_table(
+    df            = expressed_genes_df,
+    outf          = file.path("expressed_genes_mqc.tsv"),
+    id            = "expressed_genes",
+    section_name  = "Expressed Genes",
+    description   = ""
+)
 
 #' **Considerations:**
 #' The verifying of the samples sex is performed by comparing the expression levels of
@@ -149,7 +217,14 @@ if (has_external) {
 # Get sex column and proceed if it exists
 sex_idx <- which("SEX" == toupper(colnames(colData(ods))))
 if (isEmpty(sex_idx)) {
-    print("Sex column not found in sample annotation")
+    # multiqc table
+    write_mqc_table(
+        outf          = file.path("expression_sex_mqc.tsv"),
+        id            = "sex",
+        section_name  = "Sex match",
+        plot_type     = "html",
+        html_text     = 'Sex column not found in sample annotation'
+    )
 } else {
 
     # Verify if both XIST and UTY were counted
@@ -164,7 +239,15 @@ if (isEmpty(sex_idx)) {
     uty_idx <- grep(uty_id, rownames(ods))
 
     if (isEmpty(xist_idx) | isEmpty(uty_idx)) {
-        print("Either XIST or UTY is not expressed")
+        # multiqc table
+        write_mqc_table(
+            outf          = file.path("expression_sex_mqc.tsv"),
+            id            = "sex",
+            section_name  = "Sex match",
+            plot_type     = "html",
+            html_text     = 'Either XIST or UTY is not expressed'
+        )
+
     } else {
 
         sex_counts <- counts(ods)[c(xist_idx, uty_idx), ]
@@ -191,9 +274,16 @@ if (isEmpty(sex_idx)) {
             NA)) + scale_alpha_manual(values = c(1, 0.1)) + theme_cowplot() + background_grid(major = "xy",
             minor = "xy") + annotation_logticks(sides = "bl") + labs(color = "Sex",
             shape = "Predicted sex", alpha = "Matches sex")
-        plot(g)
+        ggsave("sex_matched_mqc.png", g, width = 5, height = 3.75, dpi = 196, bg = "white")
 
-        DT::datatable(sex_dt[match_sex == F], caption = "Sex mismatches")
+        # multiqc table
+        write_mqc_table(
+            df            = sex_dt[match_sex == F],
+            outf          = file.path("expression_sex_mqc.tsv"),
+            id            = "sex",
+            section_name  = "Sex match",
+            description   = "Sex mismatches"
+        )
 
         # Write table
         fwrite(sex_dt, gsub("ods_unfitted.Rds", "xist_uty.tsv", "$ods"), sep = "\t",
