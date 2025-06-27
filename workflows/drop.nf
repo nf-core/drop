@@ -150,6 +150,8 @@ workflow DROP {
     if (as_run) {
         ABERRANTSPLICING(
             input.aberrantsplicing,
+            PREPROCESSGENEANNOTATION.out.txdb,
+            PREPROCESSGENEANNOTATION.out.gene_name_mapping,
             file(params.input),
             as_fraser_version,
             as_groups,

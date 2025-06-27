@@ -8,10 +8,13 @@ include { FRASER_PSIVALUECALCULATION        } from '../../../modules/local/frase
 include { FRASER_FILTEREXPRESSION           } from '../../../modules/local/fraser/filterexpression'
 include { FRASER_FITHYPERPARAMETERS         } from '../../../modules/local/fraser/fithyperparameters'
 include { FRASER_FITAUTOENCODER             } from '../../../modules/local/fraser/fitautoencoder'
+include { FRASER_ANNOTATEGENES              } from '../../../modules/local/fraser/annotategenes'
 
 workflow ABERRANTSPLICING {
     take:
     inputs                      // queue channel: [ val(meta), path(bam), path(bai), path(splice_count) ]
+    txdb                        // queue channel: The TxDb object for the genome for each gene annotation
+    gene_name_mapping           // queue channel: The gene name mapping file in TSV format for each gene annotation
     samplesheet                 // file:          The pipeline samplesheet in TSV format
     fraser_version              // string:        Fraser version to use for aberrant splicing analysis
     include_groups              // list:          A list of groups to include in the aberrant splicing analysis
@@ -314,7 +317,27 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(FRASER_FITAUTOENCODER.out.versions.first())
 
-    FRASER_FITAUTOENCODER.out.fdsobj.view()
+    //
+    // FRASER_ANNOTATEGENES
+    //
+
+    def ch_gene_annotations = txdb.join(gene_name_mapping, failOnMismatch: true, failOnDuplicate: true)
+
+    def ch_annotategenes_input = FRASER_FITAUTOENCODER.out.fdsobj
+        .combine(ch_gene_annotations)
+        .map { meta, fds, meta_annotations, txdb_, gene_name_mapping_ ->
+            def new_meta = meta + [id:"${meta.id}.${meta_annotations.id}", annotation:meta_annotations.id]
+            [ new_meta, fds, txdb_, gene_name_mapping_, meta.drop_group, meta_annotations.id ]
+        }
+
+    FRASER_ANNOTATEGENES(
+        ch_annotategenes_input,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(FRASER_ANNOTATEGENES.out.versions.first())
+
+    FRASER_ANNOTATEGENES.out.fdsobj.view()
 
     emit:
     versions = ch_versions
