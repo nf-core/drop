@@ -74,6 +74,7 @@ workflow ABERRANTSPLICING {
             [ "${group}.tsv", lines.join("\n") ]
         }
 
+    // Copy the datasets files to the output directory
     ch_group_datasets.subscribe { dataset ->
             dataset.copyTo("${params.outdir}/processed_data/aberrant_splicing/annotations/${dataset.name}")
         }
