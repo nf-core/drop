@@ -70,8 +70,12 @@ workflow ABERRANTSPLICING {
             }
             return [group, header + lines.sort()]
         }
-        .collectFile(newLine:true, storeDir:"${params.outdir}/processed_data/aberrant_splicing/annotations/") { group, lines ->
+        .collectFile(newLine:true, storeDir:"${workflow.workDir}/aberrant_splicing_datasets/") { group, lines ->
             [ "${group}.tsv", lines.join("\n") ]
+        }
+
+    ch_group_datasets.subscribe { dataset ->
+            dataset.copyTo("${params.outdir}/processed_data/aberrant_splicing/annotations/${dataset.name}")
         }
 
     //
