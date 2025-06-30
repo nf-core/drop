@@ -31,7 +31,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("fraser"),
                         file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db'),
                         file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv'),
                         "fraser",
@@ -45,7 +45,7 @@ nextflow_process {
         }
 
         then {
-            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            def file_list = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert snapshot(
@@ -68,7 +68,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("fraser"),
                         file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db'),
                         file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv'),
                         "fraser",

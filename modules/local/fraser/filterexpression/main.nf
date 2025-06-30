@@ -9,7 +9,7 @@ process FRASER_FILTEREXPRESSION {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "savedObjects"), path(splice_counts_dirs), val(external_count_ids), val(drop_group)
+    tuple val(meta), path(fds, stageAs: "savedObjects/*"), path(splice_counts_dirs), val(external_count_ids), val(drop_group)
     tuple val(meta2), path(samplesheet)
     val(min_expressions_in_one_sample)
     val(quantile_filtering)
@@ -20,8 +20,9 @@ process FRASER_FILTEREXPRESSION {
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects", includeInputs: true), emit: fdsobj
-    path  "versions.yml"                                      , emit: versions
+    tuple val(meta), path("savedObjects/raw-${drop_group}", includeInputs: true), emit: fdsobj_raw
+    tuple val(meta), path("savedObjects/${drop_group}", includeInputs: true)    , emit: fdsobj
+    path  "versions.yml"                                                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -32,6 +33,8 @@ process FRASER_FILTEREXPRESSION {
     stub:
     """
     #!/usr/bin/env Rscript
+    dir.create("savedObjects/raw-${drop_group}", recursive = TRUE)
+    dir.create("savedObjects/${drop_group}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(
