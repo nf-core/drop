@@ -17,7 +17,7 @@ annotation <- "$annotation_id"
 dataset    <- "$drop_group"
 fdsFile    <- "$fds"
 workingDir <- "./"
-outputDir  <- "results"
+outputDir  <- "./"
 
 register(MulticoreParam($task.cpus))
 # Limit number of threads for DelayedArray operations
