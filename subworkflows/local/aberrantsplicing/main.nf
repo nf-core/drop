@@ -177,7 +177,7 @@ workflow ABERRANTSPLICING {
         .combine(ch_bams_per_sample, by:0)
         .map { sample, meta, fds, cache, bam, bai ->
             def new_meta = meta + [id:sample]
-            [ new_meta, fds, cache.resolve("raw-local-${meta.drop_group}/spliceSites_splitCounts.rds"), bam, bai, meta.drop_group, sample ]
+            [ new_meta, fds, cache.resolve("spliceSites_splitCounts.rds"), bam, bai, meta.drop_group, sample ]
         }
 
     COUNTRNA_NONSPLITREADSSAMPLEWISE(
@@ -204,7 +204,7 @@ workflow ABERRANTSPLICING {
         .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, non_split_counts, fds, cache, bams, bais ->
 
-            [ meta, fds, cache.resolve("raw-local-${meta.drop_group}/gRanges_NonSplitCounts.rds"), non_split_counts, bams, bais, meta.drop_group ]
+            [ meta, fds, cache.resolve("gRanges_NonSplitCounts.rds"), non_split_counts, bams, bais, meta.drop_group ]
         }
 
     COUNTRNA_NONSPLITREADSMERGE(
@@ -226,8 +226,8 @@ workflow ABERRANTSPLICING {
             [
                 meta,
                 fds,
-                cache.resolve("raw-local-${meta.drop_group}/gRanges_splitCounts.rds"),
-                cache.resolve("raw-local-${meta.drop_group}/spliceSites_splitCounts.rds"),
+                cache.resolve("gRanges_splitCounts.rds"),
+                cache.resolve("spliceSites_splitCounts.rds"),
                 meta.drop_group
             ]
         }
