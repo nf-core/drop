@@ -2,7 +2,68 @@
     "drop demo - ods_unfitted.Rds": {
         "content": [
             [
-                
+                [
+                    {
+                        "id": "test"
+                    },
+                    "sample_count_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "mapped_vs_counted_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "size_factors_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "reads_statistics_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "meanCounts_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "expressedGenes_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "expressed_genes_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "expression_sex_mqc.tsv"
+                ]
             ],
             [
                 "versions.yml:md5,c83cac7e44c4c2b296c8b88d07921d6e"
@@ -12,7 +73,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.3"
         },
-        "timestamp": "2025-07-01T14:26:36.587962849"
+        "timestamp": "2025-07-01T16:48:15.738126509"
     },
     "homo_sapiens - gtf - stub": {
         "content": [
