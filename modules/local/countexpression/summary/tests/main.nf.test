@@ -29,7 +29,14 @@ nextflow_process {
             assertAll (
                 { assert process.success },
                 { assert snapshot(
-                    process.out.ods_fitted.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.sample_mqc.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.reads_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.reads_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.reads_mqc_4.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.filtering_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.filtering_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.filtering_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.sex_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
                     process.out.versions
                 ).match() }
             )
