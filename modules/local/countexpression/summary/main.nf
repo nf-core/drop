@@ -4,7 +4,7 @@ process COUNTEXPRESSION_SUMMARY {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/50/5097fb24b3ed5eb468bef89999c1d088dba8acea324c6d4b1451bc589684e2dc/data' :
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/ad/ad385f03c087514a33d3c211ea4e4a411175575a4a065e26f8dedcd98ca526af/data' :
         'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:1206f390222d7451' }"
 
     input:
