@@ -59,8 +59,8 @@ cnts_mtx <- counts(ods, normalized = F)
 #' The `Mapped vs Counted Reads` plot does not include external counts.
 #' Consider removing samples with too low or too high size factors.
 #'
-n_local    <- sum(!as.logical(colData(ods)$isExternal))
-n_external <- sum( as.logical(colData(ods)$isExternal))
+n_local    <- sum(!as.logical(colData(ods)\$isExternal))
+n_external <- sum( as.logical(colData(ods)\$isExternal))
 sample_count_df <- data.frame(
     sample_type = c("Local", "External"),
     count       = c(n_local, n_external),
