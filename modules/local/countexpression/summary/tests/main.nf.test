@@ -1,0 +1,71 @@
+nextflow_process {
+
+    name "Test Process COUNTEXPRESSION_SUMMARY"
+    script "../main.nf"
+    process "COUNTEXPRESSION_SUMMARY"
+
+    tag "modules"
+    tag "modules_local"
+    tag "COUNTEXPRESSION_SUMMARY"
+
+    test("drop demo - ods_unfitted.Rds") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
+                ])
+                input[1] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.sample_mqc.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.reads_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.reads_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.reads_mqc_4.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.filtering_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.filtering_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.filtering_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.sex_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+        test("homo_sapiens - gtf - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
+                ])
+                input[1] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
+                ])
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
