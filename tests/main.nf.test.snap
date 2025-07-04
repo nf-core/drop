@@ -63,6 +63,14 @@
                 "processed_data/aberrant_splicing/datasets/cache/otherCounts/raw-local-fraser_external/otherCounts-HG00149.h5",
                 "processed_data/aberrant_splicing/datasets/cache/otherCounts/raw-local-fraser_external/otherCounts-HG00150.h5",
                 "processed_data/aberrant_splicing/datasets/cache/otherCounts/raw-local-fraser_external/otherCounts-HG00176.h5",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser/gRanges_NonSplitCounts.rds",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser/gRanges_splitCounts.rds",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser/gRanges_splitCounts.tsv.gz",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser/spliceSites_splitCounts.rds",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser_external/gRanges_NonSplitCounts.rds",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser_external/gRanges_splitCounts.rds",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser_external/gRanges_splitCounts.tsv.gz",
+                "processed_data/aberrant_splicing/datasets/cache/raw-local-fraser_external/spliceSites_splitCounts.rds",
                 "processed_data/aberrant_splicing/datasets/cache/splitCounts/splitCounts-HG00096.RDS",
                 "processed_data/aberrant_splicing/datasets/cache/splitCounts/splitCounts-HG00103.RDS",
                 "processed_data/aberrant_splicing/datasets/cache/splitCounts/splitCounts-HG00106.RDS",
@@ -304,8 +312,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-06-30T16:59:48.544137538"
+        "timestamp": "2025-07-04T13:49:39.807410507"
     }
 }
