@@ -44,7 +44,7 @@ nextflow_process {
                 .map { meta, fds, cache ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("raw-local-fraser"),
                         cache.resolve("raw-local-fraser/gRanges_splitCounts.rds"),
                         cache.resolve("raw-local-fraser/spliceSites_splitCounts.rds"),
                         "fraser"
@@ -57,7 +57,7 @@ nextflow_process {
         }
 
         then {
-            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            def file_list = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert snapshot(
@@ -81,7 +81,7 @@ nextflow_process {
                 .map { meta, fds, cache ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("raw-local-fraser"),
                         cache.resolve("raw-local-fraser/gRanges_splitCounts.rds"),
                         cache.resolve("raw-local-fraser/spliceSites_splitCounts.rds"),
                         "fraser"

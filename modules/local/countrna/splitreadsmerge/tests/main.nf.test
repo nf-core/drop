@@ -47,8 +47,19 @@ nextflow_process {
                 .map { meta, fds, cache ->
                     [
                         meta,
-                        fds,
-                        cache,
+                        fds.resolve("raw-local-fraser"),
+                        [
+                            cache.resolve('splitCounts/splitCounts-HG00096.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00103.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00106.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00111.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00116.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00126.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00132.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00149.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00150.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00176.RDS')
+                        ],
                         [
                             file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                             file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
@@ -75,7 +86,7 @@ nextflow_process {
                         ],
                         "fraser"
                     ]
-                }
+                }.view()
                 input[1] = 20
                 input[2] = false
                 input[3] = "FRASER"
@@ -105,8 +116,19 @@ nextflow_process {
                 .map { meta, fds, cache ->
                     [
                         meta,
-                        fds,
-                        cache,
+                        fds.resolve("raw-local-fraser"),
+                        [
+                            cache.resolve('splitCounts/splitCounts-HG00096.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00103.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00106.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00111.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00116.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00126.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00132.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00149.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00150.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00176.RDS')
+                        ],
                         [
                             file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                             file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
@@ -165,8 +187,19 @@ nextflow_process {
                 .map { meta, fds, cache ->
                     [
                         meta,
-                        fds,
-                        cache,
+                        fds.resolve("raw-local-fraser"),
+                        [
+                            cache.resolve('splitCounts/splitCounts-HG00096.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00103.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00106.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00111.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00116.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00126.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00132.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00149.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00150.RDS'),
+                            cache.resolve('splitCounts/splitCounts-HG00176.RDS')
+                        ],
                         [
                             file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                             file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),

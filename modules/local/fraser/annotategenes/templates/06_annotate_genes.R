@@ -17,7 +17,7 @@ annotation <- "$annotation_id"
 dataset    <- "$drop_group"
 fdsFile    <- "$fds"
 workingDir <- "./"
-outputDir  <- "results"
+outputDir  <- "./"
 
 register(MulticoreParam($task.cpus))
 # Limit number of threads for DelayedArray operations
@@ -47,7 +47,7 @@ fds_input <- annotateIntronReferenceOverlap(fds_input, txdb)
 fds <- saveFraserDataSet(fds_input, dir=outputDir, name = paste(dataset, annotation, sep = '--'), rewrite = TRUE)
 
 # remove .h5 files from previous runs with other FRASER version
-fdsDir <- "results/savedObjects/${drop_group}--${annotation_id}"
+fdsDir <- "savedObjects/${drop_group}--${annotation_id}"
 for(type in psiTypesNotUsed){
     predMeansFile <- file.path(fdsDir, paste0("predictedMeans_", type, ".h5"))
     if(file.exists(predMeansFile)){

@@ -89,7 +89,7 @@ nextflow_process {
                 ])
                 .combine(UNTAR.out.untar.map { it[1] })
                 .map { meta, bam, bai, drop_group, id, fds ->
-                    [ meta, fds, bam, bai, drop_group, id ]
+                    [ meta, fds.resolve("raw-local-fraser"), bam, bai, drop_group, id ]
                 }
                 input[1] = false
                 input[2] = false
@@ -115,7 +115,7 @@ nextflow_process {
                 """
                 input[0] = UNTAR.out.untar.map { _meta, fds -> [
                     [ id: 'HG00096' ],
-                    fds,
+                    fds.resolve("raw-local-fraser"),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam.bai', checkIfExists: true),
                     'fraser',
@@ -147,7 +147,7 @@ nextflow_process {
                 """
                 input[0] = UNTAR.out.untar.map { _meta, fds -> [
                     [ id: 'HG00096' ],
-                    fds,
+                    fds.resolve("raw-local-fraser"),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam.bai', checkIfExists: true),
                     'fraser',

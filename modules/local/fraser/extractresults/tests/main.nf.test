@@ -31,7 +31,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("fraser--v29"),
                         file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db'),
                         "fraser",
                         "v29",
@@ -75,7 +75,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("fraser--v29"),
                         file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db'),
                         "fraser",
                         "v29",
