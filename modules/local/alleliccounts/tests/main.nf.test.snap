@@ -1,0 +1,68 @@
+{
+    "homo_sapiens - vcf, bam - ucsc": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.csv.gz:md5,2a9e01643bd233b6ec65c2b0a5129fae"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                ],
+                "csv": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.csv.gz:md5,2a9e01643bd233b6ec65c2b0a5129fae"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-07T13:17:31.245464584"
+    },
+    "homo_sapiens - vcf, bam - ucsc - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                ],
+                "csv": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-07T13:17:42.882787334"
+    }
+}
