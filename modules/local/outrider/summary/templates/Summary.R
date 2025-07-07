@@ -32,7 +32,7 @@ suppressPackageStartupMessages({
 dataset_title <- paste("Dataset:", paste("$drop_group", "$annotation_id", sep = "--"))
 
 ods <- readRDS("$ods")
-if (is.null(colData(ods)$isExternal)) colData(ods)$isExternal <- FALSE
+if (is.null(colData(ods)\$isExternal)) colData(ods)\$isExternal <- FALSE
 
 #' Number of samples: `r ncol(ods)`
 #' Number of expressed genes: `r nrow(ods)`
