@@ -9,8 +9,8 @@ opts_chunk\$set(fig.width=12, fig.height=8)
 # input
 dataset    <- "$drop_group"
 workingDir <- "./"
-exCountIDs <- list(${external_count_ids.collect { id -> "\"$id\"" }.join(', ')})
-exCountFiles <- list(${splice_counts_dirs.collect { file -> "\"$file\"" }.join(', ')})
+exCountIDs <- c(${external_count_ids.collect { id -> "\"$id\"" }.join(', ')})
+exCountFiles <- c(${splice_counts_dirs.collect { file -> "\"$file\"" }.join(', ')})
 sample_anno_file <- "$samplesheet"
 minExpressionInOneSample <- $min_expressions_in_one_sample
 quantile <- $quantile_filtering
@@ -29,8 +29,14 @@ if(length(exCountIDs) > 0){
     message("create new merged fraser object")
     fds <- saveFraserDataSet(fds,dir = workingDir, name=paste0("raw-", dataset))
 
-    for(resource in unique(exCountFiles)){
-        exSampleIDs <- exCountIDs[exCountFiles == resource]
+    for(resource_raw in unique(exCountFiles)){
+        # NEXTFLOW: untar external splice counts if necessary
+        resource <- resource_raw
+        if(endsWith(resource_raw, 'tar.gz')) {
+            untar(resource_raw)
+            resource <- file.path(workingDir, sub("\\\\.tar\\\\.gz\$", "", resource_raw))
+        }
+        exSampleIDs <- exCountIDs[exCountFiles == resource_raw]
         exAnno <- fread(sample_anno_file, key="RNA_ID")[J(exSampleIDs)]
         exAnno[, strand:=exAnno\$STRAND]
         exAnno\$strand<- sapply(exAnno[, strand], switch, 'no' = 0L, 'unstranded' = 0L,
@@ -38,7 +44,7 @@ if(length(exCountIDs) > 0){
         setnames(exAnno, "RNA_ID", "sampleID")
 
         ctsNames <- c("k_j", "k_theta", "n_psi3", "n_psi5", "n_theta")
-        ctsFiles <- paste0(dirname(resource), "/", ctsNames, "_counts.tsv.gz")
+        ctsFiles <- paste0(resource, "/", ctsNames, "_counts.tsv.gz")
 
         # Merging external counts restricts the junctions to those that
         # are only present in both the counted (fromBam) junctions AND the

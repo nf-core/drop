@@ -115,7 +115,7 @@
             },
             "SPLICE_COUNTS_DIR": {
                 "type": "string",
-                "format": "directory-path",
+                "format": "path",
                 "exists": true,
                 "pattern": "^\\S+$",
                 "errorMessage": "The splice counts directory has to exist and cannot contain spaces",
@@ -145,6 +145,9 @@
             },
             {
                 "required": ["GENE_COUNTS_FILE", "GENE_ANNOTATION"]
+            },
+            {
+                "required": ["SPLICE_COUNTS_DIR"]
             }
         ]
     },
