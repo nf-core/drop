@@ -8,19 +8,21 @@ nextflow_process {
     tag "modules_local"
     tag "OUTRIDER_SUMMARY"
 
-    test("drop demo - ods_unfitted.Rds") {
+    test("drop demo - ods.Rds") {
 
         when {
             process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/pvalsoutrider/ods_pvals.Rds', checkIfExists: true) ]
                 ])
                 input[1] = Channel.of([
                     [ id: 'test' ],
-                    [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/resultsourtider/OUTRIDER_results.tsv', checkIfExists: true) ]
                 ])
+                input[2] = 1
+                input[3] = 0
                 """
             }
         }
@@ -30,13 +32,17 @@ nextflow_process {
                 { assert process.success },
                 { assert snapshot(
                     process.out.sample_mqc.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.reads_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.reads_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.reads_mqc_4.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.filtering_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.filtering_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.filtering_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.sex_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.encoding_mqc.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.genes_mqc.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.batch_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.batch_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.heatmap_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.heatmap_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.bcv_mqc.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.result_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.result_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.result_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.result.collect { meta, r -> [ meta, file(r).name ] },
                     process.out.versions
                 ).match() }
             )
@@ -51,12 +57,14 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/pvalsoutrider/ods_pvals.Rds', checkIfExists: true) ]
                 ])
                 input[1] = Channel.of([
                     [ id: 'test' ],
-                    [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/resultsourtider/OUTRIDER_results.tsv', checkIfExists: true) ]
                 ])
+                input[2] = 1
+                input[3] = 0
                 """
             }
         }

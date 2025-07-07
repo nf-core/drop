@@ -13,17 +13,19 @@ process OUTRIDER_SUMMARY {
     val(zScoreCutoff)
 
     output:
-    tuple val(meta), path("sample_count_mqc.tsv")       , emit: sample_mqc
-    tuple val(meta), path("read_counts_mqc.png")        , emit: reads_mqc_1      , optional: true
-    tuple val(meta), path("mapped_vs_counted_mqc.png")  , emit: reads_mqc_2
-    tuple val(meta), path("size_factors_mqc.png")       , emit: reads_mqc_3
-    tuple val(meta), path("reads_statistics_mqc.tsv")   , emit: reads_mqc_4
-    tuple val(meta), path("meanCounts_mqc.png")         , emit: filtering_mqc_1
-    tuple val(meta), path("expressedGenes_mqc.png")     , emit: filtering_mqc_2
-    tuple val(meta), path("expressed_genes_mqc.tsv")    , emit: filtering_mqc_3
-    tuple val(meta), path("expression_sex_mqc.tsv")     , emit: sex_mqc_1        , optional: true
-    tuple val(meta), path("sex_matched_mqc.png")        , emit: sex_mqc_2        , optional: true
-    path  "versions.yml"                                , emit: versions
+    tuple val(meta), path("outrider_overview_mqc.tsv")             , emit: sample_mqc
+    tuple val(meta), path("Encoding_dimension_mqc.png")            , emit: encoding_mqc
+    tuple val(meta), path("Aberrant_genes_per_sample_mqc.png")     , emit: genes_mqc
+    tuple val(meta), path("Batch_correction_raw_mqc.png")          , emit: batch_mqc_1
+    tuple val(meta), path("Batch_correction_normalized_mqc.png")   , emit: batch_mqc_2
+    tuple val(meta), path("geneSampleHeatmap_raw_mqc.png")         , emit: heatmap_mqc_1
+    tuple val(meta), path("geneSampleHeatmap_normalized_mqc.png")  , emit: heatmap_mqc_2
+    tuple val(meta), path("BCV_mqc.png")                           , emit: bcv_mqc
+    tuple val(meta), path("outrider_result_overview_mqc.tsv")      , emit: result_mqc_1
+    tuple val(meta), path("Aberrant_samples_mqc.tsv")              , emit: result_mqc_2
+    tuple val(meta), path("significant_results_mqc.tsv")           , emit: result_mqc_3
+    tuple val(meta), path("OUTRIDER_results_*.tsv")                , emit: result
+    path  "versions.yml"                                           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -35,7 +37,29 @@ process OUTRIDER_SUMMARY {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     #!/usr/bin/env Rscript
-    a <- file("sample_count_mqc.tsv", "w")
+    a <- file("outrider_overview_mqc.tsv", "w")
+    close(a)
+    a <- file("Encoding_dimension_mqc.png", "w")
+    close(a)
+    a <- file("Aberrant_genes_per_sample_mqc.png", "w")
+    close(a)
+    a <- file("Batch_correction_raw_mqc.png", "w")
+    close(a)
+    a <- file("Batch_correction_normalized_mqc.png", "w")
+    close(a)
+    a <- file("geneSampleHeatmap_raw_mqc.png", "w")
+    close(a)
+    a <- file("geneSampleHeatmap_normalized_mqc.png", "w")
+    close(a)
+    a <- file("BCV_mqc.png", "w")
+    close(a)
+    a <- file("outrider_result_overview_mqc.tsv", "w")
+    close(a)
+    a <- file("Aberrant_samples_mqc.tsv", "w")
+    close(a)
+    a <- file("significant_results_mqc.tsv", "w")
+    close(a)
+    a <- file("OUTRIDER_results_.tsv", "w")
     close(a)
 
     ## VERSIONS FILE

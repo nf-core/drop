@@ -52,8 +52,8 @@ p <- plotEncDimSearch(ods) + labs(title = dataset_title) + theme_cowplot() + bac
 ggsave("Encoding_dimension_mqc.png", p, width = 5, height = 3.75, dpi = 196, bg = "white")
 
 #' ### Aberrantly expressed genes per sample
-p <- plotAberrantPerSample(ods, main = dataset_title, padjCutoff = $ae_padj_cutoff,
-    zScoreCutoff = $ae_z_score_cutoff)
+p <- plotAberrantPerSample(ods, main = dataset_title, padjCutoff = $padjCutoff,
+    zScoreCutoff = $zScoreCutoff)
 ggsave("Aberrant_genes_per_sample_mqc.png", p, width = 5, height = 3.75, dpi = 196,
     bg = "white")
 
