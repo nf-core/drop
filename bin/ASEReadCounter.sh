@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # 1 {input.ncbi2ucsc}
 # 2 {input.ucsc2ncbi}
