@@ -1,69 +1,43 @@
 {
     "homo_sapiens - counts, true": {
         "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "HG00096"
-                        },
-                        "HG00096_res.Rds:md5,8c735b4cd2d17be604216c5818a1b779"
-                    ]
-                ],
-                "1": [
-                    "versions.yml:md5,7aef1019f1c621518da7006a929bf08c"
-                ],
-                "res": [
-                    [
-                        {
-                            "id": "HG00096"
-                        },
-                        "HG00096_res.Rds:md5,8c735b4cd2d17be604216c5818a1b779"
-                    ]
-                ],
-                "versions": [
-                    "versions.yml:md5,7aef1019f1c621518da7006a929bf08c"
+            [
+                [
+                    {
+                        "id": "HG00096"
+                    },
+                    "HG00096_res.Rds"
                 ]
-            }
+            ],
+            [
+                "versions.yml:md5,7aef1019f1c621518da7006a929bf08c"
+            ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-08T10:10:21.85943146"
+        "timestamp": "2025-07-08T12:10:17.774821671"
     },
     "homo_sapiens - counts, false": {
         "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "HG00096"
-                        },
-                        "HG00096_res.Rds:md5,8c735b4cd2d17be604216c5818a1b779"
-                    ]
-                ],
-                "1": [
-                    "versions.yml:md5,7aef1019f1c621518da7006a929bf08c"
-                ],
-                "res": [
-                    [
-                        {
-                            "id": "HG00096"
-                        },
-                        "HG00096_res.Rds:md5,8c735b4cd2d17be604216c5818a1b779"
-                    ]
-                ],
-                "versions": [
-                    "versions.yml:md5,7aef1019f1c621518da7006a929bf08c"
+            [
+                [
+                    {
+                        "id": "HG00096"
+                    },
+                    "HG00096_res.Rds"
                 ]
-            }
+            ],
+            [
+                "versions.yml:md5,7aef1019f1c621518da7006a929bf08c"
+            ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-08T10:10:54.63769106"
+        "timestamp": "2025-07-08T12:10:55.156712946"
     },
     "homo_sapiens - counts, true - stub": {
         "content": [
