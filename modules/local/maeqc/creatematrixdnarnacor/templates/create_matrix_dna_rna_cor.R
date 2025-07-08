@@ -10,7 +10,7 @@ suppressPackageStartupMessages({
 })
 
 register(MulticoreParam($task.cpus))
-sa <- fread("$samplesheet",
+sa <- fread("$samplesheet", fill=TRUE,
             colClasses = c(RNA_ID = 'character', DNA_ID = 'character'))
 
 # Read the test vcf as GRanges
@@ -18,7 +18,7 @@ gr_test <- readVcf("$qc_vcf") %>% granges()
 mcols(gr_test)\$GT <- "0/0"
 
 # Obtain the rna and vcf files
-rna_samples <- as.character(${rna_ids.collect { "\"$it\"" }.join(', ')})
+rna_samples <- as.character(c(${rna_ids.collect { "\"$it\"" }.join(', ')}))
 mae_res <- c(${res.collect { "\"$it\"" }.join(', ')})
 
 rows_in_group <- sapply(strsplit(sa\$DROP_GROUP, ',|, '), function(d) "$drop_group" %in% d)

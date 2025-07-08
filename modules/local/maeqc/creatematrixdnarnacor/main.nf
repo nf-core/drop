@@ -36,7 +36,7 @@ process MAEQC_CREATEMATRIXDNARNACOR {
             paste('    r-data.table:', as.character(packageVersion('data.table'))),
             paste('    bioconductor-biocparallel:', as.character(packageVersion('BiocParallel'))),
             paste('    bioconductor-variantannotation:', as.character(packageVersion('VariantAnnotation'))),
-            paste('    bioconductor-genomicranges:', as.character(packageVersion('GenomicRanges)))
+            paste('    bioconductor-genomicranges:', as.character(packageVersion('GenomicRanges')))
         ),
     'versions.yml')
     """
