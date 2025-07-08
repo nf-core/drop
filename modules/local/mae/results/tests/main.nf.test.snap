@@ -5,25 +5,25 @@
                 "0": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_all_test.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "MAE_results_all_HG00096.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "1": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "MAE_results_HG00096.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test_rare.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "MAE_results_HG00096_rare.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "3": [
@@ -32,25 +32,25 @@
                 "res_all": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_all_test.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "MAE_results_all_HG00096.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "res_signif": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "MAE_results_HG00096.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "res_signif_rare": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test_rare.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "MAE_results_HG00096_rare.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "versions": [
@@ -62,7 +62,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-08T13:43:33.353499288"
+        "timestamp": "2025-07-08T13:46:05.221960893"
     },
     "homo_sapiens - res, mapping": {
         "content": [
@@ -70,25 +70,25 @@
                 "0": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_all_test.tsv.gz:md5,0bd9b3b66cd518d66707686069df94bd"
+                        "MAE_results_all_HG00096.tsv.gz:md5,0bd9b3b66cd518d66707686069df94bd"
                     ]
                 ],
                 "1": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
+                        "MAE_results_HG00096.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
                     ]
                 ],
                 "2": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test_rare.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
+                        "MAE_results_HG00096_rare.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
                     ]
                 ],
                 "3": [
@@ -97,25 +97,25 @@
                 "res_all": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_all_test.tsv.gz:md5,0bd9b3b66cd518d66707686069df94bd"
+                        "MAE_results_all_HG00096.tsv.gz:md5,0bd9b3b66cd518d66707686069df94bd"
                     ]
                 ],
                 "res_signif": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
+                        "MAE_results_HG00096.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
                     ]
                 ],
                 "res_signif_rare": [
                     [
                         {
-                            "id": "test"
+                            "id": "HG00096"
                         },
-                        "MAE_results_test_rare.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
+                        "MAE_results_HG00096_rare.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
                     ]
                 ],
                 "versions": [
@@ -127,6 +127,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-08T13:37:37.049739951"
+        "timestamp": "2025-07-08T13:45:54.201149108"
     }
 }

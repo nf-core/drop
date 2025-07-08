@@ -14,7 +14,7 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'test' ],
+                    [ id: 'HG00096' ],
                     file(params.pipelines_testdata_base_path + 'intermediates/mae/deseq/HG00096_res.Rds', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'intermediates/mae/genenamemapping/gene_name_mapping_v29.tsv', checkIfExists: true)
                 ])
@@ -41,7 +41,7 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'test' ],
+                    [ id: 'HG00096' ],
                     file(params.pipelines_testdata_base_path + 'intermediates/mae/deseq/HG00096_res.Rds', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'intermediates/mae/genenamemapping/gene_name_mapping_v29.tsv', checkIfExists: true)
                 ])
