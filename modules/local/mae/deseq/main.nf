@@ -1,4 +1,4 @@
-process DESEQMAE {
+process MAE_DESEQ {
     tag "${meta.id}"
     label 'process_single'
 
