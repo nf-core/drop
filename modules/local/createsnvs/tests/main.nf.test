@@ -14,7 +14,7 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'filter' ],
+                    [ id: 'HG00096' ],
                     file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz.tbi', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
@@ -48,12 +48,12 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of([
-                    [ id: 'filter' ],
+                    [ id: 'HG00103' ],
                     file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz.tbi', checkIfExists: true),
-                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
-                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam.bai', checkIfExists: true),
-                    "HG00096"
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
+                    "HG00103"
                 ])
                 input[1] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
                 input[2] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")

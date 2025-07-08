@@ -4,17 +4,17 @@
             [
                 [
                     {
-                        "id": "filter"
+                        "id": "HG00103"
                     },
-                    "filter.vcf.gz,variantsMD5:fad31f99ffe659336e1085495ff7343a"
+                    "HG00103.vcf.gz,variantsMD5:ea5e7fdf1e6156c38698fbf4bc57c0b2"
                 ]
             ],
             [
                 [
                     {
-                        "id": "filter"
+                        "id": "HG00103"
                     },
-                    "filter.vcf.gz.tbi"
+                    "HG00103.vcf.gz.tbi"
                 ]
             ]
         ],
@@ -22,24 +22,24 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-04T15:36:44.732106419"
+        "timestamp": "2025-07-08T16:49:07.102014627"
     },
     "homo_sapiens - vcf, bam - ucsc": {
         "content": [
             [
                 [
                     {
-                        "id": "filter"
+                        "id": "HG00096"
                     },
-                    "filter.vcf.gz,variantsMD5:eb88955011bf7c238f82163dd1a46523"
+                    "HG00096.vcf.gz,variantsMD5:eb88955011bf7c238f82163dd1a46523"
                 ]
             ],
             [
                 [
                     {
-                        "id": "filter"
+                        "id": "HG00096"
                     },
-                    "filter.vcf.gz.tbi"
+                    "HG00096.vcf.gz.tbi"
                 ]
             ]
         ],
@@ -47,7 +47,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-04T15:36:24.661923596"
+        "timestamp": "2025-07-08T16:48:50.415906847"
     },
     "homo_sapiens - vcf, bam - ucsc - stub": {
         "content": [
