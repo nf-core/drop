@@ -20,6 +20,14 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai', checkIfExists: true),
                     "HG00096"
+                ],
+                [
+                    [ id: 'HG00103' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00103.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00103.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
+                    "HG00103"
                 ])
                 input[1] = [
                     [id:'fasta'],
