@@ -1,0 +1,63 @@
+nextflow_process {
+
+    name "Test Process MAE_RESULTS"
+    script "../main.nf"
+    process "MAE_RESULTS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "mae_results"
+
+    test("homo_sapiens - res, mapping") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/mae/deseq/HG00096_res.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/mae/genenamemapping/gene_name_mapping_v29.tsv', checkIfExists: true)
+                ])
+                input[1] = 0.8
+                input[2] = 0.05
+                input[3] = 0.05
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - res, mapping - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/mae/deseq/HG00096_res.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/mae/genenamemapping/gene_name_mapping_v29.tsv', checkIfExists: true)
+                ])
+                input[1] = 0.8
+                input[2] = 0.05
+                input[3] = 0.05
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
