@@ -1,0 +1,84 @@
+nextflow_process {
+
+    name "Test Process DESEQMAE"
+    script "../main.nf"
+    process "DESEQMAE"
+
+    tag "modules"
+    tag "modules_local"
+    tag "deseqmae"
+
+    test("homo_sapiens - counts, true") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/alleliccounts/HG00096.csv.gz', checkIfExists: true),
+                ])
+                input[1] = true
+                input[2] = 'hg19'
+                input[3] = 0.001
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - counts, false") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/alleliccounts/HG00096.csv.gz', checkIfExists: true),
+                ])
+                input[1] = true
+                input[2] = 'hg19'
+                input[3] = 0.001
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - counts, true - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/alleliccounts/HG00096.csv.gz', checkIfExists: true),
+                ])
+                input[1] = true
+                input[2] = 'hg19'
+                input[3] = 0.001
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
