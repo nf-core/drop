@@ -27,7 +27,7 @@ nextflow_process {
             process {
                 """
                 input[0] = UNTAR.out.untar.map { meta, fds ->
-                    [ [id:'fraser'], fds, "fraser" ]
+                    [ [id:'fraser'], fds.resolve("fraser"), "fraser" ]
                 }
                 input[1] = false
                 input[2] = "PCA"
@@ -39,7 +39,7 @@ nextflow_process {
         }
 
         then {
-            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            def file_list = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert snapshot(
@@ -56,7 +56,7 @@ nextflow_process {
             process {
                 """
                 input[0] = UNTAR.out.untar.map { meta, fds ->
-                    [ [id:'fraser'], fds, "fraser" ]
+                    [ [id:'fraser'], fds.resolve("fraser"), "fraser" ]
                 }
                 input[1] = true
                 input[2] = "PCA"
@@ -68,7 +68,7 @@ nextflow_process {
         }
 
         then {
-            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            def file_list = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert snapshot(
@@ -85,7 +85,7 @@ nextflow_process {
             process {
                 """
                 input[0] = UNTAR.out.untar.map { meta, fds ->
-                    [ [id:'fraser'], fds, "fraser" ]
+                    [ [id:'fraser'], fds.resolve("fraser"), "fraser" ]
                 }
                 input[1] = 22
                 input[2] = "PCA"
@@ -97,7 +97,7 @@ nextflow_process {
         }
 
         then {
-            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            def file_list = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert snapshot(
@@ -117,7 +117,7 @@ nextflow_process {
             process {
                 """
                 input[0] = UNTAR.out.untar.map { meta, fds ->
-                    [ [id:'fraser'], fds, "fraser" ]
+                    [ [id:'fraser'], fds.resolve("fraser"), "fraser" ]
                 }
                 input[1] = false
                 input[2] = "PCA"

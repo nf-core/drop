@@ -31,20 +31,16 @@
                         "id": "fraser"
                     },
                     [
-                        [
-                            [
-                                "otherCounts-HG00096.h5:md5,e2b69eb8d365c7a586bfce98117f9394",
-                                "otherCounts-HG00103.h5:md5,e02b98e5a6d3f7edf806a5c16f4d6851",
-                                "otherCounts-HG00106.h5:md5,e5739accbe7aac04d4761298ee9f2f82",
-                                "otherCounts-HG00111.h5:md5,8bf1fd81d1649dc05b344b4d16268a55",
-                                "otherCounts-HG00116.h5:md5,9e56e965deceb14d4e4cba7b2db70122",
-                                "otherCounts-HG00126.h5:md5,527b11c79bc24f096ae5e5e655ecfc7e",
-                                "otherCounts-HG00132.h5:md5,7a10bc537a685fad9736e5aaf710b44e",
-                                "otherCounts-HG00149.h5:md5,2c63a80d4f2e14765b9bbc2551531287",
-                                "otherCounts-HG00150.h5:md5,916ecca29dafc66f46e6b6d4f5441bc9",
-                                "otherCounts-HG00176.h5:md5,400581079ea2a67c1bf19fcfaf216df7"
-                            ]
-                        ]
+                        "otherCounts-HG00096.h5:md5,e2b69eb8d365c7a586bfce98117f9394",
+                        "otherCounts-HG00103.h5:md5,e02b98e5a6d3f7edf806a5c16f4d6851",
+                        "otherCounts-HG00106.h5:md5,e5739accbe7aac04d4761298ee9f2f82",
+                        "otherCounts-HG00111.h5:md5,8bf1fd81d1649dc05b344b4d16268a55",
+                        "otherCounts-HG00116.h5:md5,9e56e965deceb14d4e4cba7b2db70122",
+                        "otherCounts-HG00126.h5:md5,527b11c79bc24f096ae5e5e655ecfc7e",
+                        "otherCounts-HG00132.h5:md5,7a10bc537a685fad9736e5aaf710b44e",
+                        "otherCounts-HG00149.h5:md5,2c63a80d4f2e14765b9bbc2551531287",
+                        "otherCounts-HG00150.h5:md5,916ecca29dafc66f46e6b6d4f5441bc9",
+                        "otherCounts-HG00176.h5:md5,400581079ea2a67c1bf19fcfaf216df7"
                     ]
                 ]
             ],
@@ -56,7 +52,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-06-24T09:14:22.786437606"
+        "timestamp": "2025-06-30T14:46:55.028374589"
     },
     "homo_sapiens - fds, cache - stub": {
         "content": [
@@ -77,14 +73,12 @@
                             "id": "fraser"
                         },
                         [
+                            "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "rawCountsJ.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
                             [
-                                "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                "rawCountsJ.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                [
-                                    "assays.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                    "se.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
-                                ]
+                                "assays.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                "se.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
                             ]
                         ]
                     ]
@@ -108,14 +102,12 @@
                             "id": "fraser"
                         },
                         [
+                            "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "rawCountsJ.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
                             [
-                                "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                "rawCountsJ.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                [
-                                    "assays.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
-                                    "se.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
-                                ]
+                                "assays.h5:md5,d41d8cd98f00b204e9800998ecf8427e",
+                                "se.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
                             ]
                         ]
                     ]
@@ -129,6 +121,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-06-24T09:14:31.085588745"
+        "timestamp": "2025-06-30T14:44:37.176177295"
     }
 }
