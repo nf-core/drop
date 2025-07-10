@@ -1,0 +1,319 @@
+{
+    "drop demo - ods.Rds": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "outrider_overview_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "Encoding_dimension_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "Aberrant_genes_per_sample_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "Batch_correction_raw_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "Batch_correction_normalized_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "geneSampleHeatmap_raw_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "geneSampleHeatmap_normalized_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "BCV_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "outrider_result_overview_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "Aberrant_samples_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "significant_results_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "OUTRIDER_results_outrider.tsv"
+                ]
+            ],
+            [
+                "versions.yml:md5,f12dd7b6d14f9d4ac3fd3c81b1e2168f"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-07-08T11:34:34.797545763"
+    },
+    "homo_sapiens - gtf - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "outrider_overview_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Encoding_dimension_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "10": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "significant_results_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "11": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "OUTRIDER_results_.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "12": [
+                    "versions.yml:md5,acd5e9a3f856a0db25d0a175f48de1b2"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Aberrant_genes_per_sample_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Batch_correction_raw_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Batch_correction_normalized_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "geneSampleHeatmap_raw_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "geneSampleHeatmap_normalized_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "BCV_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "outrider_result_overview_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Aberrant_samples_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "batch_mqc_1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Batch_correction_raw_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "batch_mqc_2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Batch_correction_normalized_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "bcv_mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "BCV_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "encoding_mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Encoding_dimension_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "genes_mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Aberrant_genes_per_sample_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "heatmap_mqc_1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "geneSampleHeatmap_raw_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "heatmap_mqc_2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "geneSampleHeatmap_normalized_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "result": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "OUTRIDER_results_.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "result_mqc_1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "outrider_result_overview_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "result_mqc_2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "Aberrant_samples_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "result_mqc_3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "significant_results_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "sample_mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "outrider_overview_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,acd5e9a3f856a0db25d0a175f48de1b2"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-07-08T11:34:49.780478841"
+    }
+}

@@ -1,0 +1,174 @@
+#!/usr/bin/env Rscript
+# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-expression-pipeline/OUTRIDER/Summary.R
+
+# --- helper to emit a MultiQC table with metadata header to replace
+# DT::datatable --- #
+write_mqc_table <- function(df = NULL, outf, id, section_name, description = "",
+    format = "tsv", plot_type = "table", sep = "\t", quote = FALSE, html_text = NULL) {
+    # build the header lines
+    header <- c(sprintf("# id: \"%s\"", id), sprintf("# section_name: \"%s\"", section_name),
+        sprintf("# description: \"%s\"", description), sprintf("# format: \"%s\"",
+            format), sprintf("# plot_type: \"%s\"", plot_type), html_text)
+    # write once (overwrites if exists), then append the table
+    writeLines(header, con = outf)
+
+    if (!is.null(df)) {
+        write.table(df, file = outf, sep = sep, row.names = FALSE, col.names = TRUE,
+            append = TRUE, quote = quote)
+    }
+}
+
+suppressPackageStartupMessages({
+    library(OUTRIDER)
+    library(SummarizedExperiment)
+    library(ggplot2)
+    library(cowplot)
+    library(data.table)
+    library(dplyr)
+    library(ggthemes)
+})
+
+# used for most plots
+dataset_title <- paste("Dataset:", paste("$drop_group", "$annotation_id", sep = "--"))
+
+ods <- readRDS("$ods")
+if (is.null(colData(ods)\$isExternal)) colData(ods)\$isExternal <- FALSE
+
+#' Number of samples: `r ncol(ods)`
+#' Number of expressed genes: `r nrow(ods)`
+n_samples <- ncol(ods)
+n_expressed_genes <- nrow(ods)
+count_df <- data.frame(sample_type = c("Number of samples", "Number of expressed genes"),
+    count = c(n_samples, n_expressed_genes), stringsAsFactors = FALSE)
+# multiqc table
+write_mqc_table(df = count_df, outf = file.path("outrider_overview_mqc.tsv"), id = "outrider_overview",
+    section_name = "Sample overview", description = "")
+
+#'
+#' ## Visualize
+#' ### Encoding dimension
+p <- plotEncDimSearch(ods) + labs(title = dataset_title) + theme_cowplot() + background_grid() +
+    scale_color_brewer(palette = "Dark2")
+ggsave("Encoding_dimension_mqc.png", p, width = 5, height = 3.75, dpi = 196, bg = "white")
+
+#' ### Aberrantly expressed genes per sample
+p <- plotAberrantPerSample(ods, main = dataset_title, padjCutoff = $padjCutoff,
+    zScoreCutoff = $zScoreCutoff)
+ggsave("Aberrant_genes_per_sample_mqc.png", p, width = 5, height = 3.75, dpi = 196,
+    bg = "white")
+
+#' ### Batch correction
+#+ countCorHeatmap, fig.height=8, fig.width=8
+png("Batch_correction_raw_mqc.png", width = 8, height = 8, units = "in", res = 196)
+plotCountCorHeatmap(ods, normalized = FALSE, colGroups = "isExternal", colColSet = "Dark2",
+    main = paste0("Raw Counts (", dataset_title, ")"))
+dev.off()
+png("Batch_correction_normalized_mqc.png", width = 8, height = 8, units = "in", res = 196)
+plotCountCorHeatmap(ods, normalized = TRUE, colGroups = "isExternal", colColSet = "Dark2",
+    main = paste0("Normalized Counts (", dataset_title, ")"))
+dev.off()
+
+#' ### Expression by gene per sample
+#+ geneSampleHeatmap, fig.height=12, fig.width=8
+png("geneSampleHeatmap_raw_mqc.png", width = 8, height = 12, units = "in", res = 196)
+plotCountGeneSampleHeatmap(ods, normalized = FALSE, nGenes = 50, colGroups = "isExternal",
+    colColSet = "Dark2", main = paste0("Raw Counts (", dataset_title, ")"), bcvQuantile = 0.95,
+    show_names = "row")
+dev.off()
+png("geneSampleHeatmap_normalized_mqc.png", width = 8, height = 12, units = "in",
+    res = 196)
+plotCountGeneSampleHeatmap(ods, normalized = TRUE, nGenes = 50, colGroups = "isExternal",
+    colColSet = "Dark2", main = paste0("Normalized Counts (", dataset_title, ")"),
+    bcvQuantile = 0.95, show_names = "row")
+dev.off()
+
+#' ### BCV - Biological coefficient of variation
+# function to calculate BCV before autoencoder
+estimateThetaWithoutAutoCorrect <- function(ods) {
+
+    ods1 <- OutriderDataSet(countData = counts(ods), colData = colData(ods))
+    # use rowMeans as expected means
+    normalizationFactors(ods1) <- matrix(rowMeans(counts(ods1)), ncol = ncol(ods1),
+        nrow = nrow(ods1))
+    ods1 <- fit(ods1)
+    theta(ods1)
+
+    return(theta(ods1))
+}
+
+before <- data.table(when = "Before", BCV = 1/sqrt(estimateThetaWithoutAutoCorrect(ods)))
+after <- data.table(when = "After", BCV = 1/sqrt(theta(ods)))
+bcv_dt <- rbind(before, after)
+
+# boxplot of BCV Before and After Autoencoder
+#+ BCV, fig.height=5, fig.width=6
+p <- ggplot(bcv_dt, aes(when, BCV)) + geom_boxplot() + theme_bw(base_size = 14) +
+    labs(x = "Autoencoder correction", y = "Biological coefficient \nof variation",
+        title = dataset_title)
+ggsave("BCV_mqc.png", p, width = 6, height = 5, dpi = 196, bg = "white")
+
+#' ## Results
+res <- fread("$results")
+
+#' Total number of expression outliers: `r nrow(res)`
+#' Samples with at least one outlier gene: `r res[, uniqueN(sampleID)]`
+n_outliers <- nrow(res)
+n_samples_outliers <- res[, uniqueN(sampleID)]
+count_df <- data.frame(sample_type = c("Total number of expression outliers", "Samples with at least one outlier gene"),
+    count = c(n_outliers, n_samples_outliers), stringsAsFactors = FALSE)
+# multiqc table
+write_mqc_table(df = count_df, outf = file.path("outrider_result_overview_mqc.tsv"),
+    id = "outrider_result_overview", section_name = "Result overview", description = "")
+
+#'
+#' ### Aberrant samples
+#'
+#' An aberrant sample is one that has more than 0.1% of the total genes called as outliers.
+if (nrow(res) > 0) {
+    ab_table <- res[AberrantBySample > nrow(ods)/1000, .(`Outlier genes` = .N), by = .(sampleID)] %>%
+        unique
+    if (nrow(ab_table) > 0) {
+        setorder(ab_table, "Outlier genes")
+        write_mqc_table(df = ab_table, outf = file.path("Aberrant_samples_mqc.tsv"),
+            id = "aberrant_samples", section_name = "aberrant samples", description = "An aberrant sample is one that has more than 0.1% of the total genes called as outliers.")
+    } else {
+        write_mqc_table(outf = file.path("Aberrant_samples_mqc.tsv"), id = "aberrant_samples",
+            section_name = "aberrant samples", plot_type = "html", description = "An aberrant sample is one that has more than 0.1% of the total genes called as outliers.",
+            html_text = "no aberrant samples.")
+    }
+} else {
+    write_mqc_table(outf = file.path("Aberrant_samples_mqc.tsv"), id = "aberrant_samples",
+        section_name = "aberrant samples", plot_type = "html", description = "An aberrant sample is one that has more than 0.1% of the total genes called as outliers.",
+        html_text = "no aberrant samples.")
+}
+
+
+#' ## Results table
+
+## Save results table in the html folder and provide link to download
+file <- paste0("OUTRIDER_results_", "$drop_group", ".tsv")
+fwrite(res, file, sep = "\t", quote = F)
+
+
+if (nrow(res) > 0) {
+    res[, pValue := format(pValue, scientific = T, digits = 3)]
+    res[, padjust := format(padjust, scientific = T, digits = 3)]
+
+    # DT::datatable(head(res, 1000), caption = 'OUTRIDER results (up to 1,000
+    # rows shown)', options=list(scrollX=TRUE), filter = 'top')
+    write_mqc_table(df = cbind(row_id = rownames(res), res)[1:100, ], outf = file.path("significant_results_mqc.tsv"),
+        id = "outrider_result_significant", section_name = "significant results",
+        description = "OUTRIDER results (up to 100 rows shown)")
+} else {
+    write_mqc_table(outf = file.path("significant_results_mqc.tsv"), id = "outrider_result_significant",
+        section_name = "significant results", plot_type = "html", html_text = "no significant results.")
+}
+
+## VERSIONS FILE
+writeLines(c("\"${task.process}\":", paste("    r-base:", strsplit(version[["version.string"]],
+    " ")[[1]][3]), paste("    r-cowplot:", as.character(packageVersion("cowplot"))),
+    paste("    r-data.table:", as.character(packageVersion("data.table"))), paste("    r-ggplot2:",
+        as.character(packageVersion("ggplot2"))), paste("    r-ggthemes:", as.character(packageVersion("ggthemes"))),
+    paste("    r-dplyr:", as.character(packageVersion("dplyr"))), paste("    bioconductor-summarizedexperiment:",
+        as.character(packageVersion("SummarizedExperiment"))), paste("    bioconductor-outrider:",
+        as.character(packageVersion("OUTRIDER")))), "versions.yml")
