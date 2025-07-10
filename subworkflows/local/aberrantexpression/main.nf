@@ -5,7 +5,6 @@ include { COUNTEXPRESSION_SUMMARY            } from '../../../modules/local/coun
 include { OUTRIDER_RUN                       } from '../../../modules/local/outrider/run'
 include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
 include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
-include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
 include { MULTIQC as MULTIQC_COUNTEXPRESSION } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_OUTRIDER        } from '../../../modules/nf-core/multiqc/main'
 
