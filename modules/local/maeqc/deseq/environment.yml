@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::bioconductor-genomicranges=1.58.0
+  - bioconda::r-tmae=1.0.5
+  - conda-forge::r-base=4.4.3
