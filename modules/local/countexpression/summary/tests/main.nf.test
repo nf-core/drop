@@ -15,28 +15,24 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
-                ])
-                input[1] = Channel.of([
-                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ],
                     [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
                 ])
                 """
             }
         }
-
         then {
             assertAll (
                 { assert process.success },
                 { assert snapshot(
-                    process.out.sample_mqc.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.reads_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.reads_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.reads_mqc_4.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.filtering_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.filtering_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.filtering_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.sex_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.sample_count.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.mapped_vs_counted.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.size_factors.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.reads_statistics.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.meanCounts.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.expressedGenes.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.expressed_genes.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.expression_sex.collect { meta, r -> [ meta, file(r).name ] },
                     process.out.versions
                 ).match() }
             )
@@ -51,10 +47,7 @@ nextflow_process {
                 """
                 input[0] = Channel.of([
                     [ id: 'test' ],
-                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
-                ])
-                input[1] = Channel.of([
-                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ],
                     [ file(params.pipelines_testdata_base_path + 'intermediates/bamcoveragestats/outrider.tsv', checkIfExists: true) ]
                 ])
                 """

@@ -19,7 +19,7 @@ process COUNTEXPRESSION_SUMMARY {
     tuple val(meta), path("meanCounts_mqc.png")         , emit: meanCounts
     tuple val(meta), path("expressedGenes_mqc.png")     , emit: expressedGenes
     tuple val(meta), path("expressed_genes_mqc.tsv")    , emit: expressed_genes
-    tuple val(meta), path("expression_sex_mqc.tsv")     , emit: expression_sex        , optional: true
+    tuple val(meta), path("expression_sex_mqc.tsv")     , emit: expression_sex
     tuple val(meta), path("sex_matched_mqc.png")        , emit: sex_matched           , optional: true
     tuple val(meta), path("xist_uty.tsv")               , emit: xist_uty              , optional: true
     path  "versions.yml"                                , emit: versions
@@ -47,6 +47,8 @@ process COUNTEXPRESSION_SUMMARY {
     a <- file("expressedGenes_mqc.png", "w")
     close(a)
     a <- file("expressed_genes_mqc.tsv", "w")
+    close(a)
+    a <- file("expression_sex_mqc.tsv", "w")
     close(a)
 
     ## VERSIONS FILE
