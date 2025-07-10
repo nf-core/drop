@@ -215,7 +215,7 @@ workflow ABERRANTEXPRESSION {
     COUNTEXPRESSION_SUMMARY(
         countexpression_summary_input
     )
-
+    ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
     //
     // multiqc for counting
     //
