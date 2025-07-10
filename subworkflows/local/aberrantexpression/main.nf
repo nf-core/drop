@@ -1,11 +1,15 @@
-include { COUNTREADS                } from '../../../modules/local/countreads/'
-include { MERGECOUNTS               } from '../../../modules/local/mergecounts/'
-include { FILTERCOUNTS              } from '../../../modules/local/filtercounts/'
-include { OUTRIDER_RUN              } from '../../../modules/local/outrider/run'
-include { OUTRIDER_PVALS            } from '../../../modules/local/outrider/pvals'
-include { OUTRIDER_RESULTS          } from '../../../modules/local/outrider/results'
+include { COUNTREADS                         } from '../../../modules/local/countreads/'
+include { MERGECOUNTS                        } from '../../../modules/local/mergecounts/'
+include { FILTERCOUNTS                       } from '../../../modules/local/filtercounts/'
+include { COUNTEXPRESSION_SUMMARY            } from '../../../modules/local/countexpression/summary/'
+include { OUTRIDER_RUN                       } from '../../../modules/local/outrider/run'
+include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
+include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
+include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
+include { MULTIQC as MULTIQC_COUNTEXPRESSION } from '../../../modules/nf-core/multiqc/main'
+include { MULTIQC as MULTIQC_OUTRIDER        } from '../../../modules/nf-core/multiqc/main'
 
-include { BAM_STATS_IDXSTATS_MERGE  } from "../bam_stats_idxstats_merge/"
+include { BAM_STATS_IDXSTATS_MERGE           } from "../bam_stats_idxstats_merge/"
 
 workflow ABERRANTEXPRESSION {
     take:
@@ -195,9 +199,51 @@ workflow ABERRANTEXPRESSION {
     )
     ch_versions = ch_versions.mix(BAM_STATS_IDXSTATS_MERGE.out.versions)
 
+    //
+    // summary for expression counts
+    //
+    def countexpression_summary_input = FILTERCOUNTS.out.output
+                    .map { meta, ods_unfitted ->
+                        [ meta.drop_group,      // key for join
+                        meta,
+                        ods_unfitted ]
+                    }
+                    .combine(BAM_STATS_IDXSTATS_MERGE.out.merged_bam_stats, by: 0)
+                    .map { group, meta, ods_unfitted, bamstats ->
+                        [ meta, ods_unfitted, bamstats ]
+                    }
+
+    COUNTEXPRESSION_SUMMARY(
+        countexpression_summary_input
+    )
+
+    //
+    // multiqc for counting
+    //
+    def multiqc_countexpression_input = COUNTEXPRESSION_SUMMARY.out.sample_count
+        .join(COUNTEXPRESSION_SUMMARY.out.read_counts, remainder: true)
+        .join(COUNTEXPRESSION_SUMMARY.out.mapped_vs_counted)
+        .join(COUNTEXPRESSION_SUMMARY.out.size_factors)
+        .join(COUNTEXPRESSION_SUMMARY.out.reads_statistics)
+        .join(COUNTEXPRESSION_SUMMARY.out.meanCounts)
+        .join(COUNTEXPRESSION_SUMMARY.out.expressedGenes)
+        .join(COUNTEXPRESSION_SUMMARY.out.expressed_genes)
+        .join(COUNTEXPRESSION_SUMMARY.out.expression_sex, remainder: true)
+        .join(COUNTEXPRESSION_SUMMARY.out.sex_matched, remainder: true)
+        .map { it.drop(1).findAll { p -> p instanceof Path } }   // drop meta and null
+
+    MULTIQC_COUNTEXPRESSION(
+        multiqc_countexpression_input,
+        Channel.fromPath("$projectDir/assets/multiqc_countexpression_config.yml", checkIfExists: true).collect(),
+        [],
+        [],
+        [],
+        []
+    )
+//
+
     emit:
     versions  = ch_versions
     results   = OUTRIDER_RESULTS.out.results
-    bam_stats = BAM_STATS_IDXSTATS_MERGE.out.merged_bam_stats
+    count_report = MULTIQC_COUNTEXPRESSION.out.report.toList()
 }
-

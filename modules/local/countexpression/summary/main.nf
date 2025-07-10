@@ -8,20 +8,20 @@ process COUNTEXPRESSION_SUMMARY {
         'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:1206f390222d7451' }"
 
     input:
-    tuple val(meta), path(ods)
-    tuple val(meta2), path(bam_cov)
+    tuple val(meta), path(ods), path(bam_cov)
 
     output:
-    tuple val(meta), path("sample_count_mqc.tsv")       , emit: sample_mqc
-    tuple val(meta), path("read_counts_mqc.png")        , emit: reads_mqc_1      , optional: true
-    tuple val(meta), path("mapped_vs_counted_mqc.png")  , emit: reads_mqc_2
-    tuple val(meta), path("size_factors_mqc.png")       , emit: reads_mqc_3
-    tuple val(meta), path("reads_statistics_mqc.tsv")   , emit: reads_mqc_4
-    tuple val(meta), path("meanCounts_mqc.png")         , emit: filtering_mqc_1
-    tuple val(meta), path("expressedGenes_mqc.png")     , emit: filtering_mqc_2
-    tuple val(meta), path("expressed_genes_mqc.tsv")    , emit: filtering_mqc_3
-    tuple val(meta), path("expression_sex_mqc.tsv")     , emit: sex_mqc_1        , optional: true
-    tuple val(meta), path("sex_matched_mqc.png")        , emit: sex_mqc_2        , optional: true
+    tuple val(meta), path("sample_count_mqc.tsv")       , emit: sample_count
+    tuple val(meta), path("read_counts_mqc.png")        , emit: read_counts           , optional: true
+    tuple val(meta), path("mapped_vs_counted_mqc.png")  , emit: mapped_vs_counted
+    tuple val(meta), path("size_factors_mqc.png")       , emit: size_factors
+    tuple val(meta), path("reads_statistics_mqc.tsv")   , emit: reads_statistics
+    tuple val(meta), path("meanCounts_mqc.png")         , emit: meanCounts
+    tuple val(meta), path("expressedGenes_mqc.png")     , emit: expressedGenes
+    tuple val(meta), path("expressed_genes_mqc.tsv")    , emit: expressed_genes
+    tuple val(meta), path("expression_sex_mqc.tsv")     , emit: expression_sex        , optional: true
+    tuple val(meta), path("sex_matched_mqc.png")        , emit: sex_matched           , optional: true
+    tuple val(meta), path("xist_uty.tsv")               , emit: xist_uty              , optional: true
     path  "versions.yml"                                , emit: versions
 
     when:

@@ -1,36 +1,6 @@
 #!/usr/bin/env Rscript
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-expression-pipeline/Counting/Summary.R
 
-# --- helper to emit a MultiQC table with metadata header to replace DT::datatable --- #
-write_mqc_table <- function(df= NULL, outf,
-                            id, section_name, description = "",
-                            format = "tsv", plot_type = "table",
-                            sep = "\t", quote = FALSE, html_text = NULL) {
-    # build the header lines
-    header <- c(
-        sprintf('# id: "%s"',         id),
-        sprintf('# section_name: "%s"', section_name),
-        sprintf('# description: "%s"',  description),
-        sprintf('# format: "%s"',       format),
-        sprintf('# plot_type: "%s"',    plot_type),
-        html_text
-    )
-    # write once (overwrites if exists), then append the table
-    writeLines(header, con = outf)
-
-    if (!is.null(df)) {
-        write.table(
-            df,
-            file      = outf,
-            sep       = sep,
-            row.names = FALSE,
-            col.names = TRUE,
-            append    = TRUE,
-            quote     = quote
-        )
-    }
-}
-
 suppressPackageStartupMessages({
     library(OUTRIDER)
     library(SummarizedExperiment)
@@ -66,15 +36,7 @@ sample_count_df <- data.frame(
     count       = c(n_local, n_external),
     stringsAsFactors = FALSE
 )
-
-# multiqc table
-write_mqc_table(
-    df            = sample_count_df,
-    outf          = file.path("sample_count_mqc.tsv"),
-    id            = "samples_count",
-    section_name  = "Sample Counts",
-    description   = "Total number of local vs. external samples."
-)
+write.table(sample_count_df, file="sample_count_mqc.tsv", row.names = FALSE, col.names = TRUE, append = TRUE, quote = FALSE, sep = "\t")
 
 bam_coverage <- fread("$bam_cov")
 bam_coverage[, RNA_ID := as.character(sampleID)]
@@ -120,14 +82,7 @@ setnames(coverage_dt, old = c("total_count", "read_count", "size_factors"), new 
 
 # Reads summary statistics
 reads_statistics <- coverage_dt[, .(RNA_ID, `Reads Mapped`, `Reads Counted`, `Size Factors`)][order(`Reads Mapped`)]
-# multiqc table
-write_mqc_table(
-    df            = reads_statistics,
-    outf          = file.path("reads_statistics_mqc.tsv"),
-    id            = "reads_summary",
-    section_name  = "Reads Summary Statistics",
-    description   = "Reads mapped, counted and size factors per RNA sample."
-)
+write.table(reads_statistics, file="reads_statistics_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
 
 #' # Filtering
 #' **local**: A pre-filtered summary of counts using only the local (from BAM) counts. Omitted if no external counts
@@ -198,14 +153,7 @@ if (has_external) {
 }
 
 colnames(expressed_genes_df) <- gsub("\n", " ", colnames(expressed_genes_df))
-# multiqc table
-write_mqc_table(
-    df            = expressed_genes_df,
-    outf          = file.path("expressed_genes_mqc.tsv"),
-    id            = "expressed_genes",
-    section_name  = "Expressed Genes",
-    description   = ""
-)
+write.table(expressed_genes_df, file="expressed_genes_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
 
 #' **Considerations:**
 #' The verifying of the samples sex is performed by comparing the expression levels of
@@ -217,14 +165,7 @@ write_mqc_table(
 # Get sex column and proceed if it exists
 sex_idx <- which("SEX" == toupper(colnames(colData(ods))))
 if (isEmpty(sex_idx)) {
-    # multiqc table
-    write_mqc_table(
-        outf          = file.path("expression_sex_mqc.tsv"),
-        id            = "sex",
-        section_name  = "Sex match",
-        plot_type     = "html",
-        html_text     = 'Sex column not found in sample annotation'
-    )
+    writeLines(c('# plot_type: "html"','Sex column not found in sample annotation'), con = file.path("expression_sex_mqc.tsv"))
 } else {
 
     # Verify if both XIST and UTY were counted
@@ -239,15 +180,7 @@ if (isEmpty(sex_idx)) {
     uty_idx <- grep(uty_id, rownames(ods))
 
     if (isEmpty(xist_idx) | isEmpty(uty_idx)) {
-        # multiqc table
-        write_mqc_table(
-            outf          = file.path("expression_sex_mqc.tsv"),
-            id            = "sex",
-            section_name  = "Sex match",
-            plot_type     = "html",
-            html_text     = 'Either XIST or UTY is not expressed'
-        )
-
+        writeLines(c('# plot_type: "html"','Sex column not found in sample annotation'), con = file.path("expression_sex_mqc.tsv"))
     } else {
 
         sex_counts <- counts(ods)[c(xist_idx, uty_idx), ]
@@ -276,14 +209,8 @@ if (isEmpty(sex_idx)) {
             shape = "Predicted sex", alpha = "Matches sex")
         ggsave("sex_matched_mqc.png", g, width = 5, height = 3.75, dpi = 196, bg = "white")
 
-        # multiqc table
-        write_mqc_table(
-            df            = sex_dt[match_sex == F],
-            outf          = file.path("expression_sex_mqc.tsv"),
-            id            = "sex",
-            section_name  = "Sex match",
-            description   = "Sex mismatches"
-        )
+        writeLines(c('# plot_type: "table"', 'format: "tsv"'), con = file.path("expression_sex_mqc.tsv"))
+        write.table(sex_dt[match_sex == F], file="expression_sex_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, append = TRUE, sep = "\t")
 
         # Write table
         fwrite(sex_dt, gsub("ods_unfitted.Rds", "xist_uty.tsv", "$ods"), sep = "\t",
