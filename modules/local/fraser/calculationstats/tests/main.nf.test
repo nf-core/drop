@@ -31,7 +31,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("fraser--v29"),
                         "fraser",
                         "v29",
                         ["HG00096", "HG00103", "HG00106", "HG00111", "HG00116", "HG00126", "HG00132", "HG00149", "HG00150", "HG00176"]
@@ -46,7 +46,7 @@ nextflow_process {
         }
 
         then {
-            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            def file_list = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert snapshot(
@@ -69,7 +69,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("fraser--v29"),
                         "fraser",
                         "v29",
                         ["HG00096", "HG00103", "HG00106", "HG00111", "HG00116", "HG00126", "HG00132", "HG00149", "HG00150", "HG00176"]

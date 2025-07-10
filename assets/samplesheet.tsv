@@ -11,3 +11,5 @@ HG00150	https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/rn
 HG00176	https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/rna_bam/HG00176.bam		https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/dna_vcf/demo_chr21.vcf.gz		HG00176	outrider,outrider_external,fraser,fraser_external	TRUE	IntersectionStrict	TRUE	no	HP:0005215,HP:0010234		v29
 HG00178						outrider_external				no		https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/external_count_data/geneCounts.tsv.gz	v29
 HG00181						outrider_external				no		https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/external_count_data/geneCounts.tsv.gz	v29
+HG00191						fraser_external				no					https://github.com/nf-core/test-datasets/raw/refs/heads/drop/data/inputs/external_count_data.tar.gz
+HG00201						fraser_external				no					https://github.com/nf-core/test-datasets/raw/refs/heads/drop/data/inputs/external_count_data.tar.gz

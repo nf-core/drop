@@ -32,7 +32,7 @@ options("FRASER.maxJunctionsNoHDF5"=-1)
 
 h5disableFileLocking()
 
-# set psiTypes to run based on preference in config.yaml
+# set psiTypes to run based on fraser version
 configure_fraser <- function(fraser_version) {
     if(fraser_version == "FRASER2"){
         pseudocount(0.1)

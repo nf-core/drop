@@ -60,9 +60,20 @@ nextflow_process {
                 .map { meta, fds, cache, nsp ->
                     [
                         meta,
-                        fds,
+                        fds.resolve("raw-local-fraser"),
                         cache.resolve("raw-local-fraser/gRanges_NonSplitCounts.rds"),
-                        nsp,
+                        [
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00096.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00103.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00106.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00111.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00116.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00126.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00132.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00149.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00150.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00176.h5")
+                        ],
                         [
                             file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                             file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
@@ -92,7 +103,8 @@ nextflow_process {
                 }
                 input[1] = false
                 input[2] = false
-                input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[3] = "FRASER"
+                input[4] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
@@ -119,9 +131,20 @@ nextflow_process {
                 .map { meta, fds, cache, nsp ->
                     [
                         meta,
-                        fds,
+                        fds.resolve("raw-local-fraser"),
                         cache.resolve("raw-local-fraser/gRanges_NonSplitCounts.rds"),
-                        nsp,
+                        [
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00096.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00103.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00106.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00111.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00116.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00126.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00132.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00149.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00150.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00176.h5")
+                        ],
                         [
                             file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                             file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
@@ -151,7 +174,8 @@ nextflow_process {
                 }
                 input[1] = false
                 input[2] = true
-                input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[3] = "FRASER"
+                input[4] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
@@ -180,9 +204,20 @@ nextflow_process {
                 .map { meta, fds, cache, nsp ->
                     [
                         meta,
-                        fds,
+                        fds.resolve("raw-local-fraser"),
                         cache.resolve("raw-local-fraser/gRanges_NonSplitCounts.rds"),
-                        nsp,
+                        [
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00096.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00103.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00106.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00111.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00116.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00126.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00132.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00149.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00150.h5"),
+                            nsp.resolve("nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00176.h5")
+                        ],
                         [
                             file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
                             file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
@@ -212,7 +247,8 @@ nextflow_process {
                 }
                 input[1] = false
                 input[2] = false
-                input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[3] = "FRASER"
+                input[4] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }

@@ -31,7 +31,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("raw-local-fraser"),
                         [],
                         [],
                         "fraser"
@@ -53,13 +53,16 @@ nextflow_process {
         }
 
         then {
-            def file_list = path(process.out.fdsobj[0][1]).list()[0].list()
+            def file_list = path(process.out.fdsobj[0][1]).list()
+            def file_list_raw = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert process.success },
                 { assert snapshot(
                     file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
                     file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    file_list_raw.findAll { file(it.toString()).name != "fds-object.RDS"},
+                    file_list_raw.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
                     process.out.versions
                 ).match() }
             )
@@ -77,7 +80,7 @@ nextflow_process {
                 .map { meta, fds ->
                     [
                         [id:'fraser'],
-                        fds,
+                        fds.resolve("raw-local-fraser"),
                         [],
                         [],
                         "fraser"
