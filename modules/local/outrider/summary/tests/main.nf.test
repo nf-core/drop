@@ -30,17 +30,17 @@ nextflow_process {
             assertAll (
                 { assert process.success },
                 { assert snapshot(
-                    process.out.sample_mqc.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.encoding_mqc.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.genes_mqc.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.batch_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.batch_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.heatmap_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.heatmap_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.bcv_mqc.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.result_mqc_1.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.result_mqc_2.collect { meta, r -> [ meta, file(r).name ] },
-                    process.out.result_mqc_3.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.outrider_overview.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.encoding_dimension.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.aberrant_genes_per_sample.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.batch_correction_raw.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.batch_correction_normalized.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.geneSampleHeatmap_raw.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.geneSampleHeatmap_normalized.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.bcv.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.outrider_result_overview.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.aberrant_samples.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.significant_results.collect { meta, r -> [ meta, file(r).name ] },
                     process.out.result.collect { meta, r -> [ meta, file(r).name ] },
                     process.out.versions
                 ).match() }

@@ -49,21 +49,21 @@ write_mqc_table(df = count_df, outf = file.path("outrider_overview_mqc.tsv"), id
 #' ### Encoding dimension
 p <- plotEncDimSearch(ods) + labs(title = dataset_title) + theme_cowplot() + background_grid() +
     scale_color_brewer(palette = "Dark2")
-ggsave("Encoding_dimension_mqc.png", p, width = 5, height = 3.75, dpi = 196, bg = "white")
+ggsave("encoding_dimension_mqc.png", p, width = 5, height = 3.75, dpi = 196, bg = "white")
 
 #' ### Aberrantly expressed genes per sample
 p <- plotAberrantPerSample(ods, main = dataset_title, padjCutoff = $padjCutoff,
     zScoreCutoff = $zScoreCutoff)
-ggsave("Aberrant_genes_per_sample_mqc.png", p, width = 5, height = 3.75, dpi = 196,
+ggsave("aberrant_genes_per_sample_mqc.png", p, width = 5, height = 3.75, dpi = 196,
     bg = "white")
 
 #' ### Batch correction
 #+ countCorHeatmap, fig.height=8, fig.width=8
-png("Batch_correction_raw_mqc.png", width = 8, height = 8, units = "in", res = 196)
+png("batch_correction_raw_mqc.png", width = 8, height = 8, units = "in", res = 196)
 plotCountCorHeatmap(ods, normalized = FALSE, colGroups = "isExternal", colColSet = "Dark2",
     main = paste0("Raw Counts (", dataset_title, ")"))
 dev.off()
-png("Batch_correction_normalized_mqc.png", width = 8, height = 8, units = "in", res = 196)
+png("batch_correction_normalized_mqc.png", width = 8, height = 8, units = "in", res = 196)
 plotCountCorHeatmap(ods, normalized = TRUE, colGroups = "isExternal", colColSet = "Dark2",
     main = paste0("Normalized Counts (", dataset_title, ")"))
 dev.off()
@@ -105,7 +105,7 @@ bcv_dt <- rbind(before, after)
 p <- ggplot(bcv_dt, aes(when, BCV)) + geom_boxplot() + theme_bw(base_size = 14) +
     labs(x = "Autoencoder correction", y = "Biological coefficient \nof variation",
         title = dataset_title)
-ggsave("BCV_mqc.png", p, width = 6, height = 5, dpi = 196, bg = "white")
+ggsave("bcv_mqc.png", p, width = 6, height = 5, dpi = 196, bg = "white")
 
 #' ## Results
 res <- fread("$results")
@@ -129,15 +129,15 @@ if (nrow(res) > 0) {
         unique
     if (nrow(ab_table) > 0) {
         setorder(ab_table, "Outlier genes")
-        write_mqc_table(df = ab_table, outf = file.path("Aberrant_samples_mqc.tsv"),
+        write_mqc_table(df = ab_table, outf = file.path("aberrant_samples_mqc.tsv"),
             id = "aberrant_samples", section_name = "aberrant samples", description = "An aberrant sample is one that has more than 0.1% of the total genes called as outliers.")
     } else {
-        write_mqc_table(outf = file.path("Aberrant_samples_mqc.tsv"), id = "aberrant_samples",
+        write_mqc_table(outf = file.path("aberrant_samples_mqc.tsv"), id = "aberrant_samples",
             section_name = "aberrant samples", plot_type = "html", description = "An aberrant sample is one that has more than 0.1% of the total genes called as outliers.",
             html_text = "no aberrant samples.")
     }
 } else {
-    write_mqc_table(outf = file.path("Aberrant_samples_mqc.tsv"), id = "aberrant_samples",
+    write_mqc_table(outf = file.path("aberrant_samples_mqc.tsv"), id = "aberrant_samples",
         section_name = "aberrant samples", plot_type = "html", description = "An aberrant sample is one that has more than 0.1% of the total genes called as outliers.",
         html_text = "no aberrant samples.")
 }

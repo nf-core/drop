@@ -265,6 +265,28 @@ workflow ABERRANTEXPRESSION {
     //
     // multiqc for outrider
     //
+    def multiqc_outrider_input = OUTRIDER_SUMMARY.out.outrider_overview
+        .join(OUTRIDER_SUMMARY.out.encoding_dimension)
+        .join(OUTRIDER_SUMMARY.out.aberrant_genes_per_sample)
+        .join(OUTRIDER_SUMMARY.out.batch_correction_raw)
+        .join(OUTRIDER_SUMMARY.out.batch_correction_normalized)
+        .join(OUTRIDER_SUMMARY.out.geneSampleHeatmap_raw)
+        .join(OUTRIDER_SUMMARY.out.geneSampleHeatmap_normalized)
+        .join(OUTRIDER_SUMMARY.out.bcv)
+        .join(OUTRIDER_SUMMARY.out.outrider_result_overview)
+        .join(OUTRIDER_SUMMARY.out.aberrant_samples)
+        .join(OUTRIDER_SUMMARY.out.significant_results)
+        .map { it.drop(1).findAll { p -> p instanceof Path } }   // drop meta
+
+    MULTIQC_COUNTEXPRESSION(
+        multiqc_outrider_input,
+        Channel.fromPath("$projectDir/assets/multiqc_outrider_config.yml", checkIfExists: true).collect(),
+        [],
+        [],
+        [],
+        []
+    )
+
 
     emit:
     versions  = ch_versions
