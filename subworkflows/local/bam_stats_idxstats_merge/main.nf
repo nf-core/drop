@@ -17,7 +17,7 @@ workflow BAM_STATS_IDXSTATS_MERGE {
     )
     ch_versions = ch_versions.mix(SAMTOOLS_IDXSTATS.out.versions.first())
 
-    def ch_merged_bam_stats = SAMTOOLS_IDXSTATS.out.idxstats
+    def ch_bam_stats = SAMTOOLS_IDXSTATS.out.idxstats
         // Get the total read count for each sample
         .map { meta, idxstats ->
             def split_idxstats = idxstats.splitCsv(header: false, sep: "\t")
@@ -38,7 +38,7 @@ workflow BAM_STATS_IDXSTATS_MERGE {
             [ "${meta.id}.txt", line]
         }
 
-    ch_individuals
+    ch_merged_bam_stats = ch_individuals
         .map { meta, line ->
             def groups = meta.drop_group.tokenize(",").intersect(include_groups)
             [ groups, meta, line ]
@@ -56,10 +56,9 @@ workflow BAM_STATS_IDXSTATS_MERGE {
         .collectFile(newLine:true, storeDir:"${params.outdir}/processed_data/aberrant_expression/bam_stats/") { group, line ->
             [ "${group}.txt", line ]
         }
-        .collect()
-
-
-
+        .map {
+            path -> [ path.baseName.replaceFirst(/\.txt$/,'') , path ]
+        }
 
     emit:
     versions =         ch_versions          // value channel: path(versions)
