@@ -5,6 +5,7 @@ include { COUNTEXPRESSION_SUMMARY            } from '../../../modules/local/coun
 include { OUTRIDER_RUN                       } from '../../../modules/local/outrider/run'
 include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
 include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
+include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
 include { MULTIQC as MULTIQC_COUNTEXPRESSION } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_OUTRIDER        } from '../../../modules/nf-core/multiqc/main'
 
@@ -216,6 +217,27 @@ workflow ABERRANTEXPRESSION {
         countexpression_summary_input
     )
     ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+
+    //
+    // summary for outrider results
+    //
+    OUTRIDER_PVALS.out.ods_with_pvals.view { println "[DEBUG OUTRIDER_PVALS] $it" }
+    OUTRIDER_RESULTS.out.results.view { println "[DEBUG OUTRIDER_RESULTS] $it" }
+
+    def outrider_summary_input = OUTRIDER_PVALS.out.ods_with_pvals
+                    .join(OUTRIDER_RESULTS.out.results, by: 0)
+                    .map { meta, ods, results ->
+                            [ meta, ods, results, meta.drop_group, meta.id]
+                        }
+    outrider_summary_input.view { println "[DEBUG OUTRIDER_SUMMARY] $it" }
+
+    OUTRIDER_SUMMARY(
+        outrider_summary_input,
+        params.ae_padj_cutoff,
+        params.ae_z_score_cutoff
+    )
+    ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+
     //
     // multiqc for counting
     //
@@ -239,7 +261,10 @@ workflow ABERRANTEXPRESSION {
         [],
         []
     )
-//
+
+    //
+    // multiqc for outrider
+    //
 
     emit:
     versions  = ch_versions
