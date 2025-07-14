@@ -1,0 +1,60 @@
+custom_content:
+  order:
+    - outrider_overview
+    - encoding_dimension
+    - aberrant_genes_per_sample
+    - batch_correction_raw
+    - batch_correction_normalized
+    - geneSampleHeatmap_raw
+    - geneSampleHeatmap_normalized
+    - bcv
+    - outrider_result_overview
+    - aberrant_samples
+    - significant_results
+
+custom_data:
+  #────────────────────────────────────────────────────────────────────────────
+  # outrider_overview
+  #────────────────────────────────────────────────────────────────────────────
+  outrider_overview:
+    section_name: "Overview"
+    format: "tsv"
+    plot_type: "table"
+
+  #────────────────────────────────────────────────────────────────────────────
+  # Visualize
+  #────────────────────────────────────────────────────────────────────────────
+  encoding_dimension:
+    section_name: "Encoding dimension"
+
+  aberrant_genes_per_sample:
+    section_name: "Aberrantly expressed genes per sample"
+
+  batch_correction_raw:
+    section_name: "Counts before batch correction"
+
+  batch_correction_normalized:
+    section_name: "Counts after batch correction"
+
+  geneSampleHeatmap_raw:
+    section_name: "Expression by gene per sample - raw"
+
+  geneSampleHeatmap_normalized:
+    section_name: "Expression by gene per sample - normalized"
+
+  bcv:
+    section_name: "BCV - Biological coefficient of variation"
+
+  #────────────────────────────────────────────────────────────────────────────
+  # Results
+  #────────────────────────────────────────────────────────────────────────────
+  outrider_result_overview:
+    section_name: "Results"
+
+  aberrant_samples:
+    section_name: "Aberrant samples"
+    description: "An aberrant sample is one that has more than 0.1% of the total genes called as outliers."
+
+  significant_results:
+    section_name: "Results table"
+    description: "OUTRIDER results (up to 100 rows shown)"

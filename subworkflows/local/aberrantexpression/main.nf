@@ -278,7 +278,7 @@ workflow ABERRANTEXPRESSION {
         .join(OUTRIDER_SUMMARY.out.significant_results)
         .map { it.drop(1).findAll { p -> p instanceof Path } }   // drop meta
 
-    MULTIQC_COUNTEXPRESSION(
+    MULTIQC_OUTRIDER(
         multiqc_outrider_input,
         Channel.fromPath("$projectDir/assets/multiqc_outrider_config.yml", checkIfExists: true).collect(),
         [],
