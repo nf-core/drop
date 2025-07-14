@@ -221,15 +221,11 @@ workflow ABERRANTEXPRESSION {
     //
     // summary for outrider results
     //
-    OUTRIDER_PVALS.out.ods_with_pvals.view { println "[DEBUG OUTRIDER_PVALS] $it" }
-    OUTRIDER_RESULTS.out.results.view { println "[DEBUG OUTRIDER_RESULTS] $it" }
-
     def outrider_summary_input = OUTRIDER_PVALS.out.ods_with_pvals
                     .join(OUTRIDER_RESULTS.out.results, by: 0)
                     .map { meta, ods, results ->
                             [ meta, ods, results, meta.drop_group, meta.id]
                         }
-    outrider_summary_input.view { println "[DEBUG OUTRIDER_SUMMARY] $it" }
 
     OUTRIDER_SUMMARY(
         outrider_summary_input,
@@ -252,6 +248,8 @@ workflow ABERRANTEXPRESSION {
         .join(COUNTEXPRESSION_SUMMARY.out.expression_sex, remainder: true)
         .join(COUNTEXPRESSION_SUMMARY.out.sex_matched, remainder: true)
         .map { it.drop(1).findAll { p -> p instanceof Path } }   // drop meta and null
+
+    multiqc_countexpression_input.view { println "[DEBUG multiqc_countexpression_input] $it" }
 
     MULTIQC_COUNTEXPRESSION(
         multiqc_countexpression_input,
