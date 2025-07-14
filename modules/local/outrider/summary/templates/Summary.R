@@ -108,7 +108,7 @@ if (nrow(res) > 0) {
         unique
     if (nrow(ab_table) > 0) {
         setorder(ab_table, "Outlier genes")
-        writeLines(c('# plot_type: "table"', 'format: "tsv"'), con = file.path("aberrant_samples_mqc.tsv"))
+        writeLines(c('# plot_type: "table"', '# format: "tsv"'), con = file.path("aberrant_samples_mqc.tsv"))
         write.table(ab_table, file="aberrant_samples_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, append = TRUE, sep = "\t")
     } else {
         writeLines(c('# plot_type: "html"','no aberrant samples.'), con = file.path("aberrant_samples_mqc.tsv"))
@@ -131,8 +131,8 @@ if (nrow(res) > 0) {
 
     # DT::datatable(head(res, 1000), caption = 'OUTRIDER results (up to 1,000
     # rows shown)', options=list(scrollX=TRUE), filter = 'top')
-    writeLines(c('# plot_type: "table"', 'format: "tsv"'), con = file.path("significant_results_mqc.tsv"))
-    write.table(df = cbind(row_id = rownames(res), res)[1:100, ], file="significant_results_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, append = TRUE, sep = "\t")
+    writeLines(c('# plot_type: "table"', '# format: "tsv"'), con = file.path("significant_results_mqc.tsv"))
+    write.table(head(cbind(row_id = rownames(res), res), 100), file="significant_results_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, append = TRUE, sep = "\t")
 } else {
     writeLines(c('# plot_type: "html"','no significant results.'), con = file.path("significant_results_mqc.tsv"))
 }

@@ -209,7 +209,7 @@ if (isEmpty(sex_idx)) {
             shape = "Predicted sex", alpha = "Matches sex")
         ggsave("sex_matched_mqc.png", g, width = 5, height = 3.75, dpi = 196, bg = "white")
 
-        writeLines(c('# plot_type: "table"', 'format: "tsv"'), con = file.path("expression_sex_mqc.tsv"))
+        writeLines(c('# plot_type: "table"', '# format: "tsv"'), con = file.path("expression_sex_mqc.tsv"))
         write.table(sex_dt[match_sex == F], file="expression_sex_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, append = TRUE, sep = "\t")
 
         # Write table

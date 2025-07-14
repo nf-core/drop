@@ -50,6 +50,8 @@ custom_data:
   #────────────────────────────────────────────────────────────────────────────
   outrider_result_overview:
     section_name: "Results"
+    format: "tsv"
+    plot_type: "table"
 
   aberrant_samples:
     section_name: "Aberrant samples"
