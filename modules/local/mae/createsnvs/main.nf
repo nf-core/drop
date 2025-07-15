@@ -1,4 +1,4 @@
-process CREATESNVS {
+process MAE_CREATESNVS {
     tag "${meta.id}"
     label 'process_single'
 
