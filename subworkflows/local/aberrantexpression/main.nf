@@ -247,14 +247,32 @@ workflow ABERRANTEXPRESSION {
         .join(COUNTEXPRESSION_SUMMARY.out.expressed_genes)
         .join(COUNTEXPRESSION_SUMMARY.out.expression_sex, remainder: true)
         .join(COUNTEXPRESSION_SUMMARY.out.sex_matched, remainder: true)
-        .map { it.drop(1).findAll { p -> p instanceof Path } }   // drop meta and null
+        .map { tup ->
+        def meta  = tup[0]
+        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}__${meta.drop_group}"
+        [ tag, files ]
+    }
 
     multiqc_countexpression_input.view { println "[DEBUG multiqc_countexpression_input] $it" }
 
+    def ch_extra_cfg_countexpression = multiqc_countexpression_input
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            data_dir_name:  "[TAG:${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            """.stripIndent()
+
+            // two‑element list ➜ [ filename , text‑content ]
+            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+        }
+    ch_extra_cfg_countexpression.view { println "[DEBUG ch_extra_cfg] $it" }
+
     MULTIQC_COUNTEXPRESSION(
-        multiqc_countexpression_input,
+        multiqc_countexpression_input.map { it[1] },
         Channel.fromPath("$projectDir/assets/multiqc_countexpression_config.yml", checkIfExists: true).collect(),
-        [],
+        ch_extra_cfg_countexpression,
         [],
         [],
         []
@@ -274,12 +292,29 @@ workflow ABERRANTEXPRESSION {
         .join(OUTRIDER_SUMMARY.out.outrider_result_overview)
         .join(OUTRIDER_SUMMARY.out.aberrant_samples)
         .join(OUTRIDER_SUMMARY.out.significant_results)
-        .map { it.drop(1).findAll { p -> p instanceof Path } }   // drop meta
+        .map { tup ->
+        def meta  = tup[0]
+        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}__${meta.drop_group}"
+        [ tag, files ]
+    }
+
+    def ch_extra_cfg_outrider = multiqc_outrider_input
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            data_dir_name:  "[TAG:${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            """.stripIndent()
+
+            // two‑element list ➜ [ filename , text‑content ]
+            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+        }
 
     MULTIQC_OUTRIDER(
-        multiqc_outrider_input,
+        multiqc_outrider_input.map { it[1] },
         Channel.fromPath("$projectDir/assets/multiqc_outrider_config.yml", checkIfExists: true).collect(),
-        [],
+        ch_extra_cfg_outrider,
         [],
         [],
         []
