@@ -61,6 +61,15 @@
                     "description": "Path to FASTA index file.",
                     "fa_icon": "far fa-file-code"
                 },
+                "dict": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.dict$",
+                    "description": "Path to sequence dictionary file.",
+                    "fa_icon": "far fa-file-code"
+                },
                 "ncbi_fasta": {
                     "type": "string",
                     "format": "file-path",

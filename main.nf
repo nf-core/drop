@@ -15,12 +15,15 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { DROP                    } from './workflows/drop'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_drop_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_drop_pipeline'
-include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_drop_pipeline'
+include { DROP                              } from './workflows/drop'
 
-include { samplesheetToList       } from 'plugin/nf-schema'
+include { GATK4_CREATESEQUENCEDICTIONARY    } from './modules/nf-core/gatk4/createsequencedictionary/main'
+
+include { PIPELINE_INITIALISATION           } from './subworkflows/local/utils_nfcore_drop_pipeline'
+include { PIPELINE_COMPLETION               } from './subworkflows/local/utils_nfcore_drop_pipeline'
+include { getGenomeAttribute                } from './subworkflows/local/utils_nfcore_drop_pipeline'
+
+include { samplesheetToList                 } from 'plugin/nf-schema'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,9 +61,19 @@ workflow {
     // Parse and convert parameters to their expected input format
     //
 
-    def fasta = params.fasta ? Channel.value([id: 'fasta'], file(params.fasta)) : [[:], []]
-    def fai   = params.fai   ? Channel.value([id: 'fai'], file(params.fai))     : [[:], []]
+    def fasta = params.fasta ? Channel.value([[id: 'fasta'], file(params.fasta)]) : [[:], []]
+    def fai   = params.fai   ? Channel.value([[id: 'fai'], file(params.fai)])     : [[:], []]
     // TODO accomodate for the ncbi and ucsc fasta
+
+    def dict = Channel.empty()
+    if (params.dict) {
+        dict = Channel.value([[id: 'dict'], file(params.dict)])
+    } else {
+        GATK4_CREATESEQUENCEDICTIONARY(
+            fasta
+        )
+        dict = GATK4_CREATESEQUENCEDICTIONARY.out.dict.collect()
+    }
 
     def samplesheet_file = Channel.value([[id: 'samplesheet'], file(params.input)])
 
@@ -87,6 +100,7 @@ workflow {
         params.project_title,
         fasta,
         fai,
+        dict,
         PIPELINE_INITIALISATION.out.gene_annotation,
         hpo_file,
 
