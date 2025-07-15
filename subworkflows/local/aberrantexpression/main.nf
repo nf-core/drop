@@ -250,11 +250,9 @@ workflow ABERRANTEXPRESSION {
         .map { tup ->
         def meta  = tup[0]
         def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
-        def tag   = "${meta.id}__${meta.drop_group}"
+        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
         [ tag, files ]
     }
-
-    multiqc_countexpression_input.view { println "[DEBUG multiqc_countexpression_input] $it" }
 
     def ch_extra_cfg_countexpression = multiqc_countexpression_input
         .collectFile { tag, _ ->
@@ -263,11 +261,8 @@ workflow ABERRANTEXPRESSION {
             data_dir_name:  "[TAG:${tag}]_multiqc_data"
             plots_dir_name: "[TAG:${tag}]_multiqc_plots"
             """.stripIndent()
-
-            // two‑element list ➜ [ filename , text‑content ]
             [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
         }
-    ch_extra_cfg_countexpression.view { println "[DEBUG ch_extra_cfg] $it" }
 
     MULTIQC_COUNTEXPRESSION(
         multiqc_countexpression_input.map { it[1] },
@@ -295,7 +290,7 @@ workflow ABERRANTEXPRESSION {
         .map { tup ->
         def meta  = tup[0]
         def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
-        def tag   = "${meta.id}__${meta.drop_group}"
+        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
         [ tag, files ]
     }
 
@@ -306,8 +301,6 @@ workflow ABERRANTEXPRESSION {
             data_dir_name:  "[TAG:${tag}]_multiqc_data"
             plots_dir_name: "[TAG:${tag}]_multiqc_plots"
             """.stripIndent()
-
-            // two‑element list ➜ [ filename , text‑content ]
             [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
         }
 
