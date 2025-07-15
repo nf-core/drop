@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process ALLELICCOUNTS"
+    name "Test Process MAE_ALLELICCOUNTS"
     script "../main.nf"
-    process "ALLELICCOUNTS"
+    process "MAE_ALLELICCOUNTS"
 
     tag "modules"
     tag "modules_local"
-    tag "alleliccounts"
+    tag "mae_alleliccounts"
 
     test("homo_sapiens - vcf, bam - ucsc") {
 

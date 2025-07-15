@@ -1,4 +1,4 @@
-process ALLELICCOUNTS {
+process MAE_ALLELICCOUNTS {
     tag "${meta.id}"
     label 'process_single'
 
