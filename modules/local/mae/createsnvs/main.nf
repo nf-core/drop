@@ -23,7 +23,8 @@ process MAE_CREATESNVS {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    filterSNVs.sh \\
+    mkdir ./tmp
+    TMPDIR=./tmp filterSNVs.sh \\
         ${ncbi2ucsc} \\
         ${ucsc2ncbi} \\
         ${vcf} \\

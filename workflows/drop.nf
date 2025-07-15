@@ -10,6 +10,7 @@ include { MULTIQC                   } from '../modules/nf-core/multiqc/main'
 include { PREPROCESSGENEANNOTATION  } from '../modules/local/preprocessgeneannotation/main'
 include { ABERRANTEXPRESSION        } from '../subworkflows/local/aberrantexpression/main'
 include { ABERRANTSPLICING          } from '../subworkflows/local/aberrantsplicing/main'
+include { MAE                       } from '../subworkflows/local/mae/main'
 
 include { paramsSummaryMap          } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -113,7 +114,7 @@ workflow DROP {
         .multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
             abberantexpression: [ meta, rna_bam, rna_bai, gene_counts ]
             aberrantsplicing: [ meta, rna_bam, rna_bai, splice_counts ]
-            // TODO: Create channels for each subworkflow here
+            mae: [ meta, dna_vcf, dna_tbi, rna_bam, rna_bai ]
         }
 
     //
@@ -160,6 +161,20 @@ workflow DROP {
             file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
         )
         ch_versions = ch_versions.mix(ABERRANTSPLICING.out.versions)
+    }
+
+    //
+    // Mono Allelic Expression
+    //
+
+    if(mae_run) {
+        MAE(
+            input.mae,
+            params.mae_groups.tokenize(","),
+            Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
+            Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
+        )
+        ch_versions = ch_versions.mix(MAE.out.versions)
     }
 
     //

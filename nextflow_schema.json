@@ -365,9 +365,9 @@
                     "maximum": 1,
                     "fa_icon": "fas fa-file-export"
                 },
-                "mae_skip_af": {
+                "mae_add_af": {
                     "type": "boolean",
-                    "description": "Skip the addition of the allele frequencies from gnomAD",
+                    "description": "Add the allele frequencies from gnomAD",
                     "fa_icon": "fas fa-file-export"
                 },
                 "mae_max_af": {
