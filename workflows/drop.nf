@@ -32,7 +32,12 @@ workflow DROP {
     project_title       // string:        title of the project to add to the HTML file
     fasta               // value channel: [ val(meta), path(fasta) ]
     fai                 // value channel: [ val(meta), path(fai) ]
-    dict                // value channel: [ val(meta), path(dict) ]
+    ucsc_fasta          // value channel: [ val(meta), path(ucsc_fasta) ]
+    ucsc_fai            // value channel: [ val(meta), path(ucsc_fai) ]
+    ncbi_fasta          // value channel: [ val(meta), path(ncbi_fasta) ]
+    ncbi_fai            // value channel: [ val(meta), path(ncbi_fai) ]
+    ucsc_dict           // value channel: [ val(meta), path(ucsc_dict) ]
+    ncbi_dict           // value channel: [ val(meta), path(ncbi_dict) ]
     gene_annotation     // queue channel: [ val(meta), path(gtf) ]
     hpo_file            // value channel: [ val(meta), path(hpo_file) ]
 
@@ -171,9 +176,12 @@ workflow DROP {
     if(mae_run) {
         MAE(
             input.mae,
-            fasta,
-            fai,
-            dict,
+            ucsc_fasta,
+            ucsc_fai,
+            ucsc_dict,
+            ncbi_fasta,
+            ncbi_fai,
+            ncbi_dict,
             params.mae_groups.tokenize(","),
             Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))

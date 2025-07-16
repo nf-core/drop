@@ -8,10 +8,7 @@ process MAE_ALLELICCOUNTS {
         'community.wave.seqera.io/library/bcftools_gatk4_htslib_samtools:255ed784054aa652' }"
 
     input:
-    tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(id)
-    tuple val(meta2), path(fasta)
-    tuple val(meta3), path(fai)
-    tuple val(meta4), path(dict)
+    tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(id), path(fasta), path(fai), path(dict)
     val(ignore_header_check)
     path(ncbi2ucsc)
     path(ucsc2ncbi)

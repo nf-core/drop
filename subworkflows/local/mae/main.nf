@@ -4,15 +4,28 @@ include { MAE_ALLELICCOUNTS } from '../../../modules/local/mae/alleliccounts/mai
 workflow MAE {
     take:
     input           // queue channel: [ val(meta), path(vcf), path(tbi), path(bam), path(bai) ]
-    fasta           // value channel: [ val(meta), path(fasta) ]
-    fai             // value channel: [ val(meta), path(fai) ]
-    dict            // value channel: [ val(meta), path(dict) ]
+    ucsc_fasta      // value channel: [ val(meta), path(ucsc_fasta) ]
+    ucsc_fai        // value channel: [ val(meta), path(ucsc_fai) ]
+    ucsc_dict       // value channel: [ val(meta), path(ucsc_dict) ]
+    ncbi_fasta      // value channel: [ val(meta), path(ncbi_fasta) ]
+    ncbi_fai        // value channel: [ val(meta), path(ncbi_fai) ]
+    ncbi_dict       // value channel: [ val(meta), path(ncbi_dict) ]
     include_groups  // list         : A list of groups to include in the mono allelic expression analysis
     ncbi2ucsc       // value channel: path to the NCBI to UCSC mapping file
     ucsc2ncbi       // value channel: path to the UCSC to NCBI mapping file
 
     main:
     def ch_versions = Channel.empty()
+
+    def ch_ucsc_refs = ucsc_fasta
+        .join(ucsc_fai, failOnDuplicate:true, failOnMismatch:true)
+        .join(ucsc_dict, failOnDuplicate:true, failOnMismatch:true)
+
+    def ch_ncbi_refs = ncbi_fasta
+        .join(ncbi_fai, failOnDuplicate:true, failOnMismatch:true)
+        .join(ncbi_dict, failOnDuplicate:true, failOnMismatch:true)
+
+    def ch_references = ch_ucsc_refs.mix(ch_ncbi_refs)
 
     def ch_filtered_inputs = Channel.empty()
     if (include_groups) {
@@ -42,14 +55,15 @@ workflow MAE {
         .join(MAE_CREATESNVS.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         .join(ch_createsnvs_input, failOnDuplicate:true, failOnMismatch:true)
         .map { meta, new_vcf, new_tbi, _old_vcf, _old_tbi, bam, bai, id ->
-            [ meta, new_vcf, new_tbi, bam, bai, id ]
+            [ [id:meta.genome], meta, new_vcf, new_tbi, bam, bai, id ]
+        }
+        .combine(ch_references, by:0)
+        .map { _ref_meta, meta, vcf, tbi, bam, bai, id, fasta, fai, dict ->
+            [ meta, vcf, tbi, bam, bai, id, fasta, fai, dict ]
         }
 
     MAE_ALLELICCOUNTS(
         ch_alleliccounts_input,
-        fasta,
-        fai,
-        dict,
         !params.mae_gatk_header_check,
         ncbi2ucsc,
         ucsc2ncbi

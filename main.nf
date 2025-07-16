@@ -17,7 +17,8 @@
 
 include { DROP                              } from './workflows/drop'
 
-include { GATK4_CREATESEQUENCEDICTIONARY    } from './modules/nf-core/gatk4/createsequencedictionary/main'
+include { GATK4_CREATESEQUENCEDICTIONARY as GATK4_CREATESEQUENCEDICTIONARY_UCSC } from './modules/nf-core/gatk4/createsequencedictionary/main'
+include { GATK4_CREATESEQUENCEDICTIONARY as GATK4_CREATESEQUENCEDICTIONARY_NCBI } from './modules/nf-core/gatk4/createsequencedictionary/main'
 
 include { PIPELINE_INITIALISATION           } from './subworkflows/local/utils_nfcore_drop_pipeline'
 include { PIPELINE_COMPLETION               } from './subworkflows/local/utils_nfcore_drop_pipeline'
@@ -61,18 +62,39 @@ workflow {
     // Parse and convert parameters to their expected input format
     //
 
-    def fasta = params.fasta ? Channel.value([[id: 'fasta'], file(params.fasta)]) : [[:], []]
-    def fai   = params.fai   ? Channel.value([[id: 'fai'], file(params.fai)])     : [[:], []]
-    // TODO accomodate for the ncbi and ucsc fasta
+    if(!params.ucsc_fasta && !params.ncbi_fasta) {
+        error "You must provide either a UCSC FASTA file (--ucsc_fasta) or a NCBI FASTA file (--ncbi_fasta)."
+    }
 
-    def dict = Channel.empty()
-    if (params.dict) {
-        dict = Channel.value([[id: 'dict'], file(params.dict)])
-    } else {
-        GATK4_CREATESEQUENCEDICTIONARY(
-            fasta
+    // Use the UCSC FASTA and FAI files if provided, otherwise use the NCBI FASTA and FAI files
+    def fasta = params.ucsc_fasta ? Channel.value([[id: 'fasta'], file(params.ucsc_fasta)]) :
+        params.ncbi_fasta ? Channel.value([[id: 'fasta'], file(params.ncbi_fasta)]) : [[:], []]
+    def fai = params.ucsc_fai ? Channel.value([[id: 'fai'], file(params.ucsc_fai)]) :
+        params.ncbi_fai ? Channel.value([[id: 'fai'], file(params.ncbi_fai)]) : [[:], []]
+
+    def ucsc_fasta = params.ucsc_fasta ? Channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : [[:], []]
+    def ucsc_fai = params.ucsc_fai ? Channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : [[:], []]
+    def ncbi_fasta = params.ncbi_fasta ? Channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : [[:], []]
+    def ncbi_fai = params.ncbi_fai ? Channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : [[:], []]
+
+    def ucsc_dict = Channel.empty()
+    if (params.ucsc_dict) {
+        ucsc_dict = Channel.value([[id: 'ucsc'], file(params.ucsc_dict)])
+    } else if (params.ucsc_fasta) {
+        GATK4_CREATESEQUENCEDICTIONARY_UCSC(
+            ucsc_fasta
         )
-        dict = GATK4_CREATESEQUENCEDICTIONARY.out.dict.collect()
+        ucsc_dict = GATK4_CREATESEQUENCEDICTIONARY_UCSC.out.dict.collect()
+    }
+
+    def ncbi_dict = Channel.empty()
+    if (params.ncbi_dict) {
+        ncbi_dict = Channel.value([[id: 'ncbi'], file(params.ncbi_dict)])
+    } else if (params.ncbi_fasta) {
+        GATK4_CREATESEQUENCEDICTIONARY_NCBI(
+            ncbi_fasta
+        )
+        ncbi_dict = GATK4_CREATESEQUENCEDICTIONARY_NCBI.out.dict.collect()
     }
 
     def samplesheet_file = Channel.value([[id: 'samplesheet'], file(params.input)])
@@ -100,7 +122,12 @@ workflow {
         params.project_title,
         fasta,
         fai,
-        dict,
+        ucsc_fasta,
+        ucsc_fai,
+        ncbi_fasta,
+        ncbi_fai,
+        ucsc_dict,
+        ncbi_dict,
         PIPELINE_INITIALISATION.out.gene_annotation,
         hpo_file,
 
