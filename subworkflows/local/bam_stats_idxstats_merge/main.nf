@@ -3,7 +3,7 @@ include { SAMTOOLS_IDXSTATS } from '../../../modules/nf-core/samtools/idxstats'
 workflow BAM_STATS_IDXSTATS_MERGE {
     take:
     bams            // queue channel:   [ val(meta), path(bam), path(bai) ]
-    externals       // queue  val(meta)            <-- counts‑only samples
+    externals       // queue channel:    val(meta)
     include_groups  // list:            A list of groups to include in the bam stats
 
 

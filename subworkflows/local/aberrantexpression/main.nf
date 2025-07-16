@@ -200,8 +200,8 @@ workflow ABERRANTEXPRESSION {
     BAM_STATS_IDXSTATS_MERGE(
         inputs_to_analyse.map { meta, bam, bai, _gene_counts ->
                 [ meta, bam, bai ]
-            }.filter { _meta, bam, _bai -> bam },       // bam files
-        external_samples,
+            }.filter { _meta, bam, _bai -> bam },       // sample with bam files
+        external_samples,                               // sample external counts
         include_groups
     )
     ch_versions = ch_versions.mix(BAM_STATS_IDXSTATS_MERGE.out.versions)
