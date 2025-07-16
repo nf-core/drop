@@ -1,6 +1,7 @@
-include { MAE_CREATESNVS    } from '../../../modules/local/mae/createsnvs/main'
-include { MAE_ALLELICCOUNTS } from '../../../modules/local/mae/alleliccounts/main'
-include { MAE_DESEQ         } from '../../../modules/local/mae/deseq/main'
+include { MAE_CREATESNVS        } from '../../../modules/local/mae/createsnvs/main'
+include { MAE_ALLELICCOUNTS     } from '../../../modules/local/mae/alleliccounts/main'
+include { MAE_DESEQ             } from '../../../modules/local/mae/deseq/main'
+include { MAE_GENENAMEMAPPING   } from '../../../modules/local/mae/genenamemapping/main'
 
 workflow MAE {
     take:
@@ -11,6 +12,7 @@ workflow MAE {
     ncbi_fasta      // value channel: [ val(meta), path(ncbi_fasta) ]
     ncbi_fai        // value channel: [ val(meta), path(ncbi_fai) ]
     ncbi_dict       // value channel: [ val(meta), path(ncbi_dict) ]
+    gene_annotation // queue channel: [ val(meta), path(gtf) ]
     include_groups  // list         : A list of groups to include in the mono allelic expression analysis
     ncbi2ucsc       // value channel: path to the NCBI to UCSC mapping file
     ucsc2ncbi       // value channel: path to the UCSC to NCBI mapping file
@@ -78,6 +80,11 @@ workflow MAE {
         params.mae_max_af
     )
     ch_versions = ch_versions.mix(MAE_DESEQ.out.versions.first())
+
+    MAE_GENENAMEMAPPING(
+        gene_annotation
+    )
+    ch_versions = ch_versions.mix(MAE_GENENAMEMAPPING.out.versions.first())
 
     emit:
     versions = ch_versions

@@ -182,6 +182,7 @@ workflow DROP {
             ncbi_fasta,
             ncbi_fai,
             ncbi_dict,
+            gene_annotation,
             params.mae_groups.tokenize(","),
             Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
