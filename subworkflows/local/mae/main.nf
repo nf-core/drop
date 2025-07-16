@@ -2,6 +2,7 @@ include { MAE_CREATESNVS        } from '../../../modules/local/mae/createsnvs/ma
 include { MAE_ALLELICCOUNTS     } from '../../../modules/local/mae/alleliccounts/main'
 include { MAE_DESEQ             } from '../../../modules/local/mae/deseq/main'
 include { MAE_GENENAMEMAPPING   } from '../../../modules/local/mae/genenamemapping/main'
+include { MAE_RESULTS           } from '../../../modules/local/mae/results/main'
 
 workflow MAE {
     take:
@@ -34,6 +35,10 @@ workflow MAE {
     if (include_groups) {
         ch_filtered_inputs = input.filter { meta, _vcf, _tbi, _bam, _bai ->
             meta.drop_group.tokenize(",").intersect(include_groups).size() > 0
+        }
+        .map { meta, vcf, tbi, bam, bai ->
+            def new_meta = meta + [drop_group: meta.drop_group.tokenize(",").intersect(include_groups).join(",")]
+            [ new_meta, vcf, tbi, bam, bai ]
         }
     } else {
         ch_filtered_inputs = input
@@ -85,6 +90,23 @@ workflow MAE {
         gene_annotation
     )
     ch_versions = ch_versions.mix(MAE_GENENAMEMAPPING.out.versions.first())
+
+    def ch_results_input = MAE_DESEQ.out.res
+        .combine(MAE_GENENAMEMAPPING.out.tsv)
+        .map { meta, res, annotations_meta, tsv ->
+            def new_meta = meta + [annotation: annotations_meta.id]
+            [ new_meta, res, tsv ]
+        }
+
+    MAE_RESULTS(
+        ch_results_input,
+        params.mae_allelic_ratio_cutoff,
+        params.mae_padj_cutoff,
+        params.mae_max_var_freq_cohort
+    )
+    ch_versions = ch_versions.mix(MAE_RESULTS.out.versions.first())
+
+
 
     emit:
     versions = ch_versions
