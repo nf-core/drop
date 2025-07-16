@@ -3,6 +3,7 @@ include { MAE_ALLELICCOUNTS     } from '../../../modules/local/mae/alleliccounts
 include { MAE_DESEQ             } from '../../../modules/local/mae/deseq/main'
 include { MAE_GENENAMEMAPPING   } from '../../../modules/local/mae/genenamemapping/main'
 include { MAE_RESULTS           } from '../../../modules/local/mae/results/main'
+include { MAEQC_DESEQ           } from '../../../modules/local/maeqc/deseq/main'
 
 workflow MAE {
     take:
@@ -106,7 +107,10 @@ workflow MAE {
     )
     ch_versions = ch_versions.mix(MAE_RESULTS.out.versions.first())
 
-
+    MAEQC_DESEQ(
+        MAE_ALLELICCOUNTS.out.csv
+    )
+    ch_versions = ch_versions.mix(MAEQC_DESEQ.out.versions.first())
 
     emit:
     versions = ch_versions
