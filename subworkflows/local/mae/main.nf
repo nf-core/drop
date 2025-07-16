@@ -1,5 +1,6 @@
 include { MAE_CREATESNVS    } from '../../../modules/local/mae/createsnvs/main'
 include { MAE_ALLELICCOUNTS } from '../../../modules/local/mae/alleliccounts/main'
+include { MAE_DESEQ         } from '../../../modules/local/mae/deseq/main'
 
 workflow MAE {
     take:
@@ -69,6 +70,14 @@ workflow MAE {
         ucsc2ncbi
     )
     ch_versions = ch_versions.mix(MAE_ALLELICCOUNTS.out.versions.first())
+
+    MAE_DESEQ(
+        MAE_ALLELICCOUNTS.out.csv,
+        params.mae_add_af,
+        params.genome,
+        params.mae_max_af
+    )
+    ch_versions = ch_versions.mix(MAE_DESEQ.out.versions.first())
 
     emit:
     versions = ch_versions
