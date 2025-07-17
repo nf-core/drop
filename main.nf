@@ -77,6 +77,10 @@ workflow {
     def ncbi_fasta = params.ncbi_fasta ? Channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : [[:], []]
     def ncbi_fai = params.ncbi_fai ? Channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : [[:], []]
 
+    def qc_vcf = params.mae_qc_vcf ?
+        Channel.value([[id: 'qc_vcf'], file(params.mae_qc_vcf), params.mae_qc_vcf_tbi ? file(params.mae_qc_vcf_tbi) : []]) :
+        [[:], [], []]
+
     def ucsc_dict = Channel.empty()
     if (params.ucsc_dict) {
         ucsc_dict = Channel.value([[id: 'ucsc'], file(params.ucsc_dict)])
@@ -130,6 +134,7 @@ workflow {
         ncbi_dict,
         PIPELINE_INITIALISATION.out.gene_annotation,
         hpo_file,
+        qc_vcf,
 
         // Export counts parameters
         ec_gene_annotations,

@@ -1,9 +1,10 @@
-include { MAE_CREATESNVS        } from '../../../modules/local/mae/createsnvs/main'
-include { MAE_ALLELICCOUNTS     } from '../../../modules/local/mae/alleliccounts/main'
-include { MAE_DESEQ             } from '../../../modules/local/mae/deseq/main'
-include { MAE_GENENAMEMAPPING   } from '../../../modules/local/mae/genenamemapping/main'
-include { MAE_RESULTS           } from '../../../modules/local/mae/results/main'
-include { MAEQC_DESEQ           } from '../../../modules/local/maeqc/deseq/main'
+include { MAE_CREATESNVS                } from '../../../modules/local/mae/createsnvs/main'
+include { MAE_ALLELICCOUNTS             } from '../../../modules/local/mae/alleliccounts/main'
+include { MAE_DESEQ                     } from '../../../modules/local/mae/deseq/main'
+include { MAE_GENENAMEMAPPING           } from '../../../modules/local/mae/genenamemapping/main'
+include { MAE_RESULTS                   } from '../../../modules/local/mae/results/main'
+include { MAEQC_DESEQ                   } from '../../../modules/local/maeqc/deseq/main'
+include { MAEQC_CREATEMATRIXDNARNACOR   } from '../../../modules/local/maeqc/creatematrixdnarnacor/main'
 
 workflow MAE {
     take:
@@ -15,6 +16,8 @@ workflow MAE {
     ncbi_fai        // value channel: [ val(meta), path(ncbi_fai) ]
     ncbi_dict       // value channel: [ val(meta), path(ncbi_dict) ]
     gene_annotation // queue channel: [ val(meta), path(gtf) ]
+    samplesheet     // value channel: [ val(meta), path(samplesheet) ]
+    qc_vcf          // value channel: [ val(meta), path(vcf), path(tbi) ]
     include_groups  // list         : A list of groups to include in the mono allelic expression analysis
     ncbi2ucsc       // value channel: path to the NCBI to UCSC mapping file
     ucsc2ncbi       // value channel: path to the UCSC to NCBI mapping file
@@ -111,6 +114,29 @@ workflow MAE {
         MAE_ALLELICCOUNTS.out.csv
     )
     ch_versions = ch_versions.mix(MAEQC_DESEQ.out.versions.first())
+
+    def ch_creatematrixdnarnacor_input = MAEQC_DESEQ.out.ods_with_pvals
+        .join(MAE_CREATESNVS.out.vcf, failOnDuplicate:true, failOnMismatch:true)
+        .join(MAE_CREATESNVS.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .map { meta, ods, vcf, tbi ->
+            [ meta.drop_group.tokenize(","), meta, ods, vcf, tbi ]
+        }
+        .transpose(by:0)
+        .map { group, meta, ods, vcf, tbi ->
+            def new_meta = [id:group, drop_group:group]
+            [ groupKey(new_meta, meta.drop_group_counts.get(group)), ods, vcf, tbi, meta.id ]
+        }
+        .groupTuple()
+        .combine(samplesheet)
+        .map { meta, ods, vcfs, tbis, ids, _ss_meta, samplesheet_file ->
+            [ meta, ods, vcfs, tbis, samplesheet_file, ids, meta.drop_group ]
+        }
+
+    MAEQC_CREATEMATRIXDNARNACOR(
+        ch_creatematrixdnarnacor_input,
+        qc_vcf
+    )
+    ch_versions = ch_versions.mix(MAEQC_CREATEMATRIXDNARNACOR.out.versions.first())
 
     emit:
     versions = ch_versions

@@ -40,6 +40,7 @@ workflow DROP {
     ncbi_dict           // value channel: [ val(meta), path(ncbi_dict) ]
     gene_annotation     // queue channel: [ val(meta), path(gtf) ]
     hpo_file            // value channel: [ val(meta), path(hpo_file) ]
+    qc_vcf              // value channel: [ val(meta), path(vcf), path(tbi) ]
 
     // Export count parameters
     ec_gene_annotations // list:          A list of gene annotations to export the counts of
@@ -183,6 +184,8 @@ workflow DROP {
             ncbi_fai,
             ncbi_dict,
             gene_annotation,
+            samplesheet_file,
+            qc_vcf,
             params.mae_groups.tokenize(","),
             Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
