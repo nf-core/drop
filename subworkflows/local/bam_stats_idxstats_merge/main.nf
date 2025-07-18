@@ -3,6 +3,7 @@ include { SAMTOOLS_IDXSTATS } from '../../../modules/nf-core/samtools/idxstats'
 workflow BAM_STATS_IDXSTATS_MERGE {
     take:
     bams            // queue channel:   [ val(meta), path(bam), path(bai) ]
+    externals       // queue channel:    val(meta)
     include_groups  // list:            A list of groups to include in the bam stats
 
 
@@ -16,6 +17,9 @@ workflow BAM_STATS_IDXSTATS_MERGE {
         bams
     )
     ch_versions = ch_versions.mix(SAMTOOLS_IDXSTATS.out.versions.first())
+
+    def externals_entries = externals
+        .map { meta -> [ meta, "${meta.id}\tNA" ] }
 
     def ch_bam_stats = SAMTOOLS_IDXSTATS.out.idxstats
         // Get the total read count for each sample
@@ -39,6 +43,7 @@ workflow BAM_STATS_IDXSTATS_MERGE {
         }
 
     ch_merged_bam_stats = ch_individuals
+        .mix(externals_entries)
         .map { meta, line ->
             def groups = meta.drop_group.tokenize(",").intersect(include_groups)
             [ groups, meta, line ]

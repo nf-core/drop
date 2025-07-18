@@ -13,6 +13,7 @@
                 "processed_data/aberrant_expression/bam_stats/HG00150.txt",
                 "processed_data/aberrant_expression/bam_stats/HG00176.txt",
                 "processed_data/aberrant_expression/bam_stats/outrider.txt",
+                "processed_data/aberrant_expression/bam_stats/outrider_external.txt",
                 "processed_data/aberrant_expression/v29/counts/HG00096.counts.Rds",
                 "processed_data/aberrant_expression/v29/counts/HG00103.counts.Rds",
                 "processed_data/aberrant_expression/v29/counts/HG00106.counts.Rds",
@@ -338,7 +339,7 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nextflow": "25.04.3"
         },
         "timestamp": "2025-07-18T14:00:02.820923029"
     }

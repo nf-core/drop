@@ -4,6 +4,7 @@
             [
                 "HG00096.txt:md5,ae96374ec44ee19b9bebc4f718eb58c0",
                 "HG00103.txt:md5,29623d553b733c14995d1f203ac92635",
+                "external.txt:md5,02d20c109d8e5ea005bfb97d6aaeeaf5",
                 "test1.txt:md5,adbc82b09b152b44810d14e40c79f75b",
                 "test2.txt:md5,ea5d9ebb035fb0a465cd265191bdb351"
             ],
@@ -13,8 +14,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
+            "nextflow": "25.04.3"
         },
-        "timestamp": "2025-05-23T16:49:07.802638258"
+        "timestamp": "2025-07-16T20:51:11.944185444"
     }
 }
