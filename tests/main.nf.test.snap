@@ -225,6 +225,18 @@
                 "processed_data/aberrant_splicing/datasets/savedObjects/raw-local-fraser_external/splitCounts/assays.h5",
                 "processed_data/aberrant_splicing/datasets/savedObjects/raw-local-fraser_external/splitCounts/se.rds",
                 "processed_data/aberrant_splicing/datasets/savedObjects/raw-local-fraser_external/theta.h5",
+                "processed_data/mae/RNA_GT/HG00096.Rds",
+                "processed_data/mae/RNA_GT/HG00103.Rds",
+                "processed_data/mae/RNA_GT/HG00106.Rds",
+                "processed_data/mae/allelic_counts/HG00096--HG00096.csv.gz",
+                "processed_data/mae/allelic_counts/HG00103--HG00103.csv.gz",
+                "processed_data/mae/allelic_counts/HG00106--HG00106.csv.gz",
+                "processed_data/mae/snvs/HG00096--HG00096.vcf.gz",
+                "processed_data/mae/snvs/HG00096--HG00096.vcf.gz.tbi",
+                "processed_data/mae/snvs/HG00103--HG00103.vcf.gz",
+                "processed_data/mae/snvs/HG00103--HG00103.vcf.gz.tbi",
+                "processed_data/mae/snvs/HG00106--HG00106.vcf.gz",
+                "processed_data/mae/snvs/HG00106--HG00106.vcf.gz.tbi",
                 "processed_results/aberrant_expression/v29/outrider/outrider/OUTRIDER_results.tsv",
                 "processed_results/aberrant_expression/v29/outrider/outrider/OUTRIDER_results_all.Rds",
                 "processed_results/aberrant_expression/v29/outrider/outrider/ods.Rds",
@@ -307,13 +319,27 @@
                 "processed_results/aberrant_splicing/results/v29/fraser/fraser/results_per_junction.tsv",
                 "processed_results/aberrant_splicing/results/v29/fraser/fraser_external/results.tsv",
                 "processed_results/aberrant_splicing/results/v29/fraser/fraser_external/results_gene_all.tsv",
-                "processed_results/aberrant_splicing/results/v29/fraser/fraser_external/results_per_junction.tsv"
+                "processed_results/aberrant_splicing/results/v29/fraser/fraser_external/results_per_junction.tsv",
+                "processed_results/mae/gene_name_mapping_gene_name_mapping_v29.tsv",
+                "processed_results/mae/mae/MAE_results_HG00096.tsv",
+                "processed_results/mae/mae/MAE_results_HG00096_rare.tsv",
+                "processed_results/mae/mae/MAE_results_HG00103.tsv",
+                "processed_results/mae/mae/MAE_results_HG00103_rare.tsv",
+                "processed_results/mae/mae/MAE_results_HG00106.tsv",
+                "processed_results/mae/mae/MAE_results_HG00106_rare.tsv",
+                "processed_results/mae/mae/MAE_results_all_HG00096.tsv.gz",
+                "processed_results/mae/mae/MAE_results_all_HG00103.tsv.gz",
+                "processed_results/mae/mae/MAE_results_all_HG00106.tsv.gz",
+                "processed_results/mae/mae/dna_rna_qc_matrix.Rds",
+                "processed_results/mae/samples/HG00096--HG00096_res.Rds",
+                "processed_results/mae/samples/HG00103--HG00103_res.Rds",
+                "processed_results/mae/samples/HG00106--HG00106_res.Rds"
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-04T13:49:39.807410507"
+        "timestamp": "2025-07-18T14:00:02.820923029"
     }
 }
