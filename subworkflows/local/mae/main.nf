@@ -124,12 +124,13 @@ workflow MAE {
         .transpose(by:0)
         .map { group, meta, ods, vcf, tbi ->
             def new_meta = [id:group, drop_group:group]
-            [ groupKey(new_meta, meta.drop_group_counts.get(group)), ods, vcf, tbi, meta.id ]
+            [ groupKey(new_meta, meta.drop_group_counts.get(group)), ods, vcf, tbi, meta.dna_id ]
         }
         .groupTuple()
         .combine(samplesheet)
         .map { meta, ods, vcfs, tbis, ids, _ss_meta, samplesheet_file ->
-            [ meta, ods, vcfs, tbis, samplesheet_file, ids, meta.drop_group ]
+            // Sort VCFs and IDs to make sure the order matches
+            [ meta, ods, vcfs.sort { file -> file.name }, tbis, samplesheet_file, ids.sort(), meta.drop_group ]
         }
 
     MAEQC_CREATEMATRIXDNARNACOR(
