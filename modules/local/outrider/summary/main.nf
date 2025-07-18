@@ -13,18 +13,18 @@ process OUTRIDER_SUMMARY {
     val(zScoreCutoff)
 
     output:
-    tuple val(meta), path("outrider_overview_mqc.tsv")             , emit: sample_mqc
-    tuple val(meta), path("Encoding_dimension_mqc.png")            , emit: encoding_mqc
-    tuple val(meta), path("Aberrant_genes_per_sample_mqc.png")     , emit: genes_mqc
-    tuple val(meta), path("Batch_correction_raw_mqc.png")          , emit: batch_mqc_1
-    tuple val(meta), path("Batch_correction_normalized_mqc.png")   , emit: batch_mqc_2
-    tuple val(meta), path("geneSampleHeatmap_raw_mqc.png")         , emit: heatmap_mqc_1
-    tuple val(meta), path("geneSampleHeatmap_normalized_mqc.png")  , emit: heatmap_mqc_2
-    tuple val(meta), path("BCV_mqc.png")                           , emit: bcv_mqc
-    tuple val(meta), path("outrider_result_overview_mqc.tsv")      , emit: result_mqc_1
-    tuple val(meta), path("Aberrant_samples_mqc.tsv")              , emit: result_mqc_2
-    tuple val(meta), path("significant_results_mqc.tsv")           , emit: result_mqc_3
-    tuple val(meta), path("OUTRIDER_results_*.tsv")                , emit: result
+    tuple val(meta), path("outrider_overview_mqc.tsv")             , emit: outrider_overview
+    tuple val(meta), path("encoding_dimension_mqc.png")            , emit: encoding_dimension
+    tuple val(meta), path("aberrant_genes_per_sample_mqc.png")     , emit: aberrant_genes_per_sample
+    tuple val(meta), path("batch_correction_raw_mqc.png")          , emit: batch_correction_raw
+    tuple val(meta), path("batch_correction_normalized_mqc.png")   , emit: batch_correction_normalized
+    tuple val(meta), path("geneSampleHeatmap_raw_mqc.png")         , emit: geneSampleHeatmap_raw
+    tuple val(meta), path("geneSampleHeatmap_normalized_mqc.png")  , emit: geneSampleHeatmap_normalized
+    tuple val(meta), path("bcv_mqc.png")                           , emit: bcv
+    tuple val(meta), path("outrider_result_overview_mqc.tsv")      , emit: outrider_result_overview
+    tuple val(meta), path("aberrant_samples_mqc.tsv")              , emit: aberrant_samples
+    tuple val(meta), path("significant_results_mqc.tsv")           , emit: significant_results
+    tuple val(meta), path("OUTRIDER_results_*.tsv")                , emit: results
     path  "versions.yml"                                           , emit: versions
 
     when:
@@ -39,23 +39,23 @@ process OUTRIDER_SUMMARY {
     #!/usr/bin/env Rscript
     a <- file("outrider_overview_mqc.tsv", "w")
     close(a)
-    a <- file("Encoding_dimension_mqc.png", "w")
+    a <- file("encoding_dimension_mqc.png", "w")
     close(a)
-    a <- file("Aberrant_genes_per_sample_mqc.png", "w")
+    a <- file("aberrant_genes_per_sample_mqc.png", "w")
     close(a)
-    a <- file("Batch_correction_raw_mqc.png", "w")
+    a <- file("batch_correction_raw_mqc.png", "w")
     close(a)
-    a <- file("Batch_correction_normalized_mqc.png", "w")
+    a <- file("batch_correction_normalized_mqc.png", "w")
     close(a)
     a <- file("geneSampleHeatmap_raw_mqc.png", "w")
     close(a)
     a <- file("geneSampleHeatmap_normalized_mqc.png", "w")
     close(a)
-    a <- file("BCV_mqc.png", "w")
+    a <- file("bcv_mqc.png", "w")
     close(a)
     a <- file("outrider_result_overview_mqc.tsv", "w")
     close(a)
-    a <- file("Aberrant_samples_mqc.tsv", "w")
+    a <- file("aberrant_samples_mqc.tsv", "w")
     close(a)
     a <- file("significant_results_mqc.tsv", "w")
     close(a)

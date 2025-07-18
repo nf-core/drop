@@ -5,6 +5,7 @@ include { COUNTEXPRESSION_SUMMARY            } from '../../../modules/local/coun
 include { OUTRIDER_RUN                       } from '../../../modules/local/outrider/run'
 include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
 include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
+include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
 include { MULTIQC as MULTIQC_COUNTEXPRESSION } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_OUTRIDER        } from '../../../modules/nf-core/multiqc/main'
 
@@ -216,6 +217,23 @@ workflow ABERRANTEXPRESSION {
         countexpression_summary_input
     )
     ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+
+    //
+    // summary for outrider results
+    //
+    def outrider_summary_input = OUTRIDER_PVALS.out.ods_with_pvals
+                    .join(OUTRIDER_RESULTS.out.results, by: 0)
+                    .map { meta, ods, results ->
+                            [ meta, ods, results, meta.drop_group, meta.id]
+                        }
+
+    OUTRIDER_SUMMARY(
+        outrider_summary_input,
+        params.ae_padj_cutoff,
+        params.ae_z_score_cutoff
+    )
+    ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+
     //
     // multiqc for counting
     //
@@ -229,17 +247,72 @@ workflow ABERRANTEXPRESSION {
         .join(COUNTEXPRESSION_SUMMARY.out.expressed_genes)
         .join(COUNTEXPRESSION_SUMMARY.out.expression_sex, remainder: true)
         .join(COUNTEXPRESSION_SUMMARY.out.sex_matched, remainder: true)
-        .map { it.drop(1).findAll { p -> p instanceof Path } }   // drop meta and null
+        .map { tup ->
+        def meta  = tup[0]
+        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
+        [ tag, files ]
+    }
+
+    def ch_extra_cfg_countexpression = multiqc_countexpression_input
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            data_dir_name:  "[TAG:${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            """.stripIndent()
+            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+        }
 
     MULTIQC_COUNTEXPRESSION(
-        multiqc_countexpression_input,
+        multiqc_countexpression_input.map { it[1] },
         Channel.fromPath("$projectDir/assets/multiqc_countexpression_config.yml", checkIfExists: true).collect(),
-        [],
+        ch_extra_cfg_countexpression,
         [],
         [],
         []
     )
-//
+
+    //
+    // multiqc for outrider
+    //
+    def multiqc_outrider_input = OUTRIDER_SUMMARY.out.outrider_overview
+        .join(OUTRIDER_SUMMARY.out.encoding_dimension)
+        .join(OUTRIDER_SUMMARY.out.aberrant_genes_per_sample)
+        .join(OUTRIDER_SUMMARY.out.batch_correction_raw)
+        .join(OUTRIDER_SUMMARY.out.batch_correction_normalized)
+        .join(OUTRIDER_SUMMARY.out.geneSampleHeatmap_raw)
+        .join(OUTRIDER_SUMMARY.out.geneSampleHeatmap_normalized)
+        .join(OUTRIDER_SUMMARY.out.bcv)
+        .join(OUTRIDER_SUMMARY.out.outrider_result_overview)
+        .join(OUTRIDER_SUMMARY.out.aberrant_samples)
+        .join(OUTRIDER_SUMMARY.out.significant_results)
+        .map { tup ->
+        def meta  = tup[0]
+        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
+        [ tag, files ]
+    }
+
+    def ch_extra_cfg_outrider = multiqc_outrider_input
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            data_dir_name:  "[TAG:${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            """.stripIndent()
+            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+        }
+
+    MULTIQC_OUTRIDER(
+        multiqc_outrider_input.map { it[1] },
+        Channel.fromPath("$projectDir/assets/multiqc_outrider_config.yml", checkIfExists: true).collect(),
+        ch_extra_cfg_outrider,
+        [],
+        [],
+        []
+    )
+
 
     emit:
     versions  = ch_versions
