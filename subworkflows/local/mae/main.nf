@@ -97,9 +97,22 @@ workflow MAE {
 
     def ch_results_input = MAE_DESEQ.out.res
         .combine(MAE_GENENAMEMAPPING.out.tsv)
+        .filter { meta, _res, annotation_meta, _tsv ->
+            // Filter out the gene annotations that should not be used
+            meta.gene_annotation != "" ? meta.gene_annotation == annotation_meta.id : true
+        }
         .map { meta, res, annotations_meta, tsv ->
-            def new_meta = meta + [annotation: annotations_meta.id]
-            [ new_meta, res, tsv ]
+            def new_meta = [
+                id: meta.drop_group,
+                drop_group: meta.drop_group,
+                annotation: annotations_meta.id
+            ]
+            [ groupKey(new_meta, meta.drop_group_ann_counts.get(meta.drop_group).get(annotations_meta.id)), res, tsv ]
+        }
+        .groupTuple()
+        .map { meta, res_files, tsv_files ->
+            // Make sure the gene name mapping TSV is only provided once
+            [ meta, res_files, tsv_files.find { it -> it } ]
         }
 
     MAE_RESULTS(

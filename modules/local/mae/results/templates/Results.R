@@ -15,7 +15,7 @@ suppressPackageStartupMessages({
 })
 
 # Read all MAE results files
-rmae <- lapply("$mae_res", function(m){
+rmae <- lapply(c(${mae_res.collect { "\"$it\"" }.join(', ')}), function(m){
     rt <- readRDS(m)
     # force consistant UCSC chromosome style
     rt <- rt[!grepl("chr",contig),contig:= paste0("chr",contig)]
