@@ -7,27 +7,156 @@
     "items": {
         "type": "object",
         "properties": {
-            "sample": {
+            "RNA_ID": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "errorMessage": "Sample name must be provided and cannot contain spaces",
+                "errorMessage": "RNA ID must be provided and cannot contain spaces",
+                "description": "Unique identifier for the RNA sample. Must not contain spaces.",
                 "meta": ["id"]
             },
-            "fastq_1": {
+            "RNA_BAM_FILE": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "pattern": "^\\S+\\.bam$",
+                "errorMessage": "The RNA BAM file has to exist, cannot contain spaces and must have extension '.bam'",
+                "description": "Path to the RNA BAM file. Must exist and cannot contain spaces."
             },
-            "fastq_2": {
+            "RNA_BAI_FILE": {
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "pattern": "^\\S+\\.bam\\.bai$",
+                "errorMessage": "The RNA BAM index file has to exist, cannot contain spaces and must have extension '.bam.bai'",
+                "description": "Path to the RNA BAM index file. Must exist and cannot contain spaces."
+            },
+            "DNA_ID": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "DNA ID must be provided and cannot contain spaces",
+                "meta": ["dna_id"],
+                "description": "Unique identifier for the DNA sample. Must not contain spaces."
+            },
+            "DNA_VCF_FILE": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.vcf.gz$",
+                "errorMessage": "The DNA VCF file has to exist, cannot contain spaces and must have extension '.vcf.gz'",
+                "description": "Path to the DNA VCF file. Must exist and cannot contain spaces."
+            },
+            "DNA_TBI_FILE": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.vcf.gz.tbi$",
+                "errorMessage": "The DNA VCF index file has to exist, cannot contain spaces and must have extension '.vcf.gz.tbi'",
+                "description": "Path to the DNA VCF index file. Must exist and cannot contain spaces."
+            },
+            "DROP_GROUP": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "DROP group must be provided and cannot contain spaces",
+                "meta": ["drop_group"],
+                "default": "",
+                "description": "A comma-separated list of groups this sample belongs to. Must not contain spaces."
+            },
+            "PAIRED_END": {
+                "type": "boolean",
+                "default": true,
+                "description": "Indicates if the input is paired-end or single-end. Default is true (paired-end).",
+                "meta": ["paired_end"]
+            },
+            "COUNT_MODE": {
+                "type": "string",
+                "description": "Count mode. Default is 'IntersectionStrict'.",
+                "meta": ["count_mode"],
+                "enum": ["union", "IntersectionStrict", "IntersectionNotEmpty"],
+                "default": "IntersectionStrict"
+            },
+            "COUNT_OVERLAPS": {
+                "type": "boolean",
+                "default": true,
+                "description": "Indicates if overlaps should be counted. Default is true.",
+                "meta": ["count_overlaps"]
+            },
+            "STRAND": {
+                "type": "string",
+                "description": "Strand of the RNA-seq data",
+                "enum": ["yes", "no", "reverse"],
+                "meta": ["strand"],
+                "default": "no"
+            },
+            "HPO_TERMS": {
+                "type": "string",
+                "description": "Comma-separated list of HPO terms associated with the sample",
+                "meta": ["hpo_terms"]
+            },
+            "GENE_COUNTS_FILE": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.tsv\\.gz$",
+                "errorMessage": "The gene counts file has to exist, cannot contain spaces and must have extension '.tsv.gz'",
+                "description": "Path to the gene counts file. Must exist and cannot contain spaces."
+            },
+            "GENE_ANNOTATION": {
+                "type": "string",
+                "description": "Gene annotation version to use for this sample. All available versions will be used if this field is empty.",
+                "meta": ["gene_annotation"],
+                "default": ""
+            },
+            "GENOME": {
+                "type": "string",
+                "description": "Genome source",
+                "meta": ["genome"],
+                "enum": ["ncbi", "ucsc"],
+                "default": "ncbi"
+            },
+            "SPLICE_COUNTS_DIR": {
+                "type": "string",
+                "format": "path",
+                "exists": true,
+                "pattern": "^\\S+$",
+                "errorMessage": "The splice counts directory has to exist and cannot contain spaces",
+                "description": "Path to the splice counts directory. Must exist and cannot contain spaces."
+            },
+            "SEX": {
+                "type": "string",
+                "enum": ["m", "male", "f", "female"],
+                "description": "The sex of the sample",
+                "meta": "sex"
+            },
+            "TISSUE": {
+                "type": "string",
+                "description": "The tissue type of the sample",
+                "meta": "tissue"
+            },
+            "DISEASE": {
+                "type": "string",
+                "description": "The disease type of the sample",
+                "meta": "disease"
             }
         },
-        "required": ["sample", "fastq_1"]
-    }
+        "required": ["RNA_ID", "DROP_GROUP", "STRAND"],
+        "oneOf": [
+            {
+                "required": ["RNA_BAM_FILE"]
+            },
+            {
+                "required": ["GENE_COUNTS_FILE", "GENE_ANNOTATION"]
+            },
+            {
+                "required": ["SPLICE_COUNTS_DIR"]
+            }
+        ]
+    },
+    "allOf": [
+        {
+            "uniqueEntries": ["RNA_ID"]
+        },
+        {
+            "uniqueEntries": ["DNA_ID"]
+        }
+    ]
 }

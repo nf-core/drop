@@ -124,6 +124,9 @@
             "@type": ["File", "SoftwareSourceCode", "ComputationalWorkflow"],
             "creator": [
                 {
+                    "@id": "https://orcid.org/0009-0003-5619-1555"
+                },
+                {
                     "@id": "#drewjbeh@gmail.com"
                 },
                 {
@@ -298,6 +301,12 @@
             "@type": "Organization",
             "name": "nf-core",
             "url": "https://nf-co.re/"
+        },
+        {
+            "@id": "https://orcid.org/0009-0003-5619-1555",
+            "@type": "Person",
+            "email": "nicolas.vannieuwkerke@ugent.be",
+            "name": "Nicolas Vannieuwkerke"
         },
         {
             "@id": "#drewjbeh@gmail.com",

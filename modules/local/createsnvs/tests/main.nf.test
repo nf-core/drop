@@ -1,0 +1,108 @@
+nextflow_process {
+
+    name "Test Process CREATESNVS"
+    script "../main.nf"
+    process "CREATESNVS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "createsnvs"
+
+    test("homo_sapiens - vcf, bam - ucsc") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai', checkIfExists: true),
+                    "HG00096"
+                ])
+                input[1] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
+                input[2] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.vcf.collect { meta, vcf ->
+                        [ meta, "${file(vcf.toString()).name},variantsMD5:${path(vcf).vcf.variantsMD5}" ]
+                    },
+                    process.out.tbi.collect { meta, tbi ->
+                        [ meta, file(tbi.toString()).name ]
+                    }
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - vcf, bam - ncbi") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00103' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
+                    "HG00103"
+                ])
+                input[1] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
+                input[2] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.vcf.collect { meta, vcf ->
+                        [ meta, "${file(vcf.toString()).name},variantsMD5:${path(vcf).vcf.variantsMD5}" ]
+                    },
+                    process.out.tbi.collect { meta, tbi ->
+                        [ meta, file(tbi.toString()).name ]
+                    }
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - vcf, bam - ucsc - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'filter' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai', checkIfExists: true),
+                    "HG00096"
+                ])
+                input[1] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
+                input[2] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

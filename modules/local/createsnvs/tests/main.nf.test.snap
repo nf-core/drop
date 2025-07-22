@@ -1,0 +1,101 @@
+{
+    "homo_sapiens - vcf, bam - ncbi": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "HG00103"
+                    },
+                    "HG00103.vcf.gz,variantsMD5:ea5e7fdf1e6156c38698fbf4bc57c0b2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "HG00103"
+                    },
+                    "HG00103.vcf.gz.tbi"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-08T16:49:07.102014627"
+    },
+    "homo_sapiens - vcf, bam - ucsc": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "HG00096"
+                    },
+                    "HG00096.vcf.gz,variantsMD5:eb88955011bf7c238f82163dd1a46523"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "HG00096"
+                    },
+                    "HG00096.vcf.gz.tbi"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-08T16:48:50.415906847"
+    },
+    "homo_sapiens - vcf, bam - ucsc - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "filter"
+                        },
+                        "filter.vcf.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "filter"
+                        },
+                        "filter.vcf.gz.tbi:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,8d4fc2ad1aba4e4c1b6ea2865c2c42e7"
+                ],
+                "tbi": [
+                    [
+                        {
+                            "id": "filter"
+                        },
+                        "filter.vcf.gz.tbi:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "vcf": [
+                    [
+                        {
+                            "id": "filter"
+                        },
+                        "filter.vcf.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,8d4fc2ad1aba4e4c1b6ea2865c2c42e7"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-04T15:30:06.654383242"
+    }
+}

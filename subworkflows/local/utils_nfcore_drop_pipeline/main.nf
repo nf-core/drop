@@ -69,32 +69,70 @@ workflow PIPELINE_INITIALISATION {
     validateInputParameters()
 
     //
+    // Create channel from gene annotations provided through params.gene_annotation
+    //
+
+    def gene_annotation_list = params.gene_annotation
+        ? samplesheetToList(params.gene_annotation, "assets/schema_gene_annotation.json")
+        : []
+
+    def all_gene_annotations = gene_annotation_list.collect { it[0].id }.sort().toSet()
+
+    def ch_gene_annotation = params.gene_annotation
+        ? Channel.fromList(gene_annotation_list)
+        : Channel.empty()
+
+    //
     // Create channel from input file provided through params.input
     //
 
-    Channel
-        .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
-        .map {
-            meta, fastq_1, fastq_2 ->
-                if (!fastq_2) {
-                    return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
-                } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
+    def samplesheet_list = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
+
+    def group_counts = [:]
+    samplesheet_list.each { it ->
+        def groups = it[0].drop_group.tokenize(",")
+        groups.each { group ->
+            group_counts[group] = group_counts.get(group, 0) + 1
         }
-        .groupTuple()
-        .map { samplesheet ->
-            validateInputSamplesheet(samplesheet)
+    }
+
+    // Check that each AE and AS group contains at least 30 samples
+    def groups_to_warn = (params.ae_groups.tokenize(",") + params.as_groups.tokenize(",")).toSet()
+    group_counts.each { group, count ->
+        if (count < 30 && groups_to_warn.contains(group)) {
+            log.warn("Less than 30 IDs in DROP_GROUP ${group}")
         }
-        .map {
-            meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
+    }
+
+    // Calculate counts for combination of drop group count and gene annotation
+    def group_annotation_counts = [:]
+    samplesheet_list.each { meta, _bam, _bai, _vcf, _tbi, gene_counts, _splice_counts ->
+        def groups = meta.drop_group
+        def annotations = gene_counts ? [meta.gene_annotation] : all_gene_annotations // Only use the gene_annotation for samples that have external counts
+        groups.tokenize(",").each { group ->
+            def group_ann_counts = group_annotation_counts.get(group, [:])
+            annotations.each { annotation ->
+                group_ann_counts[annotation] = group_ann_counts.get(annotation, 0) + 1
+            }
+            group_annotation_counts[group] = group_ann_counts
         }
-        .set { ch_samplesheet }
+    }
+
+    def ch_samplesheet = Channel.fromList(samplesheet_list)
+        .map { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
+            def new_meta = meta + [
+                // Add counts for combination of drop group and gene annotation
+                drop_group_ann_counts:group_annotation_counts,
+                // Add counts for drop group
+                drop_group_counts:group_counts
+            ]
+            [ new_meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ]
+        }
 
     emit:
-    samplesheet = ch_samplesheet
-    versions    = ch_versions
+    gene_annotation = ch_gene_annotation
+    samplesheet     = ch_samplesheet
+    versions        = ch_versions
 }
 
 /*
@@ -155,6 +193,10 @@ workflow PIPELINE_COMPLETION {
 //
 def validateInputParameters() {
     genomeExistsError()
+
+    if (params.ae_run && params.gene_annotation == null) {
+        error("Please provide a gene annotation file using the --gene_annotation parameter when running the aberrant expression analysis.")
+    }
 }
 
 //

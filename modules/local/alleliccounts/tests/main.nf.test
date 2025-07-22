@@ -1,0 +1,100 @@
+nextflow_process {
+
+    name "Test Process ALLELICCOUNTS"
+    script "../main.nf"
+    process "ALLELICCOUNTS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "alleliccounts"
+
+    test("homo_sapiens - vcf, bam - ucsc") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00096.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00096.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai', checkIfExists: true),
+                    "HG00096"
+                ],
+                [
+                    [ id: 'HG00103' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00103.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00103.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
+                    "HG00103"
+                ])
+                input[1] = [
+                    [id:'fasta'],
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true)
+                ]
+                input[2] = [
+                    [id:'fai'],
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true)
+                ]
+                input[3] = [
+                    [id:'dict'],
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.dict', checkIfExists: true)
+                ]
+                input[4] = true
+                input[5] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
+                input[6] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - vcf, bam - ucsc - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00096.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00096.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai', checkIfExists: true),
+                    "HG00096"
+                ])
+                input[1] = [
+                    [id:'fasta'],
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true)
+                ]
+                input[2] = [
+                    [id:'fai'],
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true)
+                ]
+                input[3] = [
+                    [id:'dict'],
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.dict', checkIfExists: true)
+                ]
+                input[4] = true
+                input[5] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
+                input[6] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
