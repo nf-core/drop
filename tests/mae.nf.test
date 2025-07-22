@@ -7,7 +7,7 @@ nextflow_pipeline {
 
         // The container for MAEQC_DESEQ is too big for the CI tests, running it in stub mode with a smaller container
         options "-stub"
-        config "mae_small_container.config"
+        config "./mae_small_container.config"
 
         when {
             params {
