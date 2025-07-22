@@ -1,0 +1,32 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "../main.nf"
+
+    test("Mono Allelic Expression Workflow") {
+
+        // The container for MAEQC_DESEQ is too big for the CI tests, running it in stub mode with a smaller container
+        options "-stub"
+        config "mae_small_container.config"
+
+        when {
+            params {
+                outdir = "${outputDir}"
+                ae_run = false
+                as_run = false
+                mae_run = true
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    getAllFilesFromDir(params.outdir, relative:true, ignoreFile: 'tests/.nftignore')
+                ).match() }
+            )
+        }
+
+    }
+
+}
