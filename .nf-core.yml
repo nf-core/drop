@@ -1,8 +1,10 @@
 lint:
   files_exist:
     - .github/workflows/ci.yml
+    - tests/default.nf.test
   files_unchanged:
     - .gitignore
+  nf_test_content: false
 nf_core_version: 3.3.2
 repository_type: pipeline
 template:
