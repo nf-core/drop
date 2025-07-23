@@ -8,8 +8,6 @@ nextflow_process {
     tag "modules_local"
     tag "mae/deseq"
 
-    config "./nextflow.config"
-
     // test("homo_sapiens - counts, true") {
 
     //     when {
@@ -67,6 +65,7 @@ nextflow_process {
     test("homo_sapiens - counts, true - stub") {
 
         options "-stub"
+        config "./nextflow.config"
 
         when {
             process {
