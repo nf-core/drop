@@ -1,29 +1,7 @@
 {
-    "Should run without failures": {
+    "Aberrant Splicing Workflow": {
         "content": [
             [
-                "processed_data/aberrant_expression/bam_stats/HG00096.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00103.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00106.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00111.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00116.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00126.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00132.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00149.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00150.txt",
-                "processed_data/aberrant_expression/bam_stats/HG00176.txt",
-                "processed_data/aberrant_expression/bam_stats/outrider.txt",
-                "processed_data/aberrant_expression/bam_stats/outrider_external.txt",
-                "processed_data/aberrant_expression/v29/counts/HG00096.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00103.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00106.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00111.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00116.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00126.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00132.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00149.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00150.counts.Rds",
-                "processed_data/aberrant_expression/v29/counts/HG00176.counts.Rds",
                 "processed_data/aberrant_splicing/annotations/fraser.tsv",
                 "processed_data/aberrant_splicing/annotations/fraser_external.tsv",
                 "processed_data/aberrant_splicing/datasets/cache/nonSplicedCounts/raw-local-fraser/nonSplicedCounts-HG00096.h5",
@@ -226,18 +204,6 @@
                 "processed_data/aberrant_splicing/datasets/savedObjects/raw-local-fraser_external/splitCounts/assays.h5",
                 "processed_data/aberrant_splicing/datasets/savedObjects/raw-local-fraser_external/splitCounts/se.rds",
                 "processed_data/aberrant_splicing/datasets/savedObjects/raw-local-fraser_external/theta.h5",
-                "processed_results/aberrant_expression/v29/outrider/outrider/OUTRIDER_results.tsv",
-                "processed_results/aberrant_expression/v29/outrider/outrider/OUTRIDER_results_all.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider/ods.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider/ods_fitted.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider/ods_unfitted.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider/total_counts.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider_external/OUTRIDER_results.tsv",
-                "processed_results/aberrant_expression/v29/outrider/outrider_external/OUTRIDER_results_all.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider_external/ods.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider_external/ods_fitted.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider_external/ods_unfitted.Rds",
-                "processed_results/aberrant_expression/v29/outrider/outrider_external/total_counts.Rds",
                 "processed_results/aberrant_splicing/datasets/savedObjects/fraser--v29/delta_jaccard.h5",
                 "processed_results/aberrant_splicing/datasets/savedObjects/fraser--v29/delta_psi3.h5",
                 "processed_results/aberrant_splicing/datasets/savedObjects/fraser--v29/delta_psi5.h5",
@@ -313,8 +279,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.3"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-17T11:09:00.904741238"
+        "timestamp": "2025-07-22T13:42:06.059215361"
     }
 }
