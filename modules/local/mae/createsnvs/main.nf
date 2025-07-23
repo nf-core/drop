@@ -1,4 +1,4 @@
-process ALLELICCOUNTS {
+process MAE_CREATESNVS {
     tag "${meta.id}"
     label 'process_single'
 
@@ -9,16 +9,13 @@ process ALLELICCOUNTS {
 
     input:
     tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(id)
-    tuple val(meta2), path(fasta)
-    tuple val(meta3), path(fai)
-    tuple val(meta4), path(dict)
-    val(ignore_header_check)
     path(ncbi2ucsc)
     path(ucsc2ncbi)
 
     output:
-    tuple val(meta), path("*.csv.gz")   , emit: csv
-    path  "versions.yml"                , emit: versions
+    tuple val(meta), path("*.vcf.gz")    , emit: vcf
+    tuple val(meta), path("*.vcf.gz.tbi"), emit: tbi
+    path  "versions.yml"                 , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -26,22 +23,16 @@ process ALLELICCOUNTS {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    # Set temp dir in work directory
     mkdir ./tmp
-    export TMPDIR=./tmp
-
-    ASEReadCounter.sh \\
-        $ncbi2ucsc \\
-        $ucsc2ncbi \\
-        $vcf \\
-        $bam \\
-        $id \\
-        $fasta \\
-        $ignore_header_check \\
-        ${prefix}.csv.gz \\
+    TMPDIR=./tmp filterSNVs.sh \\
+        ${ncbi2ucsc} \\
+        ${ucsc2ncbi} \\
+        ${vcf} \\
+        ${id} \\
+        ${bam} \\
+        ${prefix}.vcf.gz \\
         bcftools \\
-        samtools \\
-        gatk
+        samtools
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -55,7 +46,8 @@ process ALLELICCOUNTS {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    echo | gzip > ${prefix}.csv.gz
+    echo | gzip > ${prefix}.vcf.gz
+    touch ${prefix}.vcf.gz.tbi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

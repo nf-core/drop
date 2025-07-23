@@ -17,8 +17,8 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7",
-                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde",
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde"
                 ],
                 "csv": [
                     [
@@ -35,8 +35,8 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7",
-                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde",
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde"
                 ]
             }
         ],
@@ -44,7 +44,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-08T16:54:18.901652651"
+        "timestamp": "2025-07-15T17:01:57.613477188"
     },
     "homo_sapiens - vcf, bam - ucsc - stub": {
         "content": [
@@ -55,10 +55,17 @@
                             "id": "HG00096"
                         },
                         "HG00096.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ],
+                    [
+                        {
+                            "id": "HG00103"
+                        },
+                        "HG00103.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde",
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde"
                 ],
                 "csv": [
                     [
@@ -66,10 +73,17 @@
                             "id": "HG00096"
                         },
                         "HG00096.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ],
+                    [
+                        {
+                            "id": "HG00103"
+                        },
+                        "HG00103.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,4db0e5b6fc8f884ce9f0d47008fd42d7"
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde",
+                    "versions.yml:md5,79faf12190a12a8464ffd399a8ce5dde"
                 ]
             }
         ],
@@ -77,6 +91,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-07T13:17:42.882787334"
+        "timestamp": "2025-07-16T14:18:24.24773888"
     }
 }

@@ -42,23 +42,22 @@
                     "fa_icon": "fas fa-book",
                     "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
                 },
-                "fasta": {
+                "ucsc_dict": {
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
                     "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file. Equivalent to the `genome` parameter in the snakemake pipeline.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
+                    "pattern": "^\\S+\\.dict$",
+                    "description": "Path to UCSC sequence dictionary file.",
                     "fa_icon": "far fa-file-code"
                 },
-                "fai": {
+                "ncbi_dict": {
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
                     "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fai$",
-                    "description": "Path to FASTA index file.",
+                    "pattern": "^\\S+\\.dict$",
+                    "description": "Path to NCBI sequence dictionary file.",
                     "fa_icon": "far fa-file-code"
                 },
                 "ncbi_fasta": {
@@ -365,9 +364,9 @@
                     "maximum": 1,
                     "fa_icon": "fas fa-file-export"
                 },
-                "mae_skip_af": {
+                "mae_add_af": {
                     "type": "boolean",
-                    "description": "Skip the addition of the allele frequencies from gnomAD",
+                    "description": "Add the allele frequencies from gnomAD",
                     "fa_icon": "fas fa-file-export"
                 },
                 "mae_max_af": {

@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process CREATESNVS"
+    name "Test Process MAE_CREATESNVS"
     script "../main.nf"
-    process "CREATESNVS"
+    process "MAE_CREATESNVS"
 
     tag "modules"
     tag "modules_local"
-    tag "createsnvs"
+    tag "mae_createsnvs"
 
     test("homo_sapiens - vcf, bam - ucsc") {
 

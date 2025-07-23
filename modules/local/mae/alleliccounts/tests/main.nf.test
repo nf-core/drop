@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process ALLELICCOUNTS"
+    name "Test Process MAE_ALLELICCOUNTS"
     script "../main.nf"
-    process "ALLELICCOUNTS"
+    process "MAE_ALLELICCOUNTS"
 
     tag "modules"
     tag "modules_local"
-    tag "alleliccounts"
+    tag "mae_alleliccounts"
 
     test("homo_sapiens - vcf, bam - ucsc") {
 
@@ -19,7 +19,10 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00096.vcf.gz.tbi', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai', checkIfExists: true),
-                    "HG00096"
+                    "HG00096",
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.dict', checkIfExists: true)
                 ],
                 [
                     [ id: 'HG00103' ],
@@ -27,23 +30,14 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00103.vcf.gz.tbi', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
-                    "HG00103"
-                ])
-                input[1] = [
-                    [id:'fasta'],
-                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true)
-                ]
-                input[2] = [
-                    [id:'fai'],
-                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true)
-                ]
-                input[3] = [
-                    [id:'dict'],
+                    "HG00103",
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'genome/chr21.dict', checkIfExists: true)
-                ]
-                input[4] = true
-                input[5] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
-                input[6] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
+                ])
+                input[1] = true
+                input[2] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
+                input[3] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
                 """
             }
         }
@@ -69,23 +63,25 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00096.vcf.gz.tbi', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'inputs/HG00096.bam.bai', checkIfExists: true),
-                    "HG00096"
-                ])
-                input[1] = [
-                    [id:'fasta'],
-                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true)
-                ]
-                input[2] = [
-                    [id:'fai'],
-                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true)
-                ]
-                input[3] = [
-                    [id:'dict'],
+                    "HG00096",
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true),
                     file(params.pipelines_testdata_base_path + 'genome/chr21.dict', checkIfExists: true)
-                ]
-                input[4] = true
-                input[5] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
-                input[6] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
+                ],
+                [
+                    [ id: 'HG00103' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00103.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/createsnvs/HG00103.vcf.gz.tbi', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
+                    "HG00103",
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.fa.fai', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'genome/chr21.dict', checkIfExists: true)
+                ])
+                input[1] = true
+                input[2] = file("${projectDir}/assets/chr_NCBI_UCSC.txt")
+                input[3] = file("${projectDir}/assets/chr_UCSC_NCBI.txt")
                 """
             }
         }
