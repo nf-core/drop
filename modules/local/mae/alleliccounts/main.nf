@@ -1,4 +1,4 @@
-process CREATESNVS {
+process MAE_ALLELICCOUNTS {
     tag "${meta.id}"
     label 'process_single'
 
@@ -8,14 +8,14 @@ process CREATESNVS {
         'community.wave.seqera.io/library/bcftools_gatk4_htslib_samtools:255ed784054aa652' }"
 
     input:
-    tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(id)
+    tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(id), path(fasta), path(fai), path(dict)
+    val(ignore_header_check)
     path(ncbi2ucsc)
     path(ucsc2ncbi)
 
     output:
-    tuple val(meta), path("*.vcf.gz")    , emit: vcf
-    tuple val(meta), path("*.vcf.gz.tbi"), emit: tbi
-    path  "versions.yml"                 , emit: versions
+    tuple val(meta), path("*.csv.gz")   , emit: csv
+    path  "versions.yml"                , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,15 +23,22 @@ process CREATESNVS {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    filterSNVs.sh \\
-        ${ncbi2ucsc} \\
-        ${ucsc2ncbi} \\
-        ${vcf} \\
-        ${id} \\
-        ${bam} \\
-        ${prefix}.vcf.gz \\
+    # Set temp dir in work directory
+    mkdir ./tmp
+    export TMPDIR=./tmp
+
+    ASEReadCounter.sh \\
+        $ncbi2ucsc \\
+        $ucsc2ncbi \\
+        $vcf \\
+        $bam \\
+        $id \\
+        $fasta \\
+        $ignore_header_check \\
+        ${prefix}.csv.gz \\
         bcftools \\
-        samtools
+        samtools \\
+        gatk
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -45,8 +52,7 @@ process CREATESNVS {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    echo | gzip > ${prefix}.vcf.gz
-    touch ${prefix}.vcf.gz.tbi
+    echo | gzip > ${prefix}.csv.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
