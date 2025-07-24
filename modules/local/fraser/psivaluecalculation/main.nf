@@ -9,7 +9,7 @@ process FRASER_PSIVALUECALCULATION {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "savedObjects/*"), val(drop_group)
+    tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group)
     val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 

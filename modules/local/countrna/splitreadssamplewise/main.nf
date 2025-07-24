@@ -9,7 +9,7 @@ process COUNTRNA_SPLITREADSSAMPLEWISE {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: 'savedObjects/*'), path(bam), path(bai), val(drop_group), val(sample_id)
+    tuple val(meta), path(fds, stageAs: 'input/savedObjects/*'), path(bam), path(bai), val(drop_group), val(sample_id)
     val(keep_non_standard_chrs)
     val(recount)
     val(genome_assembly)
