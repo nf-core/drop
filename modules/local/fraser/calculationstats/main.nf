@@ -16,7 +16,7 @@ process FRASER_CALCULATIONSTATS {
     path(parse_subsets_for_FDR) // Pass "${projectDir}/assets/helpers/parse_subsets_for_FDR.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}", includeInputs: true)  , emit: fdsobj
+    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}")  , emit: fdsobj
     path  "versions.yml"                                                                        , emit: versions
 
     when:

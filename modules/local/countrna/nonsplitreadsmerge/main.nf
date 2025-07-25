@@ -17,7 +17,7 @@ process COUNTRNA_NONSPLITREADSMERGE {
 
     output:
     tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}", includeInputs:true) , emit: cache
-    tuple val(meta), path("savedObjects/raw-local-${drop_group}" , includeInputs: true)         , emit: fdsobj
+    tuple val(meta), path("savedObjects/raw-local-${drop_group}" )         , emit: fdsobj
     path  "versions.yml"                                                                        , emit: versions
 
     when:

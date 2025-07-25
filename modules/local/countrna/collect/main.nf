@@ -14,7 +14,7 @@ process COUNTRNA_COLLECT {
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects/raw-local-${drop_group}", includeInputs: true)  , emit: fdsobj
+    tuple val(meta), path("savedObjects/raw-local-${drop_group}")  , emit: fdsobj
     path  "versions.yml"                                                                , emit: versions
 
     when:
