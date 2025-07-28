@@ -75,4 +75,59 @@ nextflow_process {
         }
     }
 
+    test("homo_sapiens - fds - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("fraser"),
+                        file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db'),
+                        file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.gene_name_mapping.tsv'),
+                        "fraser",
+                        "v29",
+                        ["HG00096", "HG00103", "HG00106", "HG00111", "HG00116", "HG00126", "HG00132", "HG00149", "HG00150", "HG00176"]
+                    ]
+                }
+                input[1] = [
+                    [id:'genes_to_test'],
+                    file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml')
+                ]
+                input[2] = [
+                    [id:'samplesheet'],
+                    file("${projectDir}/assets/samplesheet.tsv")
+                ]
+                input[3] = [
+                    [ id: 'hpo' ],
+                    file(params.pipelines_testdata_base_path + 'genome/hpo_genes.tsv.gz', checkIfExists: true)
+                ]
+                input[4] = 0.1
+                input[5] = 0.3
+                input[6] = "hg19"
+                input[7] = "FRASER"
+                input[8] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[9] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
+                input[10] = file("${projectDir}/assets/helpers/add_HPO_cols.R")
+                """
+            }
+        }
+
+        then {
+            def file_list = path(process.out.fdsobj[0][1]).list()
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
+                    file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
 }
