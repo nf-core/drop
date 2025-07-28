@@ -1,0 +1,378 @@
+{
+    "homo_sapiens - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "spliceSitesCoordinates.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,bdc1cd184486d30d76a7c50d02ff64ed"
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "otherCounts": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "raw_fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "raw_local_fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "splicedCounts": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "spliceSitesCoordinates.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,bdc1cd184486d30d76a7c50d02ff64ed"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-28T12:14:06.881716044"
+    },
+    "homo_sapiens": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "nonSplicedCounts-HG00096.h5:md5,a4d5d2ecdcf1f0e04b8f8a8e7d221588",
+                            "nonSplicedCounts-HG00103.h5:md5,3a2f3b58000318a317b42bc5fe30a6d0",
+                            "nonSplicedCounts-HG00106.h5:md5,bc36f232634f47f6135a19ef17f05582",
+                            "nonSplicedCounts-HG00111.h5:md5,76734eba5005572ab99f49a9952951d8",
+                            "nonSplicedCounts-HG00116.h5:md5,e263e2acca877ee277f90690371745d2",
+                            "nonSplicedCounts-HG00126.h5:md5,ae18d255773da9d1fa1e8b728d60c9b5",
+                            "nonSplicedCounts-HG00132.h5:md5,ec1597bf538cff92db23f10a38badc9e",
+                            "nonSplicedCounts-HG00149.h5:md5,482723fa1003c22f2fd43d16cc25c855",
+                            "nonSplicedCounts-HG00150.h5:md5,a8cb4f09cf0758398bb4a89138d459fc",
+                            "nonSplicedCounts-HG00176.h5:md5,26f50c198df1c86cb65af70012083ef5",
+                            "spliceSiteCoordinates.RDS:md5,e1edeb02eacaf4c3eb33230e881a9557"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "otherCounts-HG00096.h5:md5,e2b69eb8d365c7a586bfce98117f9394",
+                            "otherCounts-HG00103.h5:md5,e02b98e5a6d3f7edf806a5c16f4d6851",
+                            "otherCounts-HG00106.h5:md5,e5739accbe7aac04d4761298ee9f2f82",
+                            "otherCounts-HG00111.h5:md5,8bf1fd81d1649dc05b344b4d16268a55",
+                            "otherCounts-HG00116.h5:md5,9e56e965deceb14d4e4cba7b2db70122",
+                            "otherCounts-HG00126.h5:md5,527b11c79bc24f096ae5e5e655ecfc7e",
+                            "otherCounts-HG00132.h5:md5,7a10bc537a685fad9736e5aaf710b44e",
+                            "otherCounts-HG00149.h5:md5,2c63a80d4f2e14765b9bbc2551531287",
+                            "otherCounts-HG00150.h5:md5,916ecca29dafc66f46e6b6d4f5441bc9",
+                            "otherCounts-HG00176.h5:md5,400581079ea2a67c1bf19fcfaf216df7"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "delta_jaccard.h5:md5,2a1022d634357748c6acd9bda33747f0",
+                            "delta_psi3.h5:md5,ab749958175f8b46beb46d5e1f657645",
+                            "delta_psi5.h5:md5,9c00fcac7bd4b218f95b2fc445fc6fc9",
+                            "delta_theta.h5:md5,c6ea30cb65ab73d8e657eb4919d2db0c",
+                            "fds-object.RDS:md5,22ebae8013cbe5f486d9e61141fe636e",
+                            "jaccard.h5:md5,04c24f751fe74163496b039972d7c62d",
+                            "psi3.h5:md5,ac5cceee56e7a1c7c03f05c0b7c6f0d1",
+                            "psi5.h5:md5,a1cd76b99b67f94c1bb779b6e42a0b3c",
+                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJnonsplit.h5:md5,712d295fa75fadc03b1aeaf91dbdae79",
+                            "rawCountsSS.h5:md5,6999bb678154f265b85becb087797e62",
+                            "rawOtherCounts_jaccard.h5:md5,353760bceb963af4529f4fb37a5eae70",
+                            "rawOtherCounts_psi3.h5:md5,4627141c935096c7c9257ffde1b9068a",
+                            "rawOtherCounts_psi5.h5:md5,321349f3d447344f980d01b5171b7452",
+                            "rawOtherCounts_theta.h5:md5,7f038cc031d532acf4ecf2dbf71d4ed9",
+                            [
+                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
+                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                            ],
+                            "theta.h5:md5,ee5ecf2d3bee18c35ae2ad2abe41aa90"
+                        ]
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "delta_jaccard.h5:md5,2a1022d634357748c6acd9bda33747f0",
+                            "delta_psi3.h5:md5,ab749958175f8b46beb46d5e1f657645",
+                            "delta_psi5.h5:md5,9c00fcac7bd4b218f95b2fc445fc6fc9",
+                            "delta_theta.h5:md5,c6ea30cb65ab73d8e657eb4919d2db0c",
+                            "fds-object.RDS:md5,8af3f86b7b76844b4d6f8f37dc24d4d3",
+                            "jaccard.h5:md5,04c24f751fe74163496b039972d7c62d",
+                            "psi3.h5:md5,80442471cd7dbbaf613a75851ec32f94",
+                            "psi5.h5:md5,38b8486de65d2d0ae11d0a45fb249aed",
+                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJnonsplit.h5:md5,05b0837cd06a55a9886f291363c343e6",
+                            "rawCountsSS.h5:md5,6999bb678154f265b85becb087797e62",
+                            "rawOtherCounts_jaccard.h5:md5,353760bceb963af4529f4fb37a5eae70",
+                            "rawOtherCounts_psi3.h5:md5,a20e287b7eb4e31831b8b759c8e94e9a",
+                            "rawOtherCounts_psi5.h5:md5,46080b47e894191306c9383b7da25541",
+                            "rawOtherCounts_theta.h5:md5,bf4eeac2b94ff42737bb04eb311e63c0",
+                            "theta.h5:md5,a4ca6ac3d120df7f93a06b248ccdb9f1"
+                        ]
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "delta_jaccard.h5:md5,2a1022d634357748c6acd9bda33747f0",
+                            "delta_psi3.h5:md5,ab749958175f8b46beb46d5e1f657645",
+                            "delta_psi5.h5:md5,9c00fcac7bd4b218f95b2fc445fc6fc9",
+                            "delta_theta.h5:md5,c6ea30cb65ab73d8e657eb4919d2db0c",
+                            "fds-object.RDS:md5,987f0ff9114ae1bcbbec3cb9e48172c3",
+                            "jaccard.h5:md5,04c24f751fe74163496b039972d7c62d",
+                            "predictedMeans_psi3.h5:md5,862f95a66e0659f4a7c1406327c50ea3",
+                            "predictedMeans_psi5.h5:md5,7d5006b9dd7b799f728d14afabeef3a7",
+                            "predictedMeans_theta.h5:md5,61dedcbbab17ab3fbc4bd1891915ac68",
+                            "psi3.h5:md5,80442471cd7dbbaf613a75851ec32f94",
+                            "psi5.h5:md5,38b8486de65d2d0ae11d0a45fb249aed",
+                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJnonsplit.h5:md5,05b0837cd06a55a9886f291363c343e6",
+                            "rawCountsSS.h5:md5,6999bb678154f265b85becb087797e62",
+                            "rawOtherCounts_jaccard.h5:md5,353760bceb963af4529f4fb37a5eae70",
+                            "rawOtherCounts_psi3.h5:md5,a20e287b7eb4e31831b8b759c8e94e9a",
+                            "rawOtherCounts_psi5.h5:md5,46080b47e894191306c9383b7da25541",
+                            "rawOtherCounts_theta.h5:md5,bf4eeac2b94ff42737bb04eb311e63c0",
+                            "theta.h5:md5,a4ca6ac3d120df7f93a06b248ccdb9f1"
+                        ]
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,bdc1cd184486d30d76a7c50d02ff64ed"
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "delta_jaccard.h5:md5,2a1022d634357748c6acd9bda33747f0",
+                            "delta_psi3.h5:md5,ab749958175f8b46beb46d5e1f657645",
+                            "delta_psi5.h5:md5,9c00fcac7bd4b218f95b2fc445fc6fc9",
+                            "delta_theta.h5:md5,c6ea30cb65ab73d8e657eb4919d2db0c",
+                            "fds-object.RDS:md5,987f0ff9114ae1bcbbec3cb9e48172c3",
+                            "jaccard.h5:md5,04c24f751fe74163496b039972d7c62d",
+                            "predictedMeans_psi3.h5:md5,862f95a66e0659f4a7c1406327c50ea3",
+                            "predictedMeans_psi5.h5:md5,7d5006b9dd7b799f728d14afabeef3a7",
+                            "predictedMeans_theta.h5:md5,61dedcbbab17ab3fbc4bd1891915ac68",
+                            "psi3.h5:md5,80442471cd7dbbaf613a75851ec32f94",
+                            "psi5.h5:md5,38b8486de65d2d0ae11d0a45fb249aed",
+                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJnonsplit.h5:md5,05b0837cd06a55a9886f291363c343e6",
+                            "rawCountsSS.h5:md5,6999bb678154f265b85becb087797e62",
+                            "rawOtherCounts_jaccard.h5:md5,353760bceb963af4529f4fb37a5eae70",
+                            "rawOtherCounts_psi3.h5:md5,a20e287b7eb4e31831b8b759c8e94e9a",
+                            "rawOtherCounts_psi5.h5:md5,46080b47e894191306c9383b7da25541",
+                            "rawOtherCounts_theta.h5:md5,bf4eeac2b94ff42737bb04eb311e63c0",
+                            "theta.h5:md5,a4ca6ac3d120df7f93a06b248ccdb9f1"
+                        ]
+                    ]
+                ],
+                "otherCounts": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "otherCounts-HG00096.h5:md5,e2b69eb8d365c7a586bfce98117f9394",
+                            "otherCounts-HG00103.h5:md5,e02b98e5a6d3f7edf806a5c16f4d6851",
+                            "otherCounts-HG00106.h5:md5,e5739accbe7aac04d4761298ee9f2f82",
+                            "otherCounts-HG00111.h5:md5,8bf1fd81d1649dc05b344b4d16268a55",
+                            "otherCounts-HG00116.h5:md5,9e56e965deceb14d4e4cba7b2db70122",
+                            "otherCounts-HG00126.h5:md5,527b11c79bc24f096ae5e5e655ecfc7e",
+                            "otherCounts-HG00132.h5:md5,7a10bc537a685fad9736e5aaf710b44e",
+                            "otherCounts-HG00149.h5:md5,2c63a80d4f2e14765b9bbc2551531287",
+                            "otherCounts-HG00150.h5:md5,916ecca29dafc66f46e6b6d4f5441bc9",
+                            "otherCounts-HG00176.h5:md5,400581079ea2a67c1bf19fcfaf216df7"
+                        ]
+                    ]
+                ],
+                "raw_fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "delta_jaccard.h5:md5,2a1022d634357748c6acd9bda33747f0",
+                            "delta_psi3.h5:md5,ab749958175f8b46beb46d5e1f657645",
+                            "delta_psi5.h5:md5,9c00fcac7bd4b218f95b2fc445fc6fc9",
+                            "delta_theta.h5:md5,c6ea30cb65ab73d8e657eb4919d2db0c",
+                            "fds-object.RDS:md5,8af3f86b7b76844b4d6f8f37dc24d4d3",
+                            "jaccard.h5:md5,04c24f751fe74163496b039972d7c62d",
+                            "psi3.h5:md5,80442471cd7dbbaf613a75851ec32f94",
+                            "psi5.h5:md5,38b8486de65d2d0ae11d0a45fb249aed",
+                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJnonsplit.h5:md5,05b0837cd06a55a9886f291363c343e6",
+                            "rawCountsSS.h5:md5,6999bb678154f265b85becb087797e62",
+                            "rawOtherCounts_jaccard.h5:md5,353760bceb963af4529f4fb37a5eae70",
+                            "rawOtherCounts_psi3.h5:md5,a20e287b7eb4e31831b8b759c8e94e9a",
+                            "rawOtherCounts_psi5.h5:md5,46080b47e894191306c9383b7da25541",
+                            "rawOtherCounts_theta.h5:md5,bf4eeac2b94ff42737bb04eb311e63c0",
+                            "theta.h5:md5,a4ca6ac3d120df7f93a06b248ccdb9f1"
+                        ]
+                    ]
+                ],
+                "raw_local_fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "delta_jaccard.h5:md5,2a1022d634357748c6acd9bda33747f0",
+                            "delta_psi3.h5:md5,ab749958175f8b46beb46d5e1f657645",
+                            "delta_psi5.h5:md5,9c00fcac7bd4b218f95b2fc445fc6fc9",
+                            "delta_theta.h5:md5,c6ea30cb65ab73d8e657eb4919d2db0c",
+                            "fds-object.RDS:md5,22ebae8013cbe5f486d9e61141fe636e",
+                            "jaccard.h5:md5,04c24f751fe74163496b039972d7c62d",
+                            "psi3.h5:md5,ac5cceee56e7a1c7c03f05c0b7c6f0d1",
+                            "psi5.h5:md5,a1cd76b99b67f94c1bb779b6e42a0b3c",
+                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJnonsplit.h5:md5,712d295fa75fadc03b1aeaf91dbdae79",
+                            "rawCountsSS.h5:md5,6999bb678154f265b85becb087797e62",
+                            "rawOtherCounts_jaccard.h5:md5,353760bceb963af4529f4fb37a5eae70",
+                            "rawOtherCounts_psi3.h5:md5,4627141c935096c7c9257ffde1b9068a",
+                            "rawOtherCounts_psi5.h5:md5,321349f3d447344f980d01b5171b7452",
+                            "rawOtherCounts_theta.h5:md5,7f038cc031d532acf4ecf2dbf71d4ed9",
+                            [
+                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
+                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                            ],
+                            "theta.h5:md5,ee5ecf2d3bee18c35ae2ad2abe41aa90"
+                        ]
+                    ]
+                ],
+                "splicedCounts": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "nonSplicedCounts-HG00096.h5:md5,a4d5d2ecdcf1f0e04b8f8a8e7d221588",
+                            "nonSplicedCounts-HG00103.h5:md5,3a2f3b58000318a317b42bc5fe30a6d0",
+                            "nonSplicedCounts-HG00106.h5:md5,bc36f232634f47f6135a19ef17f05582",
+                            "nonSplicedCounts-HG00111.h5:md5,76734eba5005572ab99f49a9952951d8",
+                            "nonSplicedCounts-HG00116.h5:md5,e263e2acca877ee277f90690371745d2",
+                            "nonSplicedCounts-HG00126.h5:md5,ae18d255773da9d1fa1e8b728d60c9b5",
+                            "nonSplicedCounts-HG00132.h5:md5,ec1597bf538cff92db23f10a38badc9e",
+                            "nonSplicedCounts-HG00149.h5:md5,482723fa1003c22f2fd43d16cc25c855",
+                            "nonSplicedCounts-HG00150.h5:md5,a8cb4f09cf0758398bb4a89138d459fc",
+                            "nonSplicedCounts-HG00176.h5:md5,26f50c198df1c86cb65af70012083ef5",
+                            "spliceSiteCoordinates.RDS:md5,e1edeb02eacaf4c3eb33230e881a9557"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,bdc1cd184486d30d76a7c50d02ff64ed"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-28T12:13:44.43889843"
+    }
+}
