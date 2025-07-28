@@ -217,7 +217,7 @@ workflow ABERRANTSPLICING {
             def count_dirs = splice_counts_group.collect { it.file }.unique() // Prevent the same directory from being used multiple times
             def count_ids = splice_counts_group.collect { it.id }
             def new_meta = meta + [group_size: meta.group_size + count_ids.size(), samples: (meta.samples.tokenize(",") + count_ids).sort().join(",")]
-            [ 
+            [
                 new_meta,
                 fds,
                 cache.resolve("gRanges_splitCounts.rds"),
