@@ -64,11 +64,17 @@ nextflow_process {
 
         then {
             def file_list = path(process.out.fdsobj[0][1]).list()
+            def data_file_list = path(process.out.data_fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
                 { assert snapshot(
                     file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
                     file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    data_file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
+                    data_file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    process.out.results_aberrant,
+                    process.out.results_junctions,
+                    process.out.results_gene_all,
                     process.out.versions
                 ).match() }
             )
@@ -121,11 +127,7 @@ nextflow_process {
             def file_list = path(process.out.fdsobj[0][1]).list()
             assertAll (
                 { assert process.success },
-                { assert snapshot(
-                    file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
-                    file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
-                    process.out.versions
-                ).match() }
+                { assert snapshot(process.out).match() }
             )
         }
     }
