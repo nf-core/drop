@@ -10,9 +10,9 @@ process FRASER_PREPROCESS {
 
     input:
     tuple(
-        val(meta),
+        val(meta), 
         path(fds, stageAs: "input/savedObjects/*"),
-        path(splitcounts_granges),
+        path(splitcounts_granges), 
         path(splicesites_splitcounts),
         path(non_split_counts_granges),
         path(non_split_reads, stageAs:"input/cache/nonSplicedCounts/raw-local/*"),
