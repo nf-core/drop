@@ -2,11 +2,16 @@ include { COUNTRNA_INIT                     } from '../../../modules/local/count
 include { COUNTRNA_SPLITREADSSAMPLEWISE     } from '../../../modules/local/countrna/splitreadssamplewise'
 include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/countrna/splitreadsmerge'
 include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
+// include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
+// include { COUNTRNA_COLLECT                  } from '../../../modules/local/countrna/collect'
+// include { FRASER_PSIVALUECALCULATION        } from '../../../modules/local/fraser/psivaluecalculation'
+// include { FRASER_FILTEREXPRESSION           } from '../../../modules/local/fraser/filterexpression'
+// include { FRASER_FITHYPERPARAMETERS         } from '../../../modules/local/fraser/fithyperparameters'
+// include { FRASER_FITAUTOENCODER             } from '../../../modules/local/fraser/fitautoencoder'
 include { FRASER_PREPROCESS                 } from '../../../modules/local/fraser/preprocess'
-// include { FRASER_ANNOTATEGENES              } from '../../../modules/local/fraser/annotategenes'
-// include { FRASER_CALCULATIONSTATS           } from '../../../modules/local/fraser/calculationstats'
-// include { FRASER_EXTRACTRESULTS             } from '../../../modules/local/fraser/extractresults'
-include { FRASER_ANALYSE                    } from '../../../modules/local/fraser/analyse'
+include { FRASER_ANNOTATEGENES              } from '../../../modules/local/fraser/annotategenes'
+include { FRASER_CALCULATIONSTATS           } from '../../../modules/local/fraser/calculationstats'
+include { FRASER_EXTRACTRESULTS             } from '../../../modules/local/fraser/extractresults'
 
 workflow ABERRANTSPLICING {
     take:
@@ -252,21 +257,58 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(FRASER_PREPROCESS.out.versions.first())
 
     //
-    // FRASER_ANALYSE
+    // FRASER_ANNOTATEGENES
     //
 
     def ch_gene_annotations = txdb.join(gene_name_mapping, failOnMismatch: true, failOnDuplicate: true)
 
-    def ch_analyse_input = FRASER_PREPROCESS.out.fdsobj
+    def ch_annotategenes_input = FRASER_PREPROCESS.out.fdsobj
         .combine(ch_gene_annotations)
         .map { meta, fds, meta_annotations, txdb_, gene_name_mapping_ ->
             def new_meta = meta + [id:"${meta.id}.${meta_annotations.id}", annotation:meta_annotations.id]
-            [ new_meta, fds, txdb_, gene_name_mapping_, meta.drop_group, meta_annotations.id, meta.samples.tokenize(",") ]
+            [ new_meta, fds, txdb_, gene_name_mapping_, meta.drop_group, meta_annotations.id ]
         }
 
-    FRASER_ANALYSE(
-        ch_analyse_input,
+    FRASER_ANNOTATEGENES(
+        ch_annotategenes_input,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(FRASER_ANNOTATEGENES.out.versions.first())
+
+    //
+    // FRASER_CALCULATIONSTATS
+    //
+
+    def ch_calculationstats_input = FRASER_ANNOTATEGENES.out.fdsobj
+        .map { meta, fds ->
+            [ meta, fds, meta.drop_group, meta.annotation, meta.samples.tokenize(",") ]
+        }
+
+    FRASER_CALCULATIONSTATS(
+        ch_calculationstats_input,
         genes_to_test,
+        fraser_version,
+        aberrant_splicing_config_R,
+        file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true),
+    )
+    ch_versions = ch_versions.mix(FRASER_CALCULATIONSTATS.out.versions.first())
+
+    //
+    // FRASER_EXTRACTRESULTS
+    //
+
+    def ch_extractresults_input = FRASER_CALCULATIONSTATS.out.fdsobj
+        .map { meta, fds ->
+            [meta.annotation, meta, fds]
+        }
+        .combine(txdb.map { meta, txdb_ -> [meta.id, txdb_] }, by:0)
+        .map { annotation, meta, fds, txdb_ ->
+            [meta, fds, txdb_, meta.drop_group, annotation, meta.samples.tokenize(",")]
+        }
+
+    FRASER_EXTRACTRESULTS(
+        ch_extractresults_input,
         Channel.value([[id:'samplesheet'], samplesheet]),
         hpo_file,
         params.as_padj_cutoff,
@@ -274,10 +316,9 @@ workflow ABERRANTSPLICING {
         params.genome,
         fraser_version,
         aberrant_splicing_config_R,
-        file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true),
         file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
     )
-    ch_versions = ch_versions.mix(FRASER_ANALYSE.out.versions.first())
+    ch_versions = ch_versions.mix(FRASER_EXTRACTRESULTS.out.versions.first())
 
     emit:
     versions = ch_versions

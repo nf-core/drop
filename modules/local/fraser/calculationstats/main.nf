@@ -1,6 +1,6 @@
-process FRASER_ANALYSE {
+process FRASER_CALCULATIONSTATS {
     tag "${meta.id}"
-    label 'process_medium'
+    label 'process_low'
 
     // TODO discuss if this container should be split up, library loading should be done in the module script instead in that case
     conda "${moduleDir}/environment.yml"
@@ -9,44 +9,25 @@ process FRASER_ANALYSE {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), path(txdb), path(gene_name_mapping), val(drop_group), val(annotation_id), val(sample_ids)
+    tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group), val(annotation_id), val(sample_ids)
     tuple val(meta2), path(genes_to_test)
-    tuple val(meta3), path(samplesheet)
-    tuple val(meta4), path(hpo_file)
-    val(padj_cutoff)
-    val(delta_psi_cutoff)
-    val(genome_assembly)
     val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
     path(parse_subsets_for_FDR) // Pass "${projectDir}/assets/helpers/parse_subsets_for_FDR.R" to this input
-    path(add_HPO_cols) // Pass "${projectDir}/assets/helpers/add_HPO_cols.R" to this input
 
     output:
-    tuple val(meta), path("processed_data/savedObjects/${drop_group}--${annotation_id}")    , emit: data_fdsobj
-    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}")                   , emit: fdsobj
-    tuple val(meta), path("results.tsv")                                                    , emit: results_aberrant
-    tuple val(meta), path("results_per_junction.tsv")                                       , emit: results_junctions
-    tuple val(meta), path("results_gene_all.tsv")                                           , emit: results_gene_all
-    path  "versions.yml"                                                                    , emit: versions
+    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}")  , emit: fdsobj
+    path  "versions.yml"                                                                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    template 'Fraser_Analyse.R'
+    template '07_calculation_stats_FraseR.R'
 
     stub:
     """
     #!/usr/bin/env Rscript
-
-    dir.create("savedObjects/${drop_group}--${annotation_id}", recursive = TRUE)
-    dir.create("processed_data/savedObjects/${drop_group}--${annotation_id}", recursive = TRUE)
-    a <- file("results.tsv", "w")
-    close(a)
-    a <- file("results_per_junction.tsv", "w")
-    close(a)
-    a <- file("results_gene_all.tsv", "w")
-    close(a)
     ## VERSIONS FILE
     writeLines(
         c(
