@@ -14,8 +14,8 @@ process FRASER_ANNOTATEGENES {
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}", includeInputs:true) , emit: fdsobj
-    path  "versions.yml"                                                                      , emit: versions
+    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}"), emit: fdsobj
+    path  "versions.yml"                                                 , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

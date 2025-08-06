@@ -16,7 +16,7 @@ process COUNTRNA_NONSPLITREADSMERGE {
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}", includeInputs:true) , emit: cache
+    tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}"), emit: cache
     tuple val(meta), path("savedObjects/raw-local-${drop_group}" )         , emit: fdsobj
     path  "versions.yml"                                                                        , emit: versions
 
