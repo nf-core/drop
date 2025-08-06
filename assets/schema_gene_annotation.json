@@ -18,8 +18,8 @@
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.gtf$",
-                "errorMessage": "The GTF file has to exist, cannot contain spaces and must have extension '.gtf'",
+                "pattern": "^\\S+\\.gtf(\\.gz)?$",
+                "errorMessage": "The GTF file has to exist, cannot contain spaces and must have extension '.gtf' or '.gtf.gz'",
                 "description": "Path to the GTF file. Must exist and cannot contain spaces."
             }
         }
