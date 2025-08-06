@@ -33,6 +33,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     dir.create("cache/nonSplicedCounts/raw-local-${drop_group}", recursive = TRUE)
     a <- file("cache/nonSplicedCounts/raw-local-${drop_group}/nonSplicedCounts-${sample_id}.h5", "w")
     close(a)
+    dir.create("savedObjects/raw-local-${drop_group}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(

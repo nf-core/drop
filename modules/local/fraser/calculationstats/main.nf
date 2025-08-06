@@ -28,6 +28,7 @@ process FRASER_CALCULATIONSTATS {
     stub:
     """
     #!/usr/bin/env Rscript
+    dir.create("savedObjects/${drop_group}--${annotation_id}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(

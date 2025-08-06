@@ -32,6 +32,7 @@ process COUNTRNA_NONSPLITREADSMERGE {
     dir.create("cache/nonSplicedCounts/raw-local-${drop_group}", recursive = TRUE)
     a <- file("cache/nonSplicedCounts/raw-local-${drop_group}/spliceSitesCoordinates.RDS", "w")
     close(a)
+    dir.create("savedObjects/raw-local-${drop_group}", recursive = TRUE)
     a <- file("savedObjects/raw-local-${drop_group}/rawCountsSS.h5", "w")
     close(a)
     ## VERSIONS FILE
