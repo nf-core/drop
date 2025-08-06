@@ -64,7 +64,7 @@ for(type in psiTypesNotUsed){
 annotation <- "$annotation_id"
 dataset    <- "$drop_group"
 fdsFile    <- "$fds"
-workingDir <- "./"
+workingDir <- "./processed_data/"
 
 register(MulticoreParam($task.cpus))
 # Limit number of threads for DelayedArray operations
@@ -77,7 +77,7 @@ subsets <- parse_subsets_for_FDR("$genes_to_test",
                                 sampleIDs=fraser_sample_ids)
 
 # Load FRASER data
-fds <- loadFraserDataSet(dir="./processed_data", name=paste(dataset, annotation, sep = '--'))
+fds <- loadFraserDataSet(dir=workingDir, name=paste(dataset, annotation, sep = '--'))
 
 # Calculate stats
 for (type in psiTypes) {
@@ -87,10 +87,10 @@ for (type in psiTypes) {
     fds <- calculatePadjValues(fds, type=type, subsets=subsets)
 }
 
-fds <- saveFraserDataSet(fds, dir=workingDir)
+fds <- saveFraserDataSet(fds, dir="./")
 
 # remove .h5 files from previous runs with other FRASER version
-fdsDir <- "savedObjects/${drop_group}--${annotation_id}/"
+fdsDir <- "$fds/${drop_group}--${annotation_id}/"
 pvalFiles <- grep("p(.*)BetaBinomial_(.*).h5",
                 list.files(fdsDir),
                 value=TRUE)
