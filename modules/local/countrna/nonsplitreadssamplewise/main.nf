@@ -17,7 +17,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects/raw-local-${drop_group}")                                           , emit: fds
+    tuple val(meta), path("savedObjects/raw-local-${drop_group}", includeInputs:true)                       , emit: fds
     tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}/nonSplicedCounts-${sample_id}.h5"), emit: non_split_counts
     path  "versions.yml"                                                                                    , emit: versions
 
@@ -30,7 +30,6 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     stub:
     """
     #!/usr/bin/env Rscript
-    dir.create("savedObjects/raw-local-${drop_group}", recursive = TRUE)
     dir.create("cache/nonSplicedCounts/raw-local-${drop_group}", recursive = TRUE)
     a <- file("cache/nonSplicedCounts/raw-local-${drop_group}/nonSplicedCounts-${sample_id}.h5", "w")
     close(a)
