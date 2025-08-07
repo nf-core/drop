@@ -23,7 +23,7 @@ mae_res <- c(${res.collect { "\"$it\"" }.join(', ')})
 
 rows_in_group <- sapply(strsplit(sa\$DROP_GROUP, ',|, '), function(d) "$drop_group" %in% d)
 vcf_cols <- sa[rows_in_group, .(DNA_ID, DNA_VCF_FILE)] %>% unique
-dna_samples <- vcf_cols\$DNA_ID
+dna_samples <- sort(vcf_cols\$DNA_ID)
 vcf_files <- c(${vcfs.collect { "\"$it\"" }.join(', ')})
 
 # Read all RNA genotypes into a list
