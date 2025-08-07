@@ -9,14 +9,14 @@ process FRASER_CALCULATIONSTATS {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "savedObjects/*"), val(drop_group), val(annotation_id), val(sample_ids)
+    tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group), val(annotation_id), val(sample_ids)
     tuple val(meta2), path(genes_to_test)
     val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
     path(parse_subsets_for_FDR) // Pass "${projectDir}/assets/helpers/parse_subsets_for_FDR.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}", includeInputs: true)  , emit: fdsobj
+    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}")  , emit: fdsobj
     path  "versions.yml"                                                                        , emit: versions
 
     when:
@@ -28,6 +28,7 @@ process FRASER_CALCULATIONSTATS {
     stub:
     """
     #!/usr/bin/env Rscript
+    dir.create("savedObjects/${drop_group}--${annotation_id}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(

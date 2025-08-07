@@ -10,14 +10,14 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "savedObjects/*"), path(splice_sites), path(bam), path(bai), val(drop_group), val(sample_id)
+    tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), path(splice_sites), path(bam), path(bai), val(drop_group), val(sample_id)
     val(long_read)
     val(recount)
     val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects/raw-local-${drop_group}", includeInputs:true)                       , emit: fds
+    tuple val(meta), path("savedObjects/raw-local-${drop_group}")                                           , emit: fds
     tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}/nonSplicedCounts-${sample_id}.h5"), emit: non_split_counts
     path  "versions.yml"                                                                                    , emit: versions
 
@@ -33,6 +33,7 @@ process COUNTRNA_NONSPLITREADSSAMPLEWISE {
     dir.create("cache/nonSplicedCounts/raw-local-${drop_group}", recursive = TRUE)
     a <- file("cache/nonSplicedCounts/raw-local-${drop_group}/nonSplicedCounts-${sample_id}.h5", "w")
     close(a)
+    dir.create("savedObjects/raw-local-${drop_group}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(
