@@ -82,7 +82,7 @@
             },
             "STRAND": {
                 "type": "string",
-                "description": "Strand of the RNA-seq data",
+                "description": "Strand of the RNA-seq data, shall be unique",
                 "enum": ["yes", "no", "reverse"],
                 "meta": ["strand"],
                 "default": "no"
@@ -123,8 +123,7 @@
             },
             "SEX": {
                 "type": "string",
-                "enum": ["m", "male", "f", "female"],
-                "description": "The sex of the sample",
+                "description": "The sex of the sample. Samples with 'm','male','f','femal' will be analysed for sex bias abrrant expression report",
                 "meta": "sex"
             },
             "TISSUE": {
@@ -149,14 +148,15 @@
             {
                 "required": ["SPLICE_COUNTS_DIR"]
             }
-        ]
+        ],
+        "dependentRequired": {
+            "DNA_ID": ["DNA_VCF_FILE"],
+            "DNA_VCF_FILE": ["DNA_ID"]
+        }
     },
     "allOf": [
         {
             "uniqueEntries": ["RNA_ID"]
-        },
-        {
-            "uniqueEntries": ["DNA_ID"]
         }
     ]
 }
