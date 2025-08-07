@@ -121,6 +121,8 @@ workflow PIPELINE_INITIALISATION {
     def ch_samplesheet = Channel.fromList(samplesheet_list)
         .map { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
             def new_meta = meta + [
+                id: meta.id as String,
+                dna_id: meta.dna_id as String,
                 // Add counts for combination of drop group and gene annotation
                 drop_group_ann_counts:group_annotation_counts,
                 // Add counts for drop group

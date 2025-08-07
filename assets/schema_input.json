@@ -8,7 +8,7 @@
         "type": "object",
         "properties": {
             "RNA_ID": {
-                "type": "string",
+                "type": ["string", "integer"],
                 "pattern": "^\\S+$",
                 "errorMessage": "RNA ID must be provided and cannot contain spaces",
                 "description": "Unique identifier for the RNA sample. Must not contain spaces.",
@@ -31,7 +31,7 @@
                 "description": "Path to the RNA BAM index file. Must exist and cannot contain spaces."
             },
             "DNA_ID": {
-                "type": "string",
+                "type": ["string", "integer"],
                 "pattern": "^\\S+$",
                 "errorMessage": "DNA ID must be provided and cannot contain spaces",
                 "meta": ["dna_id"],
