@@ -27,7 +27,7 @@ process FRASER_FITAUTOENCODER {
     stub:
     """
     #!/usr/bin/env Rscript
-
+    dir.create("savedObjects/${drop_group}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(

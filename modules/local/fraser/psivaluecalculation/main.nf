@@ -28,6 +28,7 @@ process FRASER_PSIVALUECALCULATION {
     """
     #!/usr/bin/env Rscript
     dir.create("cache/otherCounts/raw-local-${drop_group}", recursive = TRUE)
+    dir.create("savedObjects/raw-local-${drop_group}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(
