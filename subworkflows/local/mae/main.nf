@@ -53,7 +53,7 @@ workflow MAE {
             vcf && tbi && bam && bai
         }
         .map { meta, vcf, tbi, bam, bai ->
-            [ meta, vcf, tbi, bam, bai, meta.id ]
+            [ meta, vcf, tbi, bam, bai, meta.dna_id ]
         }
 
     MAE_CREATESNVS(
