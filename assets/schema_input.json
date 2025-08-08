@@ -150,7 +150,7 @@
             }
         ],
         "dependentRequired": {
-            "DNA_ID": ["DNA_VCF_FILE"],
+            "DNA_ID": ["DNA_VCF_FILE", "GENOME"],
             "DNA_VCF_FILE": ["DNA_ID"]
         }
     },
