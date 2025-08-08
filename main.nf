@@ -68,14 +68,14 @@ workflow {
 
     // Use the UCSC FASTA and FAI files if provided, otherwise use the NCBI FASTA and FAI files
     def fasta = params.ucsc_fasta ? Channel.value([[id: 'fasta'], file(params.ucsc_fasta)]) :
-        params.ncbi_fasta ? Channel.value([[id: 'fasta'], file(params.ncbi_fasta)]) : [[:], []]
+        params.ncbi_fasta ? Channel.value([[id: 'fasta'], file(params.ncbi_fasta)]) : Channel.empty()
     def fai = params.ucsc_fai ? Channel.value([[id: 'fai'], file(params.ucsc_fai)]) :
-        params.ncbi_fai ? Channel.value([[id: 'fai'], file(params.ncbi_fai)]) : [[:], []]
+        params.ncbi_fai ? Channel.value([[id: 'fai'], file(params.ncbi_fai)]) : Channel.empty()
 
-    def ucsc_fasta = params.ucsc_fasta ? Channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : [[:], []]
-    def ucsc_fai = params.ucsc_fai ? Channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : [[:], []]
-    def ncbi_fasta = params.ncbi_fasta ? Channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : [[:], []]
-    def ncbi_fai = params.ncbi_fai ? Channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : [[:], []]
+    def ucsc_fasta = params.ucsc_fasta ? Channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : Channel.empty()
+    def ucsc_fai = params.ucsc_fai ? Channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : Channel.empty()
+    def ncbi_fasta = params.ncbi_fasta ? Channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : Channel.empty()
+    def ncbi_fai = params.ncbi_fai ? Channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : Channel.empty()
 
     def qc_vcf = params.mae_qc_vcf ?
         Channel.value([[id: 'qc_vcf'], file(params.mae_qc_vcf), params.mae_qc_vcf_tbi ? file(params.mae_qc_vcf_tbi) : []]) :
