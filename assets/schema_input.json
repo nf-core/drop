@@ -111,7 +111,7 @@
                 "description": "Genome source",
                 "meta": ["genome"],
                 "enum": ["ncbi", "ucsc"],
-                "default": "ncbi"
+                "default": "ucsc"
             },
             "SPLICE_COUNTS_DIR": {
                 "type": "string",
