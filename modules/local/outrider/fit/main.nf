@@ -1,4 +1,4 @@
-process OUTRIDER_RUN {
+process OUTRIDER_FIT {
     tag "${meta.id}"
     label 'process_low'
 

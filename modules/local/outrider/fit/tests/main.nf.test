@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process OUTRIDER_RUN"
+    name "Test Process OUTRIDER_FIT"
     script "../main.nf"
-    process "OUTRIDER_RUN"
+    process "OUTRIDER_FIT"
 
     tag "modules"
     tag "modules_local"
-    tag "OUTRIDER_RUN"
+    tag "OUTRIDER_FIT"
 
     test("drop demo - ods_unfitted.Rds") {
 

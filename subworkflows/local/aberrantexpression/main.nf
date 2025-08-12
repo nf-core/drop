@@ -2,7 +2,7 @@ include { COUNTREADS                         } from '../../../modules/local/coun
 include { MERGECOUNTS                        } from '../../../modules/local/mergecounts/'
 include { FILTERCOUNTS                       } from '../../../modules/local/filtercounts/'
 include { COUNTEXPRESSION_SUMMARY            } from '../../../modules/local/countexpression/summary/'
-include { OUTRIDER_RUN                       } from '../../../modules/local/outrider/run'
+include { OUTRIDER_FIT                       } from '../../../modules/local/outrider/fit'
 include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
 include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
 include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
@@ -136,18 +136,18 @@ workflow ABERRANTEXPRESSION {
     // Run OUTRIDER
     //
 
-    OUTRIDER_RUN(
+    OUTRIDER_FIT(
         FILTERCOUNTS.out.output,
         params.ae_implementation,
         params.ae_max_tested_dimension_proportion
     )
-    ch_versions = ch_versions.mix(OUTRIDER_RUN.out.versions.first())
+    ch_versions = ch_versions.mix(OUTRIDER_FIT.out.versions.first())
 
     //
     // Calculate p-values of the OUTRIDER output
     //
 
-    def outrider_pvals_input = OUTRIDER_RUN.out.ods_fitted
+    def outrider_pvals_input = OUTRIDER_FIT.out.ods_fitted
         .map { meta, ods_fitted ->
             [ [id:meta.id], meta, ods_fitted ]
         }
