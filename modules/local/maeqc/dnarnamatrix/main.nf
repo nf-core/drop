@@ -1,4 +1,4 @@
-process MAEQC_CREATEMATRIXDNARNACOR {
+process MAEQC_DNARNAMATRIX {
     tag "${meta.id}"
     label 'process_medium'
 

@@ -1,4 +1,4 @@
-process MAEQC_DESEQ {
+process MAEQC_DNARNADESEQ {
     tag "${meta.id}"
     label 'process_single'
 

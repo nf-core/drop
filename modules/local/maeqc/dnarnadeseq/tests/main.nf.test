@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process MAEQC_DESEQ"
+    name "Test Process MAEQC_DNARNADESEQ"
     script "../main.nf"
-    process "MAEQC_DESEQ"
+    process "MAEQC_DNARNADESEQ"
 
     tag "modules"
     tag "modules_local"
-    tag "maeqc_deseq"
+    tag "MAEQC_DNARNADESEQ"
 
     test("homo_sapiens - counts") {
 

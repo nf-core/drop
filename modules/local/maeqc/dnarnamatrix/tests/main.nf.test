@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process MAEQC_CREATEMATRIXDNARNACOR"
+    name "Test Process MAEQC_DNARNAMATRIX"
     script "../main.nf"
-    process "MAEQC_CREATEMATRIXDNARNACOR"
+    process "MAEQC_DNARNAMATRIX"
 
     tag "modules"
     tag "modules_local"
-    tag "maeqc_creatematrixdnarnacor"
+    tag "MAEQC_DNARNAMATRIX"
 
     test("homo_sapiens") {
 
