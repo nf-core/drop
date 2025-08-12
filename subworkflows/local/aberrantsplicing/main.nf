@@ -1,9 +1,9 @@
-include { COUNTSPLICING_INIT                    } from '../../../modules/local/countsplicing/init'
-include { COUNTEXPRESSION_COUNTSPLITREADS       } from '../../../modules/local/countexpression/countsplitreads'
-include { COUNTEXPRESSION_MERGESPLITREADS       } from '../../../modules/local/countexpression/mergesplitreads'
-include { COUNTEXPRESSION_COUNTNONSPLITREADS    } from '../../../modules/local/countexpression/countnonsplitreads'
-include { COUNTEXPRESSION_MERGENONSPLITREADS    } from '../../../modules/local/countexpression/mergenonsplitreads'
-include { COUNTSPLICING_COLLECTCOUNTS           } from '../../../modules/local/countsplicing/collectcounts'
+include { SPLICECOUNTS_INIT                     } from '../../../modules/local/splicecounts/init'
+include { SPLICECOUNTS_COUNTSPLITREADS          } from '../../../modules/local/splicecounts/countsplitreads'
+include { SPLICECOUNTS_MERGESPLITREADS          } from '../../../modules/local/splicecounts/mergesplitreads'
+include { SPLICECOUNTS_COUNTNONSPLITREADS       } from '../../../modules/local/splicecounts/countnonsplitreads'
+include { SPLICECOUNTS_MERGENONSPLITREADS       } from '../../../modules/local/splicecounts/mergenonsplitreads'
+include { SPLICECOUNTS_COLLECTCOUNTS            } from '../../../modules/local/splicecounts/collectcounts'
 include { FRASER_PSIVALUECALCULATION            } from '../../../modules/local/fraser/psivaluecalculation'
 include { FRASER_FILTEREXPRESSION               } from '../../../modules/local/fraser/filterexpression'
 include { FRASER_FITHYPERPARAMS                 } from '../../../modules/local/fraser/fithyperparams'
@@ -80,7 +80,7 @@ workflow ABERRANTSPLICING {
         }
 
     //
-    // COUNTSPLICING_INIT
+    // SPLICECOUNTS_INIT
     //
 
     def ch_abberant_splicing_input = ch_group_datasets
@@ -100,17 +100,17 @@ workflow ABERRANTSPLICING {
             bams: [ meta, bams, bais ]
         }
 
-    COUNTSPLICING_INIT(
+    SPLICECOUNTS_INIT(
         ch_abberant_splicing_input.dataset.map { meta, dataset ->
             [ meta, dataset, meta.drop_group ]
         },
         fraser_version,
         aberrant_splicing_config_R,
     )
-    ch_versions = ch_versions.mix(COUNTSPLICING_INIT.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_INIT.out.versions.first())
 
     //
-    // COUNTEXPRESSION_COUNTSPLITREADS
+    // SPLICECOUNTS_COUNTSPLITREADS
     //
 
     def ch_bams_per_sample = inputs_to_analyse
@@ -119,7 +119,7 @@ workflow ABERRANTSPLICING {
         }
 
     // Note for later: Rethink this so that split counting only happens once per sample
-    def splitreadssamplewise_input = COUNTSPLICING_INIT.out.fdsobj
+    def splitreadssamplewise_input = SPLICECOUNTS_INIT.out.fdsobj
         .map { meta, fds ->
             [ meta.samples.tokenize(","), meta, fds ]
         }
@@ -130,7 +130,7 @@ workflow ABERRANTSPLICING {
             [ new_meta, fds, bam, bai, meta.drop_group, sample ]
         }
 
-    COUNTEXPRESSION_COUNTSPLITREADS(
+    SPLICECOUNTS_COUNTSPLITREADS(
         splitreadssamplewise_input,
         params.as_keep_non_standard_chrs,
         params.as_recount,
@@ -138,39 +138,39 @@ workflow ABERRANTSPLICING {
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_COUNTSPLITREADS.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_COUNTSPLITREADS.out.versions.first())
 
     //
-    // COUNTEXPRESSION_MERGESPLITREADS
+    // SPLICECOUNTS_MERGESPLITREADS
     //
 
-    def ch_splitreadsmerge_input = COUNTEXPRESSION_COUNTSPLITREADS.out.split_counts
+    def ch_splitreadsmerge_input = SPLICECOUNTS_COUNTSPLITREADS.out.split_counts
         .map { meta, split_counts ->
             def new_meta = meta + [id:meta.drop_group]
             [ groupKey(new_meta, meta.group_size), split_counts ]
         }
         .groupTuple()
-        .join(COUNTSPLICING_INIT.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(SPLICECOUNTS_INIT.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, split_counts, fds, bams, bais ->
             [ meta, fds, split_counts, bams, bais, meta.drop_group ]
         }
 
-    COUNTEXPRESSION_MERGESPLITREADS(
+    SPLICECOUNTS_MERGESPLITREADS(
         ch_splitreadsmerge_input,
         params.as_min_expression_in_one_sample,
         params.as_recount,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_MERGESPLITREADS.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_MERGESPLITREADS.out.versions.first())
 
     //
-    // COUNTEXPRESSION_COUNTNONSPLITREADS
+    // SPLICECOUNTS_COUNTNONSPLITREADS
     //
 
-    def ch_nonsplitreadssamplewise_input = COUNTEXPRESSION_MERGESPLITREADS.out.fdsobj
-        .join(COUNTEXPRESSION_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
+    def ch_nonsplitreadssamplewise_input = SPLICECOUNTS_MERGESPLITREADS.out.fdsobj
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, cache ->
             [ meta.samples.tokenize(","), meta, fds, cache ]
         }
@@ -181,48 +181,48 @@ workflow ABERRANTSPLICING {
             [ new_meta, fds, cache.resolve("spliceSites_splitCounts.rds"), bam, bai, meta.drop_group, sample ]
         }
 
-    COUNTEXPRESSION_COUNTNONSPLITREADS(
+    SPLICECOUNTS_COUNTNONSPLITREADS(
         ch_nonsplitreadssamplewise_input,
         params.as_long_read,
         params.as_recount,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_COUNTNONSPLITREADS.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_COUNTNONSPLITREADS.out.versions.first())
 
     //
-    // COUNTEXPRESSION_MERGENONSPLITREADS
+    // SPLICECOUNTS_MERGENONSPLITREADS
     //
 
-    def ch_nonsplitreadsmerge_input = COUNTEXPRESSION_COUNTNONSPLITREADS.out.non_split_counts
+    def ch_nonsplitreadsmerge_input = SPLICECOUNTS_COUNTNONSPLITREADS.out.non_split_counts
         .map { meta, non_split_counts ->
             def new_meta = meta + [id:meta.drop_group]
             [ groupKey(new_meta, meta.group_size), non_split_counts ]
         }
         .groupTuple()
-        .join(COUNTEXPRESSION_MERGESPLITREADS.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
-        .join(COUNTEXPRESSION_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, non_split_counts, fds, cache, bams, bais ->
 
             [ meta, fds, cache.resolve("gRanges_NonSplitCounts.rds"), non_split_counts, bams, bais, meta.drop_group ]
         }
 
-    COUNTEXPRESSION_MERGENONSPLITREADS(
+    SPLICECOUNTS_MERGENONSPLITREADS(
         ch_nonsplitreadsmerge_input,
         params.as_long_read,
         params.as_recount,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_MERGENONSPLITREADS.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_MERGENONSPLITREADS.out.versions.first())
 
     //
-    // COUNTSPLICING_COLLECTCOUNTS
+    // SPLICECOUNTS_COLLECTCOUNTS
     //
 
-    def ch_collect_input = COUNTEXPRESSION_MERGENONSPLITREADS.out.fdsobj
-        .join(COUNTEXPRESSION_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
+    def ch_collect_input = SPLICECOUNTS_MERGENONSPLITREADS.out.fdsobj
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, cache ->
             [
                 meta,
@@ -233,18 +233,18 @@ workflow ABERRANTSPLICING {
             ]
         }
 
-    COUNTSPLICING_COLLECTCOUNTS(
+    SPLICECOUNTS_COLLECTCOUNTS(
         ch_collect_input,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTSPLICING_COLLECTCOUNTS.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_COLLECTCOUNTS.out.versions.first())
 
     //
     // FRASER_PSIVALUECALCULATION
     //
 
-    def ch_psivaluecalculation_input = COUNTSPLICING_COLLECTCOUNTS.out.fdsobj
+    def ch_psivaluecalculation_input = SPLICECOUNTS_COLLECTCOUNTS.out.fdsobj
         .map { meta, fds -> [ meta, fds, meta.drop_group ] }
 
     FRASER_PSIVALUECALCULATION(
