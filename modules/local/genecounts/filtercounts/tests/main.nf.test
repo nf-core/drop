@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process FILTERCOUNTS"
+    name "Test Process GENECOUNTS_FILTERCOUNTS"
     script "../main.nf"
-    process "FILTERCOUNTS"
+    process "GENECOUNTS_FILTERCOUNTS"
 
     tag "modules"
     tag "modules_local"
-    tag "filtercounts"
+    tag "genecounts/filtercounts"
 
     test("homo_sapiens - counts") {
 

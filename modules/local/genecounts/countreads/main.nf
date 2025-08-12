@@ -1,4 +1,4 @@
-process COUNTREADS {
+process GENECOUNTS_COUNTREADS {
     tag "${meta.id}"
     label 'process_medium'
 

@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process COUNTEXPRESSION_SUMMARY"
+    name "Test Process GENECOUNTS_SUMMARY"
     script "../main.nf"
-    process "COUNTEXPRESSION_SUMMARY"
+    process "GENECOUNTS_SUMMARY"
 
     tag "modules"
     tag "modules_local"
-    tag "COUNTEXPRESSION_SUMMARY"
+    tag "GENECOUNTS_SUMMARY"
 
     test("drop demo - ods_unfitted.Rds") {
 

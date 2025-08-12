@@ -1,13 +1,13 @@
 nextflow_process {
 
-    name "Test Process COUNTREADS"
+    name "Test Process GENECOUNTS_COUNTREADS"
     script "../main.nf"
-    process "COUNTREADS"
+    process "GENECOUNTS_COUNTREADS"
 
     tag "modules"
     tag "modules_local"
     tag "preprocessgeneannotation"
-    tag "countreads"
+    tag "genecounts/countreads"
 
     test("homo_sapiens - bam, bai, count_ranges") {
 

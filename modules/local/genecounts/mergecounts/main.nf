@@ -1,4 +1,4 @@
-process MERGECOUNTS {
+process GENECOUNTS_MERGECOUNTS {
     tag "${meta.id}"
     label 'process_low'
 

@@ -1,4 +1,4 @@
-process FILTERCOUNTS {
+process GENECOUNTS_FILTERCOUNTS {
     tag "${meta.id}"
     label 'process_single'
 

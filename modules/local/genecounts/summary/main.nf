@@ -1,4 +1,4 @@
-process COUNTEXPRESSION_SUMMARY {
+process GENECOUNTS_SUMMARY {
     tag "${meta.id}"
     label 'process_low'
 

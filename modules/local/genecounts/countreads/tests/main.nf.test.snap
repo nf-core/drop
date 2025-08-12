@@ -11,7 +11,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,25463c9e06773cdbf0ced661e66335d4"
+                    "versions.yml:md5,64034cbf2fc4020e2aa25300eca5cfab"
                 ],
                 "counts": [
                     [
@@ -22,15 +22,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,25463c9e06773cdbf0ced661e66335d4"
+                    "versions.yml:md5,64034cbf2fc4020e2aa25300eca5cfab"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.0"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-05-13T17:11:42.32311645"
+        "timestamp": "2025-08-12T15:21:46.483776733"
     },
     "homo_sapiens - bam, bai, count_ranges": {
         "content": [
@@ -44,7 +44,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,25463c9e06773cdbf0ced661e66335d4"
+                    "versions.yml:md5,64034cbf2fc4020e2aa25300eca5cfab"
                 ],
                 "counts": [
                     [
@@ -55,14 +55,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,25463c9e06773cdbf0ced661e66335d4"
+                    "versions.yml:md5,64034cbf2fc4020e2aa25300eca5cfab"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.0"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-05-13T17:11:33.150944687"
+        "timestamp": "2025-08-12T15:21:31.180721665"
     }
 }
