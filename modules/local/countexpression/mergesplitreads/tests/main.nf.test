@@ -1,8 +1,8 @@
 nextflow_process {
 
-    name "Test Process COUNTRNA_MERGESPLITREADS"
+    name "Test Process COUNTEXPRESSION_MERGESPLITREADS"
     script "../main.nf"
-    process "COUNTRNA_MERGESPLITREADS"
+    process "COUNTEXPRESSION_MERGESPLITREADS"
 
     tag "modules"
     tag "modules_local"

@@ -1,4 +1,4 @@
-process COUNTRNA_NONSPLITREADSMERGE {
+process COUNTEXPRESSION_MERGENONSPLITREADS {
     tag "${meta.id}"
     label 'process_low'
 
