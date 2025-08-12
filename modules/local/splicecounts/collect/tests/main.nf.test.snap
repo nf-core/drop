@@ -1,0 +1,62 @@
+{
+    "homo_sapiens - fds, cache - false": {
+        "content": [
+            [
+                "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                "rawCountsSS.h5:md5,6999bb678154f265b85becb087797e62",
+                [
+                    "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
+                    "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                ]
+            ],
+            [
+                "fds-object.RDS"
+            ],
+            [
+                "versions.yml:md5,320a6a12824fef42b91586fbb3653b20"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-08-12T13:28:54.017027713"
+    },
+    "homo_sapiens - fds, cache - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,320a6a12824fef42b91586fbb3653b20"
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,320a6a12824fef42b91586fbb3653b20"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-08-12T13:29:16.9751698"
+    }
+}

@@ -1,0 +1,68 @@
+{
+    "homo_sapiens - counts": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "merged"
+                        },
+                        "merged.Rds:md5,bdf9e7567d2064829b7f493ed9b66018"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,d23d77eb368ef2174766f768b42f038b"
+                ],
+                "output": [
+                    [
+                        {
+                            "id": "merged"
+                        },
+                        "merged.Rds:md5,bdf9e7567d2064829b7f493ed9b66018"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,d23d77eb368ef2174766f768b42f038b"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-08-12T13:11:08.1636427"
+    },
+    "homo_sapiens - gtf - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "merged"
+                        },
+                        "merged.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,258aae3aed09b183b4d660e1768523b8"
+                ],
+                "output": [
+                    [
+                        {
+                            "id": "merged"
+                        },
+                        "merged.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,258aae3aed09b183b4d660e1768523b8"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-08-12T13:11:26.590582169"
+    }
+}
