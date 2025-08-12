@@ -1,5 +1,5 @@
 include { COUNTRNA_INIT                     } from '../../../modules/local/countrna/init'
-include { COUNTRNA_SPLITREADSSAMPLEWISE     } from '../../../modules/local/countrna/splitreadssamplewise'
+include { COUNTRNA_COUNTSPLITREADS          } from '../../../modules/local/countrna/countsplitreads'
 include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/countrna/splitreadsmerge'
 include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
 include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
@@ -110,7 +110,7 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(COUNTRNA_INIT.out.versions.first())
 
     //
-    // COUNTRNA_SPLITREADSSAMPLEWISE
+    // COUNTRNA_COUNTSPLITREADS
     //
 
     def ch_bams_per_sample = inputs_to_analyse
@@ -130,7 +130,7 @@ workflow ABERRANTSPLICING {
             [ new_meta, fds, bam, bai, meta.drop_group, sample ]
         }
 
-    COUNTRNA_SPLITREADSSAMPLEWISE(
+    COUNTRNA_COUNTSPLITREADS(
         splitreadssamplewise_input,
         params.as_keep_non_standard_chrs,
         params.as_recount,
@@ -138,13 +138,13 @@ workflow ABERRANTSPLICING {
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSSAMPLEWISE.out.versions.first())
+    ch_versions = ch_versions.mix(COUNTRNA_COUNTSPLITREADS.out.versions.first())
 
     //
     // COUNTRNA_SPLITREADSMERGE
     //
 
-    def ch_splitreadsmerge_input = COUNTRNA_SPLITREADSSAMPLEWISE.out.split_counts
+    def ch_splitreadsmerge_input = COUNTRNA_COUNTSPLITREADS.out.split_counts
         .map { meta, split_counts ->
             def new_meta = meta + [id:meta.drop_group]
             [ groupKey(new_meta, meta.group_size), split_counts ]

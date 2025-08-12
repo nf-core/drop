@@ -1,4 +1,4 @@
-process COUNTRNA_SPLITREADSSAMPLEWISE {
+process COUNTRNA_COUNTSPLITREADS {
     tag "${meta.id}"
     label 'process_single'
 

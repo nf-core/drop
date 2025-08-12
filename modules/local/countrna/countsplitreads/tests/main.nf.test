@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process COUNTRNA_SPLITREADSSAMPLEWISE"
+    name "Test Process COUNTRNA_COUNTSPLITREADS"
     script "../main.nf"
-    process "COUNTRNA_SPLITREADSSAMPLEWISE"
+    process "COUNTRNA_COUNTSPLITREADS"
 
     tag "modules"
     tag "modules_local"
-    tag "countrna/splitreadssamplewise"
+    tag "countrna/countsplitreads"
 
     setup {
         run("UNTAR") {
