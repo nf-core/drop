@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process COUNTRNA_SPLITREADSMERGE"
+    name "Test Process COUNTRNA_MERGESPLITREADS"
     script "../main.nf"
-    process "COUNTRNA_SPLITREADSMERGE"
+    process "COUNTRNA_MERGESPLITREADS"
 
     tag "modules"
     tag "modules_local"
-    tag "countrna/splitreadsmerge"
+    tag "countrna/mergesplitreads"
 
     setup {
         run("UNTAR", alias: "FDS_UNTAR") {

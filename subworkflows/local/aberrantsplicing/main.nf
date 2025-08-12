@@ -1,6 +1,6 @@
 include { COUNTRNA_INIT                     } from '../../../modules/local/countrna/init'
 include { COUNTRNA_COUNTSPLITREADS          } from '../../../modules/local/countrna/countsplitreads'
-include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/countrna/splitreadsmerge'
+include { COUNTRNA_MERGESPLITREADS          } from '../../../modules/local/countrna/mergesplitreads'
 include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
 include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
 include { COUNTRNA_COLLECT                  } from '../../../modules/local/countrna/collect'
@@ -141,7 +141,7 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(COUNTRNA_COUNTSPLITREADS.out.versions.first())
 
     //
-    // COUNTRNA_SPLITREADSMERGE
+    // COUNTRNA_MERGESPLITREADS
     //
 
     def ch_splitreadsmerge_input = COUNTRNA_COUNTSPLITREADS.out.split_counts
@@ -156,21 +156,21 @@ workflow ABERRANTSPLICING {
             [ meta, fds, split_counts, bams, bais, meta.drop_group ]
         }
 
-    COUNTRNA_SPLITREADSMERGE(
+    COUNTRNA_MERGESPLITREADS(
         ch_splitreadsmerge_input,
         params.as_min_expression_in_one_sample,
         params.as_recount,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSMERGE.out.versions.first())
+    ch_versions = ch_versions.mix(COUNTRNA_MERGESPLITREADS.out.versions.first())
 
     //
     // COUNTRNA_NONSPLITREADSSAMPLEWISE
     //
 
-    def ch_nonsplitreadssamplewise_input = COUNTRNA_SPLITREADSMERGE.out.fdsobj
-        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+    def ch_nonsplitreadssamplewise_input = COUNTRNA_MERGESPLITREADS.out.fdsobj
+        .join(COUNTRNA_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, cache ->
             [ meta.samples.tokenize(","), meta, fds, cache ]
         }
@@ -200,8 +200,8 @@ workflow ABERRANTSPLICING {
             [ groupKey(new_meta, meta.group_size), non_split_counts ]
         }
         .groupTuple()
-        .join(COUNTRNA_SPLITREADSMERGE.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
-        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+        .join(COUNTRNA_MERGESPLITREADS.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(COUNTRNA_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, non_split_counts, fds, cache, bams, bais ->
 
@@ -222,7 +222,7 @@ workflow ABERRANTSPLICING {
     //
 
     def ch_collect_input = COUNTRNA_NONSPLITREADSMERGE.out.fdsobj
-        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+        .join(COUNTRNA_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, cache ->
             [
                 meta,
