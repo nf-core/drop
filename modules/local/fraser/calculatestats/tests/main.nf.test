@@ -1,0 +1,94 @@
+nextflow_process {
+
+    name "Test Process FRASER_CALCULATESTATS"
+    script "../main.nf"
+    process "FRASER_CALCULATESTATS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "fraser/calculatestats"
+
+    setup {
+        run("UNTAR") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/fraser/annotategenes/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens - fds, cache - false") {
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("fraser--v29"),
+                        "fraser",
+                        "v29",
+                        ["HG00096", "HG00103", "HG00106", "HG00111", "HG00116", "HG00126", "HG00132", "HG00149", "HG00150", "HG00176"]
+                    ]
+                }
+                input[1] = [ [id:'genes_to_test'], file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml')]
+                input[2] = "FRASER"
+                input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[4] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
+                """
+            }
+        }
+
+        then {
+            def file_list = path(process.out.fdsobj[0][1]).list()
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
+                    file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - fds, cache - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("fraser--v29"),
+                        "fraser",
+                        "v29",
+                        ["HG00096", "HG00103", "HG00106", "HG00111", "HG00116", "HG00126", "HG00132", "HG00149", "HG00150", "HG00176"]
+                    ]
+                }
+                input[1] = [ [id:'genes_to_test'], file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml')]
+                input[2] = "FRASER"
+                input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[4] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

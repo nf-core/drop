@@ -1,12 +1,12 @@
-include { COUNTREADS                         } from '../../../modules/local/countreads/'
-include { MERGECOUNTS                        } from '../../../modules/local/mergecounts/'
-include { FILTERCOUNTS                       } from '../../../modules/local/filtercounts/'
-include { COUNTEXPRESSION_SUMMARY            } from '../../../modules/local/countexpression/summary/'
-include { OUTRIDER_RUN                       } from '../../../modules/local/outrider/run'
+include { GENECOUNTS_COUNTREADS              } from '../../../modules/local/genecounts/countreads/'
+include { GENECOUNTS_MERGE                   } from '../../../modules/local/genecounts/merge/'
+include { GENECOUNTS_FILTER                  } from '../../../modules/local/genecounts/filter/'
+include { GENECOUNTS_SUMMARY                 } from '../../../modules/local/genecounts/summary/'
+include { OUTRIDER_FIT                       } from '../../../modules/local/outrider/fit'
 include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
 include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
 include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
-include { MULTIQC as MULTIQC_COUNTEXPRESSION } from '../../../modules/nf-core/multiqc/main'
+include { MULTIQC as MULTIQC_GENECOUNTS      } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_OUTRIDER        } from '../../../modules/nf-core/multiqc/main'
 
 include { BAM_STATS_IDXSTATS_MERGE           } from "../bam_stats_idxstats_merge/"
@@ -74,18 +74,18 @@ workflow ABERRANTEXPRESSION {
             [ new_meta, bam, bai, meta.strand, meta.count_mode, meta.paired_end, meta.count_overlaps, count_ranges_ ]
         }
 
-    COUNTREADS(
+    GENECOUNTS_COUNTREADS(
         countreads_input,
         params.ae_yield_size
     )
-    ch_versions = ch_versions.mix(COUNTREADS.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_COUNTREADS.out.versions.first())
 
     //
     // Merge the counts per gene annotation and drop group
     //
 
     // Group samples based on gene annotation and drop group
-    def mergereads_input = COUNTREADS.out.counts
+    def mergereads_input = GENECOUNTS_COUNTREADS.out.counts
         .mix(inputs_branch.counts_present)
         .map { meta, count ->
             [ meta, count, meta.drop_group.tokenize(",").intersect(include_groups) ]
@@ -107,17 +107,17 @@ workflow ABERRANTEXPRESSION {
             [ meta, unique_counts, count_ranges_, external_counts_ids_.get(meta.drop_group, []) ]
         }
 
-    MERGECOUNTS(
+    GENECOUNTS_MERGE(
         mergereads_input,
         samplesheet
     )
-    ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_MERGE.out.versions.first())
 
     //
     // Filter the merged counts
     //
 
-    def filtercounts_input = MERGECOUNTS.out.output
+    def filtercounts_input = GENECOUNTS_MERGE.out.output
         .map { meta, counts ->
             [ [ id: meta.id ], meta, counts ]
         }
@@ -126,28 +126,28 @@ workflow ABERRANTEXPRESSION {
             [ meta, counts, txdb_ ]
         }
 
-    FILTERCOUNTS(
+    GENECOUNTS_FILTER(
         filtercounts_input,
         params.ae_fpkm_cutoff
     )
-    ch_versions = ch_versions.mix(FILTERCOUNTS.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_FILTER.out.versions.first())
 
     //
     // Run OUTRIDER
     //
 
-    OUTRIDER_RUN(
-        FILTERCOUNTS.out.output,
+    OUTRIDER_FIT(
+        GENECOUNTS_FILTER.out.output,
         params.ae_implementation,
         params.ae_max_tested_dimension_proportion
     )
-    ch_versions = ch_versions.mix(OUTRIDER_RUN.out.versions.first())
+    ch_versions = ch_versions.mix(OUTRIDER_FIT.out.versions.first())
 
     //
     // Calculate p-values of the OUTRIDER output
     //
 
-    def outrider_pvals_input = OUTRIDER_RUN.out.ods_fitted
+    def outrider_pvals_input = OUTRIDER_FIT.out.ods_fitted
         .map { meta, ods_fitted ->
             [ [id:meta.id], meta, ods_fitted ]
         }
@@ -208,9 +208,9 @@ workflow ABERRANTEXPRESSION {
     ch_versions = ch_versions.mix(BAM_STATS_IDXSTATS_MERGE.out.versions)
 
     //
-    // summary for expression counts
+    // summary for gene counts
     //
-    def countexpression_summary_input = FILTERCOUNTS.out.output
+    def genecounts_summary_input = GENECOUNTS_FILTER.out.output
                     .map { meta, ods_unfitted ->
                         [ meta.drop_group,      // key for join
                         meta,
@@ -221,10 +221,10 @@ workflow ABERRANTEXPRESSION {
                         [ meta, ods_unfitted, bamstats ]
                     }
 
-    COUNTEXPRESSION_SUMMARY(
-        countexpression_summary_input
+    GENECOUNTS_SUMMARY(
+        genecounts_summary_input
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_SUMMARY.out.versions.first())
 
     //
     // summary for outrider results
@@ -240,21 +240,21 @@ workflow ABERRANTEXPRESSION {
         params.ae_padj_cutoff,
         params.ae_z_score_cutoff
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_SUMMARY.out.versions.first())
 
     //
     // multiqc for counting
     //
-    def multiqc_countexpression_input = COUNTEXPRESSION_SUMMARY.out.sample_count
-        .join(COUNTEXPRESSION_SUMMARY.out.read_counts, remainder: true)
-        .join(COUNTEXPRESSION_SUMMARY.out.mapped_vs_counted)
-        .join(COUNTEXPRESSION_SUMMARY.out.size_factors)
-        .join(COUNTEXPRESSION_SUMMARY.out.reads_statistics)
-        .join(COUNTEXPRESSION_SUMMARY.out.meanCounts)
-        .join(COUNTEXPRESSION_SUMMARY.out.expressedGenes)
-        .join(COUNTEXPRESSION_SUMMARY.out.expressed_genes)
-        .join(COUNTEXPRESSION_SUMMARY.out.expression_sex, remainder: true)
-        .join(COUNTEXPRESSION_SUMMARY.out.sex_matched, remainder: true)
+    def multiqc_genecounts_input = GENECOUNTS_SUMMARY.out.sample_count
+        .join(GENECOUNTS_SUMMARY.out.read_counts, remainder: true)
+        .join(GENECOUNTS_SUMMARY.out.mapped_vs_counted)
+        .join(GENECOUNTS_SUMMARY.out.size_factors)
+        .join(GENECOUNTS_SUMMARY.out.reads_statistics)
+        .join(GENECOUNTS_SUMMARY.out.meanCounts)
+        .join(GENECOUNTS_SUMMARY.out.expressedGenes)
+        .join(GENECOUNTS_SUMMARY.out.expressed_genes)
+        .join(GENECOUNTS_SUMMARY.out.expression_sex, remainder: true)
+        .join(GENECOUNTS_SUMMARY.out.sex_matched, remainder: true)
         .map { tup ->
         def meta  = tup[0]
         def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
@@ -262,20 +262,20 @@ workflow ABERRANTEXPRESSION {
         [ tag, files ]
     }
 
-    def ch_extra_cfg_countexpression = multiqc_countexpression_input
+    def ch_extra_cfg_genecounts = multiqc_genecounts_input
         .collectFile { tag, _ ->
             def yaml = """
             output_fn_name: "[TAG:${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:${tag}]_multiqc_data"
             plots_dir_name: "[TAG:${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+            [ "[TAG:${tag}]_genecounts_config.yml", yaml ]
         }
 
-    MULTIQC_COUNTEXPRESSION(
-        multiqc_countexpression_input.map { it[1] },
-        Channel.fromPath("$projectDir/assets/multiqc_countexpression_config.yml", checkIfExists: true).collect(),
-        ch_extra_cfg_countexpression,
+    MULTIQC_GENECOUNTS(
+        multiqc_genecounts_input.map { it[1] },
+        Channel.fromPath("$projectDir/assets/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
+        ch_extra_cfg_genecounts,
         [],
         [],
         []
@@ -309,7 +309,7 @@ workflow ABERRANTEXPRESSION {
             data_dir_name:  "[TAG:${tag}]_multiqc_data"
             plots_dir_name: "[TAG:${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+            [ "[TAG:${tag}]_genecounts_config.yml", yaml ]
         }
 
     MULTIQC_OUTRIDER(
@@ -325,5 +325,5 @@ workflow ABERRANTEXPRESSION {
     emit:
     versions  = ch_versions
     results   = OUTRIDER_RESULTS.out.results
-    count_report = MULTIQC_COUNTEXPRESSION.out.report.toList()
+    count_report = MULTIQC_GENECOUNTS.out.report.toList()
 }

@@ -1,16 +1,16 @@
-include { COUNTRNA_INIT                     } from '../../../modules/local/countrna/init'
-include { COUNTRNA_SPLITREADSSAMPLEWISE     } from '../../../modules/local/countrna/splitreadssamplewise'
-include { COUNTRNA_SPLITREADSMERGE          } from '../../../modules/local/countrna/splitreadsmerge'
-include { COUNTRNA_NONSPLITREADSSAMPLEWISE  } from '../../../modules/local/countrna/nonsplitreadssamplewise'
-include { COUNTRNA_NONSPLITREADSMERGE       } from '../../../modules/local/countrna/nonsplitreadsmerge'
-include { COUNTRNA_COLLECT                  } from '../../../modules/local/countrna/collect'
-include { FRASER_PSIVALUECALCULATION        } from '../../../modules/local/fraser/psivaluecalculation'
-include { FRASER_FILTEREXPRESSION           } from '../../../modules/local/fraser/filterexpression'
-include { FRASER_FITHYPERPARAMETERS         } from '../../../modules/local/fraser/fithyperparameters'
-include { FRASER_FITAUTOENCODER             } from '../../../modules/local/fraser/fitautoencoder'
-include { FRASER_ANNOTATEGENES              } from '../../../modules/local/fraser/annotategenes'
-include { FRASER_CALCULATIONSTATS           } from '../../../modules/local/fraser/calculationstats'
-include { FRASER_EXTRACTRESULTS             } from '../../../modules/local/fraser/extractresults'
+include { SPLICECOUNTS_INIT                     } from '../../../modules/local/splicecounts/init'
+include { SPLICECOUNTS_COUNTSPLITREADS          } from '../../../modules/local/splicecounts/countsplitreads'
+include { SPLICECOUNTS_MERGESPLITREADS          } from '../../../modules/local/splicecounts/mergesplitreads'
+include { SPLICECOUNTS_COUNTNONSPLITREADS       } from '../../../modules/local/splicecounts/countnonsplitreads'
+include { SPLICECOUNTS_MERGENONSPLITREADS       } from '../../../modules/local/splicecounts/mergenonsplitreads'
+include { SPLICECOUNTS_COLLECT                  } from '../../../modules/local/splicecounts/collect'
+include { FRASER_PSIVALUECALCULATION            } from '../../../modules/local/fraser/psivaluecalculation'
+include { FRASER_FILTEREXPRESSION               } from '../../../modules/local/fraser/filterexpression'
+include { FRASER_FITHYPERPARAMS                 } from '../../../modules/local/fraser/fithyperparams'
+include { FRASER_FITAUTOENCODER                 } from '../../../modules/local/fraser/fitautoencoder'
+include { FRASER_ANNOTATEGENES                  } from '../../../modules/local/fraser/annotategenes'
+include { FRASER_CALCULATESTATS                 } from '../../../modules/local/fraser/calculatestats'
+include { FRASER_EXTRACTRESULTS                 } from '../../../modules/local/fraser/extractresults'
 
 workflow ABERRANTSPLICING {
     take:
@@ -80,7 +80,7 @@ workflow ABERRANTSPLICING {
         }
 
     //
-    // COUNTRNA_INIT
+    // SPLICECOUNTS_INIT
     //
 
     def ch_abberant_splicing_input = ch_group_datasets
@@ -100,17 +100,17 @@ workflow ABERRANTSPLICING {
             bams: [ meta, bams, bais ]
         }
 
-    COUNTRNA_INIT(
+    SPLICECOUNTS_INIT(
         ch_abberant_splicing_input.dataset.map { meta, dataset ->
             [ meta, dataset, meta.drop_group ]
         },
         fraser_version,
         aberrant_splicing_config_R,
     )
-    ch_versions = ch_versions.mix(COUNTRNA_INIT.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_INIT.out.versions.first())
 
     //
-    // COUNTRNA_SPLITREADSSAMPLEWISE
+    // SPLICECOUNTS_COUNTSPLITREADS
     //
 
     def ch_bams_per_sample = inputs_to_analyse
@@ -119,7 +119,7 @@ workflow ABERRANTSPLICING {
         }
 
     // Note for later: Rethink this so that split counting only happens once per sample
-    def splitreadssamplewise_input = COUNTRNA_INIT.out.fdsobj
+    def splitreadssamplewise_input = SPLICECOUNTS_INIT.out.fdsobj
         .map { meta, fds ->
             [ meta.samples.tokenize(","), meta, fds ]
         }
@@ -130,7 +130,7 @@ workflow ABERRANTSPLICING {
             [ new_meta, fds, bam, bai, meta.drop_group, sample ]
         }
 
-    COUNTRNA_SPLITREADSSAMPLEWISE(
+    SPLICECOUNTS_COUNTSPLITREADS(
         splitreadssamplewise_input,
         params.as_keep_non_standard_chrs,
         params.as_recount,
@@ -138,39 +138,39 @@ workflow ABERRANTSPLICING {
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSSAMPLEWISE.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_COUNTSPLITREADS.out.versions.first())
 
     //
-    // COUNTRNA_SPLITREADSMERGE
+    // SPLICECOUNTS_MERGESPLITREADS
     //
 
-    def ch_splitreadsmerge_input = COUNTRNA_SPLITREADSSAMPLEWISE.out.split_counts
+    def ch_splitreadsmerge_input = SPLICECOUNTS_COUNTSPLITREADS.out.split_counts
         .map { meta, split_counts ->
             def new_meta = meta + [id:meta.drop_group]
             [ groupKey(new_meta, meta.group_size), split_counts ]
         }
         .groupTuple()
-        .join(COUNTRNA_INIT.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(SPLICECOUNTS_INIT.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, split_counts, fds, bams, bais ->
             [ meta, fds, split_counts, bams, bais, meta.drop_group ]
         }
 
-    COUNTRNA_SPLITREADSMERGE(
+    SPLICECOUNTS_MERGESPLITREADS(
         ch_splitreadsmerge_input,
         params.as_min_expression_in_one_sample,
         params.as_recount,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_SPLITREADSMERGE.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_MERGESPLITREADS.out.versions.first())
 
     //
-    // COUNTRNA_NONSPLITREADSSAMPLEWISE
+    // SPLICECOUNTS_COUNTNONSPLITREADS
     //
 
-    def ch_nonsplitreadssamplewise_input = COUNTRNA_SPLITREADSMERGE.out.fdsobj
-        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+    def ch_nonsplitreadssamplewise_input = SPLICECOUNTS_MERGESPLITREADS.out.fdsobj
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, cache ->
             [ meta.samples.tokenize(","), meta, fds, cache ]
         }
@@ -181,48 +181,48 @@ workflow ABERRANTSPLICING {
             [ new_meta, fds, cache.resolve("spliceSites_splitCounts.rds"), bam, bai, meta.drop_group, sample ]
         }
 
-    COUNTRNA_NONSPLITREADSSAMPLEWISE(
+    SPLICECOUNTS_COUNTNONSPLITREADS(
         ch_nonsplitreadssamplewise_input,
         params.as_long_read,
         params.as_recount,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_NONSPLITREADSSAMPLEWISE.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_COUNTNONSPLITREADS.out.versions.first())
 
     //
-    // COUNTRNA_NONSPLITREADSMERGE
+    // SPLICECOUNTS_MERGENONSPLITREADS
     //
 
-    def ch_nonsplitreadsmerge_input = COUNTRNA_NONSPLITREADSSAMPLEWISE.out.non_split_counts
+    def ch_nonsplitreadsmerge_input = SPLICECOUNTS_COUNTNONSPLITREADS.out.non_split_counts
         .map { meta, non_split_counts ->
             def new_meta = meta + [id:meta.drop_group]
             [ groupKey(new_meta, meta.group_size), non_split_counts ]
         }
         .groupTuple()
-        .join(COUNTRNA_SPLITREADSMERGE.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
-        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, non_split_counts, fds, cache, bams, bais ->
 
             [ meta, fds, cache.resolve("gRanges_NonSplitCounts.rds"), non_split_counts, bams, bais, meta.drop_group ]
         }
 
-    COUNTRNA_NONSPLITREADSMERGE(
+    SPLICECOUNTS_MERGENONSPLITREADS(
         ch_nonsplitreadsmerge_input,
         params.as_long_read,
         params.as_recount,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_NONSPLITREADSMERGE.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_MERGENONSPLITREADS.out.versions.first())
 
     //
-    // COUNTRNA_COLLECT
+    // SPLICECOUNTS_COLLECT
     //
 
-    def ch_collect_input = COUNTRNA_NONSPLITREADSMERGE.out.fdsobj
-        .join(COUNTRNA_SPLITREADSMERGE.out.cache, failOnMismatch: true, failOnDuplicate: true)
+    def ch_collect_input = SPLICECOUNTS_MERGENONSPLITREADS.out.fdsobj
+        .join(SPLICECOUNTS_MERGESPLITREADS.out.cache, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, cache ->
             [
                 meta,
@@ -233,18 +233,18 @@ workflow ABERRANTSPLICING {
             ]
         }
 
-    COUNTRNA_COLLECT(
+    SPLICECOUNTS_COLLECT(
         ch_collect_input,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_COLLECT.out.versions.first())
+    ch_versions = ch_versions.mix(SPLICECOUNTS_COLLECT.out.versions.first())
 
     //
     // FRASER_PSIVALUECALCULATION
     //
 
-    def ch_psivaluecalculation_input = COUNTRNA_COLLECT.out.fdsobj
+    def ch_psivaluecalculation_input = SPLICECOUNTS_COLLECT.out.fdsobj
         .map { meta, fds -> [ meta, fds, meta.drop_group ] }
 
     FRASER_PSIVALUECALCULATION(
@@ -294,13 +294,13 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(FRASER_FILTEREXPRESSION.out.versions.first())
 
     //
-    // FRASER_FITHYPERPARAMETERS
+    // FRASER_FITHYPERPARAMS
     //
 
     def ch_fithyperparameters_input = FRASER_FILTEREXPRESSION.out.fdsobj
         .map { meta, fds -> [ meta, fds, meta.drop_group ] }
 
-    FRASER_FITHYPERPARAMETERS(
+    FRASER_FITHYPERPARAMS(
         ch_fithyperparameters_input,
         params.random_seed,
         params.as_implementation,
@@ -308,13 +308,13 @@ workflow ABERRANTSPLICING {
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(FRASER_FITHYPERPARAMETERS.out.versions.first())
+    ch_versions = ch_versions.mix(FRASER_FITHYPERPARAMS.out.versions.first())
 
     //
     // FRASER_FITAUTOENCODER
     //
 
-    def ch_fitautoencoder_input = FRASER_FITHYPERPARAMETERS.out.fdsobj
+    def ch_fitautoencoder_input = FRASER_FITHYPERPARAMS.out.fdsobj
         .map { meta, fds -> [ meta, fds, meta.drop_group ] }
 
     FRASER_FITAUTOENCODER(
@@ -346,7 +346,7 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(FRASER_ANNOTATEGENES.out.versions.first())
 
     //
-    // FRASER_CALCULATIONSTATS
+    // FRASER_CALCULATESTATS
     //
 
     def ch_calculationstats_input = FRASER_ANNOTATEGENES.out.fdsobj
@@ -354,20 +354,20 @@ workflow ABERRANTSPLICING {
             [ meta, fds, meta.drop_group, meta.annotation, meta.samples.tokenize(",") ]
         }
 
-    FRASER_CALCULATIONSTATS(
+    FRASER_CALCULATESTATS(
         ch_calculationstats_input,
         genes_to_test,
         fraser_version,
         aberrant_splicing_config_R,
         file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true),
     )
-    ch_versions = ch_versions.mix(FRASER_CALCULATIONSTATS.out.versions.first())
+    ch_versions = ch_versions.mix(FRASER_CALCULATESTATS.out.versions.first())
 
     //
     // FRASER_EXTRACTRESULTS
     //
 
-    def ch_extractresults_input = FRASER_CALCULATIONSTATS.out.fdsobj
+    def ch_extractresults_input = FRASER_CALCULATESTATS.out.fdsobj
         .map { meta, fds ->
             [meta.annotation, meta, fds]
         }

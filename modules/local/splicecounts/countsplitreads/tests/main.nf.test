@@ -1,0 +1,173 @@
+nextflow_process {
+
+    name "Test Process SPLICECOUNTS_COUNTSPLITREADS"
+    script "../main.nf"
+    process "SPLICECOUNTS_COUNTSPLITREADS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "split_reads"
+
+    setup {
+        run("UNTAR") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/countrna/init/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens - fds - false") {
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00096'
+                ],[
+                    [ id: 'HG00103' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00103.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00103'
+                ],[
+                    [ id: 'HG00106' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00106.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00106.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00106'
+                ],[
+                    [ id: 'HG00111' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00111.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00111.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00111'
+                ],[
+                    [ id: 'HG00116' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00116.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00116.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00116'
+                ],[
+                    [ id: 'HG00126' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00126.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00126.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00126'
+                ],[
+                    [ id: 'HG00132' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00132.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00132.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00132'
+                ],[
+                    [ id: 'HG00149' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00149.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00149.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00149'
+                ],[
+                    [ id: 'HG00150' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00150.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00150.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00150'
+                ],[
+                    [ id: 'HG00176' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00176.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00176.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00176'
+                ])
+                .combine(UNTAR.out.untar.map { it[1] })
+                .map { meta, bam, bai, drop_group, id, fds ->
+                    [ meta, fds.resolve("raw-local-fraser"), bam, bai, drop_group, id ]
+                }
+                input[1] = false
+                input[2] = false
+                input[3] = 'hg19'
+                input[4] = "FRASER"
+                input[5] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - fds - true") {
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar.map { _meta, fds -> [
+                    [ id: 'HG00096' ],
+                    fds.resolve("raw-local-fraser"),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00096'
+                ]}
+                input[1] = true
+                input[2] = true
+                input[3] = 'hg19'
+                input[4] = "FRASER"
+                input[5] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - fds - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar.map { _meta, fds -> [
+                    [ id: 'HG00096' ],
+                    fds.resolve("raw-local-fraser"),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/HG00096_ncbi.bam.bai', checkIfExists: true),
+                    'fraser',
+                    'HG00096'
+                ]}
+                input[1] = false
+                input[2] = false
+                input[3] = 'hg19'
+                input[4] = "FRASER"
+                input[5] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
