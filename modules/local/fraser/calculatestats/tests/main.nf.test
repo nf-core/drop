@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process FRASER_CALCULATIONSTATS"
+    name "Test Process FRASER_CALCULATESTATS"
     script "../main.nf"
-    process "FRASER_CALCULATIONSTATS"
+    process "FRASER_CALCULATESTATS"
 
     tag "modules"
     tag "modules_local"
-    tag "fraser/calculationstats"
+    tag "fraser/calculatestats"
 
     setup {
         run("UNTAR") {

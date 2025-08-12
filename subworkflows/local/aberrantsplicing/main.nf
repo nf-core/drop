@@ -6,10 +6,10 @@ include { COUNTEXPRESSION_MERGENONSPLITREADS    } from '../../../modules/local/c
 include { COUNTSPLICING_COLLECTCOUNTS           } from '../../../modules/local/countsplicing/collectcounts'
 include { FRASER_PSIVALUECALCULATION            } from '../../../modules/local/fraser/psivaluecalculation'
 include { FRASER_FILTEREXPRESSION               } from '../../../modules/local/fraser/filterexpression'
-include { FRASER_FITHYPERPARAMETERS             } from '../../../modules/local/fraser/fithyperparameters'
+include { FRASER_FITHYPERPARAMS                 } from '../../../modules/local/fraser/fithyperparams'
 include { FRASER_FITAUTOENCODER                 } from '../../../modules/local/fraser/fitautoencoder'
 include { FRASER_ANNOTATEGENES                  } from '../../../modules/local/fraser/annotategenes'
-include { FRASER_CALCULATIONSTATS               } from '../../../modules/local/fraser/calculationstats'
+include { FRASER_CALCULATESTATS                 } from '../../../modules/local/fraser/calculatestats'
 include { FRASER_EXTRACTRESULTS                 } from '../../../modules/local/fraser/extractresults'
 
 workflow ABERRANTSPLICING {
@@ -294,13 +294,13 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(FRASER_FILTEREXPRESSION.out.versions.first())
 
     //
-    // FRASER_FITHYPERPARAMETERS
+    // FRASER_FITHYPERPARAMS
     //
 
     def ch_fithyperparameters_input = FRASER_FILTEREXPRESSION.out.fdsobj
         .map { meta, fds -> [ meta, fds, meta.drop_group ] }
 
-    FRASER_FITHYPERPARAMETERS(
+    FRASER_FITHYPERPARAMS(
         ch_fithyperparameters_input,
         params.random_seed,
         params.as_implementation,
@@ -308,13 +308,13 @@ workflow ABERRANTSPLICING {
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(FRASER_FITHYPERPARAMETERS.out.versions.first())
+    ch_versions = ch_versions.mix(FRASER_FITHYPERPARAMS.out.versions.first())
 
     //
     // FRASER_FITAUTOENCODER
     //
 
-    def ch_fitautoencoder_input = FRASER_FITHYPERPARAMETERS.out.fdsobj
+    def ch_fitautoencoder_input = FRASER_FITHYPERPARAMS.out.fdsobj
         .map { meta, fds -> [ meta, fds, meta.drop_group ] }
 
     FRASER_FITAUTOENCODER(
@@ -346,7 +346,7 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(FRASER_ANNOTATEGENES.out.versions.first())
 
     //
-    // FRASER_CALCULATIONSTATS
+    // FRASER_CALCULATESTATS
     //
 
     def ch_calculationstats_input = FRASER_ANNOTATEGENES.out.fdsobj
@@ -354,20 +354,20 @@ workflow ABERRANTSPLICING {
             [ meta, fds, meta.drop_group, meta.annotation, meta.samples.tokenize(",") ]
         }
 
-    FRASER_CALCULATIONSTATS(
+    FRASER_CALCULATESTATS(
         ch_calculationstats_input,
         genes_to_test,
         fraser_version,
         aberrant_splicing_config_R,
         file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true),
     )
-    ch_versions = ch_versions.mix(FRASER_CALCULATIONSTATS.out.versions.first())
+    ch_versions = ch_versions.mix(FRASER_CALCULATESTATS.out.versions.first())
 
     //
     // FRASER_EXTRACTRESULTS
     //
 
-    def ch_extractresults_input = FRASER_CALCULATIONSTATS.out.fdsobj
+    def ch_extractresults_input = FRASER_CALCULATESTATS.out.fdsobj
         .map { meta, fds ->
             [meta.annotation, meta, fds]
         }

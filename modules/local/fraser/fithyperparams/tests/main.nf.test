@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process FRASER_FITHYPERPARAMETERS"
+    name "Test Process FRASER_FITHYPERPARAMS"
     script "../main.nf"
-    process "FRASER_FITHYPERPARAMETERS"
+    process "FRASER_FITHYPERPARAMS"
 
     tag "modules"
     tag "modules_local"
-    tag "fraser/fithyperparameters"
+    tag "fraser/fithyperparams"
 
     setup {
         run("UNTAR") {

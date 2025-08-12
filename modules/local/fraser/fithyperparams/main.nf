@@ -1,4 +1,4 @@
-process FRASER_CALCULATIONSTATS {
+process FRASER_FITHYPERPARAMS {
     tag "${meta.id}"
     label 'process_low'
 
@@ -9,26 +9,28 @@ process FRASER_CALCULATIONSTATS {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group), val(annotation_id), val(sample_ids)
-    tuple val(meta2), path(genes_to_test)
+    tuple val(meta), path(fds, stageAs:'input/savedObjects/*'), val(drop_group)
+    val(random_seed)
+    val(implementation)
+    val(max_tested_dimension_proportion)
     val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
-    path(parse_subsets_for_FDR) // Pass "${projectDir}/assets/helpers/parse_subsets_for_FDR.R" to this input
 
     output:
-    tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}")  , emit: fdsobj
-    path  "versions.yml"                                                                        , emit: versions
+    tuple val(meta), path("savedObjects/${drop_group}") , emit: fdsobj
+    path  "versions.yml"                                , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    template '07_calculation_stats_FraseR.R'
+    template '04_fit_hyperparameters_FraseR.R'
 
     stub:
     """
     #!/usr/bin/env Rscript
-    dir.create("savedObjects/${drop_group}--${annotation_id}", recursive = TRUE)
+    dir.create("savedObjects/${drop_group}", recursive = TRUE)
+
     ## VERSIONS FILE
     writeLines(
         c(
