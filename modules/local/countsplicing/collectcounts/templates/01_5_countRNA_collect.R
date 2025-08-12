@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_5_countRNA_collect.R
+# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_5_COUNTSPLICING_COLLECTCOUNTS.R
 
 source("$config", echo=FALSE)
 configure_fraser("$fraser_version")

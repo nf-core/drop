@@ -1,12 +1,12 @@
 nextflow_process {
 
-    name "Test Process COUNTRNA_INIT"
+    name "Test Process COUNTSPLICING_INIT"
     script "../main.nf"
-    process "COUNTRNA_INIT"
+    process "COUNTSPLICING_INIT"
 
     tag "modules"
     tag "modules_local"
-    tag "countrna_init"
+    tag "COUNTSPLICING_INIT"
 
     test("homo_sapiens - col_data") {
 

@@ -1,9 +1,9 @@
-include { COUNTRNA_INIT                         } from '../../../modules/local/countrna/init'
+include { COUNTSPLICING_INIT                    } from '../../../modules/local/countsplicing/init'
 include { COUNTEXPRESSION_COUNTSPLITREADS       } from '../../../modules/local/countexpression/countsplitreads'
 include { COUNTEXPRESSION_MERGESPLITREADS       } from '../../../modules/local/countexpression/mergesplitreads'
 include { COUNTEXPRESSION_COUNTNONSPLITREADS    } from '../../../modules/local/countexpression/countnonsplitreads'
 include { COUNTEXPRESSION_MERGENONSPLITREADS    } from '../../../modules/local/countexpression/mergenonsplitreads'
-include { COUNTRNA_COLLECT                      } from '../../../modules/local/countrna/collect'
+include { COUNTSPLICING_COLLECTCOUNTS           } from '../../../modules/local/countsplicing/collectcounts'
 include { FRASER_PSIVALUECALCULATION            } from '../../../modules/local/fraser/psivaluecalculation'
 include { FRASER_FILTEREXPRESSION               } from '../../../modules/local/fraser/filterexpression'
 include { FRASER_FITHYPERPARAMETERS             } from '../../../modules/local/fraser/fithyperparameters'
@@ -80,7 +80,7 @@ workflow ABERRANTSPLICING {
         }
 
     //
-    // COUNTRNA_INIT
+    // COUNTSPLICING_INIT
     //
 
     def ch_abberant_splicing_input = ch_group_datasets
@@ -100,14 +100,14 @@ workflow ABERRANTSPLICING {
             bams: [ meta, bams, bais ]
         }
 
-    COUNTRNA_INIT(
+    COUNTSPLICING_INIT(
         ch_abberant_splicing_input.dataset.map { meta, dataset ->
             [ meta, dataset, meta.drop_group ]
         },
         fraser_version,
         aberrant_splicing_config_R,
     )
-    ch_versions = ch_versions.mix(COUNTRNA_INIT.out.versions.first())
+    ch_versions = ch_versions.mix(COUNTSPLICING_INIT.out.versions.first())
 
     //
     // COUNTEXPRESSION_COUNTSPLITREADS
@@ -119,7 +119,7 @@ workflow ABERRANTSPLICING {
         }
 
     // Note for later: Rethink this so that split counting only happens once per sample
-    def splitreadssamplewise_input = COUNTRNA_INIT.out.fdsobj
+    def splitreadssamplewise_input = COUNTSPLICING_INIT.out.fdsobj
         .map { meta, fds ->
             [ meta.samples.tokenize(","), meta, fds ]
         }
@@ -150,7 +150,7 @@ workflow ABERRANTSPLICING {
             [ groupKey(new_meta, meta.group_size), split_counts ]
         }
         .groupTuple()
-        .join(COUNTRNA_INIT.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
+        .join(COUNTSPLICING_INIT.out.fdsobj, failOnMismatch: true, failOnDuplicate: true)
         .join(ch_abberant_splicing_input.bams, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, split_counts, fds, bams, bais ->
             [ meta, fds, split_counts, bams, bais, meta.drop_group ]
@@ -218,7 +218,7 @@ workflow ABERRANTSPLICING {
     ch_versions = ch_versions.mix(COUNTEXPRESSION_MERGENONSPLITREADS.out.versions.first())
 
     //
-    // COUNTRNA_COLLECT
+    // COUNTSPLICING_COLLECTCOUNTS
     //
 
     def ch_collect_input = COUNTEXPRESSION_MERGENONSPLITREADS.out.fdsobj
@@ -233,18 +233,18 @@ workflow ABERRANTSPLICING {
             ]
         }
 
-    COUNTRNA_COLLECT(
+    COUNTSPLICING_COLLECTCOUNTS(
         ch_collect_input,
         fraser_version,
         aberrant_splicing_config_R
     )
-    ch_versions = ch_versions.mix(COUNTRNA_COLLECT.out.versions.first())
+    ch_versions = ch_versions.mix(COUNTSPLICING_COLLECTCOUNTS.out.versions.first())
 
     //
     // FRASER_PSIVALUECALCULATION
     //
 
-    def ch_psivaluecalculation_input = COUNTRNA_COLLECT.out.fdsobj
+    def ch_psivaluecalculation_input = COUNTSPLICING_COLLECTCOUNTS.out.fdsobj
         .map { meta, fds -> [ meta, fds, meta.drop_group ] }
 
     FRASER_PSIVALUECALCULATION(

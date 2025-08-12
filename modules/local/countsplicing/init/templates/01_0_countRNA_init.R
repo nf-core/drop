@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_0_countRNA_init.R
+# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_0_COUNTSPLICING_INIT.R
 
 # Initialize the prefix from the module
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
