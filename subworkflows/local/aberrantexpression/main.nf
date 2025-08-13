@@ -1,8 +1,8 @@
-include { COUNTREADS                         } from '../../../modules/local/countreads/'
-include { MERGECOUNTS                        } from '../../../modules/local/mergecounts/'
-include { FILTERCOUNTS                       } from '../../../modules/local/filtercounts/'
-include { COUNTEXPRESSION_SUMMARY            } from '../../../modules/local/countexpression/summary/'
-include { OUTRIDER_RUN                       } from '../../../modules/local/outrider/run'
+include { GENECOUNTS_COUNTREADS              } from '../../../modules/local/genecounts/countreads/'
+include { GENECOUNTS_MERGECOUNTS             } from '../../../modules/local/genecounts/mergecounts/'
+include { GENECOUNTS_FILTERCOUNTS            } from '../../../modules/local/genecounts/filtercounts/'
+include { GENECOUNTS_SUMMARY                 } from '../../../modules/local/genecounts/summary/'
+include { OUTRIDER_FIT                       } from '../../../modules/local/outrider/fit'
 include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
 include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
 include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
@@ -67,25 +67,25 @@ workflow ABERRANTEXPRESSION {
         }
         .ifEmpty([:])
 
-    def countreads_input = inputs_branch.counts_missing
+    def GENECOUNTS_COUNTREADS_input = inputs_branch.counts_missing
         .combine(count_ranges)
         .map { meta, bam, bai, annotation_meta, count_ranges_ ->
             def new_meta = meta + [gene_annotation: annotation_meta.id]
             [ new_meta, bam, bai, meta.strand, meta.count_mode, meta.paired_end, meta.count_overlaps, count_ranges_ ]
         }
 
-    COUNTREADS(
-        countreads_input,
+    GENECOUNTS_COUNTREADS(
+        GENECOUNTS_COUNTREADS_input,
         params.ae_yield_size
     )
-    ch_versions = ch_versions.mix(COUNTREADS.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_COUNTREADS.out.versions.first())
 
     //
     // Merge the counts per gene annotation and drop group
     //
 
     // Group samples based on gene annotation and drop group
-    def mergereads_input = COUNTREADS.out.counts
+    def mergereads_input = GENECOUNTS_COUNTREADS.out.counts
         .mix(inputs_branch.counts_present)
         .map { meta, count ->
             [ meta, count, meta.drop_group.tokenize(",").intersect(include_groups) ]
@@ -107,17 +107,17 @@ workflow ABERRANTEXPRESSION {
             [ meta, unique_counts, count_ranges_, external_counts_ids_.get(meta.drop_group, []) ]
         }
 
-    MERGECOUNTS(
+    GENECOUNTS_MERGECOUNTS(
         mergereads_input,
         samplesheet
     )
-    ch_versions = ch_versions.mix(MERGECOUNTS.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_MERGECOUNTS.out.versions.first())
 
     //
     // Filter the merged counts
     //
 
-    def filtercounts_input = MERGECOUNTS.out.output
+    def filtercounts_input = GENECOUNTS_MERGECOUNTS.out.output
         .map { meta, counts ->
             [ [ id: meta.id ], meta, counts ]
         }
@@ -126,28 +126,28 @@ workflow ABERRANTEXPRESSION {
             [ meta, counts, txdb_ ]
         }
 
-    FILTERCOUNTS(
+    GENECOUNTS_FILTERCOUNTS(
         filtercounts_input,
         params.ae_fpkm_cutoff
     )
-    ch_versions = ch_versions.mix(FILTERCOUNTS.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_FILTERCOUNTS.out.versions.first())
 
     //
     // Run OUTRIDER
     //
 
-    OUTRIDER_RUN(
-        FILTERCOUNTS.out.output,
+    OUTRIDER_FIT(
+        GENECOUNTS_FILTERCOUNTS.out.output,
         params.ae_implementation,
         params.ae_max_tested_dimension_proportion
     )
-    ch_versions = ch_versions.mix(OUTRIDER_RUN.out.versions.first())
+    ch_versions = ch_versions.mix(OUTRIDER_FIT.out.versions.first())
 
     //
     // Calculate p-values of the OUTRIDER output
     //
 
-    def outrider_pvals_input = OUTRIDER_RUN.out.ods_fitted
+    def outrider_pvals_input = OUTRIDER_FIT.out.ods_fitted
         .map { meta, ods_fitted ->
             [ [id:meta.id], meta, ods_fitted ]
         }
@@ -210,7 +210,7 @@ workflow ABERRANTEXPRESSION {
     //
     // summary for expression counts
     //
-    def countexpression_summary_input = FILTERCOUNTS.out.output
+    def countexpression_summary_input = GENECOUNTS_FILTERCOUNTS.out.output
                     .map { meta, ods_unfitted ->
                         [ meta.drop_group,      // key for join
                         meta,
@@ -221,10 +221,10 @@ workflow ABERRANTEXPRESSION {
                         [ meta, ods_unfitted, bamstats ]
                     }
 
-    COUNTEXPRESSION_SUMMARY(
+    GENECOUNTS_SUMMARY(
         countexpression_summary_input
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_SUMMARY.out.versions.first())
 
     //
     // summary for outrider results
@@ -240,21 +240,21 @@ workflow ABERRANTEXPRESSION {
         params.ae_padj_cutoff,
         params.ae_z_score_cutoff
     )
-    ch_versions = ch_versions.mix(COUNTEXPRESSION_SUMMARY.out.versions.first())
+    ch_versions = ch_versions.mix(GENECOUNTS_SUMMARY.out.versions.first())
 
     //
     // multiqc for counting
     //
-    def multiqc_countexpression_input = COUNTEXPRESSION_SUMMARY.out.sample_count
-        .join(COUNTEXPRESSION_SUMMARY.out.read_counts, remainder: true)
-        .join(COUNTEXPRESSION_SUMMARY.out.mapped_vs_counted)
-        .join(COUNTEXPRESSION_SUMMARY.out.size_factors)
-        .join(COUNTEXPRESSION_SUMMARY.out.reads_statistics)
-        .join(COUNTEXPRESSION_SUMMARY.out.meanCounts)
-        .join(COUNTEXPRESSION_SUMMARY.out.expressedGenes)
-        .join(COUNTEXPRESSION_SUMMARY.out.expressed_genes)
-        .join(COUNTEXPRESSION_SUMMARY.out.expression_sex, remainder: true)
-        .join(COUNTEXPRESSION_SUMMARY.out.sex_matched, remainder: true)
+    def multiqc_countexpression_input = GENECOUNTS_SUMMARY.out.sample_count
+        .join(GENECOUNTS_SUMMARY.out.read_counts, remainder: true)
+        .join(GENECOUNTS_SUMMARY.out.mapped_vs_counted)
+        .join(GENECOUNTS_SUMMARY.out.size_factors)
+        .join(GENECOUNTS_SUMMARY.out.reads_statistics)
+        .join(GENECOUNTS_SUMMARY.out.meanCounts)
+        .join(GENECOUNTS_SUMMARY.out.expressedGenes)
+        .join(GENECOUNTS_SUMMARY.out.expressed_genes)
+        .join(GENECOUNTS_SUMMARY.out.expression_sex, remainder: true)
+        .join(GENECOUNTS_SUMMARY.out.sex_matched, remainder: true)
         .map { tup ->
         def meta  = tup[0]
         def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null

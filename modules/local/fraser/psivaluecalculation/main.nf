@@ -9,13 +9,13 @@ process FRASER_PSIVALUECALCULATION {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
 
     input:
-    tuple val(meta), path(fds, stageAs: "savedObjects/*"), val(drop_group)
+    tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group)
     val(fraser_version)
     path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("cache/otherCounts/raw-local-${drop_group}")                  , emit: cache
-    tuple val(meta), path("savedObjects/raw-local-${drop_group}", includeInputs: true)  , emit: fdsobj
+    tuple val(meta), path("savedObjects/raw-local-${drop_group}")  , emit: fdsobj
     path  "versions.yml"                                                                , emit: versions
 
     when:
@@ -28,6 +28,7 @@ process FRASER_PSIVALUECALCULATION {
     """
     #!/usr/bin/env Rscript
     dir.create("cache/otherCounts/raw-local-${drop_group}", recursive = TRUE)
+    dir.create("savedObjects/raw-local-${drop_group}", recursive = TRUE)
     ## VERSIONS FILE
     writeLines(
         c(

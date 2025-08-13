@@ -1,0 +1,68 @@
+{
+    "homo_sapiens - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "dna_rna_qc_matrix.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,b7f30d38aa49546bca71d00dee36c1dc"
+                ],
+                "mat_qc": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "dna_rna_qc_matrix.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,b7f30d38aa49546bca71d00dee36c1dc"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-12T13:38:31.559600724"
+    },
+    "homo_sapiens": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "dna_rna_qc_matrix.Rds:md5,b10dadd9a4ade7c20f72910bcf5f26fe"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,b7f30d38aa49546bca71d00dee36c1dc"
+                ],
+                "mat_qc": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "dna_rna_qc_matrix.Rds:md5,b10dadd9a4ade7c20f72910bcf5f26fe"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,b7f30d38aa49546bca71d00dee36c1dc"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-12T13:38:18.954317475"
+    }
+}

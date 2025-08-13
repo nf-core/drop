@@ -1,0 +1,93 @@
+nextflow_process {
+
+    name "Test Process MAEQC_DNARNAMATRIX"
+    script "../main.nf"
+    process "MAEQC_DNARNAMATRIX"
+
+    tag "modules"
+    tag "modules_local"
+    tag "MAEQC_DNARNAMATRIX"
+
+    test("homo_sapiens") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'mae' ],
+                    [
+                        file(params.pipelines_testdata_base_path + 'intermediates/maeqc/deseq/HG00096.Rds', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + 'intermediates/maeqc/deseq/HG00103.Rds', checkIfExists: true)
+                    ],
+                    [
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz', checkIfExists: true)
+                    ],
+                    [
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz.tbi', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz.tbi', checkIfExists: true)
+                    ],
+                    file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv', checkIfExists: true),
+                    [ 'HG00096', 'HG00103' ],
+                    "mae"
+                ])
+                input[1] = [
+                    [ id:'qc' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/qc_vcf_1000G.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/qc_vcf_1000G.vcf.gz.tbi', checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'mae' ],
+                    [
+                        file(params.pipelines_testdata_base_path + 'intermediates/maeqc/deseq/HG00096.Rds', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + 'intermediates/maeqc/deseq/HG00103.Rds', checkIfExists: true)
+                    ],
+                    [
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz', checkIfExists: true)
+                    ],
+                    [
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21_ncbi.vcf.gz.tbi', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz.tbi', checkIfExists: true)
+                    ],
+                    file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv', checkIfExists: true),
+                    [ 'HG00096', 'HG00103' ],
+                    "mae"
+                ])
+                input[1] = [
+                    [ id:'qc' ],
+                    file(params.pipelines_testdata_base_path + 'inputs/qc_vcf_1000G.vcf.gz', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/qc_vcf_1000G.vcf.gz.tbi', checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
