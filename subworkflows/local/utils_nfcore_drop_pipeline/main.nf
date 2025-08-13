@@ -333,5 +333,5 @@ def validateGroupStrandedness(List samplesheet_list) {
     if (offending && !offending.isEmpty()) {
         error("Samples within each DROP_GROUP must be consistently stranded or unstranded. " +
               "Mixed strandedness found in: ${offending.join(', ')}. Please analyze these groups separately.")
-    } 
+    }
 }
