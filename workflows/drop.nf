@@ -179,8 +179,8 @@ workflow DROP {
             gene_annotation,
             samplesheet_file,
             qc_vcf,
-            mae_groups.tokenize(","),
-            mae_qc_groups.tokenize(","),
+            mae_groups,
+            mae_qc_groups,
             Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )
