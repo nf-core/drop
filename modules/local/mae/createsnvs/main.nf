@@ -8,7 +8,7 @@ process MAE_CREATESNVS {
         'community.wave.seqera.io/library/bcftools_gatk4_htslib_samtools:255ed784054aa652' }"
 
     input:
-    tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(id)
+    tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(dna_id)
     path(ncbi2ucsc)
     path(ucsc2ncbi)
 
@@ -28,7 +28,7 @@ process MAE_CREATESNVS {
         ${ncbi2ucsc} \\
         ${ucsc2ncbi} \\
         ${vcf} \\
-        ${id} \\
+        ${dna_id} \\
         ${bam} \\
         ${prefix}.vcf.gz \\
         bcftools \\
