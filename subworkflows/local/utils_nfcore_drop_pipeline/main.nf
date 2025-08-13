@@ -88,6 +88,9 @@ workflow PIPELINE_INITIALISATION {
 
     def samplesheet_list = samplesheetToList(params.input, "${projectDir}/assets/schema_input.json")
 
+    // Enforce consistent strandedness per DROP_GROUP (no mixing 'no' with 'yes'/'reverse')
+    validateGroupStrandedness(samplesheet_list)
+
     def group_counts = [:]
     samplesheet_list.each { it ->
         def groups = it[0].drop_group.tokenize(",")
@@ -304,4 +307,31 @@ def methodsDescriptionText(mqc_methods_yaml) {
     def description_html = engine.createTemplate(methods_text).make(meta)
 
     return description_html.toString()
+}
+
+//
+// Validate: within each DROP_GROUP, samples must be either all unstranded ('no')
+// or all stranded ('yes'/'reverse'). Mixing is not allowed.
+//
+def validateGroupStrandedness(List samplesheet_list) {
+    // Map<String, Map> e.g. [group: [hasNo:bool, hasStranded:bool]]
+    def flags = [:].withDefault { [hasNo:false, hasStranded:false] }
+
+    samplesheet_list.each { meta, _bam, _bai, _vcf, _tbi, _gene_counts, _splice_counts ->
+        def s = meta.strand
+        def groups = meta.drop_group.tokenize(',')
+        groups.each { g ->
+            if (s == 'no') {
+                flags[g].hasNo = true
+            } else if (s == 'yes' || s == 'reverse') {
+                flags[g].hasStranded = true
+            }
+        }
+    }
+
+    def offending = flags.findAll { k, v -> v.hasNo && v.hasStranded }.keySet().sort()
+    if (offending && !offending.isEmpty()) {
+        error("Samples within each DROP_GROUP must be consistently stranded or unstranded. " +
+              "Mixed strandedness found in: ${offending.join(', ')}. Please analyze these groups separately.")
+    } 
 }
