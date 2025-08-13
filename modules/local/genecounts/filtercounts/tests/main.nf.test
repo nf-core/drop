@@ -1,0 +1,59 @@
+nextflow_process {
+
+    name "Test Process GENECOUNTS_FILTERCOUNTS"
+    script "../main.nf"
+    process "GENECOUNTS_FILTERCOUNTS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "genecounts/filtercounts"
+
+    test("homo_sapiens - counts") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'filter' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/mergecounts/HG00096_HG00103_merged.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db')
+                ])
+                input[1] = 1
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - counts - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'filter' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/mergecounts/HG00096_HG00103_merged.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db')
+                ])
+                input[1] = 1
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

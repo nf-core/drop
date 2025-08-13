@@ -3,8 +3,8 @@ include { MAE_ALLELICCOUNTS             } from '../../../modules/local/mae/allel
 include { MAE_DESEQ                     } from '../../../modules/local/mae/deseq/main'
 include { MAE_GENENAMEMAPPING           } from '../../../modules/local/mae/genenamemapping/main'
 include { MAE_RESULTS                   } from '../../../modules/local/mae/results/main'
-include { MAEQC_DESEQ                   } from '../../../modules/local/maeqc/deseq/main'
-include { MAEQC_CREATEMATRIXDNARNACOR   } from '../../../modules/local/maeqc/creatematrixdnarnacor/main'
+include { MAEQC_DNARNADESEQ             } from '../../../modules/local/maeqc/dnarnadeseq/main'
+include { MAEQC_DNARNAMATRIX            } from '../../../modules/local/maeqc/dnarnamatrix/main'
 
 workflow MAE {
     take:
@@ -123,12 +123,12 @@ workflow MAE {
     )
     ch_versions = ch_versions.mix(MAE_RESULTS.out.versions.first())
 
-    MAEQC_DESEQ(
+    MAEQC_DNARNADESEQ(
         MAE_ALLELICCOUNTS.out.csv
     )
-    ch_versions = ch_versions.mix(MAEQC_DESEQ.out.versions.first())
+    ch_versions = ch_versions.mix(MAEQC_DNARNADESEQ.out.versions.first())
 
-    def ch_creatematrixdnarnacor_input = MAEQC_DESEQ.out.ods_with_pvals
+    def ch_creatematrixdnarnacor_input = MAEQC_DNARNADESEQ.out.ods_with_pvals
         .join(MAE_CREATESNVS.out.vcf, failOnDuplicate:true, failOnMismatch:true)
         .join(MAE_CREATESNVS.out.tbi, failOnDuplicate:true, failOnMismatch:true)
         .map { meta, ods, vcf, tbi ->
@@ -146,11 +146,11 @@ workflow MAE {
             [ meta, ods, vcfs.sort { file -> file.name }, tbis, samplesheet_file, ids.sort(), meta.drop_group ]
         }
 
-    MAEQC_CREATEMATRIXDNARNACOR(
+    MAEQC_DNARNAMATRIX(
         ch_creatematrixdnarnacor_input,
         qc_vcf
     )
-    ch_versions = ch_versions.mix(MAEQC_CREATEMATRIXDNARNACOR.out.versions.first())
+    ch_versions = ch_versions.mix(MAEQC_DNARNAMATRIX.out.versions.first())
 
     emit:
     versions = ch_versions
