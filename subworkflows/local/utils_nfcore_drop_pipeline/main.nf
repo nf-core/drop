@@ -310,8 +310,7 @@ def methodsDescriptionText(mqc_methods_yaml) {
 }
 
 //
-// Validate: within each DROP_GROUP, samples must be either all unstranded ('no')
-// or all stranded ('yes'/'reverse'). Mixing is not allowed.
+// Validate: within each DROP_GROUP, samples must be either all unstranded ('no') or all stranded ('yes'/'reverse'). Mixing is not allowed.
 //
 def validateGroupStrandedness(List samplesheet_list) {
     // Map<String, Map> e.g. [group: [hasNo:bool, hasStranded:bool]]
