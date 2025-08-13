@@ -8,19 +8,20 @@ include { MAEQC_DNARNAMATRIX            } from '../../../modules/local/maeqc/dna
 
 workflow MAE {
     take:
-    input           // queue channel: [ val(meta), path(vcf), path(tbi), path(bam), path(bai) ]
-    ucsc_fasta      // value channel: [ val(meta), path(ucsc_fasta) ]
-    ucsc_fai        // value channel: [ val(meta), path(ucsc_fai) ]
-    ucsc_dict       // value channel: [ val(meta), path(ucsc_dict) ]
-    ncbi_fasta      // value channel: [ val(meta), path(ncbi_fasta) ]
-    ncbi_fai        // value channel: [ val(meta), path(ncbi_fai) ]
-    ncbi_dict       // value channel: [ val(meta), path(ncbi_dict) ]
-    gene_annotation // queue channel: [ val(meta), path(gtf) ]
-    samplesheet     // value channel: [ val(meta), path(samplesheet) ]
-    qc_vcf          // value channel: [ val(meta), path(vcf), path(tbi) ]
-    include_groups  // list         : A list of groups to include in the mono allelic expression analysis
-    ncbi2ucsc       // value channel: path to the NCBI to UCSC mapping file
-    ucsc2ncbi       // value channel: path to the UCSC to NCBI mapping file
+    input               // queue channel: [ val(meta), path(vcf), path(tbi), path(bam), path(bai) ]
+    ucsc_fasta          // value channel: [ val(meta), path(ucsc_fasta) ]
+    ucsc_fai            // value channel: [ val(meta), path(ucsc_fai) ]
+    ucsc_dict           // value channel: [ val(meta), path(ucsc_dict) ]
+    ncbi_fasta          // value channel: [ val(meta), path(ncbi_fasta) ]
+    ncbi_fai            // value channel: [ val(meta), path(ncbi_fai) ]
+    ncbi_dict           // value channel: [ val(meta), path(ncbi_dict) ]
+    gene_annotation     // queue channel: [ val(meta), path(gtf) ]
+    samplesheet         // value channel: [ val(meta), path(samplesheet) ]
+    qc_vcf              // value channel: [ val(meta), path(vcf), path(tbi) ]
+    include_groups      // list         : A list of groups to include in the mono allelic expression analysis
+    include_qc_groups   // list         : A list of groups to include in the QC steps of the mono allelic expression analysis
+    ncbi2ucsc           // value channel: path to the NCBI to UCSC mapping file
+    ucsc2ncbi           // value channel: path to the UCSC to NCBI mapping file
 
     main:
     def ch_versions = Channel.empty()
@@ -123,6 +124,7 @@ workflow MAE {
     )
     ch_versions = ch_versions.mix(MAE_RESULTS.out.versions.first())
 
+    // TODO implement mae_qc_groups logic
     MAEQC_DNARNADESEQ(
         MAE_ALLELICCOUNTS.out.csv
     )

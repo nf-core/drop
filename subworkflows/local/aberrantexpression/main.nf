@@ -191,7 +191,7 @@ workflow ABERRANTEXPRESSION {
     // Calculate and merge the BAM stats
     //
     def external_samples = inputs_to_analyse
-        .filter { meta, bam, _bai, gene_counts ->
+        .filter { _meta, bam, _bai, gene_counts ->
             !bam && gene_counts                        // no BAM but a counts file
         }
         .map    { meta, _bam, _bai, _gene_counts ->
@@ -217,7 +217,7 @@ workflow ABERRANTEXPRESSION {
                         ods_unfitted ]
                     }
                     .combine(BAM_STATS_IDXSTATS_MERGE.out.merged_bam_stats, by: 0)
-                    .map { group, meta, ods_unfitted, bamstats ->
+                    .map { _group, meta, ods_unfitted, bamstats ->
                         [ meta, ods_unfitted, bamstats ]
                     }
 
@@ -263,7 +263,7 @@ workflow ABERRANTEXPRESSION {
     }
 
     def ch_extra_cfg_countexpression = multiqc_countexpression_input
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:${tag}]_multiqc_data"
@@ -303,7 +303,7 @@ workflow ABERRANTEXPRESSION {
     }
 
     def ch_extra_cfg_outrider = multiqc_outrider_input
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:${tag}]_multiqc_data"

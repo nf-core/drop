@@ -29,9 +29,6 @@ workflow DROP {
     // Global parameters
     samplesheet         // queue channel: samplesheet read in from --input
     samplesheet_file    // value channel: [ val(meta), path(samplesheet) ]
-    project_title       // string:        title of the project to add to the HTML file
-    fasta               // value channel: [ val(meta), path(fasta) ]
-    fai                 // value channel: [ val(meta), path(fai) ]
     ucsc_fasta          // value channel: [ val(meta), path(ucsc_fasta) ]
     ucsc_fai            // value channel: [ val(meta), path(ucsc_fai) ]
     ncbi_fasta          // value channel: [ val(meta), path(ncbi_fasta) ]
@@ -42,25 +39,21 @@ workflow DROP {
     hpo_file            // value channel: [ val(meta), path(hpo_file) ]
     qc_vcf              // value channel: [ val(meta), path(vcf), path(tbi) ]
 
-    // Export count parameters
-    ec_gene_annotations // list:          A list of gene annotations to export the counts of
-    ec_exclude_groups   // list:          A list of groups to exclude from the counts export
-
     // Aberrant expression parameters
     ae_run              // boolean:       Run aberrant expression analysis
-    ae_groups           // list:          A list of groups to exclude from the aberrant expression analysis
+    ae_groups           // list:          A list of groups to include from the aberrant expression analysis
     ae_genes_to_test    // map:           A map containing the names of genes to test
 
     // Aberrant splicing parameters
     as_run              // boolean:       Run aberrant splicing analysis
-    as_groups           // list:          A list of groups to exclude from the aberrant splicing analysis
+    as_groups           // list:          A list of groups to include from the aberrant splicing analysis
     as_fraser_version   // string:        Fraser version to use for aberrant splicing analysis
     as_genes_to_test    // map:           A map containing the names of genes to test
 
     // Mono Allelic Expression parameters
     mae_run             // boolean:       Run mono allelic expression analysis
-    mae_groups          // list:          A list of groups to exclude from the mono allelic expression analysis
-    mae_qc_groups       // list:          A list of groups to exclude from QC steps in the mono allelic expression analysis
+    mae_groups          // list:          A list of groups to include from the mono allelic expression analysis
+    mae_qc_groups       // list:          A list of groups to include from QC steps in the mono allelic expression analysis
 
     main:
 
@@ -186,7 +179,8 @@ workflow DROP {
             gene_annotation,
             samplesheet_file,
             qc_vcf,
-            params.mae_groups.tokenize(","),
+            mae_groups.tokenize(","),
+            mae_qc_groups.tokenize(","),
             Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )
