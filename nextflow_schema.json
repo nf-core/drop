@@ -38,64 +38,9 @@
                 },
                 "genome": {
                     "type": "string",
-                    "description": "Name of iGenomes reference. Equivalant to the `genomeAssembly` parameter in the snakemake pipeline.",
+                    "description": "Equivalent to the `genomeAssembly` parameter in the snakemake pipeline. Either hg19/hs37d5 or hg38/GRCh38, depending on the genome assembly used for mapping",
                     "enum": ["hg19", "hs37d5 ", "hg38", "GRCh38"],
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
-                "ucsc_dict": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.dict$",
-                    "description": "Path to UCSC sequence dictionary file.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "ncbi_dict": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.dict$",
-                    "description": "Path to NCBI sequence dictionary file.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "ncbi_fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to NCBI FASTA genome file. Equivalent to the `ncbi` option in the `genome` parameter in the snakemake pipeline.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "ncbi_fai": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fai$",
-                    "description": "Path to NCBI FASTA index file.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "ucsc_fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to UCSC FASTA genome file. Equivalent to the `ucsc` option in the `genome` parameter in the snakemake pipeline.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "ucsc_fai": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fai$",
-                    "description": "Path to UCSC FASTA index file.",
-                    "fa_icon": "far fa-file-code"
+                    "fa_icon": "fas fa-book"
                 },
                 "gene_annotation": {
                     "type": "string",
@@ -266,15 +211,6 @@
                     "minimum": 1,
                     "fa_icon": "fas fa-file-export"
                 },
-                "as_quantile_for_filtering": {
-                    "type": "number",
-                    "description": "Defines at which percentile the as_quantile_min_expression filter is applied.",
-                    "help_text": "A value of 0.95 means that at least 5% of the samples need to have a total read count N >= as_quantile_min_expression to pass the filter.",
-                    "default": 0.05,
-                    "minimum": 0,
-                    "maximum": 1,
-                    "fa_icon": "fas fa-file-export"
-                },
                 "as_min_delta_psi": {
                     "type": "number",
                     "description": "The minimal variation (in delta psi) required for an intron to pass the filter.",
@@ -299,8 +235,17 @@
                 },
                 "as_delta_psi_cutoff": {
                     "type": "number",
-                    "description": "A non-negative number. Delta psi values greater than this cutoff are considered as outliers. Set to 0.1 when using FRASER2.",
+                    "description": "A non-negative number. Delta psi values greater than this cutoff are considered as outliers. Recommand 0.3 for FRASER, 0.1 for FRASER2.",
                     "default": 0.3,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_quantile_for_filtering": {
+                    "type": "number",
+                    "description": "Defines at which percentile the as_quantile_min_expression filter is applied. Recommand 0.95 for FRASER, 0.75 for FRASER2.",
+                    "help_text": "A value of 0.95 means that at least 5% of the samples need to have a total read count N >= as_quantile_min_expression to pass the filter.",
+                    "default": 0.95,
                     "minimum": 0,
                     "maximum": 1,
                     "fa_icon": "fas fa-file-export"
@@ -343,6 +288,60 @@
                 "mae_groups": {
                     "type": "string",
                     "description": "A comma-separated list of mono-allelic expression groups to run. If empty, all groups are run."
+                },
+                "ucsc_fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "description": "Path to UCSC FASTA genome file. Equivalent to the `ucsc` option in the `genome` parameter in the snakemake pipeline.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ucsc_fai": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fai$",
+                    "description": "Path to UCSC FASTA index file.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ucsc_dict": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.dict$",
+                    "description": "Path to UCSC sequence dictionary file. . If not provided, the pipeline will try to create it from the FASTA file.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ncbi_fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "description": "Path to NCBI FASTA genome file. Equivalent to the `ncbi` option in the `genome` parameter in the snakemake pipeline.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ncbi_fai": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fai$",
+                    "description": "Path to NCBI FASTA index file.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ncbi_dict": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.dict$",
+                    "description": "Path to NCBI sequence dictionary file. If not provided, the pipeline will try to create it from the FASTA file.",
+                    "fa_icon": "far fa-file-code"
                 },
                 "mae_gatk_header_check": {
                     "type": "boolean",
@@ -392,7 +391,7 @@
                     "exists": true,
                     "mimetype": "text/plain",
                     "pattern": "^\\S+\\.vcf\\.gz$",
-                    "description": "Full path to the vcf file used for VCF-BAM matching.",
+                    "description": "Full path to the vcf file used for VCF-BAM matching. Refer to [files-to-download](https://gagneurlab-drop.readthedocs.io/en/latest/prepare.html?highlight=drop_group#files-to-download).",
                     "fa_icon": "far fa-file-code"
                 },
                 "mae_qc_vcf_tbi": {
@@ -401,7 +400,7 @@
                     "exists": true,
                     "mimetype": "text/plain",
                     "pattern": "^\\S+\\.tbi$",
-                    "description": "Full path to the index of the vcf file used for VCF-BAM matching.",
+                    "description": "Full path to the index of the vcf file used for VCF-BAM matching. Refer to [files-to-download](https://gagneurlab-drop.readthedocs.io/en/latest/prepare.html?highlight=drop_group#files-to-download)",
                     "fa_icon": "far fa-file-code"
                 },
                 "mae_qc_groups": {
