@@ -73,7 +73,7 @@ nextflow run nf-core/drop \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files). Here is an example of a [test custom config](conf/test.config).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files). Here is an example of a [custom config](conf/test.config).
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/drop/usage) and the [parameter documentation](https://nf-co.re/drop/parameters).
 

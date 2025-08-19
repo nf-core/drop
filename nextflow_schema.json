@@ -49,6 +49,7 @@
                     "mimetype": "text/plain",
                     "pattern": "^\\S+\\.(csv|tsv|json|yml|yaml)$",
                     "description": "Path to GTF gene annotations file. Equivalent to the `geneAnnotation` parameter in the snakemake pipeline, with the difference that a file depicting the kev-value pairs is expected here instead.",
+                    "help_text": "See [example](https://github.com/nf-core/drop/blob/dev/assets/gene_annotation.yaml)",
                     "fa_icon": "far fa-file-code"
                 },
                 "hpo_file": {
