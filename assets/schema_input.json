@@ -8,7 +8,7 @@
         "type": "object",
         "properties": {
             "RNA_ID": {
-                "type": "string",
+                "type": ["string", "integer"],
                 "pattern": "^\\S+$",
                 "errorMessage": "RNA ID must be provided and cannot contain spaces",
                 "description": "Unique identifier for the RNA sample. Must not contain spaces.",
@@ -31,7 +31,7 @@
                 "description": "Path to the RNA BAM index file. Must exist and cannot contain spaces."
             },
             "DNA_ID": {
-                "type": "string",
+                "type": ["string", "integer"],
                 "pattern": "^\\S+$",
                 "errorMessage": "DNA ID must be provided and cannot contain spaces",
                 "meta": ["dna_id"],
@@ -82,7 +82,7 @@
             },
             "STRAND": {
                 "type": "string",
-                "description": "Strand of the RNA-seq data",
+                "description": "Strand of the RNA-seq data, shall be unique",
                 "enum": ["yes", "no", "reverse"],
                 "meta": ["strand"],
                 "default": "no"
@@ -111,7 +111,7 @@
                 "description": "Genome source",
                 "meta": ["genome"],
                 "enum": ["ncbi", "ucsc"],
-                "default": "ncbi"
+                "default": "ucsc"
             },
             "SPLICE_COUNTS_DIR": {
                 "type": "string",
@@ -123,8 +123,7 @@
             },
             "SEX": {
                 "type": "string",
-                "enum": ["m", "male", "f", "female"],
-                "description": "The sex of the sample",
+                "description": "The sex of the sample. Samples with 'm','male','f','femal' will be analysed for sex bias abrrant expression report",
                 "meta": "sex"
             },
             "TISSUE": {
@@ -149,14 +148,15 @@
             {
                 "required": ["SPLICE_COUNTS_DIR"]
             }
-        ]
+        ],
+        "dependentRequired": {
+            "DNA_ID": ["DNA_VCF_FILE", "GENOME"],
+            "DNA_VCF_FILE": ["DNA_ID"]
+        }
     },
     "allOf": [
         {
             "uniqueEntries": ["RNA_ID"]
-        },
-        {
-            "uniqueEntries": ["DNA_ID"]
         }
     ]
 }

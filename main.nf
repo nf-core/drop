@@ -65,16 +65,16 @@ workflow {
         error "You must provide either a UCSC FASTA file (--ucsc_fasta) or a NCBI FASTA file (--ncbi_fasta)."
     }
 
-    def ucsc_fasta = params.ucsc_fasta ? Channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : [[:], []]
-    def ucsc_fai = params.ucsc_fai ? Channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : [[:], []]
-    def ncbi_fasta = params.ncbi_fasta ? Channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : [[:], []]
-    def ncbi_fai = params.ncbi_fai ? Channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : [[:], []]
+    def ucsc_fasta = params.ucsc_fasta ? Channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : Channel.of([[id:'ucsc'], []])
+    def ucsc_fai = params.ucsc_fai ? Channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : Channel.of([[id:'ucsc'], []])
+    def ncbi_fasta = params.ncbi_fasta ? Channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : Channel.of([[id:'ncbi'], []])
+    def ncbi_fai = params.ncbi_fai ? Channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : Channel.of([[id:'ncbi'], []])
 
     def qc_vcf = params.mae_qc_vcf ?
         Channel.value([[id: 'qc_vcf'], file(params.mae_qc_vcf), params.mae_qc_vcf_tbi ? file(params.mae_qc_vcf_tbi) : []]) :
         [[:], [], []]
 
-    def ucsc_dict = Channel.empty()
+    def ucsc_dict = Channel.of([[id:'ucsc'], []])
     if (params.ucsc_dict) {
         ucsc_dict = Channel.value([[id: 'ucsc'], file(params.ucsc_dict)])
     } else if (params.ucsc_fasta) {
@@ -84,7 +84,7 @@ workflow {
         ucsc_dict = GATK4_CREATESEQUENCEDICTIONARY_UCSC.out.dict.collect()
     }
 
-    def ncbi_dict = Channel.empty()
+    def ncbi_dict = Channel.of([[id:'ncbi'], []])
     if (params.ncbi_dict) {
         ncbi_dict = Channel.value([[id: 'ncbi'], file(params.ncbi_dict)])
     } else if (params.ncbi_fasta) {
