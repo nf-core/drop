@@ -139,7 +139,8 @@ workflow ABERRANTEXPRESSION {
     OUTRIDER_FIT(
         GENECOUNTS_FILTERCOUNTS.out.output,
         params.ae_implementation,
-        params.ae_max_tested_dimension_proportion
+        params.ae_max_tested_dimension_proportion,
+        params.random_seed
     )
     ch_versions = ch_versions.mix(OUTRIDER_FIT.out.versions.first())
 

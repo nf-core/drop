@@ -14,6 +14,15 @@ suppressPackageStartupMessages({
     library(tools)
 })
 
+rseed <- ${random_seed instanceof Integer ? random_seed : random_seed ? 'TRUE' : 'FALSE'}
+if (!isFALSE(rseed)) {
+    if(isTRUE(rseed)){
+        set.seed(42)
+    } else if (is.numeric(rseed)){
+        set.seed(as.integer(rseed))
+    }
+}
+
 ods <- readRDS("$ods")
 implementation <- "$implementation"
 mp <- $ae_max_tested_dimension_proportion
