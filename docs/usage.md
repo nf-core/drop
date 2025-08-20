@@ -10,82 +10,58 @@ nf-core/drop allows controlling which subworkflows to run via variable in the co
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a tab-separated file with some required columns, and
-examples are shown for different cases below.
+> For a detailed explanation of the columns of the samplesheet, please refer to Box 3 of the [DROP manuscript](https://www.nature.com/articles/s41596-020-00462-5#Sec26). Some information has been updated since publication, please use this documentation as the preferred syntax/formatting.
 
-```bash
---input '[path to samplesheet file]'
-```
-
-For a detailed explanation of the columns of the sample annotation, please refer to Box 3 of the [DROP manuscript](https://www.nature.com/articles/s41596-020-00462-5#Sec26). Some information has been updated since publication, please use this documentation as the preferred syntax/formatting.
-
-Each row of the sample annotation table corresponds to a unique RNA sample. The required columns are `RNA_ID`, `RNA_BAM_FILE` and `DROP_GROUP`. The following columns describe the RNA-seq experimental setup:
-`STRAND`(mandatory column), `PAIRED_END`, `COUNT_MODE` and `COUNT_OVERLAPS`. They affect the counting procedures of the aberrant expression and splicing subworkflows.
+Each row of the sample annotation table corresponds to a unique RNA sample. The required columns are `RNA_ID`, `RNA_BAM_FILE` and `DROP_GROUP`. The following columns describe the RNA-seq experimental setup: `STRAND`(mandatory column), `PAIRED_END`, `COUNT_MODE` and `COUNT_OVERLAPS`. They affect the counting procedures of the aberrant expression and splicing subworkflows. For a detailed explanation, refer to the documentation of [HTSeq](https://htseq.readthedocs.io/en/latest/).
 
 ### DROP_GROUP
 
-DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple groups must be separated by commas and no spaces (e.g., blood, WES, groupA). Together with the options `--ae_groups`, `--as_groups`, and `--mae_groups` to specify which groups to run in each subworkflow, it allows you to perform different analyses (for example, across different tissue groups) within a single run.
+DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple groups must be separated by commas and no spaces (e.g., blood,WES,groupA). Together with the options `--ae_groups`, `--as_groups`, and `--mae_groups` to specify which groups to run in each subworkflow, it allows you to perform different analyses (for example, across different tissue groups) within a single run.
 
-| RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE            | DROP_GROUP | PAIRED_END | COUNT_MODE         | COUNT_OVERLAPS | STRAND |
+| RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE\*          | DROP_GROUP | PAIRED_END | COUNT_MODE         | COUNT_OVERLAPS | STRAND |
 | ------- | ------------------- | ----------------------- | ---------- | ---------- | ------------------ | -------------- | ------ |
 | HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | blood,all  | TRUE       | IntersectionStrict | TRUE           | no     |
 
-You can provide the BAM index file in the `RNA_BAI_FILE` column. If this column is not specified, the pipeline will automatically generate index files from the BAM files.
+<sub>\* You can provide the BAM index file in the `RNA_BAI_FILE` column. If this column is not specified, the pipeline will automatically generate index files from the BAM files.<sub>
 
 ### MAE
 
 To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are needed. MAE can not be run in samples using external counts as we need to use the `RNA_BAM_FILE` to count reads supporting each allele of the heterozygous variants found in the `DNA_VCF_FILE`.
 
-| RNA_ID  | RNA_BAM_FILE              | RNA_BAI_FILE                  | DNA_ID  | DNA_VCF_FILE                    | DNA_TBI_FILE                        | DROP_GROUP  | STRAND | GENOME |
+| RNA_ID  | RNA_BAM_FILE              | RNA_BAI_FILE                  | DNA_ID  | DNA_VCF_FILE                    | DNA_TBI_FILE\*                      | DROP_GROUP  | STRAND | GENOME |
 | ------- | ------------------------- | ----------------------------- | ------- | ------------------------------- | ----------------------------------- | ----------- | ------ | ------ |
 | HG00096 | /path/to/HG00096_ncbi.bam | /path/to/HG00096_ncbi.bam.bai | HG00096 | /path/to/demo_chr21_ncbi.vcf.gz | /path/to/demo_chr21_ncbi.vcf.gz.tbi | mae,batch_0 | no     | ncbi   |
 | HG00103 | /path/to/HG00103.bam      | /path/to/HG00103.bam.bai      | HG00103 | /path/to/demo_chr21.vcf.gz      | /path/to/demo_chr21.vcf.gz.tbi      | mae,batch_1 | no     | ucsc   |
 
+<sub>\* You can provide the Tabix index file in the `DNA_TBI_FILE` column. If this column is not specified, the pipeline will automatically generate index files from the VCF files.<sub>
+
 ### Using External Counts
 
-DROP can utilize external counts for the `aberrantExpression` and `aberrantSplicing` subworkflows
-which can enhance the statistical power of these subworkflows by providing more samples from which we
-can build a distribution of counts and detect outliers. However this process introduces some
-particular issues that need to be addressed to make sure it is a valuable addition to the experiment.
+DROP can utilize external counts for the `aberrantExpression` and `aberrantSplicing` subworkflows which can enhance the statistical power of these subworkflows by providing more samples from which we can build a distribution of counts and detect outliers. However, this process introduces some particular issues that need to be addressed to make sure it is a valuable addition to the experiment.
 
-In case external counts are included, add a new row for each sample from those
-files (or a subset if not all samples are needed). Add the columns: `GENE_COUNTS_FILE`
-(for aberrant expression), `GENE_ANNOTATON`, and `SPLICE_COUNTS_DIR` (for aberrant splicing).
-These columns should remain empty for samples processed locally (from `RNA_BAM`).
+In case external counts are included, add a new row for each sample from those files (or a subset if not all samples are needed). Add the columns: `GENE_COUNTS_FILE`
+(for aberrant expression), `GENE_ANNOTATON`, and `SPLICE_COUNTS_DIR` (for aberrant splicing). These columns should remain empty for samples processed locally (from `RNA_BAM`).
 
 #### Aberrant Expression
 
-To use external counts for aberrant expression, you need to use the exact same gene annotation for each
-external sample as well as using the same gene annotation file specified in `pramas.gene_annotation`. This is to avoid potential mismatching on counting, 2 different gene annotations could drastically affect which reads are counted in which region drastically skewing the results.
+To use external counts for aberrant expression, you need to use the exact same gene annotation for each external sample as well as using the same gene annotation file specified in `pramas.gene_annotation`. This is to avoid potential mismatching on counting, 2 different gene annotations could drastically affect which reads are counted in which region drastically skewing the results.
 
-The user must also take special consideration when building the sample annotation table. Samples
-using external counts need only `RNA_ID` which must exactly match the column header in the external count file
-`DROP_GROUP`, `GENE_COUNTS_FILE`, and `GENE_ANNOTATION` which must contain the exact key specified in the config.
-The other columns should remain empty.
+The user must also take special consideration when building the sample annotation table. Samples using external counts need only `RNA_ID` which must exactly match the column header in the external count file `DROP_GROUP`, `GENE_COUNTS_FILE`, and `GENE_ANNOTATION` which must contain the exact key specified in the config. The other columns should remain empty.
 
-Using `exportCounts` generates the sharable `GENE_COUNTS_FILE` file in the appropriate
-`<OUTDIR>/processed_results/exported_counts/` sub-directory.
+> tips: Using `exportCounts` generates the sharable `GENE_COUNTS_FILE` file in the appropriate `<OUTDIR>/processed_results/exported_counts/` sub-directory.
 
-| RNA_ID  | RNA_BAM_FILE         | RNA_BAI_FILE             | DROP_GROUP                 | STRAND | GENE_COUNTS_FILE                                                                                                                 | GENE_ANNOTATION |
-| ------- | -------------------- | ------------------------ | -------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| HG00103 | /path/to/HG00103.bam | /path/to/HG00103.bam.bai | outrider,outrider_external | no     |                                                                                                                                  |                 |
-| HG00178 |                      |                          | outrider_external          | no     | [geneCounts.tsv.gz](https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/external_count_data/geneCounts.tsv.gz) | v29             |
+| RNA_ID  | RNA_BAM_FILE         | RNA_BAI_FILE             | DROP_GROUP                 | STRAND | GENE_COUNTS_FILE                                                                                                                          | GENE_ANNOTATION |
+| ------- | -------------------- | ------------------------ | -------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| HG00103 | /path/to/HG00103.bam | /path/to/HG00103.bam.bai | outrider,outrider_external | no     |                                                                                                                                           |                 |
+| HG00178 |                      |                          | outrider_external          | no     | /path/to/[geneCounts.tsv.gz](https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/external_count_data/geneCounts.tsv.gz) | v29             |
 
 #### Aberrant Splicing
 
-Using external counts for aberrant splicing reduces the number of introns processed to only those
-that are exactly the same between the local and external junctions. Because rare junctions may be
-personally identifiable the `exportCounts` command only exports regions canonically mentioned in the gtf file.
-As a result, when merging the external counts with the local counts we only match introns that are **exact** between
-the 2 sets, this is to ensure that if a region is missing we don't introduce 0 counts into the distribution calculations.
+Using external counts for aberrant splicing reduces the number of introns processed to only those that are exactly the same between the local and external junctions. Because rare junctions may be personally identifiable the `exportCounts` command only exports regions canonically mentioned in the gtf file. As a result, when merging the external counts with the local counts we only match introns that are **exact** between the 2 sets, this is to ensure that if a region is missing we don't introduce 0 counts into the distribution calculations.
 
-The user must also use special consideration when building the sample annotation table. Samples
-using external counts need only `RNA_ID` which must exactly match the column header in the external count file
-`DROP_GROUP`, and `SPLICE_COUNTS_DIR`. `SPLICE_COUNTS_DIR` is the directory containing the set of 5 needed count files.
-The other columns should remain empty.
+The user must also use special consideration when building the sample annotation table. Samples using external counts need only `RNA_ID` which must exactly match the column header in the external count file `DROP_GROUP`, and `SPLICE_COUNTS_DIR`. `SPLICE_COUNTS_DIR` is the directory containing the set of 5 needed count files. The other columns should remain empty.
 
-Using `exportCounts` generates the necessary files in the appropriate
-`<OUTDIR>/processed_results/exported_counts/` sub-directory
+> tips: Using `exportCounts` generates the necessary files in the appropriate `<OUTDIR>/processed_results/exported_counts/` sub-directory
 
 `SPLICE_COUNTS_DIR` should contain the following:
 
@@ -95,10 +71,10 @@ Using `exportCounts` generates the necessary files in the appropriate
 - n_psi5_counts.tsv.gz
 - n_theta_counts.tsv.gz
 
-| RNA_ID  | RNA_BAM_FILE         | DROP_GROUP             | STRAND | SPLICE_COUNTS_DIR                                                                                                                 |
-| ------- | -------------------- | ---------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| HG00176 | /path/to/HG00176.bam | fraser,fraser_external | no     |                                                                                                                                   |
-| HG00191 |                      | fraser_external        | no     | [external_count_data.tar.gz](https://github.com/nf-core/test-datasets/raw/refs/heads/drop/data/inputs/external_count_data.tar.gz) |
+| RNA_ID  | RNA_BAM_FILE         | DROP_GROUP             | STRAND | SPLICE_COUNTS_DIR                                                                                                                          |
+| ------- | -------------------- | ---------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| HG00176 | /path/to/HG00176.bam | fraser,fraser_external | no     |                                                                                                                                            |
+| HG00191 |                      | fraser_external        | no     | /path/to/[external_count_data.tar.gz](https://github.com/nf-core/test-datasets/raw/refs/heads/drop/data/inputs/external_count_data.tar.gz) |
 
 #### Another External count examples
 
@@ -114,7 +90,7 @@ the `DROP_GROUP` BLOOD_AS for the aberrant expression module (containing S10R, E
 
 ### Full samplesheet
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+An [example samplesheet](../assets/samplesheet.tsv) has been provided with the pipeline.
 
 ## Running the pipeline
 
