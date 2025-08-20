@@ -20,7 +20,7 @@
 
 ## Introduction
 
-**nf-core/drop**(Detection of RNA Outliers Pipeline) is a bioinformatics pipeline that detects aberrant expression, aberrant splicing, and mono-allelic expression from raw RNA sequencing data.
+**nf-core/drop**(Detection of RNA Outliers Pipeline) is a bioinformatics pipeline that detects aberrant expression, aberrant splicing, and mono-allelic expression from RNA sequencing data.
 
 ![A high-level diagram of the DROP workflow in a metro map style](docs/images/drop_metromap.png)
 
