@@ -19,6 +19,7 @@ nextflow_process {
                 ])
                 input[1] = 'autoencoder'
                 input[2] = 3
+                input[3] = false
                 """
             }
         }
@@ -46,6 +47,7 @@ nextflow_process {
                 ])
                 input[1] = 'autoencoder'
                 input[2] = 3
+                input[3] = false
                 """
             }
         }
