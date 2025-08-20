@@ -6,54 +6,113 @@
 
 ## Introduction
 
-nf-core/drop allows controlling which modules to run via variable in the config file (`ae_run` (Aberrant Expression), `as_run` (Aberrant Splicing), `mae_run` (Mono-Allelic Expression)). By default, each module is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
+nf-core/drop allows controlling which subworkflows to run via variable in the config file (`ae_run` (Aberrant Expression), `as_run` (Aberrant Splicing), `mae_run` (Mono-Allelic Expression)). By default, each subworkflow is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
 
 ## Samplesheet input
 
-For a detailed explanation of the columns of the sample annotation, please refer to Box 3 of the [DROP manuscript](https://www.nature.com/articles/s41596-020-00462-5#Sec26). Some information has been updated since publication, please use this documentation as the preferred syntax/formatting.
-
-Each row of the sample annotation table corresponds to a unique RNA sample. The required columns are `RNA_ID`, `RNA_BAM_FILE` and `DROP_GROUP`. The following columns describe the RNA-seq experimental setup:
-`STRAND`(mandatory column), `PAIRED_END`, `COUNT_MODE` and `COUNT_OVERLAPS`. They affect the counting procedures of the aberrant expression and splicing modules.
-
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a tab-separated file with 3 columns, and a header row as shown in the examples below.
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a tab-separated file with some required columns, and
+examples are shown for different cases below.
 
 ```bash
 --input '[path to samplesheet file]'
 ```
 
-### Multiple runs of the same sample
+For a detailed explanation of the columns of the sample annotation, please refer to Box 3 of the [DROP manuscript](https://www.nature.com/articles/s41596-020-00462-5#Sec26). Some information has been updated since publication, please use this documentation as the preferred syntax/formatting.
 
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
+Each row of the sample annotation table corresponds to a unique RNA sample. The required columns are `RNA_ID`, `RNA_BAM_FILE` and `DROP_GROUP`. The following columns describe the RNA-seq experimental setup:
+`STRAND`(mandatory column), `PAIRED_END`, `COUNT_MODE` and `COUNT_OVERLAPS`. They affect the counting procedures of the aberrant expression and splicing subworkflows.
 
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
-```
+### DROP_GROUP
+
+DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple groups must be separated by commas and no spaces (e.g., blood, WES, groupA). Together with the options `--ae_groups`, `--as_groups`, and `--mae_groups` to specify which groups to run in each subworkflow, it allows you to perform different analyses (for example, across different tissue groups) within a single run.
+
+| RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE            | DROP_GROUP | PAIRED_END | COUNT_MODE         | COUNT_OVERLAPS | STRAND |
+| ------- | ------------------- | ----------------------- | ---------- | ---------- | ------------------ | -------------- | ------ |
+| HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | blood,all  | TRUE       | IntersectionStrict | TRUE           | no     |
+
+You can provide the BAM index file in the `RNA_BAI_FILE` column. If this column is not specified, the pipeline will automatically generate index files from the BAM files.
+
+### MAE
+
+To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are needed. MAE can not be run in samples using external counts as we need to use the `RNA_BAM_FILE` to count reads supporting each allele of the heterozygous variants found in the `DNA_VCF_FILE`.
+
+| RNA_ID  | RNA_BAM_FILE              | RNA_BAI_FILE                  | DNA_ID  | DNA_VCF_FILE                    | DNA_TBI_FILE                        | DROP_GROUP  | STRAND | GENOME |
+| ------- | ------------------------- | ----------------------------- | ------- | ------------------------------- | ----------------------------------- | ----------- | ------ | ------ |
+| HG00096 | /path/to/HG00096_ncbi.bam | /path/to/HG00096_ncbi.bam.bai | HG00096 | /path/to/demo_chr21_ncbi.vcf.gz | /path/to/demo_chr21_ncbi.vcf.gz.tbi | mae,batch_0 | no     | ncbi   |
+| HG00103 | /path/to/HG00103.bam      | /path/to/HG00103.bam.bai      | HG00103 | /path/to/demo_chr21.vcf.gz      | /path/to/demo_chr21.vcf.gz.tbi      | mae,batch_1 | no     | ucsc   |
+
+### Using External Counts
+
+DROP can utilize external counts for the `aberrantExpression` and `aberrantSplicing` subworkflows
+which can enhance the statistical power of these subworkflows by providing more samples from which we
+can build a distribution of counts and detect outliers. However this process introduces some
+particular issues that need to be addressed to make sure it is a valuable addition to the experiment.
+
+In case external counts are included, add a new row for each sample from those
+files (or a subset if not all samples are needed). Add the columns: `GENE_COUNTS_FILE`
+(for aberrant expression), `GENE_ANNOTATON`, and `SPLICE_COUNTS_DIR` (for aberrant splicing).
+These columns should remain empty for samples processed locally (from `RNA_BAM`).
+
+#### Aberrant Expression
+
+To use external counts for aberrant expression, you need to use the exact same gene annotation for each
+external sample as well as using the same gene annotation file specified in `pramas.gene_annotation`. This is to avoid potential mismatching on counting, 2 different gene annotations could drastically affect which reads are counted in which region drastically skewing the results.
+
+The user must also take special consideration when building the sample annotation table. Samples
+using external counts need only `RNA_ID` which must exactly match the column header in the external count file
+`DROP_GROUP`, `GENE_COUNTS_FILE`, and `GENE_ANNOTATION` which must contain the exact key specified in the config.
+The other columns should remain empty.
+
+Using `exportCounts` generates the sharable `GENE_COUNTS_FILE` file in the appropriate
+`<OUTDIR>/processed_results/exported_counts/` sub-directory.
+
+| RNA_ID  | RNA_BAM_FILE         | RNA_BAI_FILE             | DROP_GROUP                 | STRAND | GENE_COUNTS_FILE                                                                                                                 | GENE_ANNOTATION |
+| ------- | -------------------- | ------------------------ | -------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| HG00103 | /path/to/HG00103.bam | /path/to/HG00103.bam.bai | outrider,outrider_external | no     |                                                                                                                                  |                 |
+| HG00178 |                      |                          | outrider_external          | no     | [geneCounts.tsv.gz](https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/external_count_data/geneCounts.tsv.gz) | v29             |
+
+#### Aberrant Splicing
+
+Using external counts for aberrant splicing reduces the number of introns processed to only those
+that are exactly the same between the local and external junctions. Because rare junctions may be
+personally identifiable the `exportCounts` command only exports regions canonically mentioned in the gtf file.
+As a result, when merging the external counts with the local counts we only match introns that are **exact** between
+the 2 sets, this is to ensure that if a region is missing we don't introduce 0 counts into the distribution calculations.
+
+The user must also use special consideration when building the sample annotation table. Samples
+using external counts need only `RNA_ID` which must exactly match the column header in the external count file
+`DROP_GROUP`, and `SPLICE_COUNTS_DIR`. `SPLICE_COUNTS_DIR` is the directory containing the set of 5 needed count files.
+The other columns should remain empty.
+
+Using `exportCounts` generates the necessary files in the appropriate
+`<OUTDIR>/processed_results/exported_counts/` sub-directory
+
+`SPLICE_COUNTS_DIR` should contain the following:
+
+- k_j_counts.tsv.gz
+- k_theta_counts.tsv.gz
+- n_psi3_counts.tsv.gz
+- n_psi5_counts.tsv.gz
+- n_theta_counts.tsv.gz
+
+| RNA_ID  | RNA_BAM_FILE         | DROP_GROUP             | STRAND | SPLICE_COUNTS_DIR                                                                                                                 |
+| ------- | -------------------- | ---------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| HG00176 | /path/to/HG00176.bam | fraser,fraser_external | no     |                                                                                                                                   |
+| HG00191 |                      | fraser_external        | no     | [external_count_data.tar.gz](https://github.com/nf-core/test-datasets/raw/refs/heads/drop/data/inputs/external_count_data.tar.gz) |
+
+#### Another External count examples
+
+This example will use the `DROP_GROUP` BLOOD_AE for the aberrant expression module (containing S10R, EXT-1R, EXT-2R) and
+the `DROP_GROUP` BLOOD_AS for the aberrant expression module (containing S10R, EXT-2R, EXT-3R)
+
+| RNA_ID | DNA_ID | DROP_GROUP        | RNA_BAM_FILE      | GENE_COUNTS_FILE               | GENE_ANNOTATION | SPLICE_COUNTS_DIR         |
+| ------ | ------ | ----------------- | ----------------- | ------------------------------ | --------------- | ------------------------- |
+| S10R   | S10G   | BLOOD_AE,BLOOD_AS | /path/to/S10R.BAM |                                |                 |                           |
+| EXT-1R |        | BLOOD_AE          |                   | /path/to/externalCounts.tsv.gz | gencode34       |                           |
+| EXT-2R |        | BLOOD_AE,BLOOD_AS |                   | /path/to/externalCounts.tsv.gz | gencode34       | /path/to/externalCountDir |
+| EXT-3R |        | BLOOD_AS          |                   |                                |                 | /path/to/externalCountDir |
 
 ### Full samplesheet
-
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
-
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
-```
-
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
 
@@ -62,7 +121,7 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/drop --input ./samplesheet.csv --outdir ./results --genome GRCh37 -profile docker
+nextflow run nf-core/drop --input ./samplesheet.tsv --outdir ./results --genome hg19 --gene_annotation ./gene_annotation.yaml -profile docker --ae_run true
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -92,9 +151,9 @@ nextflow run nf-core/drop -profile docker -params-file params.yaml
 with:
 
 ```yaml title="params.yaml"
-input: './samplesheet.csv'
+input: './samplesheet.tsv'
 outdir: './results/'
-genome: 'GRCh37'
+genome: 'hg19'
 <...>
 ```
 

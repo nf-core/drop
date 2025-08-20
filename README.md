@@ -44,13 +44,13 @@ First, prepare a samplesheet with your input data that looks as follows:
 
 `samplesheet.tsv`:
 
-| RNA_ID  | RNA_BAM_FILE | DROP_GROUP          | STRAND | DNA_VCF_FILE      | DNA_ID  | GENOME |
-| ------- | ------------ | ------------------- | ------ | ----------------- | ------- | ------ |
-| HG00096 | HG00096.bam  | outrider,mae,all    | no     | demo_chr21.vcf.gz | HG00096 | ucsc   |
-| HG00103 | HG00103.bam  | fraser,mae,all      | no     | demo_chr21.vcf.gz | HG00103 | ucsc   |
-| HG00105 | HG00105.bam  | outrider,fraser,all | no     |                   |         |        |
+| RNA_ID  | RNA_BAM_FILE | DROP_GROUP        | STRAND | DNA_VCF_FILE      | DNA_ID  | GENOME |
+| ------- | ------------ | ----------------- | ------ | ----------------- | ------- | ------ |
+| HG00096 | HG00096.bam  | group1,mae,all    | no     | demo_chr21.vcf.gz | HG00096 | ucsc   |
+| HG00103 | HG00103.bam  | group2,mae,all    | no     | demo_chr21.vcf.gz | HG00103 | ucsc   |
+| HG00105 | HG00105.bam  | group1,group2,all | no     |                   |         |        |
 
-Each row requires an unique RNA_ID, a BAM file, DROP_GROUP and STRAND. For MAE additional DNA_ID, DNA_VCF_FILE and GENOME.
+Each row requires a unique RNA_ID, a BAM file, DROP_GROUP and STRAND. For MAE additional DNA_ID, DNA_VCF_FILE and GENOME.
 
 Here is an example of a [samplesheet](assets/samplesheet.tsv). Of note, to detect outliers confidently, a sufficiently large sample size is needed (>30 samples).
 
@@ -64,9 +64,9 @@ nextflow run nf-core/drop \
    --genome hg19 \
    --gene_annotation <path/to/gene/annotation/yaml> \
    --ae_run true \
-   --ae_groups <DROP_GROUP1,DROP_GROUP2,...> \        #e.g. --ae_groups 'outrider,all'
+   --ae_groups <DROP_GROUP1,DROP_GROUP2,...> \        #e.g. --ae_groups 'group1,group2,all'
    --as_run true  \
-   --as_groups <DROP_GROUP1,DROP_GROUP2,...> \        #e.g. --as_groups 'fraser,all'
+   --as_groups <DROP_GROUP1,DROP_GROUP2,...> \        #e.g. --as_groups 'group2,all'
    --mae_run true  \
    --mae_groups <DROP_GROUP1,DROP_GROUP2,...> \       #e.g. --mae_groups 'mae'
    --ucsc_fasta <path/to/fasta>
