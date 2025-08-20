@@ -6,11 +6,16 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+nf-core/drop allows controlling which modules to run via variable in the config file (`ae_run` (Aberrant Expression), `as_run` (Aberrant Splicing), `mae_run` (Mono-Allelic Expression)). By default, each module is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+For a detailed explanation of the columns of the sample annotation, please refer to Box 3 of the [DROP manuscript](https://www.nature.com/articles/s41596-020-00462-5#Sec26). Some information has been updated since publication, please use this documentation as the preferred syntax/formatting.
+
+Each row of the sample annotation table corresponds to a unique RNA sample. The required columns are `RNA_ID`, `RNA_BAM_FILE` and `DROP_GROUP`. The following columns describe the RNA-seq experimental setup:
+`STRAND`(mandatory column), `PAIRED_END`, `COUNT_MODE` and `COUNT_OVERLAPS`. They affect the counting procedures of the aberrant expression and splicing modules.
+
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a tab-separated file with 3 columns, and a header row as shown in the examples below.
 
 ```bash
 --input '[path to samplesheet file]'
