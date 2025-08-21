@@ -16,7 +16,7 @@ Each row of the sample annotation table corresponds to a unique RNA sample. The 
 
 ### DROP_GROUP
 
-DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple groups must be separated by commas and no spaces (e.g., blood,WES,groupA). Together with the options `--ae_groups`, `--as_groups`, and `--mae_groups` to specify which groups to run in each subworkflow, it allows you to perform different analyses (for example, across different tissue groups) within a single run.
+DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple groups must be separated by commas and no spaces (e.g., blood,WES,groupA). Together with the parameters `--ae_groups`, `--as_groups`, and `--mae_groups` to specify which groups to run in each subworkflow, it allows you to perform different analyses (for example, across different tissue groups) within a single run. All groups will be analysed in their respective subworkflow if the `groups` parameters are missing.
 
 | RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE\*          | DROP_GROUP | PAIRED_END | COUNT_MODE         | COUNT_OVERLAPS | STRAND |
 | ------- | ------------------- | ----------------------- | ---------- | ---------- | ------------------ | -------------- | ------ |
