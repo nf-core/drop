@@ -4,6 +4,7 @@ include { SPLICECOUNTS_MERGESPLITREADS          } from '../../../modules/local/s
 include { SPLICECOUNTS_COUNTNONSPLITREADS       } from '../../../modules/local/splicecounts/countnonsplitreads'
 include { SPLICECOUNTS_MERGENONSPLITREADS       } from '../../../modules/local/splicecounts/mergenonsplitreads'
 include { SPLICECOUNTS_COLLECTCOUNTS            } from '../../../modules/local/splicecounts/collectcounts'
+include { SPLICECOUNTS_SUMMARY                  } from '../../../modules/local/splicecounts/summary'
 include { FRASER_PSIVALUECALCULATION            } from '../../../modules/local/fraser/psivaluecalculation'
 include { FRASER_FILTEREXPRESSION               } from '../../../modules/local/fraser/filterexpression'
 include { FRASER_FITHYPERPARAMS                 } from '../../../modules/local/fraser/fithyperparams'
@@ -292,6 +293,22 @@ workflow ABERRANTSPLICING {
         aberrant_splicing_config_R
     )
     ch_versions = ch_versions.mix(FRASER_FILTEREXPRESSION.out.versions.first())
+
+    //
+    // SPLICECOUNTS_SUMMARY
+    //
+
+    def ch_splicecounts_summary = FRASER_FILTEREXPRESSION.out.fdsobj
+        .join(FRASER_FILTEREXPRESSION.out.fdsobj_raw, failOnMismatch: true, failOnDuplicate: true)
+        .map { meta, fdsobj, fdsobj_raw  -> [ meta, fdsobj, fdsobj_raw, meta.drop_group ] }
+        .view {println "[DEBUG ch_splicecounts_summary] $it" }
+
+    SPLICECOUNTS_SUMMARY(
+        ch_splicecounts_summary,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(SPLICECOUNTS_SUMMARY.out.versions.first())
 
     //
     // FRASER_FITHYPERPARAMS
