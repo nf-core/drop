@@ -6,7 +6,7 @@
 
 ## Introduction
 
-nf-core/drop allows controlling which subworkflows to run via variable in the config file (`ae_run` (Aberrant Expression), `as_run` (Aberrant Splicing), `mae_run` (Mono-Allelic Expression)). By default, each subworkflow is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
+nf-core/drop allows controlling which subworkflows to run via parameters (`--ae_run` (Aberrant Expression), `--as_run` (Aberrant Splicing), `--mae_run` (Mono-Allelic Expression)). By default, each subworkflow is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
 
 ## Samplesheet input
 
@@ -16,7 +16,7 @@ Each row of the sample annotation table corresponds to a unique RNA sample. The 
 
 ### DROP_GROUP
 
-DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple groups must be separated by commas and no spaces (e.g., blood,WES,groupA). Together with the options `--ae_groups`, `--as_groups`, and `--mae_groups` to specify which groups to run in each subworkflow, it allows you to perform different analyses (for example, across different tissue groups) within a single run.
+DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple groups must be separated by commas and no spaces (e.g., blood,WES,groupA). Together with the parameters `--ae_groups`, `--as_groups`, and `--mae_groups` to specify which groups to run in each subworkflow, it allows you to perform different analyses (for example, across different tissue groups) within a single run. All groups will be analysed in their respective subworkflow if the `groups` parameters are missing.
 
 | RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE\*          | DROP_GROUP | PAIRED_END | COUNT_MODE         | COUNT_OVERLAPS | STRAND |
 | ------- | ------------------- | ----------------------- | ---------- | ---------- | ------------------ | -------------- | ------ |
@@ -26,7 +26,7 @@ DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple group
 
 ### MAE
 
-To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are needed. MAE can not be run in samples using external counts as we need to use the `RNA_BAM_FILE` to count reads supporting each allele of the heterozygous variants found in the `DNA_VCF_FILE`.
+To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are needed. MAE can not be run in samples using external counts as we need to use the `RNA_BAM_FILE` to count reads supporting each allele of the heterozygous variants found in the `DNA_VCF_FILE`. You also need to provide the parameter `--ucsc_fasta <path/to/fasta>` and/or `--ncbi_fasta <path/to/fasta>`, depending on the value specified in the `GENOME` column.
 
 | RNA_ID  | RNA_BAM_FILE              | RNA_BAI_FILE                  | DNA_ID  | DNA_VCF_FILE                    | DNA_TBI_FILE\*                      | DROP_GROUP  | STRAND | GENOME |
 | ------- | ------------------------- | ----------------------------- | ------- | ------------------------------- | ----------------------------------- | ----------- | ------ | ------ |
@@ -34,6 +34,14 @@ To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are
 | HG00103 | /path/to/HG00103.bam      | /path/to/HG00103.bam.bai      | HG00103 | /path/to/demo_chr21.vcf.gz      | /path/to/demo_chr21.vcf.gz.tbi      | mae,batch_1 | no     | ucsc   |
 
 <sub>\* You can provide the Tabix index file in the `DNA_TBI_FILE` column. If this column is not specified, the pipeline will automatically generate index files from the VCF files.<sub>
+
+The columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME` can be empty for the AE and AS subworkflow. For example, you can run `--ae_groups group1 --as_groups group1 --mae_groups group2` with the samplesheet below.
+
+| RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE            | DROP_GROUP    | STRAND | DNA_ID  | DNA_VCF_FILE              | DNA_TBI_FILE                  | GENOME |
+| ------- | ------------------- | ----------------------- | ------------- | ------ | ------- | ------------------------- | ----------------------------- | ------ |
+| HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | group1,group2 | no     | HG00103 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
+| HG00106 | path/to/HG00106.bam | path/to/HG00106.bam.bai | group1,group2 | no     | HG00106 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
+| HG00111 | path/to/HG00111.bam | path/to/HG00111.bam.bai | group1        |        |         |                           |                               |        |
 
 ### Using External Counts
 
