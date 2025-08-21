@@ -48,7 +48,6 @@ First, prepare a samplesheet with your input data that looks as follows:
 | ------- | ------------------- | ----------------------- | ------------- | ------ | ------- | ------------------------- | ----------------------------- | ------ |
 | HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | group1,group2 | no     | HG00103 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
 | HG00106 | path/to/HG00106.bam | path/to/HG00106.bam.bai | group1,group2 | no     | HG00106 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
-| HG00111 | path/to/HG00111.bam | path/to/HG00111.bam.bai | group1        |        |         |                           |                               |        |
 
 Each row requires a unique RNA_ID, a BAM file, DROP_GROUP and STRAND. For MAE additional DNA_ID, DNA_VCF_FILE and GENOME.
 
@@ -64,11 +63,8 @@ nextflow run nf-core/drop \
    --genome hg19 \
    --gene_annotation <path/to/gene/annotation/yaml> \
    --ae_run true \
-   --ae_groups <DROP_GROUP1,DROP_GROUP2,...> \        #e.g. --ae_groups 'group1,group2,all'
-   --as_run true  \
-   --as_groups <DROP_GROUP1,DROP_GROUP2,...> \        #e.g. --as_groups 'group2,all'
-   --mae_run true  \
-   --mae_groups <DROP_GROUP1,DROP_GROUP2,...> \       #e.g. --mae_groups 'mae'
+   --as_run true \
+   --mae_run true \
    --ucsc_fasta <path/to/fasta>
 ```
 

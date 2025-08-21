@@ -26,7 +26,7 @@ DROP_GROUP are the analysis groups that the RNA assay belongs to. Multiple group
 
 ### MAE
 
-To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are needed. MAE can not be run in samples using external counts as we need to use the `RNA_BAM_FILE` to count reads supporting each allele of the heterozygous variants found in the `DNA_VCF_FILE`.
+To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are needed. MAE can not be run in samples using external counts as we need to use the `RNA_BAM_FILE` to count reads supporting each allele of the heterozygous variants found in the `DNA_VCF_FILE`. You also need to provide the parameter `--ucsc_fasta <path/to/fasta>` and/or `--ncbi_fasta <path/to/fasta>`, depending on the value specified in the `GENOME` column.
 
 | RNA_ID  | RNA_BAM_FILE              | RNA_BAI_FILE                  | DNA_ID  | DNA_VCF_FILE                    | DNA_TBI_FILE\*                      | DROP_GROUP  | STRAND | GENOME |
 | ------- | ------------------------- | ----------------------------- | ------- | ------------------------------- | ----------------------------------- | ----------- | ------ | ------ |
@@ -34,6 +34,14 @@ To run the MAE subworkflow, the columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME`are
 | HG00103 | /path/to/HG00103.bam      | /path/to/HG00103.bam.bai      | HG00103 | /path/to/demo_chr21.vcf.gz      | /path/to/demo_chr21.vcf.gz.tbi      | mae,batch_1 | no     | ucsc   |
 
 <sub>\* You can provide the Tabix index file in the `DNA_TBI_FILE` column. If this column is not specified, the pipeline will automatically generate index files from the VCF files.<sub>
+
+The columns `DNA_ID`, `DNA_VCF_FILE` and `GENOME` can be empty for the AE and AS subworkflow. For example, you can run `--ae_groups group1 --as_groups group1 --mae_groups group2` with the samplesheet below.
+
+| RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE            | DROP_GROUP    | STRAND | DNA_ID  | DNA_VCF_FILE              | DNA_TBI_FILE                  | GENOME |
+| ------- | ------------------- | ----------------------- | ------------- | ------ | ------- | ------------------------- | ----------------------------- | ------ |
+| HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | group1,group2 | no     | HG00103 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
+| HG00106 | path/to/HG00106.bam | path/to/HG00106.bam.bai | group1,group2 | no     | HG00106 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
+| HG00111 | path/to/HG00111.bam | path/to/HG00111.bam.bai | group1        |        |         |                           |                               |        |
 
 ### Using External Counts
 
