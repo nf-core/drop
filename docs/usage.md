@@ -6,7 +6,7 @@
 
 ## Introduction
 
-nf-core/drop allows controlling which subworkflows to run via variable in the config file (`ae_run` (Aberrant Expression), `as_run` (Aberrant Splicing), `mae_run` (Mono-Allelic Expression)). By default, each subworkflow is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
+nf-core/drop allows controlling which subworkflows to run via parameters (`--ae_run` (Aberrant Expression), `--as_run` (Aberrant Splicing), `--mae_run` (Mono-Allelic Expression)). By default, each subworkflow is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
 
 ## Samplesheet input
 
