@@ -44,11 +44,11 @@ First, prepare a samplesheet with your input data that looks as follows:
 
 `samplesheet.tsv`:
 
-| RNA_ID  | RNA_BAM_FILE | DROP_GROUP        | STRAND | DNA_VCF_FILE      | DNA_ID  | GENOME |
-| ------- | ------------ | ----------------- | ------ | ----------------- | ------- | ------ |
-| HG00096 | HG00096.bam  | group1,mae,all    | no     | demo_chr21.vcf.gz | HG00096 | ucsc   |
-| HG00103 | HG00103.bam  | group2,mae,all    | no     | demo_chr21.vcf.gz | HG00103 | ucsc   |
-| HG00105 | HG00105.bam  | group1,group2,all | no     |                   |         |        |
+| RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE            | DROP_GROUP    | STRAND | DNA_ID  | DNA_VCF_FILE              | DNA_TBI_FILE                  | GENOME |
+| ------- | ------------------- | ----------------------- | ------------- | ------ | ------- | ------------------------- | ----------------------------- | ------ |
+| HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | group1,group2 | no     | HG00103 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
+| HG00106 | path/to/HG00106.bam | path/to/HG00106.bam.bai | group1,group2 | no     | HG00106 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
+| HG00111 | path/to/HG00111.bam | path/to/HG00111.bam.bai | group1        |        |         |                           |                               |        |
 
 Each row requires a unique RNA_ID, a BAM file, DROP_GROUP and STRAND. For MAE additional DNA_ID, DNA_VCF_FILE and GENOME.
 
