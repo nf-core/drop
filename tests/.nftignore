@@ -1,3 +1,4 @@
 multiqc/**
 pipeline_info/**
 .DS_Store
+reports/**
