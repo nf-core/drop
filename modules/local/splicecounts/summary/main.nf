@@ -8,7 +8,7 @@ process SPLICECOUNTS_SUMMARY {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:b2aa4004c588aaaf' }"
 
     input:
-    tuple val(meta), path(fdsobj, stageAs: "savedObjects/*"), path(fdsobj_raw, stageAs: "savedObjects/*"), val(drop_group)
+    tuple val(meta), path(fdsobj_raw_local, stageAs: "savedObjects/*"), path(fdsobj_raw, stageAs: "savedObjects/*"), val(drop_group)
     val(fraser_version)
     path(config)
 
