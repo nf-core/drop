@@ -6,7 +6,7 @@ include { OUTRIDER_FIT                       } from '../../../modules/local/outr
 include { OUTRIDER_PVALS                     } from '../../../modules/local/outrider/pvals'
 include { OUTRIDER_RESULTS                   } from '../../../modules/local/outrider/results'
 include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
-include { MULTIQC as MULTIQC_COUNTEXPRESSION } from '../../../modules/nf-core/multiqc/main'
+include { MULTIQC as MULTIQC_GENECOUNTS      } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_OUTRIDER        } from '../../../modules/nf-core/multiqc/main'
 
 include { BAM_STATS_IDXSTATS_MERGE           } from "../bam_stats_idxstats_merge/"
@@ -211,7 +211,7 @@ workflow ABERRANTEXPRESSION {
     //
     // summary for expression counts
     //
-    def countexpression_summary_input = GENECOUNTS_FILTERCOUNTS.out.output
+    def genecounts_summary_input = GENECOUNTS_FILTERCOUNTS.out.output
                     .map { meta, ods_unfitted ->
                         [ meta.drop_group,      // key for join
                         meta,
@@ -223,7 +223,7 @@ workflow ABERRANTEXPRESSION {
                     }
 
     GENECOUNTS_SUMMARY(
-        countexpression_summary_input
+        genecounts_summary_input
     )
     ch_versions = ch_versions.mix(GENECOUNTS_SUMMARY.out.versions.first())
 
@@ -246,7 +246,7 @@ workflow ABERRANTEXPRESSION {
     //
     // multiqc for counting
     //
-    def multiqc_countexpression_input = GENECOUNTS_SUMMARY.out.sample_count
+    def multiqc_genecounts_input = GENECOUNTS_SUMMARY.out.sample_count
         .join(GENECOUNTS_SUMMARY.out.read_counts, remainder: true)
         .join(GENECOUNTS_SUMMARY.out.mapped_vs_counted)
         .join(GENECOUNTS_SUMMARY.out.size_factors)
@@ -263,20 +263,20 @@ workflow ABERRANTEXPRESSION {
         [ tag, files ]
     }
 
-    def ch_extra_cfg_countexpression = multiqc_countexpression_input
+    def ch_extra_cfg_genecounts = multiqc_genecounts_input
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            output_fn_name: "[TAG:genecounts_${tag}]_multiqc_report_mqc.html"
             data_dir_name:  "[TAG:${tag}]_multiqc_data"
             plots_dir_name: "[TAG:${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+            [ "[TAG:${tag}]_genecounts_config.yml", yaml ]
         }
 
-    MULTIQC_COUNTEXPRESSION(
-        multiqc_countexpression_input.map { it[1] },
-        Channel.fromPath("$projectDir/assets/multiqc_countexpression_config.yml", checkIfExists: true).collect(),
-        ch_extra_cfg_countexpression,
+    MULTIQC_GENECOUNTS(
+        multiqc_genecounts_input.map { it[1] },
+        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
+        ch_extra_cfg_genecounts,
         [],
         [],
         []
@@ -306,16 +306,16 @@ workflow ABERRANTEXPRESSION {
     def ch_extra_cfg_outrider = multiqc_outrider_input
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            output_fn_name: "[TAG:outrider_${tag}]_multiqc_report_mqc.html"
             data_dir_name:  "[TAG:${tag}]_multiqc_data"
             plots_dir_name: "[TAG:${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_countexpression_config.yml", yaml ]
+            [ "[TAG:${tag}]_outrider_config.yml", yaml ]
         }
 
     MULTIQC_OUTRIDER(
         multiqc_outrider_input.map { it[1] },
-        Channel.fromPath("$projectDir/assets/multiqc_outrider_config.yml", checkIfExists: true).collect(),
+        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_outrider_config.yml", checkIfExists: true).collect(),
         ch_extra_cfg_outrider,
         [],
         [],
@@ -326,5 +326,6 @@ workflow ABERRANTEXPRESSION {
     emit:
     versions  = ch_versions
     results   = OUTRIDER_RESULTS.out.results
-    count_report = MULTIQC_COUNTEXPRESSION.out.report.toList()
+    count_report = MULTIQC_GENECOUNTS.out.report.toList()
+    outrider_report = MULTIQC_OUTRIDER.out.report.toList()
 }
