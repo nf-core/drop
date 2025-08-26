@@ -1,0 +1,20 @@
+Changes in component 'nf-core/multiqc'
+'modules/nf-core/multiqc/meta.yml' is unchanged
+'modules/nf-core/multiqc/environment.yml' is unchanged
+Changes in 'multiqc/main.nf':
+--- modules/nf-core/multiqc/main.nf
++++ modules/nf-core/multiqc/main.nf
+@@ -15,7 +15,7 @@
+     path(sample_names)
+ 
+     output:
+-    path "*multiqc_report.html", emit: report
++    path "*multiqc_report*.html", emit: report
+     path "*_data"              , emit: data
+     path "*_plots"             , optional:true, emit: plots
+     path "versions.yml"        , emit: versions
+
+'modules/nf-core/multiqc/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/multiqc/tests/main.nf.test' is unchanged
+'modules/nf-core/multiqc/tests/nextflow.config' is unchanged
+************************************************************
