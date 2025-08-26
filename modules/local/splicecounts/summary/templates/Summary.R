@@ -29,7 +29,12 @@ devNull <- saveFraserDataSet(fdsMerge,dir=workingDir, name=paste0("raw-", datase
 #' ## Number of samples:
 #' Local: `r sum(!as.logical(fdsMerge@colData\$isExternal))`
 #' External: `r sum(as.logical(fdsMerge@colData\$isExternal))`
-#'
+n_local <- sum(!as.logical(fdsMerge@colData\$isExternal))
+n_external <- sum(as.logical(fdsMerge@colData\$isExternal))
+count_df <- data.frame(sample_type = c("Local", "External"),
+    count = c(n_local, n_external), stringsAsFactors = FALSE)
+write.table(count_df, file="number_of_samples_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
+
 #' ## Number of introns:
 #' Local (before filtering): `r length(rowRanges(fdsLocal, type = "j"))`
 #' ```{asis, echo = has_external}
@@ -39,7 +44,13 @@ devNull <- saveFraserDataSet(fdsMerge,dir=workingDir, name=paste0("raw-", datase
 #' length(rowRanges(fdsMerge, type = "j"))
 #' ```
 #' After filtering: `r sum(mcols(fdsMerge, type="j")[,"passed"])`
-#'
+n_introns_local_before  <- length(rowRanges(fdsLocal, type = "j"))
+n_introns_merged_before <- if (has_external) length(rowRanges(fdsMerge, type = "j")) else NA_integer_
+n_introns_after         <- sum(mcols(fdsMerge, type="j")[,"passed"])
+introns_df <- data.frame(type = c("Local (before filtering)", if (has_external) "Merged with external counts (before filtering)" else NULL, "After filtering"),
+    count = c(n_introns_local_before, if (has_external) n_introns_merged_before else NULL, n_introns_after), stringsAsFactors = FALSE)
+write.table(introns_df, file="number_of_introns_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
+
 #' ## Number of splice sites:
 #' Local: `r length(rowRanges(fdsLocal, type = "theta"))`
 #' ```{asis, echo = has_external}
@@ -48,7 +59,12 @@ devNull <- saveFraserDataSet(fdsMerge,dir=workingDir, name=paste0("raw-", datase
 #' ```{r, eval = has_external, echo=FALSE}
 #' length(rowRanges(fdsMerge, type = "theta"))
 #' ```
-#'
+n_splice_local  <- length(rowRanges(fdsLocal, type = "theta"))
+n_splice_merged <- if (has_external) length(rowRanges(fdsMerge, type = "theta")) else NA_integer_
+splice_df <- data.frame(type = c("Local", if (has_external) "Merged with external counts" else NULL),
+    count = c(n_splice_local, if (has_external) n_splice_merged else NULL), stringsAsFactors = FALSE)
+write.table(splice_df, file="number_of_splice_sites_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
+
 
 #' ```{asis, echo = has_external}
 #' ## Comparison of local and external counts
@@ -61,26 +77,23 @@ devNull <- saveFraserDataSet(fdsMerge,dir=workingDir, name=paste0("raw-", datase
 #'
 #' ```
 #' ```{r, eval = has_external, echo=has_external}
-#' if(has_external){
-#'     externalCountIDs <- colData(fdsMerge)[as.logical(colData(fdsMerge)[,"isExternal"]),"sampleID"]
-#'     localCountIDs <- colData(fdsMerge)[!as.logical(colData(fdsMerge)[,"isExternal"]),"sampleID"]
-#'
-#'     cts <- K(fdsMerge,"psi5")
-#'     ctsLocal<- cts[,localCountIDs,drop=FALSE]
-#'     ctsExt<- cts[,externalCountIDs,drop=FALSE]
-#'
-#'     rowMeanLocal <- rowMeans(ctsLocal)
-#'     rowMeanExt <- rowMeans(ctsExt)
-#'
-#'     dt <- data.table("Mean counts of local samples" = rowMeanLocal,
-#'                      "Mean counts of external samples" = rowMeanExt)
-#'
-#'     ggplot(dt,aes(x = `Mean counts of local samples`, y= `Mean counts of external samples`)) +
-#'        geom_hex() + theme_cowplot(font_size = 16) +
-#' 	   theme_bw() + scale_x_log10() + scale_y_log10() +
-#'        geom_abline(slope = 1, intercept =0) +
-#'        scale_color_brewer(palette="Dark2")
-#' }
+if(has_external){
+    externalCountIDs <- colData(fdsMerge)[as.logical(colData(fdsMerge)[,"isExternal"]),"sampleID"]
+    localCountIDs <- colData(fdsMerge)[!as.logical(colData(fdsMerge)[,"isExternal"]),"sampleID"]
+    cts <- K(fdsMerge,"psi5")
+    ctsLocal<- cts[,localCountIDs,drop=FALSE]
+    ctsExt<- cts[,externalCountIDs,drop=FALSE]
+    rowMeanLocal <- rowMeans(ctsLocal)
+    rowMeanExt <- rowMeans(ctsExt)
+    dt <- data.table("Mean counts of local samples" = rowMeanLocal,
+                     "Mean counts of external samples" = rowMeanExt)
+    p <- ggplot(dt,aes(x = `Mean counts of local samples`, y= `Mean counts of external samples`)) +
+       geom_hex() + theme_cowplot(font_size = 16) +
+	   theme_bw() + scale_x_log10() + scale_y_log10() +
+       geom_abline(slope = 1, intercept =0) +
+       scale_color_brewer(palette="Dark2")
+    ggsave("comparison_local_and_external_mqc.png", p, width = 5, height = 4, dpi = 196, bg = "white")
+}
 #' ```
 #'
 

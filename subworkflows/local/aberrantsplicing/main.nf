@@ -12,6 +12,9 @@ include { FRASER_FITAUTOENCODER                 } from '../../../modules/local/f
 include { FRASER_ANNOTATEGENES                  } from '../../../modules/local/fraser/annotategenes'
 include { FRASER_CALCULATESTATS                 } from '../../../modules/local/fraser/calculatestats'
 include { FRASER_EXTRACTRESULTS                 } from '../../../modules/local/fraser/extractresults'
+include { FRASER_SUMMARY                        } from '../../../modules/local/fraser/summary'
+include { MULTIQC as MULTIQC_SPLICECOUNTS       } from '../../../modules/nf-core/multiqc/main'
+include { MULTIQC as MULTIQC_FRASER             } from '../../../modules/nf-core/multiqc/main'
 
 workflow ABERRANTSPLICING {
     take:
@@ -406,6 +409,102 @@ workflow ABERRANTSPLICING {
     )
     ch_versions = ch_versions.mix(FRASER_EXTRACTRESULTS.out.versions.first())
 
+    //
+    // FRASER_SUMMARY
+    //
+    def ch_fraser_summary_input = ch_extractresults_input
+        .join(FRASER_EXTRACTRESULTS.out.results_aberrant, failOnMismatch: true, failOnDuplicate: true)
+        .map { meta, fds, _txdb, _drop_group, annotation, _samples, results_aberrant  -> [ meta, fds, results_aberrant, meta.drop_group, annotation ] }
+        .view {println "[DEBUG ch_fraser_summary] $it" }
+
+    FRASER_SUMMARY(
+        ch_fraser_summary_input,
+        params.as_padj_cutoff,
+        params.as_delta_psi_cutoff,
+        fraser_version,
+        aberrant_splicing_config_R,
+    )
+    ch_versions = ch_versions.mix(FRASER_SUMMARY.out.versions.first())
+
+    //
+    // multiqc for counting
+    //
+    def multiqc_splicecounts_input = SPLICECOUNTS_SUMMARY.out.number_of_samples
+        .join(SPLICECOUNTS_SUMMARY.out.number_of_introns)
+        .join(SPLICECOUNTS_SUMMARY.out.number_of_splice_sites)
+        .join(SPLICECOUNTS_SUMMARY.out.comparison_local_and_external, remainder: true)
+        .join(SPLICECOUNTS_SUMMARY.out.expression_filtering)
+        .join(SPLICECOUNTS_SUMMARY.out.variability_filtering)
+        .map { tup ->
+        def meta  = tup[0]
+        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
+        [ tag, files ]
+    }
+
+    def ch_extra_cfg_splicecounts = multiqc_splicecounts_input
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            data_dir_name:  "[TAG:${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            """.stripIndent()
+            [ "[TAG:${tag}]_splicecounts_config.yml", yaml ]
+        }
+
+    MULTIQC_SPLICECOUNTS(
+        multiqc_splicecounts_input.map { it[1] },
+        // Channel.fromPath("$projectDir/assets/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
+        [],
+        ch_extra_cfg_splicecounts,
+        [],
+        [],
+        []
+    )
+
+    //
+    // multiqc for fraser
+    //
+    // FRASER_SUMMARY.out.q_estimation.view {println "[DEBUG FRASER_SUMMARY.out.q_estimation] $it" }
+    // q_estimation_each = FRASER_SUMMARY.out.q_estimation.flatMap { meta, files ->
+    //     files.collect { f -> tuple(meta, f) }
+    // }.view {println "[DEBUG q_estimation_each] $it" }
+    FRASER_SUMMARY.out.q_estimation.groupTuple().view {println "[DEBUG q_estimation_each] $it" }
+    FRASER_SUMMARY.out.fraser_overview.groupTuple().view {println "[DEBUG fraser_overview] $it" }
+
+    def multiqc_fraser_input = FRASER_SUMMARY.out.fraser_overview
+        .join(FRASER_SUMMARY.out.q_estimation.groupTuple())
+        .join(FRASER_SUMMARY.out.aberrantly_spliced_genes)
+        .join(FRASER_SUMMARY.out.batch_correlation.groupTuple())
+        .join(FRASER_SUMMARY.out.results)
+        .map {  meta, overview, q_list, aberrant_png, bc_list, results_tsv  ->
+        def files = ([overview, aberrant_png, results_tsv] + q_list + bc_list).flatten().findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
+        [ tag, files ]
+    }
+
+    def ch_extra_cfg_fraser = multiqc_fraser_input
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
+            data_dir_name:  "[TAG:${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            """.stripIndent()
+            [ "[TAG:${tag}]_fraser_config.yml", yaml ]
+        }
+
+    MULTIQC_FRASER(
+        multiqc_fraser_input.map { it[1] },
+        // Channel.fromPath("$projectDir/assets/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
+        [],
+        ch_extra_cfg_fraser,
+        [],
+        [],
+        []
+    )
+
     emit:
     versions = ch_versions
+    count_report = MULTIQC_SPLICECOUNTS.out.report.toList()
+    outrider_report = MULTIQC_FRASER.out.report.toList()
 }

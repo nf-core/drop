@@ -1,4 +1,4 @@
-process SPLICECOUNTS_SUMMARY {
+process FRASER_SUMMARY {
     tag "${meta.id}"
     label 'process_low'
 
@@ -8,18 +8,19 @@ process SPLICECOUNTS_SUMMARY {
         'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:b2aa4004c588aaaf' }"
 
     input:
-    tuple val(meta), path(fdsobj_raw_local, stageAs: "savedObjects/*"), path(fdsobj_raw, stageAs: "savedObjects/*"), val(drop_group)
+    tuple val(meta), path(fdsin, stageAs: 'input/savedObjects/*'), path(results), val(drop_group), val(annotation_id)
+    val(padj_cutoff)
+    val(deltaPsi_cutoff)
     val(fraser_version)
     path(config)
 
     output:
-    tuple val(meta), path("number_of_samples_mqc.tsv")              , emit: number_of_samples
-    tuple val(meta), path("number_of_introns_mqc.tsv")              , emit: number_of_introns
-    tuple val(meta), path("number_of_splice_sites_mqc.tsv")         , emit: number_of_splice_sites
-    tuple val(meta), path("comparison_local_and_external_mqc.png")  , emit: comparison_local_and_external , optional: true
-    tuple val(meta), path("expression_filtering_mqc.png")           , emit: expression_filtering
-    tuple val(meta), path("variability_filtering_mqc.png")          , emit: variability_filtering
-    path  "versions.yml"                                            , emit: versions
+    tuple val(meta), path("fraser_overview_mqc.tsv")           , emit: fraser_overview
+    tuple val(meta), path("q_estimation*mqc.png")              , emit: q_estimation
+    tuple val(meta), path("aberrantly_spliced_genes_mqc.png")  , emit: aberrantly_spliced_genes
+    tuple val(meta), path("batch_correlation*mqc.png")         , emit: batch_correlation
+    tuple val(meta), path("results_mqc.tsv")                   , emit: results
+    path  "versions.yml"                                       , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -31,15 +32,15 @@ process SPLICECOUNTS_SUMMARY {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     #!/usr/bin/env Rscript
-    a <- file("sample_count_mqc.tsv", "w")
+    a <- file("fraser_overview_mqc.tsv", "w")
     close(a)
-    a <- file("number_of_introns_mqc.tsv", "w")
+    a <- file("q_estimation_x_mqc.png", "w")
     close(a)
-    a <- file("number_of_splice_sites_mqc.tsv", "w")
+    a <- file("aberrantly_spliced_genes_mqc.png", "w")
     close(a)
-    a <- file("expression_filtering_mqc.png", "w")
+    a <- file("batch_correlation_x_mqc.png", "w")
     close(a)
-    a <- file("variability_filtering_mqc.png", "w")
+    a <- file("results_mqc.tsv", "w")
     close(a)
 
     ## VERSIONS FILE
@@ -58,6 +59,7 @@ process SPLICECOUNTS_SUMMARY {
             paste('    r-plotly:', as.character(packageVersion('plotly'))),
             paste('    r-rhdf5:', as.character(packageVersion('rhdf5'))),
             paste('    r-cowplot:', as.character(packageVersion('cowplot'))),
+            paste('    r-rcolorbrewer:', as.character(packageVersion('RColorBrewer'))),
             paste('    bioconductor-genomicalignments:', as.character(packageVersion('GenomicAlignments'))),
             paste('    bioconductor-delayedmatrixstats:', as.character(packageVersion('DelayedMatrixStats'))),
             paste('    bioconductor-bsgenome:', as.character(packageVersion('BSgenome'))),
