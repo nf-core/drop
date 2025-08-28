@@ -304,7 +304,6 @@ workflow ABERRANTSPLICING {
     def ch_splicecounts_summary = ch_filterexpression_input
         .join(FRASER_FILTEREXPRESSION.out.fdsobj_raw, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, _count_dirs, _count_ids, _drop_group, fdsobj_raw  -> [ meta, fds, fdsobj_raw, meta.drop_group ] }
-        .view {println "[DEBUG ch_splicecounts_summary] $it" }
 
     SPLICECOUNTS_SUMMARY(
         ch_splicecounts_summary,
@@ -415,7 +414,6 @@ workflow ABERRANTSPLICING {
     def ch_fraser_summary_input = ch_extractresults_input
         .join(FRASER_EXTRACTRESULTS.out.results_aberrant, failOnMismatch: true, failOnDuplicate: true)
         .map { meta, fds, _txdb, _drop_group, annotation, _samples, results_aberrant  -> [ meta, fds, results_aberrant, meta.drop_group, annotation ] }
-        .view {println "[DEBUG ch_fraser_summary] $it" }
 
     FRASER_SUMMARY(
         ch_fraser_summary_input,

@@ -1,241 +1,137 @@
 {
-    "drop demo - ods_unfitted.Rds": {
+    "homo_sapiens - fds - stub": {
         "content": [
             [
                 [
                     {
-                        "id": "test"
+                        "id": "fraser"
                     },
-                    "sample_count_mqc.tsv"
+                    "fraser_overview_mqc.tsv"
                 ]
             ],
             [
                 [
                     {
-                        "id": "test"
+                        "id": "fraser"
                     },
-                    "mapped_vs_counted_mqc.png"
+                    [
+                        "q_estimation_x_mqc.png"
+                    ]
                 ]
             ],
             [
                 [
                     {
-                        "id": "test"
+                        "id": "fraser"
                     },
-                    "size_factors_mqc.png"
+                    "aberrantly_spliced_genes_mqc.png"
                 ]
             ],
             [
                 [
                     {
-                        "id": "test"
+                        "id": "fraser"
                     },
-                    "reads_statistics_mqc.tsv"
+                    [
+                        "batch_correlation_x_mqc.png"
+                    ]
                 ]
             ],
             [
                 [
                     {
-                        "id": "test"
+                        "id": "fraser"
                     },
-                    "meanCounts_mqc.png"
+                    "total_outliers_mqc.tsv"
                 ]
             ],
             [
                 [
                     {
-                        "id": "test"
+                        "id": "fraser"
                     },
-                    "expressedGenes_mqc.png"
+                    "results_mqc.tsv"
                 ]
             ],
             [
-                [
-                    {
-                        "id": "test"
-                    },
-                    "expressed_genes_mqc.tsv"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test"
-                    },
-                    "expression_sex_mqc.tsv"
-                ]
-            ],
-            [
-                "versions.yml:md5,ffd2684898bcc755a28c7f178bbc145a"
+                "versions.yml:md5,806378680c2edf2c44be48e2e4c02e92"
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-08-12T15:23:21.819822001"
+        "timestamp": "2025-08-28T11:53:57.43932689"
     },
-    "homo_sapiens - gtf - stub": {
+    "homo_sapiens - fds": {
         "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "sample_count_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "1": [
-                    
-                ],
-                "10": [
-                    
-                ],
-                "11": [
-                    "versions.yml:md5,ffd2684898bcc755a28c7f178bbc145a"
-                ],
-                "2": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "mapped_vs_counted_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "3": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "size_factors_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "4": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "reads_statistics_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "5": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "meanCounts_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "6": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "expressedGenes_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "7": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "expressed_genes_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "8": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "expression_sex_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "9": [
-                    
-                ],
-                "expressedGenes": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "expressedGenes_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "expressed_genes": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "expressed_genes_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "expression_sex": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "expression_sex_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "mapped_vs_counted": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "mapped_vs_counted_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "meanCounts": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "meanCounts_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "read_counts": [
-                    
-                ],
-                "reads_statistics": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "reads_statistics_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "sample_count": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "sample_count_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "sex_matched": [
-                    
-                ],
-                "size_factors": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "size_factors_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
-                    ]
-                ],
-                "versions": [
-                    "versions.yml:md5,ffd2684898bcc755a28c7f178bbc145a"
-                ],
-                "xist_uty": [
-                    
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "fraser_overview_mqc.tsv"
                 ]
-            }
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    [
+                        "q_estimation_psi3_mqc.png",
+                        "q_estimation_psi5_mqc.png",
+                        "q_estimation_theta_mqc.png"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "aberrantly_spliced_genes_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    [
+                        "batch_correlation_psi3_FALSE_mqc.png",
+                        "batch_correlation_psi3_TRUE_mqc.png",
+                        "batch_correlation_psi5_FALSE_mqc.png",
+                        "batch_correlation_psi5_TRUE_mqc.png",
+                        "batch_correlation_theta_FALSE_mqc.png",
+                        "batch_correlation_theta_TRUE_mqc.png"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "total_outliers_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "results_mqc.tsv"
+                ]
+            ],
+            [
+                "versions.yml:md5,806378680c2edf2c44be48e2e4c02e92"
+            ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-08-12T15:23:34.450200374"
+        "timestamp": "2025-08-28T12:32:21.915804723"
     }
 }
