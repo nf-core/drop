@@ -8,8 +8,6 @@ suppressPackageStartupMessages({
     library(cowplot)
 })
 
-opts_chunk\$set(fig.width=10, fig.height=8)
-
 #+ input
 dataset    <- "$drop_group"
 workingDir <- "./"
@@ -102,7 +100,7 @@ if(has_external){
 #'
 #' * at least 1 sample has `r snakemake@config\$aberrantSplicing\$minExpressionInOneSample` counts (K) for the intron
 #' * at least `r 100*(1-snakemake@config\$aberrantSplicing\$quantileForFiltering)`% of the samples need to have a total of at least `r snakemake@config\$aberrantSplicing\$quantileMinExpression` reads for the splice metric denominator (N) of the intron
-png("expression_filtering_mqc.png", width = 8, height = 6.4, units = "in", res = 196)
+png("expression_filtering_mqc.png", width = 5, height = 4, units = "in", res = 196)
 plotFilterExpression(fdsMerge) +
     labs(title="", x="Mean Intron Expression", y="Introns") +
     theme_cowplot(font_size = 16)
@@ -112,7 +110,7 @@ dev.off()
 #' The variability filtering step removes introns that have no or little variability in the splice metric values across samples. The requirement for an intron to pass this filter is:
 #'
 #' * at least 1 sample has a difference of at least `r snakemake@config\$aberrantSplicing\$minDeltaPsi` in the splice metric compared to the mean splice metric of the intron
-png("variability_filtering_mqc.png", width = 8, height = 6.4, units = "in", res = 196)
+png("variability_filtering_mqc.png", width = 5, height = 4, units = "in", res = 196)
 plotFilterVariability(fdsMerge) +
     labs(title="", y="Introns") +
     theme_cowplot(font_size = 16)

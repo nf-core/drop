@@ -86,7 +86,7 @@ bcv_dt <- rbind(before, after)
 p <- ggplot(bcv_dt, aes(when, BCV)) + geom_boxplot() + theme_bw(base_size = 14) +
     labs(x = "Autoencoder correction", y = "Biological coefficient \nof variation",
         title = dataset_title)
-ggsave("bcv_mqc.png", p, width = 5, height = 4, dpi = 196, bg = "white")
+ggsave("bcv_mqc.png", p, width = 3, height = 3, dpi = 196, bg = "white")
 
 #' ## Results
 res <- fread("$results")

@@ -1,0 +1,47 @@
+show_navigation: false
+
+custom_content:
+  order:
+    - number_of_samples
+    - number_of_introns
+    - number_of_splice_sites
+    - comparison_local_and_external
+    - expression_filtering
+
+custom_data:
+  number_of_samples:
+    section_name: "Number of samples"
+    format: "tsv"
+    plot_type: "table"
+
+  number_of_introns:
+    section_name: "Number of introns"
+    format: "tsv"
+    plot_type: "table"
+
+  number_of_splice_sites:
+    section_name: "Number of splice sites"
+    format: "tsv"
+    plot_type: "table"
+
+  comparison_local_and_external:
+    section_name: "Comparison of local and external counts"
+    description: |
+      Using external counts
+
+      External counts introduce some complexity into the problem of counting junctions because it is unknown whether or not a junction is not counted (because there are no reads) compared to filtered and not present due to legal/personal sharing reasons. As a result, after merging the local (counted from BAM files) counts and the external counts, only the junctions that are present in both remain. As a result it is likely that the number of junctions will decrease after merging.
+
+  expression_filtering:
+    section_name: "Expression filtering"
+    description: |
+      The expression filtering step removes introns that are lowly expressed. The requirements for an intron to pass this filter are:
+
+      - at least 1 sample has 20 counts (K) for the intron
+      - at least 5% of the samples need to have a total of at least 10 reads for the splice metric denominator (N) of the intron
+
+  variability_filtering:
+    section_name: "Variability filtering"
+    description: |
+      The variability filtering step removes introns that have no or little variability in the splice metric values across samples. The requirement for an intron to pass this filter is:
+
+      - at least 1 sample has a difference of at least 0.05 in the splice metric compared to the mean splice metric of the intron

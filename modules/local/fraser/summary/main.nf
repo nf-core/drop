@@ -19,6 +19,7 @@ process FRASER_SUMMARY {
     tuple val(meta), path("q_estimation*mqc.png")              , emit: q_estimation
     tuple val(meta), path("aberrantly_spliced_genes_mqc.png")  , emit: aberrantly_spliced_genes
     tuple val(meta), path("batch_correlation*mqc.png")         , emit: batch_correlation
+    tuple val(meta), path("total_outliers_mqc.tsv")            , emit: total_outliers
     tuple val(meta), path("results_mqc.tsv")                   , emit: results
     path  "versions.yml"                                       , emit: versions
 
@@ -39,6 +40,8 @@ process FRASER_SUMMARY {
     a <- file("aberrantly_spliced_genes_mqc.png", "w")
     close(a)
     a <- file("batch_correlation_x_mqc.png", "w")
+    close(a)
+    a <- file("total_outliers_mqc.tsv", "w")
     close(a)
     a <- file("results_mqc.tsv", "w")
     close(a)

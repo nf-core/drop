@@ -438,25 +438,34 @@ workflow ABERRANTSPLICING {
         .map { tup ->
         def meta  = tup[0]
         def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
-        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
+        def tag   = "${meta.id}" // tag for publishDir
         [ tag, files ]
     }
+    .tap { splicecounts_by_tag }
 
-    def ch_extra_cfg_splicecounts = multiqc_splicecounts_input
+    def ch_extra_cfg_splicecounts = splicecounts_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
-            data_dir_name:  "[TAG:${tag}]_multiqc_data"
-            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            output_fn_name: "[TAG:splicecounts_${tag}]_multiqc_report_mqc.html"
+            data_dir_name:  "[TAG:splicecounts_${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:splicecounts_${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_splicecounts_config.yml", yaml ]
+            [ "[TAG:splicecounts_${tag}]_config.yml", yaml ]
         }
+        .map { Path cfg ->
+        def m = (cfg.getName() =~ /\[TAG:splicecounts_([^\]]+)\]_config\.yml$/)
+        def tag = m ? m[0][1] : cfg.baseName
+        [ tag, cfg ]
+    }
+
+    def ch_splicecounts_bundle = multiqc_splicecounts_input
+        .join(ch_extra_cfg_splicecounts)
+        .map { _tag, files, cfg -> [files, cfg] }
 
     MULTIQC_SPLICECOUNTS(
-        multiqc_splicecounts_input.map { it[1] },
-        // Channel.fromPath("$projectDir/assets/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
-        [],
-        ch_extra_cfg_splicecounts,
+        ch_splicecounts_bundle.map { it[0] },
+        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_splicecounts_config.yml", checkIfExists: true).collect(),
+        ch_splicecounts_bundle.map { it[1] },
         [],
         [],
         []
@@ -465,39 +474,43 @@ workflow ABERRANTSPLICING {
     //
     // multiqc for fraser
     //
-    // FRASER_SUMMARY.out.q_estimation.view {println "[DEBUG FRASER_SUMMARY.out.q_estimation] $it" }
-    // q_estimation_each = FRASER_SUMMARY.out.q_estimation.flatMap { meta, files ->
-    //     files.collect { f -> tuple(meta, f) }
-    // }.view {println "[DEBUG q_estimation_each] $it" }
-    FRASER_SUMMARY.out.q_estimation.groupTuple().view {println "[DEBUG q_estimation_each] $it" }
-    FRASER_SUMMARY.out.fraser_overview.groupTuple().view {println "[DEBUG fraser_overview] $it" }
 
     def multiqc_fraser_input = FRASER_SUMMARY.out.fraser_overview
         .join(FRASER_SUMMARY.out.q_estimation.groupTuple())
         .join(FRASER_SUMMARY.out.aberrantly_spliced_genes)
         .join(FRASER_SUMMARY.out.batch_correlation.groupTuple())
+        .join(FRASER_SUMMARY.out.total_outliers)
         .join(FRASER_SUMMARY.out.results)
-        .map {  meta, overview, q_list, aberrant_png, bc_list, results_tsv  ->
-        def files = ([overview, aberrant_png, results_tsv] + q_list + bc_list).flatten().findAll { it instanceof Path } // drop meta and null
-        def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
+        .map {  meta, overview, q_list, aberrant_png, bc_list, total_outliers, results_tsv  ->
+        def files = ([overview, aberrant_png, total_outliers, results_tsv] + q_list + bc_list).flatten().findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}" // tag for publishDir
         [ tag, files ]
     }
+    .tap { fraser_by_tag }
 
-    def ch_extra_cfg_fraser = multiqc_fraser_input
+    def ch_extra_cfg_fraser = fraser_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:${tag}]_multiqc_report.html"
-            data_dir_name:  "[TAG:${tag}]_multiqc_data"
-            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            output_fn_name: "[TAG:fraser_${tag}]_multiqc_report_mqc.html"
+            data_dir_name:  "[TAG:fraser_${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:fraser_${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_fraser_config.yml", yaml ]
+            [ "[TAG:fraser_${tag}]_config.yml", yaml ]
         }
+        .map { Path cfg ->
+        def m = (cfg.getName() =~ /\[TAG:fraser_([^\]]+)\]_config\.yml$/)
+        def tag = m ? m[0][1] : cfg.baseName
+        [ tag, cfg ]
+    }
+
+    def ch_fraser_bundle = multiqc_fraser_input
+        .join(ch_extra_cfg_fraser)
+        .map { _tag, files, cfg -> [files, cfg] }
 
     MULTIQC_FRASER(
-        multiqc_fraser_input.map { it[1] },
-        // Channel.fromPath("$projectDir/assets/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
-        [],
-        ch_extra_cfg_fraser,
+        ch_fraser_bundle.map { it[0] },
+        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_fraser_config.yml", checkIfExists: true).collect(),
+        ch_fraser_bundle.map { it[1] },
         [],
         [],
         []
@@ -506,5 +519,5 @@ workflow ABERRANTSPLICING {
     emit:
     versions = ch_versions
     count_report = MULTIQC_SPLICECOUNTS.out.report.toList()
-    outrider_report = MULTIQC_FRASER.out.report.toList()
+    fraser_report = MULTIQC_FRASER.out.report.toList()
 }

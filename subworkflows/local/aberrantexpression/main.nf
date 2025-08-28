@@ -262,21 +262,31 @@ workflow ABERRANTEXPRESSION {
         def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
         [ tag, files ]
     }
+    .tap { genecounts_by_tag }
 
-    def ch_extra_cfg_genecounts = multiqc_genecounts_input
+    def ch_extra_cfg_genecounts = genecounts_by_tag
         .collectFile { tag, _ ->
             def yaml = """
             output_fn_name: "[TAG:genecounts_${tag}]_multiqc_report_mqc.html"
-            data_dir_name:  "[TAG:${tag}]_multiqc_data"
-            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            data_dir_name:  "[TAG:genecounts_${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:genecounts_${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_genecounts_config.yml", yaml ]
+            [ "[TAG:genecounts_${tag}]_config.yml", yaml ]
         }
+        .map { Path cfg ->
+        def m = (cfg.getName() =~ /\[TAG:genecounts_([^\]]+)\]_config\.yml$/)
+        def tag = m ? m[0][1] : cfg.baseName
+        [ tag, cfg ]
+    }
+
+    def ch_genecounts_bundle = multiqc_genecounts_input
+        .join(ch_extra_cfg_genecounts)
+        .map { _tag, files, cfg -> [files, cfg] }
 
     MULTIQC_GENECOUNTS(
-        multiqc_genecounts_input.map { it[1] },
+        ch_genecounts_bundle.map { it[0] },
         Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
-        ch_extra_cfg_genecounts,
+        ch_genecounts_bundle.map { it[1] },
         [],
         [],
         []
@@ -302,21 +312,31 @@ workflow ABERRANTEXPRESSION {
         def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
         [ tag, files ]
     }
+    .tap { outrider_by_tag }
 
-    def ch_extra_cfg_outrider = multiqc_outrider_input
+    def ch_extra_cfg_outrider = outrider_by_tag
         .collectFile { tag, _ ->
             def yaml = """
             output_fn_name: "[TAG:outrider_${tag}]_multiqc_report_mqc.html"
-            data_dir_name:  "[TAG:${tag}]_multiqc_data"
-            plots_dir_name: "[TAG:${tag}]_multiqc_plots"
+            data_dir_name:  "[TAG:outrider_${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:outrider_${tag}]_multiqc_plots"
             """.stripIndent()
-            [ "[TAG:${tag}]_outrider_config.yml", yaml ]
+            [ "[TAG:outrider_${tag}]_config.yml", yaml ]
         }
+        .map { Path cfg ->
+        def m = (cfg.getName() =~ /\[TAG:outrider_([^\]]+)\]_config\.yml$/)
+        def tag = m ? m[0][1] : cfg.baseName
+        [ tag, cfg ]
+    }
+
+    def ch_outrider_bundle = multiqc_outrider_input
+        .join(ch_extra_cfg_outrider)
+        .map { _tag, files, cfg -> [files, cfg] }
 
     MULTIQC_OUTRIDER(
-        multiqc_outrider_input.map { it[1] },
+        ch_outrider_bundle.map { it[0] },
         Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_outrider_config.yml", checkIfExists: true).collect(),
-        ch_extra_cfg_outrider,
+        ch_outrider_bundle.map { it[1] },
         [],
         [],
         []

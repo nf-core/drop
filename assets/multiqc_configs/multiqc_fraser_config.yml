@@ -1,0 +1,72 @@
+show_navigation: false
+
+custom_content:
+  order:
+    - fraser_overview
+    - q_estimation_psi5
+    - q_estimation_psi3
+    - q_estimation_theta
+    - q_estimation_jaccard
+    - aberrantly_spliced_genes
+    - batch_correlation_psi5_FALSE
+    - batch_correlation_psi5_TRUE
+    - batch_correlation_psi3_FALSE
+    - batch_correlation_psi3_TRUE
+    - batch_correlation_theta_FALSE
+    - batch_correlation_theta_TRUE
+    - batch_correlation_jaccard_FALSE
+    - batch_correlation_jaccard_TRUE
+    - total_outliers
+    - results
+
+custom_data:
+  fraser_overview:
+    section_name: "Fraser overview"
+    format: "tsv"
+    plot_type: "table"
+
+  q_estimation_psi5:
+    section_name: "Hyperparameter optimization - Q_estimation_psi5"
+
+  q_estimation_psi3:
+    section_name: "Hyperparameter optimization - Q_estimation_psi3"
+
+  q_estimation_theta:
+    section_name: "Hyperparameter optimization - Q_estimation_theta"
+
+  q_estimation_jaccard:
+    section_name: "Hyperparameter optimization"
+    description: "Q_estimation_jaccard"
+
+  aberrantly_spliced_genes:
+    section_name: "Aberrantly spliced genes"
+
+  batch_correlation_psi5_FALSE:
+    section_name: "Batch Correlation psi5 raw"
+  batch_correlation_psi5_TRUE:
+    section_name: "Batch correlation psi5 normalized"
+
+  batch_correlation_psi3_FALSE:
+    section_name: "Batch Correlation psi3 raw"
+  batch_correlation_psi3_TRUE:
+    section_name: "Batch correlation psi3 normalized"
+
+  batch_correlation_theta_FALSE:
+    section_name: "Batch Correlation theta raw"
+  batch_correlation_theta_TRUE:
+    section_name: "Batch correlation theta normalized"
+
+  batch_correlation_jaccard_FALSE:
+    section_name: "Batch Correlation jaccard raw"
+  batch_correlation_jaccard_TRUE:
+    section_name: "Batch correlation jaccard normalized"
+
+  total_outliers:
+    section_name: "Results"
+    format: "tsv"
+    plot_type: "table"
+    description: "Total splicing outliers"
+
+  results:
+    section_name: "Results table"
+    description: "FRASER results (up to 500 rows shown)"

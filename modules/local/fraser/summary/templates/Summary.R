@@ -50,14 +50,14 @@ for(type in psiTypes){
   if (!is.null(g)) {
     g <- g + theme_cowplot(font_size = 16) +
       ggtitle(paste0("Q estimation, ", type)) + theme(legend.position = "none")
-    png(paste0("q_estimation_", type,"_mqc.png"), width = 8, height = 6.4, units = "in", res = 196)
+    png(paste0("q_estimation_", type,"_mqc.png"), width = 4, height = 3, units = "in", res = 196)
     print(g)
     dev.off()
   }
 }
 
 #' ## Aberrantly spliced genes per sample
-png("aberrantly_spliced_genes_mqc.png", width = 8, height = 6.4, units = "in", res = 196)
+png("aberrantly_spliced_genes_mqc.png", width = 4, height = 3, units = "in", res = 196)
 plotAberrantPerSample(fds, type=psiTypes,
                       padjCutoff = padj_cutoff, deltaPsiCutoff = deltaPsi_cutoff,
                       aggregate=TRUE, main=dataset_title) +
@@ -92,8 +92,8 @@ for(type in psiTypes){
     ggsave(
       filename = sprintf("batch_correlation_%s_%s_mqc.png", type, normalized),
       plot     = hm,
-      width    = 8,
-      height   = 6.4,
+      width    = 5,
+      height   = 4,
       units    = "in",
       dpi      = 196
     )
@@ -106,6 +106,10 @@ res <- fread("$results")
 
 #' Total gene-level splicing outliers: `r nrow(res)`
 #'
+n_outliers <- nrow(res)
+count_df <- data.frame(type = c("Total gene-level splicing outliers"),
+    count = c(n_outliers), stringsAsFactors = FALSE)
+write.table(count_df, file="total_outliers_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
 
 # file <- snakemake@output\$res_html
 # write_tsv(res, file = file)
@@ -131,7 +135,7 @@ if(nrow(res) > 0){
 #   escape=FALSE,
 #   filter = 'top'
 # )
-fwrite(head(cbind(row_id = rownames(res), res), 1000),"results_mqc.tsv", sep = "\t", quote = F)
+fwrite(head(cbind(row_id = rownames(res), res), 500),"results_mqc.tsv", sep = "\t", quote = F)
 
 ## VERSIONS FILE
 writeLines(
