@@ -148,9 +148,6 @@ workflow DROP {
             hpo_file,
             ae_groups,
         )
-        ABERRANTEXPRESSION.out.count_report.view { println "[DEBUG count_report] $it"  }
-        ABERRANTEXPRESSION.out.outrider_report.view { println "[DEBUG outrider_report] $it"  }
-
         ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(ABERRANTEXPRESSION.out.count_report)
         ch_multiqc_files = ch_multiqc_files.mix(ABERRANTEXPRESSION.out.outrider_report)
@@ -244,7 +241,7 @@ workflow DROP {
             sort: true
         )
     )
-    ch_multiqc_files.view { println "[DEBUG multiqc input] $it"  }
+
     MULTIQC (
         ch_multiqc_files.collect(),
         ch_multiqc_config.toList(),
