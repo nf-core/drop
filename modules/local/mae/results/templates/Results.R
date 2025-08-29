@@ -133,6 +133,7 @@ ggsave("variant_frequency_mqc.png", p, width = 5, height = 4, dpi = 196, bg = "w
 fwrite(melt_dt[, .(median = median(value, na.rm = T)), by = variable],"median_of_each_category_mqc.tsv", sep = "\t", quote = F)
 
 # round numbers
+setorder(res, pvalue)
 if(nrow(res) > 0){
     res[, pvalue := signif(pvalue, 3)]
     res[, padj := signif(padj, 3)]
