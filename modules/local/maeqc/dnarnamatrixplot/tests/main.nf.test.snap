@@ -98,99 +98,54 @@
     },
     "homo_sapiens": {
         "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "matching_values_distribution_mqc.png:md5,ba320a9719a947b920af4b5c7e22d3aa"
-                    ]
-                ],
-                "1": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "heatmap_matching_variants_mqc.png:md5,bd68ac13e42cc4450f7480116d221e54"
-                    ]
-                ],
-                "2": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "identify_matching_samples_mqc.tsv:md5,73628163fa0fea02fe242dbaf33b14ad"
-                    ]
-                ],
-                "3": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "false_matches_mqc.tsv:md5,c7e7a1808562ad27c1a5eeefb131a804"
-                    ]
-                ],
-                "4": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "false_mismatches_mqc.tsv:md5,3624f04241e054c6348f75f31ffc8fff"
-                    ]
-                ],
-                "5": [
-                    "versions.yml:md5,bf791ac1fcfd415182ab18de2d35116c"
-                ],
-                "false_matches": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "false_matches_mqc.tsv:md5,c7e7a1808562ad27c1a5eeefb131a804"
-                    ]
-                ],
-                "false_mismatches": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "false_mismatches_mqc.tsv:md5,3624f04241e054c6348f75f31ffc8fff"
-                    ]
-                ],
-                "heatmap_matching_variants": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "heatmap_matching_variants_mqc.png:md5,bd68ac13e42cc4450f7480116d221e54"
-                    ]
-                ],
-                "identify_matching_samples": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "identify_matching_samples_mqc.tsv:md5,73628163fa0fea02fe242dbaf33b14ad"
-                    ]
-                ],
-                "matching_values_distribution": [
-                    [
-                        {
-                            "id": "mae"
-                        },
-                        "matching_values_distribution_mqc.png:md5,ba320a9719a947b920af4b5c7e22d3aa"
-                    ]
-                ],
-                "versions": [
-                    "versions.yml:md5,bf791ac1fcfd415182ab18de2d35116c"
+            [
+                [
+                    {
+                        "id": "mae"
+                    },
+                    "matching_values_distribution_mqc.png:md5,ba320a9719a947b920af4b5c7e22d3aa"
                 ]
-            }
+            ],
+            [
+                [
+                    {
+                        "id": "mae"
+                    },
+                    "heatmap_matching_variants_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "mae"
+                    },
+                    "identify_matching_samples_mqc.tsv:md5,73628163fa0fea02fe242dbaf33b14ad"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "mae"
+                    },
+                    "false_matches_mqc.tsv:md5,c7e7a1808562ad27c1a5eeefb131a804"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "mae"
+                    },
+                    "false_mismatches_mqc.tsv:md5,3624f04241e054c6348f75f31ffc8fff"
+                ]
+            ],
+            [
+                "versions.yml:md5,bf791ac1fcfd415182ab18de2d35116c"
+            ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-08-29T14:07:47.255541014"
+        "timestamp": "2025-08-29T14:49:41.443742443"
     }
 }
