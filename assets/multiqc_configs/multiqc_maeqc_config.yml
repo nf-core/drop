@@ -36,7 +36,7 @@ custom_data:
       - Is the sample a relative of the other?
 
   false_matches:
-    section_name: Samples that were annotated to match but do not"
+    section_name: "Samples that were annotated to match but do not"
 
   false_mismatches:
     section_name: "Samples that were not annotated to match but actually do"
