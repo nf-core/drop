@@ -17,13 +17,13 @@ custom_data:
     description: |
       a cascade plot that shows a progression of added filters
 
-      - >10 counts: only variants supported by more than 10 counts
-      - +MAE: and shows mono allelic expression
-      - +MAE for REF : the monoallelic expression favors the reference allele
-      - +MAE for ALT : the monoallelic expression favors the alternative allele
-      - rare:
-      - if add_AF is set to true in config file must meet minimum AF set by the config value max_AF
-      - must meet the inner-cohort frequency maxVarFreqCohort cutoff
+      - `>10 counts`: only variants supported by more than 10 counts
+      - `+MAE`: and shows mono allelic expression
+      - `+MAE for REF`: the monoallelic expression favors the reference allele
+      - `+MAE for ALT`: the monoallelic expression favors the alternative allele
+      - `rare`:
+        - if add_AF is set to true in config file must meet minimum AF set by the config value max_AF
+        - must meet the inner-cohort frequency maxVarFreqCohort cutoff
 
   variant_frequency:
     section_name: "Variant Frequency within Cohort"
