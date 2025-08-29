@@ -1,0 +1,196 @@
+{
+    "homo_sapiens - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "matching_values_distribution_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "heatmap_matching_variants_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "identify_matching_samples_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_matches_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_mismatches_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,bf791ac1fcfd415182ab18de2d35116c"
+                ],
+                "false_matches": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_matches_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "false_mismatches": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_mismatches_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "heatmap_matching_variants": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "heatmap_matching_variants_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "identify_matching_samples": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "identify_matching_samples_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "matching_values_distribution": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "matching_values_distribution_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,bf791ac1fcfd415182ab18de2d35116c"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-29T12:42:32.876074559"
+    },
+    "homo_sapiens": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "matching_values_distribution_mqc.png:md5,ba320a9719a947b920af4b5c7e22d3aa"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "heatmap_matching_variants_mqc.png:md5,bd68ac13e42cc4450f7480116d221e54"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "identify_matching_samples_mqc.tsv:md5,73628163fa0fea02fe242dbaf33b14ad"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_matches_mqc.tsv:md5,c7e7a1808562ad27c1a5eeefb131a804"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_mismatches_mqc.tsv:md5,3624f04241e054c6348f75f31ffc8fff"
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,bf791ac1fcfd415182ab18de2d35116c"
+                ],
+                "false_matches": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_matches_mqc.tsv:md5,c7e7a1808562ad27c1a5eeefb131a804"
+                    ]
+                ],
+                "false_mismatches": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "false_mismatches_mqc.tsv:md5,3624f04241e054c6348f75f31ffc8fff"
+                    ]
+                ],
+                "heatmap_matching_variants": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "heatmap_matching_variants_mqc.png:md5,bd68ac13e42cc4450f7480116d221e54"
+                    ]
+                ],
+                "identify_matching_samples": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "identify_matching_samples_mqc.tsv:md5,73628163fa0fea02fe242dbaf33b14ad"
+                    ]
+                ],
+                "matching_values_distribution": [
+                    [
+                        {
+                            "id": "mae"
+                        },
+                        "matching_values_distribution_mqc.png:md5,ba320a9719a947b920af4b5c7e22d3aa"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,bf791ac1fcfd415182ab18de2d35116c"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-29T13:16:39.041118798"
+    }
+}

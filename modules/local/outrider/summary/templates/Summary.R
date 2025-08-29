@@ -124,7 +124,7 @@ if (nrow(res) > 0) {
 file <- paste0("OUTRIDER_results_", "$drop_group", ".tsv")
 fwrite(res, file, sep = "\t", quote = F)
 
-
+setorder(res, pValue)
 if (nrow(res) > 0) {
     res[, pValue := format(pValue, scientific = T, digits = 3)]
     res[, padjust := format(padjust, scientific = T, digits = 3)]

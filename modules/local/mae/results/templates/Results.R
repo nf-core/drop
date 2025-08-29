@@ -76,6 +76,13 @@ res[, MAE := padj <= $padj_cutoff &
     ]
 res[, MAE_ALT := MAE == TRUE & altRatio >= allelicRatioCutoff]
 
+n_samples <- uniqueN(res\$ID)
+n_genes <- uniqueN(res\$gene_name)
+n_significant <- uniqueN(res[MAE_ALT == TRUE, ID])
+count_df <- data.frame(sample_type = c("Number of samples", "Number of genes", "Number of samples with significant MAE for ALT"),
+    count = c(n_samples, n_genes, n_significant), stringsAsFactors = FALSE)
+write.table(count_df, file="mae_overview_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, sep = "\t")
+
 # Save full results zipped
 res[, altRatio := round(altRatio, 3)]
 fwrite(res, paste0("MAE_results_all_", prefix, ".tsv.gz"), sep = '\t',
@@ -107,20 +114,23 @@ melt_dt[variable == 'N_MAE_ALT', variable := '+MAE for\nALT']
 melt_dt[variable == 'N_MAE_REF_RARE', variable := '+MAE for REF\n& rare']
 melt_dt[variable == 'N_MAE_ALT_RARE', variable := '+MAE for ALT\n& rare']
 
-ggplot(melt_dt, aes(variable, value)) + geom_boxplot() +
+## Cascade plot
+p <- ggplot(melt_dt, aes(variable, value)) + geom_boxplot() +
     scale_y_log10(limits = c(1,NA)) + theme_bw(base_size = 14) +
     labs(y = 'Heterozygous SNVs per patient', x = '') +
         annotation_logticks(sides = "l")
+ggsave("cascade_plot_mqc.png", p, width = 5, height = 4, dpi = 196, bg = "white")
 
 #'
 #' ## Variant Frequency within Cohort
-ggplot(unique(res[,cohort_freq,by =.(gene_name, contig, position)]),aes(x = cohort_freq)) + geom_histogram( binwidth = 0.02)  +
+p <- ggplot(unique(res[,cohort_freq,by =.(gene_name, contig, position)]),aes(x = cohort_freq)) + geom_histogram( binwidth = 0.02)  +
     geom_vline(xintercept = maxCohortFreq, col = "red",linetype="dashed") + theme_bw(base_size = 14) +
     xlim(0,NA) + xlab("Variant frequency in cohort") + ylab("Variants")
+ggsave("variant_frequency_mqc.png", p, width = 5, height = 4, dpi = 196, bg = "white")
 
 #' Median of each category
-DT::datatable(melt_dt[, .(median = median(value, na.rm = T)), by = variable])
-
+# DT::datatable(melt_dt[, .(median = median(value, na.rm = T)), by = variable])
+fwrite(melt_dt[, .(median = median(value, na.rm = T)), by = variable],"median_of_each_category_mqc.tsv", sep = "\t", quote = F)
 
 # round numbers
 if(nrow(res) > 0){
@@ -130,12 +140,14 @@ if(nrow(res) > 0){
 }
 #'
 #' ## MAE Results table
-DT::datatable(
-    head(res[MAE_ALT == TRUE], 1000),
-    caption = 'MAE results (up to 1,000 rows shown)',
-    options=list(scrollX=TRUE),
-    filter = 'top'
-)
+# DT::datatable(
+#     head(res[MAE_ALT == TRUE], 1000),
+#     caption = 'MAE results (up to 1,000 rows shown)',
+#     options=list(scrollX=TRUE),
+#     filter = 'top'
+# )
+res_alt <- res[MAE_ALT == TRUE]
+fwrite(head(cbind(row_id = rownames(res_alt), res_alt), 500),"results_mqc.tsv", sep = "\t", quote = F)
 
 ## VERSIONS FILE
 writeLines(

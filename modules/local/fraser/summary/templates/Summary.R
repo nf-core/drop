@@ -135,6 +135,7 @@ if(nrow(res) > 0){
 #   escape=FALSE,
 #   filter = 'top'
 # )
+setorder(res, pValue)
 fwrite(head(cbind(row_id = rownames(res), res), 500),"results_mqc.tsv", sep = "\t", quote = F)
 
 ## VERSIONS FILE
