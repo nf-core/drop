@@ -199,6 +199,8 @@ workflow DROP {
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )
         ch_versions = ch_versions.mix(MAE.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(MAE.out.mae_report)
+        ch_multiqc_files = ch_multiqc_files.mix(MAE.out.maeqc_report)
     }
 
     //
