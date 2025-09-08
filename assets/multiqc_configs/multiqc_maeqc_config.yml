@@ -1,0 +1,42 @@
+custom_content:
+  order:
+    - matching_values_distribution
+    - heatmap_matching_variants
+    - identify_matching_samples
+    - false_matches
+    - false_mismatches
+
+custom_data:
+  matching_values_distribution:
+    section_name: "DNA - RNA matching values distribution"
+
+  heatmap_matching_variants:
+    section_name: "Heatmap of matching variants"
+    description: |
+      Shows the proportion of matching DNA (rows) - RNA (cols) variants. Possible values are:
+
+      - match: the DNA sample matches the annotated RNA sample
+      - no match: the DNA sample does not match the annotated RNA and no match was found
+      - matches other: the DNA sample does not match the annotated RNA, but another match was found
+      - matches more: the DNA sample matches the annotated RNA, but also other RNAs not annotated to match
+      - matches less: the DNA sample is annotated with more than 1 RNA. Not all annotated RNAs are correct.
+
+      Similar for the RNAs.
+
+  identify_matching_samples:
+    section_name: "Identify matching samples"
+    format: "tsv"
+    plot_type: "table"
+    description: |
+      Considerations: On our experience, the median of the proportion of matching variants in matching samples is around 0.95, and the median of the proportion of matching variants in not matching samples is around 0.58. Sometimes we do see some values between 0.7 - 0.85. That could mean that the DNA-RNA combination is not from the same person, but from a relative. It could also be due to a technical error. For those cases, check the following:
+
+      - RNA sequencing depth (low seq depth that can lead to variants not to be found in the RNA)
+      - Number of variants (too many variants called due to sequencing errors)
+      - Ratio of heterozygous/homozygous variants (usually too many called variants means too many heterozygous ones)
+      - Is the sample a relative of the other?
+
+  false_matches:
+    section_name: "Samples that were annotated to match but do not"
+
+  false_mismatches:
+    section_name: "Samples that were not annotated to match but actually do"

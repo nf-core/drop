@@ -1,0 +1,100 @@
+nextflow_process {
+
+    name "Test Process SPLICECOUNTS_SUMMARY"
+    script "../main.nf"
+    process "SPLICECOUNTS_SUMMARY"
+
+    tag "modules"
+    tag "modules_local"
+    tag "SPLICECOUNTS_SUMMARY"
+
+    setup {
+        run("UNTAR", alias: "FDS_UNTAR_RAW_LOCAL") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/fraser/psivaluecalculation/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+        run("UNTAR", alias: "FDS_UNTAR_LOCAL") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/fraser/filterexpression/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens") {
+
+        when {
+            process {
+                """
+                input[0] = FDS_UNTAR_RAW_LOCAL.out.untar
+                .join(FDS_UNTAR_LOCAL.out.untar)
+                .map { meta, fdsobj_rawlocal, fdsobj_raw ->
+                    [
+                        [id:'fraser'],
+                        fdsobj_rawlocal.resolve("raw-local-fraser"),
+                        fdsobj_raw.resolve("raw-fraser"),
+                        "fraser"
+                    ]
+                }
+                input[1] = "FRASER" // fraser version
+                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.number_of_samples.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.number_of_introns.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.number_of_splice_sites.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.expression_filtering.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.variability_filtering.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - gtf - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = FDS_UNTAR_RAW_LOCAL.out.untar
+                .join(FDS_UNTAR_LOCAL.out.untar)
+                .map { meta, fdsobj_rawlocal, fdsobj_raw ->
+                    [
+                        [id:'fraser'],
+                        fdsobj_rawlocal.resolve("raw-local-fraser"),
+                        fdsobj_raw.resolve("raw-local"),
+                        "fraser"
+                    ]
+                }
+                input[1] = "FRASER" // fraser version
+                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

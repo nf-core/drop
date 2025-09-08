@@ -149,6 +149,9 @@ workflow DROP {
             ae_groups,
         )
         ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTEXPRESSION.out.count_report)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTEXPRESSION.out.outrider_report)
+
     }
 
     //
@@ -168,6 +171,8 @@ workflow DROP {
             file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
         )
         ch_versions = ch_versions.mix(ABERRANTSPLICING.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTSPLICING.out.count_report)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTSPLICING.out.fraser_report)
     }
 
     //
@@ -191,6 +196,8 @@ workflow DROP {
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )
         ch_versions = ch_versions.mix(MAE.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(MAE.out.mae_report)
+        ch_multiqc_files = ch_multiqc_files.mix(MAE.out.maeqc_report)
     }
 
     //
