@@ -79,7 +79,7 @@ Additionally the `mae` subworkflow creates the following files:
 <summary>Output files</summary>
 
 - `multiqc/`
-  - `multiqc_report.html`: a standalone HTML file that can be viewed in your web browser.
+  - `multiqc_report.html`: a merged report for all subworkflows.
   - `multiqc_data/`: directory containing parsed statistics from the different tools used in the pipeline.
   - `multiqc_plots/`: directory containing static images from the report in various formats.
 
