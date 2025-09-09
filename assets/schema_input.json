@@ -35,7 +35,7 @@
                 "pattern": "^\\S+$",
                 "errorMessage": "DNA ID must be provided and cannot contain spaces",
                 "meta": ["dna_id"],
-                "description": "Unique identifier for the DNA sample. Must not contain spaces."
+                "description": "Identifier for the DNA sample. Must not contain spaces."
             },
             "DNA_VCF_FILE": {
                 "type": "string",

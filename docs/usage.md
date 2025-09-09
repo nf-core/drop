@@ -6,7 +6,7 @@
 
 ## Introduction
 
-nf-core/drop allows controlling which subworkflows to run via parameters (`--ae_run` (Aberrant Expression), `--as_run` (Aberrant Splicing), `--mae_run` (Mono-Allelic Expression)). By default, each subworkflow is set to false. We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
+nf-core/drop allows controlling which subworkflows to run. By default, all subworkflows will run. You can skip subsworkflow via parameters (`--ae_skip` (Aberrant Expression), `--as_skip` (Aberrant Splicing), `--mae_skip` (Mono-Allelic Expression)). We describe different global and module-specific parameters in the [parameter documentation](https://nf-co.re/drop/parameters).
 
 ## Samplesheet input
 
@@ -100,12 +100,32 @@ the `DROP_GROUP` BLOOD_AS for the aberrant expression module (containing S10R, E
 
 An [example samplesheet](../assets/samplesheet.tsv) has been provided with the pipeline.
 
+| Column              | Description                                                                                                                                                                                          |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RNA_ID`            | Unique identifier for the RNA sample.                                                                                                                                                                |
+| `RNA_BAM_FILE`      | Path to the RNA BAM file.                                                                                                                                                                            |
+| `RNA_BAI_FILE`      | Path to the RNA BAM index file. It will be automatically generated from the BAM files if not given.                                                                                                  |
+| `DNA_ID`            | Identifier for the DNA sample. It shall be the sample header in the VCF file.                                                                                                                        |
+| `DNA_VCF_FILE`      | Path to the DNA VCF file.                                                                                                                                                                            |
+| `DNA_TBI_FILE`      | Path to the DNA VCF index file. It will be automatically generated from the VCF files if not given.                                                                                                  |
+| `DROP_GROUP`        | See [above](#drop_group).                                                                                                                                                                            |
+| `PAIRED_END`        | Indicates if the input is paired-end or single-end. Default: `true` (paired-end). Refer to the documentation of [HTSeq](https://htseq.readthedocs.io/en/latest/).                                    |
+| `COUNT_MODE`        | Count mode. Default: `IntersectionStrict`. Options: `union`, `IntersectionStrict`, `IntersectionNotEmpty`. Refer to the documentation of [HTSeq](https://htseq.readthedocs.io/en/latest/).           |
+| `COUNT_OVERLAPS`    | Indicates if overlaps should be counted. Default: `true`. Refer to the documentation of [HTSeq](https://htseq.readthedocs.io/en/latest/).                                                            |
+| `STRAND`            | Samples within each `DROP_GROUP` should either be stranded (`yes`, `reverse`, or a combination of `yes` and `reverse`) or unstranded (only `no`), and this can vary between different `DROP_GROUP`s. |
+| `HPO_TERMS`         | Comma-separated list of HPO terms associated with the sample.                                                                                                                                        |
+| `GENE_COUNTS_FILE`  | Path to the gene counts file (`.tsv` or `.tsv.gz`). See details also [above](#aberrant-expression).                                                                                                  |
+| `GENE_ANNOTATION`   | Gene annotation in YAML format, e.g. [assets/gene_annotation.yaml](../assets/gene_annotation.yaml).                                                                                                  |
+| `GENOME`            | See details [above](#mae). Default: `ucsc`. Options: `ncbi`, `ucsc`.                                                                                                                                 |
+| `SPLICE_COUNTS_DIR` | Path to the splice counts directory. See details [above](#aberrant-splicing).                                                                                                                        |
+| `SEX`               | Sex of the sample. Samples of `m`, `male`, `f`, `femal` are analysed for sex bias aberrant expression report.                                                                                        |
+
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/drop --input ./samplesheet.tsv --outdir ./results --genome hg19 --gene_annotation ./gene_annotation.yaml -profile docker --ae_run true
+nextflow run nf-core/drop --input ./samplesheet.tsv --outdir ./results --genome hg19 --gene_annotation ./gene_annotation.yaml -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
