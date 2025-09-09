@@ -96,7 +96,7 @@
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.tsv(?:\\.gz)?$",
+                "pattern": "^\\S+\\.tsv(\\.gz)?$",
                 "errorMessage": "The gene counts file has to exist, cannot contain spaces and must have extension '.tsv' or '.tsv.gz'",
                 "description": "Path to the gene counts file. Must exist and cannot contain spaces."
             },
