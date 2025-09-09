@@ -4,8 +4,8 @@ process MAE_CREATESNVS {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/df/df6c4aa9794afac9bce253cdf10ae357321449acb3ade91f403f06304eec2851/data' :
-        'community.wave.seqera.io/library/bcftools_gatk4_htslib_samtools:255ed784054aa652' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/df/df2fe51e455c97d1598ba04a7d0cf8805a51eee5debda3e608f3a64ff72a261f/data' :
+        'community.wave.seqera.io/library/bcftools_gatk4_htslib_samtools:949037bf07506ba9' }"
 
     input:
     tuple val(meta), path(vcf), path(tbi), path(bam), path(bai), val(dna_id)

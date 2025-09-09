@@ -1,36 +1,23 @@
 {
     "homo_sapiens - ods fitted": {
         "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "test.Rds:md5,b0697690e09bf9580c6638b10dbed461"
-                    ]
-                ],
-                "1": [
-                    "versions.yml:md5,576a9cbc39fc6020faaa0f7a0465f024"
-                ],
-                "ods_with_pvals": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "test.Rds:md5,b0697690e09bf9580c6638b10dbed461"
-                    ]
-                ],
-                "versions": [
-                    "versions.yml:md5,576a9cbc39fc6020faaa0f7a0465f024"
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "test.Rds:md5,593980dbef1fb45658a01213da5e285a"
                 ]
-            }
+            ],
+            [
+                "versions.yml:md5,576a9cbc39fc6020faaa0f7a0465f024"
+            ]
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-05-19T11:01:54.497853636"
+        "timestamp": "2025-09-09T10:13:16.839005522"
     },
     "homo_sapiens - ods fitted - stub": {
         "content": [
