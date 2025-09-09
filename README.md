@@ -62,9 +62,6 @@ nextflow run nf-core/drop \
    --outdir <OUTDIR> \
    --genome hg19 \
    --gene_annotation <path/to/gene/annotation/yaml> \
-   --ae_run true \
-   --as_run true \
-   --mae_run true \
    --ucsc_fasta <path/to/fasta>
 ```
 

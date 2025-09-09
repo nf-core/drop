@@ -8,9 +8,9 @@ nextflow_pipeline {
         when {
             params {
                 outdir = "${outputDir}"
-                ae_run = true
-                as_run = false
-                mae_run = false
+                ae_skip = false
+                as_skip = true
+                mae_skip = true
             }
         }
 
