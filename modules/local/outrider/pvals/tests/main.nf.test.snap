@@ -6,7 +6,7 @@
                     {
                         "id": "test"
                     },
-                    "test.Rds:md5,593980dbef1fb45658a01213da5e285a"
+                    "test.Rds"
                 ]
             ],
             [
@@ -17,7 +17,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-09-09T10:13:16.839005522"
+        "timestamp": "2025-09-09T11:30:56.31842866"
     },
     "homo_sapiens - ods fitted - stub": {
         "content": [
