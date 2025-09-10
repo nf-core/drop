@@ -10,14 +10,14 @@
                 ]
             ],
             [
-                "versions.yml:md5,576a9cbc39fc6020faaa0f7a0465f024"
+                "versions.yml:md5,a703c6740a18e66bdf0fa097879a49ae"
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-09-09T11:30:56.31842866"
+        "timestamp": "2025-09-10T19:37:21.117967803"
     },
     "homo_sapiens - ods fitted - stub": {
         "content": [
@@ -31,7 +31,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,576a9cbc39fc6020faaa0f7a0465f024"
+                    "versions.yml:md5,a703c6740a18e66bdf0fa097879a49ae"
                 ],
                 "ods_with_pvals": [
                     [
@@ -42,14 +42,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,576a9cbc39fc6020faaa0f7a0465f024"
+                    "versions.yml:md5,a703c6740a18e66bdf0fa097879a49ae"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-05-19T11:02:03.425299783"
+        "timestamp": "2025-09-10T19:37:40.100778901"
     }
 }
