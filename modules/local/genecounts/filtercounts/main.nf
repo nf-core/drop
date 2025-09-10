@@ -4,8 +4,8 @@ process GENECOUNTS_FILTERCOUNTS {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/a9/a971e624aad46fc672638427d28931d13257642ce54743d6a3869d305eecd642/data' :
-        'community.wave.seqera.io/library/bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-data.table:c6ad593656300741' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/7c/7ce5b3968fffff40e5f0ee411b06d26c117985c558d976181e5b3d8575bf3b89/data' :
+        'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:536d062a9b8ef2c5' }"
 
     input:
     tuple val(meta), path(counts), path(txdb)

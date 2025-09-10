@@ -4,8 +4,8 @@ process OUTRIDER_SUMMARY {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/02/02b44404c5bf450fc2ec0a3247408b09096e0f429afc4c4ad4cf46f06238a110/data' :
-        'community.wave.seqera.io/library/bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-cowplot_pruned:0059eff556e3bc37' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/7c/7ce5b3968fffff40e5f0ee411b06d26c117985c558d976181e5b3d8575bf3b89/data' :
+        'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:536d062a9b8ef2c5' }"
 
     input:
     tuple val(meta), path(ods), path(results), val(drop_group), val(annotation_id)
