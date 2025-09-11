@@ -3,7 +3,6 @@ process MAE_DESEQ {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container 'nf-core/deseqmae:1.0.4'
     container "${ params.add_af ? 'nf-core/deseqmae:1.0.4' :
         workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/45/4561f708be5a850be48042f0d4d21b2a121fa77576604832da55f650da5735b5/data' :
