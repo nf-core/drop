@@ -35,7 +35,7 @@
                 "pattern": "^\\S+$",
                 "errorMessage": "DNA ID must be provided and cannot contain spaces",
                 "meta": ["dna_id"],
-                "description": "Unique identifier for the DNA sample. Must not contain spaces."
+                "description": "Identifier for the DNA sample. Must not contain spaces."
             },
             "DNA_VCF_FILE": {
                 "type": "string",
@@ -96,8 +96,8 @@
                 "type": "string",
                 "format": "file-path",
                 "exists": true,
-                "pattern": "^\\S+\\.tsv\\.gz$",
-                "errorMessage": "The gene counts file has to exist, cannot contain spaces and must have extension '.tsv.gz'",
+                "pattern": "^\\S+\\.tsv(\\.gz)?$",
+                "errorMessage": "The gene counts file has to exist, cannot contain spaces and must have extension '.tsv' or '.tsv.gz'",
                 "description": "Path to the gene counts file. Must exist and cannot contain spaces."
             },
             "GENE_ANNOTATION": {

@@ -47,18 +47,18 @@ workflow DROP {
     ec_exclude_groups   // list:          A list of groups to exclude from the counts export
 
     // Aberrant expression parameters
-    ae_run              // boolean:       Run aberrant expression analysis
+    ae_skip             // boolean:       Skip aberrant expression analysis
     ae_groups           // list:          A list of groups to exclude from the aberrant expression analysis
     ae_genes_to_test    // map:           A map containing the names of genes to test
 
     // Aberrant splicing parameters
-    as_run              // boolean:       Run aberrant splicing analysis
+    as_skip             // boolean:       Skip aberrant splicing analysis
     as_groups           // list:          A list of groups to exclude from the aberrant splicing analysis
     as_fraser_version   // string:        Fraser version to use for aberrant splicing analysis
     as_genes_to_test    // map:           A map containing the names of genes to test
 
     // Mono Allelic Expression parameters
-    mae_run             // boolean:       Run mono allelic expression analysis
+    mae_skip            // boolean:       Skip mono allelic expression analysis
     mae_groups          // list:          A list of groups to exclude from the mono allelic expression analysis
     mae_qc_groups       // list:          A list of groups to exclude from QC steps in the mono allelic expression analysis
 
@@ -137,7 +137,7 @@ workflow DROP {
     // Abberant expression
     //
 
-    if(ae_run) {
+    if(!ae_skip) {
         ABERRANTEXPRESSION(
             input.abberantexpression,
             PREPROCESSGENEANNOTATION.out.count_ranges,
@@ -158,7 +158,7 @@ workflow DROP {
     // Aberrant splicing
     //
 
-    if (as_run) {
+    if (!as_skip) {
         ABERRANTSPLICING(
             input.aberrantsplicing,
             PREPROCESSGENEANNOTATION.out.txdb,
@@ -179,7 +179,7 @@ workflow DROP {
     // Mono Allelic Expression
     //
 
-    if(mae_run) {
+    if(!mae_skip) {
         MAE(
             input.mae,
             ucsc_fasta,
