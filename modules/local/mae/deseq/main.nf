@@ -3,7 +3,7 @@ process MAE_DESEQ {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container "${ add_af == true ? 'nf-core/deseqmae:1.0.4' :
+    container "${ add_af == true ? 'nf-core/deseqmae:1.0.4b' :
         (workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/2a/2a1fe185a170643337ce71d84c9262cf0fe44adb3f2fa51c5cd6007aebeebe18/data' :
         'community.wave.seqera.io/library/bioconductor-genomicranges_r-tmae_r-base_r-r.utils_r-stringr:e9d522a02847448b') }"
