@@ -50,8 +50,8 @@ nextflow_process {
             assertAll (
                 { assert process.success },
                 { assert snapshot(
-                    file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
-                    file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    file_list.findAll { !(file(it.toString()).name in ["fds-object.RDS", "pvaluesBetaBinomial_psi5.h5", "pvaluesBetaBinomial_theta.h5", "pvaluesBetaBinomial_junction_psi5.h5", "pvaluesBetaBinomial_junction_theta.h5"])},
+                    file_list.findAll { file(it.toString()).name in ["fds-object.RDS", "pvaluesBetaBinomial_psi5.h5", "pvaluesBetaBinomial_theta.h5", "pvaluesBetaBinomial_junction_psi5.h5", "pvaluesBetaBinomial_junction_theta.h5"]}.collect { file(it.toString()).name },
                     process.out.versions
                 ).match() }
             )
