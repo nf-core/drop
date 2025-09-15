@@ -8,8 +8,9 @@ include { OUTRIDER_RESULTS                   } from '../../../modules/local/outr
 include { OUTRIDER_SUMMARY                   } from '../../../modules/local/outrider/summary'
 include { MULTIQC as MULTIQC_GENECOUNTS      } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_OUTRIDER        } from '../../../modules/nf-core/multiqc/main'
-
 include { BAM_STATS_IDXSTATS_MERGE           } from "../bam_stats_idxstats_merge/"
+include { STRIP_NAV_MULTIQC as STRIP_NAV_GENECOUNTS     } from '../../../modules/local/strip_nav_multiqc/'
+include { STRIP_NAV_MULTIQC as STRIP_NAV_OUTRIDER       } from '../../../modules/local/strip_nav_multiqc/'
 
 workflow ABERRANTEXPRESSION {
     take:
@@ -267,7 +268,7 @@ workflow ABERRANTEXPRESSION {
     def ch_extra_cfg_genecounts = genecounts_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:genecounts_${tag}]_multiqc_report_mqc.html"
+            output_fn_name: "[TAG:genecounts_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:genecounts_${tag}]_multiqc_data"
             plots_dir_name: "[TAG:genecounts_${tag}]_multiqc_plots"
             """.stripIndent()
@@ -317,7 +318,7 @@ workflow ABERRANTEXPRESSION {
     def ch_extra_cfg_outrider = outrider_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:outrider_${tag}]_multiqc_report_mqc.html"
+            output_fn_name: "[TAG:outrider_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:outrider_${tag}]_multiqc_data"
             plots_dir_name: "[TAG:outrider_${tag}]_multiqc_plots"
             """.stripIndent()
@@ -342,10 +343,12 @@ workflow ABERRANTEXPRESSION {
         []
     )
 
+    STRIP_NAV_GENECOUNTS(MULTIQC_GENECOUNTS.out.report)
+    STRIP_NAV_OUTRIDER(MULTIQC_OUTRIDER.out.report)
 
     emit:
     versions  = ch_versions
     results   = OUTRIDER_RESULTS.out.results
-    count_report = MULTIQC_GENECOUNTS.out.report.toList()
-    outrider_report = MULTIQC_OUTRIDER.out.report.toList()
+    count_report = STRIP_NAV_GENECOUNTS.out.report.toList()
+    outrider_report = STRIP_NAV_OUTRIDER.out.report.toList()
 }
