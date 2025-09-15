@@ -47,8 +47,6 @@ writeLines(
         paste('    r-base:', strsplit(version[['version.string']], ' ')[[1]][3]),
         paste('    r-r.utils:', as.character(packageVersion('R.utils'))),
         paste('    r-string:', as.character(packageVersion('stringr'))),
-        paste('    r-tmae:', as.character(packageVersion('tMAE'))),
-        paste('    bioconductor-mafdb.gnomad-r2.1.grch38:', as.character(packageVersion('MafDb.gnomAD.r2.1.GRCh38'))),
-        paste('    bioconductor-mafdb.gnomad-r2.1.hs37d5:', as.character(packageVersion('MafDb.gnomAD.r2.1.hs37d5')))
+        paste('    r-tmae:', as.character(packageVersion('tMAE')))
     ),
 'versions.yml')

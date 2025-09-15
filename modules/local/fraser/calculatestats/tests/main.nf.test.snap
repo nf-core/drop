@@ -22,11 +22,7 @@
                 "psi3.h5:md5,e4718d51a2deba1a3eac0dd0ecfe725a",
                 "psi5.h5:md5,bc4a333776535472090ad585e8e006ef",
                 "pvaluesBetaBinomial_junction_psi3.h5:md5,2c40c6916d6a674ac797f7eb9af1f3e0",
-                "pvaluesBetaBinomial_junction_psi5.h5:md5,bf4a9ea1d840bfda7133e3af9be12066",
-                "pvaluesBetaBinomial_junction_theta.h5:md5,4df41aabd4e876d2c965916e515ad793",
                 "pvaluesBetaBinomial_psi3.h5:md5,ce595a8ef6d382859108f9f23eb7cd58",
-                "pvaluesBetaBinomial_psi5.h5:md5,0e176c189b747394b1a135a137fd81cd",
-                "pvaluesBetaBinomial_theta.h5:md5,f09966dd529f5d54cb4c3be1d8190554",
                 "rawCountsJ.h5:md5,64f8b27cc8cb2bc47de81f0a8cdf51e5",
                 "rawCountsJnonsplit.h5:md5,769e925164bf81231c9b325954171e6a",
                 "rawCountsSS.h5:md5,1bd7d5c2256f1c509142d8a779929f01",
@@ -37,7 +33,11 @@
                 "theta.h5:md5,45e4ee34c95792a5b15f566fcadeee21"
             ],
             [
-                "fds-object.RDS"
+                "fds-object.RDS",
+                "pvaluesBetaBinomial_junction_psi5.h5",
+                "pvaluesBetaBinomial_junction_theta.h5",
+                "pvaluesBetaBinomial_psi5.h5",
+                "pvaluesBetaBinomial_theta.h5"
             ],
             [
                 "versions.yml:md5,c2230506da2802610cc2143196972faf"
@@ -47,7 +47,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-08-12T13:33:08.458817805"
+        "timestamp": "2025-09-09T12:24:11.592076778"
     },
     "homo_sapiens - fds, cache - stub": {
         "content": [

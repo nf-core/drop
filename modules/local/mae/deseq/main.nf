@@ -3,7 +3,10 @@ process MAE_DESEQ {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container 'nf-core/deseqmae:1.0.4'
+    container "${ add_af == true ? 'nf-core/deseqmae:1.0.4b' :
+        (workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/2a/2a1fe185a170643337ce71d84c9262cf0fe44adb3f2fa51c5cd6007aebeebe18/data' :
+        'community.wave.seqera.io/library/bioconductor-genomicranges_r-tmae_r-base_r-r.utils_r-stringr:e9d522a02847448b') }"
 
     input:
     tuple val(meta), path(counts)
@@ -37,9 +40,7 @@ process MAE_DESEQ {
             paste('    r-base:', strsplit(version[['version.string']], ' ')[[1]][3])
             # paste('    r-r.utils:', as.character(packageVersion('R.utils'))),
             # paste('    r-string:', as.character(packageVersion('stringr'))),
-            # paste('    r-tmae:', as.character(packageVersion('tMAE'))),
-            # paste('    bioconductor-mafdb.gnomad-r2.1.grch38:', as.character(packageVersion('MafDb.gnomAD.r2.1.GRCh38'))),
-            # paste('    bioconductor-mafdb.gnomad-r2.1.hs37d5:', as.character(packageVersion('MafDb.gnomAD.r2.1.hs37d5')))
+            # paste('    r-tmae:', as.character(packageVersion('tMAE')))
         ),
     'versions.yml')
     """

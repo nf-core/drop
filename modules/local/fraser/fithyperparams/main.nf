@@ -5,8 +5,8 @@ process FRASER_FITHYPERPARAMS {
     // TODO discuss if this container should be split up, library loading should be done in the module script instead in that case
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/3e/3e8560898529101d3e70df5dc164124740084c05a48ced2baf0128379825d04e/data' :
-        'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:6ecb1e6b5187b515' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/c8/c87aab5452ff7d6a9344148e284ca01a8c5d2239d7b0f26164da1806a8c59875/data' :
+        'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:b2aa4004c588aaaf' }"
 
     input:
     tuple val(meta), path(fds, stageAs:'input/savedObjects/*'), val(drop_group)
