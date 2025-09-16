@@ -31,7 +31,6 @@ process GENECOUNTS_SUMMARY {
     template 'Summary.R'
 
     stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     #!/usr/bin/env Rscript
     a <- file("sample_count_mqc.tsv", "w")

@@ -192,7 +192,7 @@ workflow ABERRANTEXPRESSION {
     // Calculate and merge the BAM stats
     //
     def external_samples = inputs_to_analyse
-        .filter { meta, bam, _bai, gene_counts ->
+        .filter { _meta, bam, _bai, gene_counts ->
             !bam && gene_counts                        // no BAM but a counts file
         }
         .map    { meta, _bam, _bai, _gene_counts ->
@@ -218,7 +218,7 @@ workflow ABERRANTEXPRESSION {
                         ods_unfitted ]
                     }
                     .combine(BAM_STATS_IDXSTATS_MERGE.out.merged_bam_stats, by: 0)
-                    .map { group, meta, ods_unfitted, bamstats ->
+                    .map { _group, meta, ods_unfitted, bamstats ->
                         [ meta, ods_unfitted, bamstats ]
                     }
 

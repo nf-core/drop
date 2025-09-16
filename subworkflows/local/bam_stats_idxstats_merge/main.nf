@@ -21,7 +21,7 @@ workflow BAM_STATS_IDXSTATS_MERGE {
     def externals_entries = externals
         .map { meta -> [ meta, "${meta.id}\tNA" ] }
 
-    def ch_bam_stats = SAMTOOLS_IDXSTATS.out.idxstats
+    SAMTOOLS_IDXSTATS.out.idxstats
         // Get the total read count for each sample
         .map { meta, idxstats ->
             def split_idxstats = idxstats.splitCsv(header: false, sep: "\t")

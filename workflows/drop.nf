@@ -29,9 +29,6 @@ workflow DROP {
     // Global parameters
     samplesheet         // queue channel: samplesheet read in from --input
     samplesheet_file    // value channel: [ val(meta), path(samplesheet) ]
-    project_title       // string:        title of the project to add to the HTML file
-    fasta               // value channel: [ val(meta), path(fasta) ]
-    fai                 // value channel: [ val(meta), path(fai) ]
     ucsc_fasta          // value channel: [ val(meta), path(ucsc_fasta) ]
     ucsc_fai            // value channel: [ val(meta), path(ucsc_fai) ]
     ncbi_fasta          // value channel: [ val(meta), path(ncbi_fasta) ]
@@ -41,10 +38,6 @@ workflow DROP {
     gene_annotation     // queue channel: [ val(meta), path(gtf) ]
     hpo_file            // value channel: [ val(meta), path(hpo_file) ]
     qc_vcf              // value channel: [ val(meta), path(vcf), path(tbi) ]
-
-    // Export count parameters
-    ec_gene_annotations // list:          A list of gene annotations to export the counts of
-    ec_exclude_groups   // list:          A list of groups to exclude from the counts export
 
     // Aberrant expression parameters
     ae_skip             // boolean:       Skip aberrant expression analysis
@@ -191,7 +184,8 @@ workflow DROP {
             gene_annotation,
             samplesheet_file,
             qc_vcf,
-            params.mae_groups.tokenize(","),
+            mae_groups,
+            mae_qc_groups,
             Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )

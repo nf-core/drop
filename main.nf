@@ -52,7 +52,6 @@ workflow {
     PIPELINE_INITIALISATION (
         params.version,
         params.validate_params,
-        params.monochrome_logs,
         args,
         params.outdir,
         params.input
@@ -65,12 +64,6 @@ workflow {
     if(!params.ucsc_fasta && !params.ncbi_fasta) {
         error "You must provide either a UCSC FASTA file (--ucsc_fasta) or a NCBI FASTA file (--ncbi_fasta)."
     }
-
-    // Use the UCSC FASTA and FAI files if provided, otherwise use the NCBI FASTA and FAI files
-    def fasta = params.ucsc_fasta ? Channel.value([[id: 'fasta'], file(params.ucsc_fasta)]) :
-        params.ncbi_fasta ? Channel.value([[id: 'fasta'], file(params.ncbi_fasta)]) : Channel.empty()
-    def fai = params.ucsc_fai ? Channel.value([[id: 'fai'], file(params.ucsc_fai)]) :
-        params.ncbi_fai ? Channel.value([[id: 'fai'], file(params.ncbi_fai)]) : Channel.empty()
 
     def ucsc_fasta = params.ucsc_fasta ? Channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : Channel.of([[id:'ucsc'], []])
     def ucsc_fai = params.ucsc_fai ? Channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : Channel.of([[id:'ucsc'], []])
@@ -105,9 +98,6 @@ workflow {
 
     def hpo_file = params.hpo_file ? Channel.value([[id: 'hpo'], file(params.hpo_file)]) : [[:], []]
 
-    def ec_gene_annotations = params.ec_gene_annotations ? params.ec_gene_annotations.tokenize(",") : []
-    def ec_exclude_groups = params.ec_exclude_groups ? params.ec_exclude_groups.tokenize(",") : []
-
     def ae_groups = params.ae_groups ? params.ae_groups.tokenize(",") : []
     def ae_genes_to_test = params.ae_genes_to_test ? Channel.value([[id: 'genes_to_test'], file(params.ae_genes_to_test)]) : [[:], []]
 
@@ -123,9 +113,6 @@ workflow {
         // Global parameters
         PIPELINE_INITIALISATION.out.samplesheet, // derived from --input
         samplesheet_file,
-        params.project_title,
-        fasta,
-        fai,
         ucsc_fasta,
         ucsc_fai,
         ncbi_fasta,
@@ -135,10 +122,6 @@ workflow {
         PIPELINE_INITIALISATION.out.gene_annotation,
         hpo_file,
         qc_vcf,
-
-        // Export counts parameters
-        ec_gene_annotations,
-        ec_exclude_groups,
 
         // Aberrant expression parameters
         params.ae_skip,
