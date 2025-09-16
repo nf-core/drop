@@ -198,7 +198,7 @@ workflow PIPELINE_COMPLETION {
 def validateInputParameters() {
     genomeExistsError()
 
-    if (params.ae_run && params.gene_annotation == null) {
+    if ((!params.ae_skip) && params.gene_annotation == null) {
         error("Please provide a gene annotation file using the --gene_annotation parameter when running the aberrant expression analysis.")
     }
 }

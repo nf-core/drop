@@ -124,18 +124,18 @@ workflow {
         qc_vcf,
 
         // Aberrant expression parameters
-        params.ae_run,
+        params.ae_skip,
         ae_groups,
         ae_genes_to_test,
 
         // Aberrant splicing parameters
-        params.as_run,
+        params.as_skip,
         as_groups,
         params.as_fraser_version,
         as_genes_to_test,
 
         // Mono Allelic Expression parameters
-        params.mae_run,
+        params.mae_skip,
         mae_groups,
         mae_qc_groups
     )

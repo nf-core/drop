@@ -40,20 +40,20 @@ workflow DROP {
     qc_vcf              // value channel: [ val(meta), path(vcf), path(tbi) ]
 
     // Aberrant expression parameters
-    ae_run              // boolean:       Run aberrant expression analysis
-    ae_groups           // list:          A list of groups to include from the aberrant expression analysis
+    ae_skip             // boolean:       Skip aberrant expression analysis
+    ae_groups           // list:          A list of groups to exclude from the aberrant expression analysis
     ae_genes_to_test    // map:           A map containing the names of genes to test
 
     // Aberrant splicing parameters
-    as_run              // boolean:       Run aberrant splicing analysis
-    as_groups           // list:          A list of groups to include from the aberrant splicing analysis
+    as_skip             // boolean:       Skip aberrant splicing analysis
+    as_groups           // list:          A list of groups to exclude from the aberrant splicing analysis
     as_fraser_version   // string:        Fraser version to use for aberrant splicing analysis
     as_genes_to_test    // map:           A map containing the names of genes to test
 
     // Mono Allelic Expression parameters
-    mae_run             // boolean:       Run mono allelic expression analysis
-    mae_groups          // list:          A list of groups to include from the mono allelic expression analysis
-    mae_qc_groups       // list:          A list of groups to include from QC steps in the mono allelic expression analysis
+    mae_skip            // boolean:       Skip mono allelic expression analysis
+    mae_groups          // list:          A list of groups to exclude from the mono allelic expression analysis
+    mae_qc_groups       // list:          A list of groups to exclude from QC steps in the mono allelic expression analysis
 
     main:
 
@@ -130,7 +130,7 @@ workflow DROP {
     // Abberant expression
     //
 
-    if(ae_run) {
+    if(!ae_skip) {
         ABERRANTEXPRESSION(
             input.abberantexpression,
             PREPROCESSGENEANNOTATION.out.count_ranges,
@@ -142,13 +142,16 @@ workflow DROP {
             ae_groups,
         )
         ch_versions = ch_versions.mix(ABERRANTEXPRESSION.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTEXPRESSION.out.count_report)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTEXPRESSION.out.outrider_report)
+
     }
 
     //
     // Aberrant splicing
     //
 
-    if (as_run) {
+    if (!as_skip) {
         ABERRANTSPLICING(
             input.aberrantsplicing,
             PREPROCESSGENEANNOTATION.out.txdb,
@@ -161,13 +164,15 @@ workflow DROP {
             file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
         )
         ch_versions = ch_versions.mix(ABERRANTSPLICING.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTSPLICING.out.count_report)
+        ch_multiqc_files = ch_multiqc_files.mix(ABERRANTSPLICING.out.fraser_report)
     }
 
     //
     // Mono Allelic Expression
     //
 
-    if(mae_run) {
+    if(!mae_skip) {
         MAE(
             input.mae,
             ucsc_fasta,
@@ -185,6 +190,8 @@ workflow DROP {
             Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )
         ch_versions = ch_versions.mix(MAE.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(MAE.out.mae_report)
+        ch_multiqc_files = ch_multiqc_files.mix(MAE.out.maeqc_report)
     }
 
     //

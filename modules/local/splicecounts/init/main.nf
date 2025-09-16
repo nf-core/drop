@@ -5,8 +5,8 @@ process SPLICECOUNTS_INIT {
     // TODO discuss if this container should be split up, library loading should be done in the module script instead in that case
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/dc/dc5b31e03713c86445cb08c02014dda9298c2c0a7b20a17cda43abc66f6eb63c/data' :
-        'community.wave.seqera.io/library/bioconductor-delayedmatrixstats_bioconductor-fraser_bioconductor-genomicalignments_r-base_pruned:8f3a9483f1399b0a' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/c8/c87aab5452ff7d6a9344148e284ca01a8c5d2239d7b0f26164da1806a8c59875/data' :
+        'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:b2aa4004c588aaaf' }"
 
     input:
     tuple val(meta), path(col_data), val(drop_group)

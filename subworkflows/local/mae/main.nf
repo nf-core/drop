@@ -5,6 +5,9 @@ include { MAE_GENENAMEMAPPING           } from '../../../modules/local/mae/genen
 include { MAE_RESULTS                   } from '../../../modules/local/mae/results/main'
 include { MAEQC_DNARNADESEQ             } from '../../../modules/local/maeqc/dnarnadeseq/main'
 include { MAEQC_DNARNAMATRIX            } from '../../../modules/local/maeqc/dnarnamatrix/main'
+include { MAEQC_DNARNAMATRIXPLOT        } from '../../../modules/local/maeqc/dnarnamatrixplot/main'
+include { MULTIQC as MULTIQC_MAE        } from '../../../modules/nf-core/multiqc/main'
+include { MULTIQC as MULTIQC_MAEQC      } from '../../../modules/nf-core/multiqc/main'
 
 workflow MAE {
     take:
@@ -154,6 +157,107 @@ workflow MAE {
     )
     ch_versions = ch_versions.mix(MAEQC_DNARNAMATRIX.out.versions.first())
 
+    ch_dnarnamatrixplot_input = MAEQC_DNARNAMATRIX.out.mat_qc
+        .combine(samplesheet)
+        .map { meta, mat_qc, _ss_meta, samplesheet_file ->
+            [ meta, mat_qc, samplesheet_file, meta.drop_group ]
+        }
+
+    MAEQC_DNARNAMATRIXPLOT(
+        ch_dnarnamatrixplot_input,
+        params.mae_dna_rna_match_cutoff
+    )
+    ch_versions = ch_versions.mix(MAEQC_DNARNAMATRIXPLOT.out.versions.first())
+
+    //
+    // multiqc for mae
+    //
+    def multiqc_mae_input = MAE_RESULTS.out.mae_overview
+        .join(MAE_RESULTS.out.cascade_plot)
+        .join(MAE_RESULTS.out.variant_frequency)
+        .join(MAE_RESULTS.out.median_of_each_category)
+        .join(MAE_RESULTS.out.results)
+        .map { tup ->
+        def meta  = tup[0]
+        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}" // tag for publishDir
+        [ tag, files ]
+    }
+    .tap { mae_by_tag }
+
+    def ch_extra_cfg_mae = mae_by_tag
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:mae_${tag}]_multiqc_report_mqc.html"
+            data_dir_name:  "[TAG:mae_${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:mae_${tag}]_multiqc_plots"
+            """.stripIndent()
+            [ "[TAG:mae_${tag}]_config.yml", yaml ]
+        }
+        .map { Path cfg ->
+        def m = (cfg.getName() =~ /\[TAG:mae_([^\]]+)\]_config\.yml$/)
+        def tag = m ? m[0][1] : cfg.baseName
+        [ tag, cfg ]
+    }
+
+    def ch_mae_bundle = multiqc_mae_input
+        .join(ch_extra_cfg_mae)
+        .map { _tag, files, cfg -> [files, cfg] }
+
+    MULTIQC_MAE(
+        ch_mae_bundle.map { it[0] },
+        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_mae_config.yml", checkIfExists: true).collect(),
+        ch_mae_bundle.map { it[1] },
+        [],
+        [],
+        []
+    )
+
+    //
+    // multiqc for maeqc
+    //
+    def multiqc_maeqc_input = MAEQC_DNARNAMATRIXPLOT.out.matching_values_distribution
+        .join(MAEQC_DNARNAMATRIXPLOT.out.heatmap_matching_variants)
+        .join(MAEQC_DNARNAMATRIXPLOT.out.identify_matching_samples)
+        .join(MAEQC_DNARNAMATRIXPLOT.out.false_matches)
+        .join(MAEQC_DNARNAMATRIXPLOT.out.false_mismatches)
+        .map { tup ->
+        def meta  = tup[0]
+        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def tag   = "${meta.id}" // tag for publishDir
+        [ tag, files ]
+    }
+    .tap { maeqc_by_tag }
+
+    def ch_extra_cfg_maeqc = maeqc_by_tag
+        .collectFile { tag, _ ->
+            def yaml = """
+            output_fn_name: "[TAG:maeqc_${tag}]_multiqc_report_mqc.html"
+            data_dir_name:  "[TAG:maeqc_${tag}]_multiqc_data"
+            plots_dir_name: "[TAG:maeqc_${tag}]_multiqc_plots"
+            """.stripIndent()
+            [ "[TAG:maeqc_${tag}]_config.yml", yaml ]
+        }
+        .map { Path cfg ->
+        def m = (cfg.getName() =~ /\[TAG:maeqc_([^\]]+)\]_config\.yml$/)
+        def tag = m ? m[0][1] : cfg.baseName
+        [ tag, cfg ]
+    }
+
+    def ch_maeqc_bundle = multiqc_maeqc_input
+        .join(ch_extra_cfg_maeqc)
+        .map { _tag, files, cfg -> [files, cfg] }
+
+    MULTIQC_MAEQC(
+        ch_maeqc_bundle.map { it[0] },
+        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_maeqc_config.yml", checkIfExists: true).collect(),
+        ch_maeqc_bundle.map { it[1] },
+        [],
+        [],
+        []
+    )
     emit:
     versions = ch_versions
+    mae_report = MULTIQC_MAE.out.report.toList()
+    maeqc_report = MULTIQC_MAEQC.out.report.toList()
 }

@@ -14,9 +14,17 @@ process MAE_RESULTS {
     val(max_cohort_freq)
 
     output:
+    // results
     tuple val(meta), path("*.tsv.gz")                           , emit: res_all
     tuple val(meta), path("*${task.ext.prefix ?: meta.id}.tsv") , emit: res_signif
     tuple val(meta), path("*_rare.tsv")                         , emit: res_signif_rare
+    // QC plots and summary
+    tuple val(meta), path("mae_overview_mqc.tsv")               , emit: mae_overview
+    tuple val(meta), path("cascade_plot_mqc.png")               , emit: cascade_plot
+    tuple val(meta), path("variant_frequency_mqc.png")          , emit: variant_frequency
+    tuple val(meta), path("median_of_each_category_mqc.tsv")    , emit: median_of_each_category
+    tuple val(meta), path("results_mqc.tsv")                    , emit: results
+
     path  "versions.yml"                                        , emit: versions
 
     when:
@@ -38,7 +46,16 @@ process MAE_RESULTS {
     close(a)
     a <- file("MAE_results_${prefix}_rare.tsv", "w")
     close(a)
-
+    a <- file("mae_overview_mqc.tsv", "w")
+    close(a)
+    a <- file("cascade_plot_mqc.png", "w")
+    close(a)
+    a <- file("variant_frequency_mqc.png", "w")
+    close(a)
+    a <- file("median_of_each_category_mqc.tsv", "w")
+    close(a)
+    a <- file("results_mqc.tsv", "w")
+    close(a)
     ## VERSIONS FILE
     writeLines(
         c(

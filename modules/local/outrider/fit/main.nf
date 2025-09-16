@@ -4,13 +4,14 @@ process OUTRIDER_FIT {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/c7/c76d0f6d35c84c2e9f9b883f1d7683c1fbdc09e8b8019f38b0915cc038dfd76f/data' :
-        'community.wave.seqera.io/library/bioconductor-outrider_bioconductor-summarizedexperiment_r-base_r-data.table_pruned:bf4693f792c006ff' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/7c/7ce5b3968fffff40e5f0ee411b06d26c117985c558d976181e5b3d8575bf3b89/data' :
+        'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:536d062a9b8ef2c5' }"
 
     input:
     tuple val(meta), path(ods)
     val(implementation)
     val(ae_max_tested_dimension_proportion)
+    val(random_seed)
 
     output:
     tuple val(meta), path("*.Rds")            , emit: ods_fitted

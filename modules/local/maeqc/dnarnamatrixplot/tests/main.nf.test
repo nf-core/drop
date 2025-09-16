@@ -1,0 +1,68 @@
+nextflow_process {
+
+    name "Test Process MAEQC_DNARNAMATRIXPLOT"
+    script "../main.nf"
+    process "MAEQC_DNARNAMATRIXPLOT"
+
+    tag "modules"
+    tag "modules_local"
+    tag "MAEQC_DNARNAMATRIXPLOT"
+
+    test("homo_sapiens") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'mae' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/maeqc/dnarnamatrix/dna_rna_qc_matrix.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv', checkIfExists: true),
+                    "mae"
+                ])
+                input[1] = 0.85
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.matching_values_distribution,
+                    process.out.heatmap_matching_variants.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.identify_matching_samples,
+                    process.out.false_matches,
+                    process.out.false_mismatches,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'mae' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/maeqc/dnarnamatrix/dna_rna_qc_matrix.Rds', checkIfExists: true),
+                    file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv', checkIfExists: true),
+                    "mae"
+                ])
+                input[1] = 0.85
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

@@ -4,7 +4,7 @@ process GENECOUNTS_MERGECOUNTS {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/cb/cb2dbc5c5064366648e38ce9b36fe579eaa92c1980b3257c55d3314d330f0a97/data' :
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/ec/eca2d19aed7918a344093e4627135c21403e08bb16b730d924cd93ae5b428464/data' :
         'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-summarizedexperiment_r-base_r-data.table_pruned:c96d6e13d480e41d' }"
 
     input:

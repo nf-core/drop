@@ -4,8 +4,8 @@ process MAEQC_DNARNADESEQ {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/a2/a20e81a37e3e4376534cf7a225da72640b35674961fb3317e4e72c0177d0ac32/data' :
-        'community.wave.seqera.io/library/bioconductor-genomicranges_r-tmae_r-base_r-r.utils:153fb7526c2a316a' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/2a/2a1fe185a170643337ce71d84c9262cf0fe44adb3f2fa51c5cd6007aebeebe18/data' :
+        'community.wave.seqera.io/library/bioconductor-genomicranges_r-tmae_r-base_r-r.utils_r-stringr:e9d522a02847448b' }"
 
     input:
     tuple val(meta), path(counts)

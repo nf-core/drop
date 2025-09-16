@@ -69,7 +69,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,4a3eb971c33164d2eed2798fd1be420e"
+                    "versions.yml:md5,60ff047f02552ffdb58b013a05f84c5b"
                 ],
                 "tbi": [
                     [
@@ -88,7 +88,7 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,4a3eb971c33164d2eed2798fd1be420e"
+                    "versions.yml:md5,60ff047f02552ffdb58b013a05f84c5b"
                 ]
             }
         ],
@@ -96,6 +96,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-15T16:03:03.678813025"
+        "timestamp": "2025-09-08T15:24:50.790669357"
     }
 }
