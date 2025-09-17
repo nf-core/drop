@@ -3,19 +3,21 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { SAMTOOLS_INDEX            } from '../modules/nf-core/samtools/index/main'
-include { TABIX_TABIX               } from '../modules/nf-core/tabix/tabix/main'
-include { MULTIQC                   } from '../modules/nf-core/multiqc/main'
+include { SAMTOOLS_INDEX                            } from '../modules/nf-core/samtools/index/main'
+include { SAMTOOLS_CONVERT as SAMTOOLS_CONVERT_UCSC } from '../modules/nf-core/samtools/convert/main'
+include { SAMTOOLS_CONVERT as SAMTOOLS_CONVERT_NCBI } from '../modules/nf-core/samtools/convert/main'
+include { TABIX_TABIX                               } from '../modules/nf-core/tabix/tabix/main'
+include { MULTIQC                                   } from '../modules/nf-core/multiqc/main'
 
-include { PREPROCESSGENEANNOTATION  } from '../modules/local/preprocessgeneannotation/main'
-include { ABERRANTEXPRESSION        } from '../subworkflows/local/aberrantexpression/main'
-include { ABERRANTSPLICING          } from '../subworkflows/local/aberrantsplicing/main'
-include { MAE                       } from '../subworkflows/local/mae/main'
+include { PREPROCESSGENEANNOTATION                  } from '../modules/local/preprocessgeneannotation/main'
+include { ABERRANTEXPRESSION                        } from '../subworkflows/local/aberrantexpression/main'
+include { ABERRANTSPLICING                          } from '../subworkflows/local/aberrantsplicing/main'
+include { MAE                                       } from '../subworkflows/local/mae/main'
 
-include { paramsSummaryMap          } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText    } from '../subworkflows/local/utils_nfcore_drop_pipeline'
+include { paramsSummaryMap                          } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc                      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML                    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText                    } from '../subworkflows/local/utils_nfcore_drop_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,20 +72,42 @@ workflow DROP {
     // Preprocess BAM files
     //
 
-    def bams_to_index = preprocess.bam.branch { meta, bam, bai ->
-        yes: !bai && bam
+    def bams_branch = preprocess.bam.branch { meta, bam, bai ->
+        cram_ucsc: bam.extension == "cram" && meta.genome == "ucsc"
             return [ meta, bam ]
-        no: true
+        cram_ncbi: bam.extension == "cram" && meta.genome == "ncbi"
+            return [ meta, bam ]
+        to_index: !bai && bam
+            return [ meta, bam ]
+        indexed: true
     }
 
+    SAMTOOLS_CONVERT_UCSC(
+        bams_branch.cram_ucsc,
+        ucsc_fasta,
+        ucsc_fai
+    )
+    ch_versions = ch_versions.mix(SAMTOOLS_CONVERT_UCSC.out.versions.first())
+    def ch_ucsc_converted_bams = SAMTOOLS_CONVERT_UCSC.out.bam.join(SAMTOOLS_CONVERT_UCSC.out.bai, failOnDuplicate:true, failOnMismatch:true)
+
+    SAMTOOLS_CONVERT_NCBI(
+        bams_branch.cram_ncbi,
+        ncbi_fasta,
+        ncbi_fai
+    )
+    ch_versions = ch_versions.mix(SAMTOOLS_CONVERT_NCBI.out.versions.first())
+    def ch_ncbi_converted_bams = SAMTOOLS_CONVERT_NCBI.out.bam.join(SAMTOOLS_CONVERT_NCBI.out.bai, failOnDuplicate:true, failOnMismatch:true)
+
     SAMTOOLS_INDEX(
-        bams_to_index.yes
+        bams_branch.to_index
     )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
-    def bams = bams_to_index.yes
+    def bams = bams_branch.to_index
         .join(SAMTOOLS_INDEX.out.bai, failOnDuplicate:true, failOnMismatch:true)
-        .mix(bams_to_index.no)
+        .mix(ch_ucsc_converted_bams)
+        .mix(ch_ncbi_converted_bams)
+        .mix(bams_branch.indexed)
 
     //
     // Preprocess VCF files
