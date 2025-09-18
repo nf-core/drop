@@ -140,18 +140,16 @@ workflow MAE {
             [ meta.drop_group.tokenize(","), meta, ods, vcf, tbi ]
         }
         .transpose(by:0)
-        .view {println "[DEBUG meta] $it"}
         .map { group, meta, ods, vcf, tbi ->
             def new_meta = [id:group, drop_group:group]
-            [ groupKey(new_meta, meta.drop_group_counts.get(group)), ods, vcf, tbi, meta.id ]
+            [ groupKey(new_meta, meta.drop_group_counts.get(group)), ods, vcf, tbi ]
         }
         .groupTuple()
         .combine(samplesheet)
-        .map { meta, ods, vcfs, tbis, rna_ids, _ss_meta, samplesheet_file ->
+        .map { meta, ods, vcfs, tbis, _ss_meta, samplesheet_file ->
             // Sort VCFs and IDs to make sure the order matches
-            [ meta, ods, vcfs.sort { file -> file.name }, tbis, samplesheet_file, rna_ids.sort(), meta.drop_group ]
+            [ meta, ods, vcfs.sort { file -> file.name }, tbis, samplesheet_file, meta.drop_group ]
         }
-        .view {println "[DEBUG ch_creatematrixdnarnacor_input] $it"}
 
     MAEQC_DNARNAMATRIX(
         ch_creatematrixdnarnacor_input,

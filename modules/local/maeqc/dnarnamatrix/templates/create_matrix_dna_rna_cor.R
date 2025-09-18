@@ -18,8 +18,8 @@ gr_test <- readVcf("$qc_vcf") %>% granges()
 mcols(gr_test)\$GT <- "0/0"
 
 # Obtain the rna and vcf files
-rna_samples <- as.character(c(${rna_ids.collect { "\"$it\"" }.join(', ')}))
 mae_res <- c(${res.collect { "\"$it\"" }.join(', ')})
+rna_samples <- sub("\\\\.Rds\$","",basename(mae_res))
 
 rows_in_group <- sapply(strsplit(sa\$DROP_GROUP, ',|, '), function(d) "$drop_group" %in% d)
 vcf_cols <- sa[rows_in_group, .(DNA_ID, DNA_VCF_FILE)]
