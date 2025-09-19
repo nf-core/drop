@@ -28,7 +28,6 @@ nextflow_process {
                         file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz.tbi', checkIfExists: true)
                     ],
                     file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv', checkIfExists: true),
-                    [ 'HG00096', 'HG00103' ],
                     "mae"
                 ])
                 input[1] = [
@@ -70,7 +69,6 @@ nextflow_process {
                         file(params.pipelines_testdata_base_path + 'inputs/dna_vcf/demo_chr21.vcf.gz.tbi', checkIfExists: true)
                     ],
                     file(params.pipelines_testdata_base_path + 'inputs/samplesheet_small.tsv', checkIfExists: true),
-                    [ 'HG00096', 'HG00103' ],
                     "mae"
                 ])
                 input[1] = [

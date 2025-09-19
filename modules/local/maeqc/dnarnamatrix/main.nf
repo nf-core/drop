@@ -8,7 +8,7 @@ process MAEQC_DNARNAMATRIX {
         'community.wave.seqera.io/library/bioconductor-biocparallel_bioconductor-genomicranges_bioconductor-variantannotation_r-base_pruned:3528952457d92839' }"
 
     input:
-    tuple val(meta) , path(res), path(vcfs), path(tbis), path(samplesheet), val(rna_ids), val(drop_group)
+    tuple val(meta) , path(res), path(vcfs), path(tbis), path(samplesheet), val(drop_group)
     tuple val(meta2), path(qc_vcf), path(qc_tbi)
 
     output:

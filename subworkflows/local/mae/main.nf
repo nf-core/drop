@@ -142,13 +142,13 @@ workflow MAE {
         .transpose(by:0)
         .map { group, meta, ods, vcf, tbi ->
             def new_meta = [id:group, drop_group:group]
-            [ groupKey(new_meta, meta.drop_group_counts.get(group)), ods, vcf, tbi, meta.dna_id ]
+            [ groupKey(new_meta, meta.drop_group_counts.get(group)), ods, vcf, tbi ]
         }
         .groupTuple()
         .combine(samplesheet)
-        .map { meta, ods, vcfs, tbis, ids, _ss_meta, samplesheet_file ->
+        .map { meta, ods, vcfs, tbis, _ss_meta, samplesheet_file ->
             // Sort VCFs and IDs to make sure the order matches
-            [ meta, ods, vcfs.sort { file -> file.name }, tbis, samplesheet_file, ids.sort(), meta.drop_group ]
+            [ meta, ods, vcfs.sort { file -> file.name }, tbis, samplesheet_file, meta.drop_group ]
         }
 
     MAEQC_DNARNAMATRIX(
@@ -162,6 +162,7 @@ workflow MAE {
         .map { meta, mat_qc, _ss_meta, samplesheet_file ->
             [ meta, mat_qc, samplesheet_file, meta.drop_group ]
         }
+        .view {println "[DEBUG ch_dnarnamatrixplot_input] $it"}
 
     MAEQC_DNARNAMATRIXPLOT(
         ch_dnarnamatrixplot_input,
