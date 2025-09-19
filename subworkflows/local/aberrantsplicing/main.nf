@@ -15,7 +15,8 @@ include { FRASER_EXTRACTRESULTS                 } from '../../../modules/local/f
 include { FRASER_SUMMARY                        } from '../../../modules/local/fraser/summary'
 include { MULTIQC as MULTIQC_SPLICECOUNTS       } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_FRASER             } from '../../../modules/nf-core/multiqc/main'
-
+include { STRIP_NAV_MULTIQC as STRIP_NAV_SPLICECOUNTS     } from '../../../modules/local/strip_nav_multiqc/'
+include { STRIP_NAV_MULTIQC as STRIP_NAV_FRASER           } from '../../../modules/local/strip_nav_multiqc/'
 workflow ABERRANTSPLICING {
     take:
     inputs                      // queue channel: [ val(meta), path(bam), path(bai), path(splice_count) ]
@@ -444,7 +445,7 @@ workflow ABERRANTSPLICING {
     def ch_extra_cfg_splicecounts = splicecounts_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:splicecounts_${tag}]_multiqc_report_mqc.html"
+            output_fn_name: "[TAG:splicecounts_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:splicecounts_${tag}]_multiqc_data"
             plots_dir_name: "[TAG:splicecounts_${tag}]_multiqc_plots"
             """.stripIndent()
@@ -489,7 +490,7 @@ workflow ABERRANTSPLICING {
     def ch_extra_cfg_fraser = fraser_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:fraser_${tag}]_multiqc_report_mqc.html"
+            output_fn_name: "[TAG:fraser_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:fraser_${tag}]_multiqc_data"
             plots_dir_name: "[TAG:fraser_${tag}]_multiqc_plots"
             """.stripIndent()
@@ -514,8 +515,11 @@ workflow ABERRANTSPLICING {
         []
     )
 
+    STRIP_NAV_SPLICECOUNTS(MULTIQC_SPLICECOUNTS.out.report)
+    STRIP_NAV_FRASER(MULTIQC_FRASER.out.report)
+
     emit:
     versions = ch_versions
-    count_report = MULTIQC_SPLICECOUNTS.out.report.toList()
-    fraser_report = MULTIQC_FRASER.out.report.toList()
+    count_report = STRIP_NAV_SPLICECOUNTS.out.report.toList()
+    fraser_report = STRIP_NAV_FRASER.out.report.toList()
 }

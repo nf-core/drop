@@ -8,6 +8,8 @@ include { MAEQC_DNARNAMATRIX            } from '../../../modules/local/maeqc/dna
 include { MAEQC_DNARNAMATRIXPLOT        } from '../../../modules/local/maeqc/dnarnamatrixplot/main'
 include { MULTIQC as MULTIQC_MAE        } from '../../../modules/nf-core/multiqc/main'
 include { MULTIQC as MULTIQC_MAEQC      } from '../../../modules/nf-core/multiqc/main'
+include { STRIP_NAV_MULTIQC as STRIP_NAV_MAE     } from '../../../modules/local/strip_nav_multiqc/'
+include { STRIP_NAV_MULTIQC as STRIP_NAV_MAEQC       } from '../../../modules/local/strip_nav_multiqc/'
 
 workflow MAE {
     take:
@@ -189,7 +191,7 @@ workflow MAE {
     def ch_extra_cfg_mae = mae_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:mae_${tag}]_multiqc_report_mqc.html"
+            output_fn_name: "[TAG:mae_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:mae_${tag}]_multiqc_data"
             plots_dir_name: "[TAG:mae_${tag}]_multiqc_plots"
             """.stripIndent()
@@ -233,7 +235,7 @@ workflow MAE {
     def ch_extra_cfg_maeqc = maeqc_by_tag
         .collectFile { tag, _ ->
             def yaml = """
-            output_fn_name: "[TAG:maeqc_${tag}]_multiqc_report_mqc.html"
+            output_fn_name: "[TAG:maeqc_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:maeqc_${tag}]_multiqc_data"
             plots_dir_name: "[TAG:maeqc_${tag}]_multiqc_plots"
             """.stripIndent()
@@ -257,8 +259,12 @@ workflow MAE {
         [],
         []
     )
+
+    STRIP_NAV_MAE(MULTIQC_MAE.out.report)
+    STRIP_NAV_MAEQC(MULTIQC_MAEQC.out.report)
+
     emit:
     versions = ch_versions
-    mae_report = MULTIQC_MAE.out.report.toList()
-    maeqc_report = MULTIQC_MAEQC.out.report.toList()
+    mae_report = STRIP_NAV_MAE.out.report.toList()
+    maeqc_report = STRIP_NAV_MAEQC.out.report.toList()
 }
