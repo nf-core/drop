@@ -74,9 +74,9 @@ workflow DROP {
 
     def bams_branch = preprocess.bam.branch { meta, bam, bai ->
         cram_ucsc: bam.extension == "cram" && meta.genome == "ucsc"
-            return [ meta, bam ]
+            return [ meta, bam, bai ]
         cram_ncbi: bam.extension == "cram" && meta.genome == "ncbi"
-            return [ meta, bam ]
+            return [ meta, bam, bai ]
         to_index: !bai && bam
             return [ meta, bam ]
         indexed: true
