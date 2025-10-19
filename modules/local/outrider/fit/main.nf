@@ -12,6 +12,7 @@ process OUTRIDER_FIT {
     val(implementation)
     val(ae_max_tested_dimension_proportion)
     val(random_seed)
+    val(ae_use_grid_search_to_obtain_q)
 
     output:
     tuple val(meta), path("*.Rds")            , emit: ods_fitted

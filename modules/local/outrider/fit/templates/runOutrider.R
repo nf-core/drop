@@ -26,6 +26,8 @@ if (!isFALSE(rseed)) {
 ods <- readRDS("$ods")
 implementation <- "$implementation"
 mp <- $ae_max_tested_dimension_proportion
+oht <- !${ae_use_grid_search_to_obtain_q ? 'TRUE' : 'FALSE'}
+
 register(MulticoreParam(${task.cpus}))
 
 ## subset filtered
@@ -42,19 +44,26 @@ if(length(gr) > 0){
 ods <- estimateSizeFactors(ods)
 
 ## find optimal encoding dimension
-a <- 5
-b <- min(ncol(ods), nrow(ods)) / mp   # N/3
+if (isTRUE(oht)){
+    message(date(), ": Using OHT implementation to determine optimal q ...")
+    ods <- estimateBestQ(ods, useOHT=TRUE)
+    opt_q <- getBestQ(ods)
+    metadata(ods)[['useOHTtoObtainQ']] <- TRUE
+} else{
+    a <- 5
+    b <- min(ncol(ods), nrow(ods)) / mp   # N/3
 
-maxSteps <- 15
-if(mp < 4){
-    maxSteps <- 20
+    maxSteps <- 15
+    if(mp < 4){
+        maxSteps <- 20
+    }
+
+    Nsteps <- min(maxSteps, b)   # Do at most 20 steps or N/3
+    # Do unique in case 2 were repeated
+    pars_q <- round(exp(seq(log(a),log(b),length.out = Nsteps))) %>% unique
+    ods <- findEncodingDim(ods, params = pars_q, implementation = implementation)
+    opt_q <- getBestQ(ods)
 }
-
-Nsteps <- min(maxSteps, b)   # Do at most 20 steps or N/3
-# Do unique in case 2 were repeated
-pars_q <- round(exp(seq(log(a),log(b),length.out = Nsteps))) %>% unique
-ods <- findEncodingDim(ods, params = pars_q, implementation = implementation)
-opt_q <- getBestQ(ods)
 
 ## fit OUTRIDER
 # ods <- OUTRIDER(ods, implementation = implementation)
@@ -67,7 +76,7 @@ if (implementation == "peer" || implementation == "pca"){
     message(date(), ": Fitting the data ...")
     ods <- fit(ods)
 }
-message("outrider fitting finished")
+message("OUTRIDER fitting finished")
 
 saveRDS(ods, paste(prefix, ".Rds", sep=""))
 
