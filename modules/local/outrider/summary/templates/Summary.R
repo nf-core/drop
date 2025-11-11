@@ -28,9 +28,14 @@ write.table(count_df, file="outrider_overview_mqc.tsv", row.names = FALSE, col.n
 #'
 #' ## Visualize
 #' ### Encoding dimension
-p <- plotEncDimSearch(ods) + labs(title = dataset_title) + theme_cowplot() + background_grid() +
-    scale_color_brewer(palette = "Dark2")
-ggsave("encoding_dimension_mqc.png", p, width = 5, height = 3.75, dpi = 196, bg = "white")
+if (!is.null(metadata(ods)\$encDimTable)){
+    p <- plotEncDimSearch(ods) +
+        labs(title = dataset_title) +
+        theme_cowplot() +
+        background_grid() +
+        scale_color_brewer(palette="Dark2")
+    ggsave("encoding_dimension_mqc.png", p, width = 5, height = 3.75, dpi = 196, bg = "white")
+}
 
 #' ### Aberrantly expressed genes per sample
 p <- plotAberrantPerSample(ods, main = dataset_title, padjCutoff = $padjCutoff,
