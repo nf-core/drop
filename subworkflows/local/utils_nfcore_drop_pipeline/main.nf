@@ -98,6 +98,12 @@ workflow PIPELINE_INITIALISATION {
         }
     }
 
+    // Warn about license
+    log.warn("OUTRIDER and FRASER are now released under CC-BY-NC 4.0, meaning a license is required\n" +
+        "for any commercial use. If you intend to use the aberrant expression and aberrant splicing\n" +
+        "modules for commercial purposes, please contact the authors: Julien Gagneur (gagneur [at] in.tum.de),\n" +
+        "Christian Mertes (mertes [at] in.tum.de), and Vicente Yepez (yepez [at] in.tum.de).\n")
+
     // Check that each AE and AS group contains at least 30 samples
     def groups_to_warn = (params.ae_groups.tokenize(",") + params.as_groups.tokenize(",")).toSet()
     group_counts.each { group, count ->
