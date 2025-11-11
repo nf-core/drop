@@ -160,7 +160,7 @@
                     "description": "If true, the optimal latent space dimension for the autoencoder will be determined by grid search. If false, OHT will be performed..",
                     "fa_icon": "fas fa-file-export"
                 }
-	    }
+            }
         },
         "aberrant_splicing": {
             "title": "Aberrant splicing options",
