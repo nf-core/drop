@@ -4,7 +4,7 @@ process OUTRIDER_FIT {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'oras://community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:f837c8409d1d5f5c' :
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/22/2234ffd3a93c24242604e355c216fda3154e3522d8d80fadf7c11451c7229d41/data' :
         'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:a73c412fd56d7e1c' }"
 
     input:
