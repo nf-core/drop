@@ -6,7 +6,7 @@
 
 ## License notice
 
-OUTRIDER and FRASER are released under CC-BY-NC 4.0, meaning a license is requiredfor any commercial use. If you intend to use the aberrant expression and aberrant splicing modules for commercial purposes, please contact the authors: Julien Gagneur (gagneur [at] in.tum.de), Christian Mertes (mertes [at] in.tum.de), and Vicente Yepez (yepez [at] in.tum.de).
+OUTRIDER and FRASER are released under CC-BY-NC 4.0, meaning a license is required for any commercial use. If you intend to use the aberrant expression and aberrant splicing modules for commercial purposes, please contact the authors: Julien Gagneur (gagneur [at] in.tum.de), Christian Mertes (mertes [at] in.tum.de), and Vicente Yepez (yepez [at] in.tum.de).
 
 ## Introduction
 
