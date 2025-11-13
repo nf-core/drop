@@ -154,6 +154,11 @@
                     "pattern": "^\\S+\\.(yaml|yml)$",
                     "description": "Full path to a yaml file specifying lists of candidate genes per sample to test during FDR correction. See the documentation for details on the structure of this file.",
                     "help_text": "In addition to returning transcriptome-wide results, DROP provides the option to limit the FDR correction to user-provided genes of interest. See more [details](https://gagneurlab-drop.readthedocs.io/en/latest/prepare.html?highlight=hpo#limiting-fdr-correction-to-subsets-of-genes-of-interest)"
+                },
+                "ae_use_grid_search_to_obtain_q": {
+                    "type": "boolean",
+                    "description": "If true, the optimal latent space dimension for the autoencoder will be determined by grid search. If false, OHT will be performed..",
+                    "fa_icon": "fas fa-file-export"
                 }
             }
         },

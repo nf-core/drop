@@ -4,8 +4,8 @@ process OUTRIDER_PVALS {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/7c/7ce5b3968fffff40e5f0ee411b06d26c117985c558d976181e5b3d8575bf3b89/data' :
-        'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:536d062a9b8ef2c5' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/22/2234ffd3a93c24242604e355c216fda3154e3522d8d80fadf7c11451c7229d41/data' :
+        'community.wave.seqera.io/library/bioconductor-genomicalignments_bioconductor-genomicfeatures_bioconductor-outrider_bioconductor-summarizedexperiment_pruned:a73c412fd56d7e1c' }"
 
     input:
     tuple val(meta) , path(ods_fitted), val(ids), path(gene_name_mapping)

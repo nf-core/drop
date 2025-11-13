@@ -141,7 +141,8 @@ workflow ABERRANTEXPRESSION {
         GENECOUNTS_FILTERCOUNTS.out.output,
         params.ae_implementation,
         params.ae_max_tested_dimension_proportion,
-        params.random_seed
+        params.random_seed,
+        params.ae_use_grid_search_to_obtain_q
     )
     ch_versions = ch_versions.mix(OUTRIDER_FIT.out.versions.first())
 

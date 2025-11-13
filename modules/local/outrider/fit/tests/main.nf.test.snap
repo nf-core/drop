@@ -10,14 +10,14 @@
                 ]
             ],
             [
-                "versions.yml:md5,095f95248e218f95b1f821901db8af8b"
+                "versions.yml:md5,845d7a1cc1053eb910355c05378a0d3c"
             ]
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-08-12T11:50:03.866790062"
+        "timestamp": "2025-11-11T12:18:03.111865"
     },
     "homo_sapiens - gtf - stub": {
         "content": [
@@ -31,7 +31,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,095f95248e218f95b1f821901db8af8b"
+                    "versions.yml:md5,845d7a1cc1053eb910355c05378a0d3c"
                 ],
                 "ods_fitted": [
                     [
@@ -42,14 +42,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,095f95248e218f95b1f821901db8af8b"
+                    "versions.yml:md5,845d7a1cc1053eb910355c05378a0d3c"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-08-12T11:50:14.773984321"
+        "timestamp": "2025-11-11T12:18:08.061369"
     }
 }
