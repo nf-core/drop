@@ -6,7 +6,7 @@ dependencies:
   - bioconda::bioconductor-bsgenome.hsapiens.ucsc.hg38=1.4.5
   - bioconda::bioconductor-bsgenome=1.74.0
   - bioconda::bioconductor-delayedmatrixstats=1.28.0
-  - bioconda::bioconductor-fraser=2.2.0
+  - bioconda::bioconductor-fraser=2.4.6
   - bioconda::bioconductor-genomicalignments=1.42.0
   - conda-forge::r-bbmisc=1.13
   - conda-forge::r-biocmanager=1.30.25

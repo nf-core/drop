@@ -278,6 +278,10 @@
                     "schema": "assets/schema_genes_to_test.json",
                     "pattern": "^\\S+\\.(yaml|yml)$",
                     "description": "Full path to a yaml file specifying lists of candidate genes per sample to test during FDR correction. See the documentation for details on the structure of this file."
+                },
+                "ae_use_grid_search_to_obtain_q": {
+                    "type": "boolean",
+                    "description": "If true, the optimal latent space dimension for the autoencoder will be determined by grid search. If false, OHT will be performed..",
                 }
             }
         },
