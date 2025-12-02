@@ -51,15 +51,19 @@ if (isTRUE(oht)){
   Nsteps <- min(maxSteps, b)
   pars_q <- round(exp(seq(log(a),log(b),length.out = Nsteps))) %>% unique
 
+  message(date(), ": Testing the following values of q to determine the optimal one: ",
+          pars_q)
+
   for(type in psiTypes){
       message(date(), ": ", type)
-      fds <- optimHyperParams(fds, type=type,
-                              useOHT=FALSE,
-                              implementation=implementation,
-                              q_param=pars_q,
-                              plot = FALSE)
-      fds <- saveFraserDataSet(fds)
+      fds <- estimateBestQ(fds, type=type,
+                           useOHT=FALSE,
+                           implementation=implementation,
+                           q_param=pars_q,
+                           plot = FALSE)
   }
+  metadata(fds)[["useOHTtoObtainQ"]] <- FALSE
+}
 fds <- saveFraserDataSet(fds)
 
 ## VERSIONS FILE

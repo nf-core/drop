@@ -23,7 +23,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,0f8d89184299cfcea2390103f5ad6ac9"
+                    "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
                 ],
                 "fdsobj": [
                     [
@@ -46,66 +46,66 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,0f8d89184299cfcea2390103f5ad6ac9"
+                    "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-06-30T14:56:44.475029273"
+        "timestamp": "2025-12-02T14:58:18.689134277"
     },
     "homo_sapiens": {
         "content": [
             [
-                "delta_jaccard.h5:md5,b02262cdbe16d757e8f1b4845d7309da",
-                "delta_psi3.h5:md5,86e9e11b158f3319b655fb8b86ca53d1",
-                "delta_psi5.h5:md5,773d12bcf117b8bf6e9f0bdc5c094cf1",
-                "delta_theta.h5:md5,567bda0ee5b017e1f3560785dfeb9b05",
-                "jaccard.h5:md5,2a65b5f0548d8c165fe19408dca72e64",
-                "psi3.h5:md5,e4718d51a2deba1a3eac0dd0ecfe725a",
-                "psi5.h5:md5,bc4a333776535472090ad585e8e006ef",
-                "rawCountsJ.h5:md5,64f8b27cc8cb2bc47de81f0a8cdf51e5",
-                "rawCountsJnonsplit.h5:md5,769e925164bf81231c9b325954171e6a",
-                "rawCountsSS.h5:md5,1bd7d5c2256f1c509142d8a779929f01",
-                "rawOtherCounts_jaccard.h5:md5,d58d42e65dff22a86e4351aa47d493a8",
-                "rawOtherCounts_psi3.h5:md5,bd03f8c0b41ef75dc1359dc7a68cd803",
-                "rawOtherCounts_psi5.h5:md5,0180d3be300d91d89a2015a5e11e84ca",
-                "rawOtherCounts_theta.h5:md5,5bb65524e01020eae46c765c31feadf0",
-                "theta.h5:md5,45e4ee34c95792a5b15f566fcadeee21"
+                "delta_jaccard.h5:md5,6c0c30f66dbd093dd33be6a4b73eb83b",
+                "delta_psi3.h5:md5,855cca04238981f883040df32da2009f",
+                "delta_psi5.h5:md5,267245b1452e95407ab4daf8c8aff3ac",
+                "delta_theta.h5:md5,ad2d47362031188cabbb6212091c1e07",
+                "jaccard.h5:md5,49cc85a9a4b2f1ed4ae5e6ff6212c486",
+                "psi3.h5:md5,fe17ce83b753b289af97ed2fbd13a81b",
+                "psi5.h5:md5,66391f87cc7b60413ba3c5136c869e0e",
+                "rawCountsJ.h5:md5,7b24e39d031956e4300842c96b3586ee",
+                "rawCountsJnonsplit.h5:md5,a585346437eff4ca47d889b37d6217d4",
+                "rawCountsSS.h5:md5,ef16111d87967609d57459b89e08bb84",
+                "rawOtherCounts_jaccard.h5:md5,7cbe90b968295e1035fb8f6e22da0f87",
+                "rawOtherCounts_psi3.h5:md5,87ed8e8815cf045047ad266a88fb6d75",
+                "rawOtherCounts_psi5.h5:md5,0dd4abd85b45482e3bb8f36ed7aadce1",
+                "rawOtherCounts_theta.h5:md5,1ff90255faa603c2acb19bbb63e99f8a",
+                "theta.h5:md5,1a015319fe294ef7cc201be90c56fdae"
             ],
             [
                 "fds-object.RDS"
             ],
             [
-                "delta_jaccard.h5:md5,b02262cdbe16d757e8f1b4845d7309da",
-                "delta_psi3.h5:md5,86e9e11b158f3319b655fb8b86ca53d1",
-                "delta_psi5.h5:md5,773d12bcf117b8bf6e9f0bdc5c094cf1",
-                "delta_theta.h5:md5,567bda0ee5b017e1f3560785dfeb9b05",
-                "jaccard.h5:md5,2a65b5f0548d8c165fe19408dca72e64",
-                "psi3.h5:md5,e4718d51a2deba1a3eac0dd0ecfe725a",
-                "psi5.h5:md5,bc4a333776535472090ad585e8e006ef",
-                "rawCountsJ.h5:md5,64f8b27cc8cb2bc47de81f0a8cdf51e5",
-                "rawCountsJnonsplit.h5:md5,769e925164bf81231c9b325954171e6a",
-                "rawCountsSS.h5:md5,1bd7d5c2256f1c509142d8a779929f01",
-                "rawOtherCounts_jaccard.h5:md5,d58d42e65dff22a86e4351aa47d493a8",
-                "rawOtherCounts_psi3.h5:md5,bd03f8c0b41ef75dc1359dc7a68cd803",
-                "rawOtherCounts_psi5.h5:md5,0180d3be300d91d89a2015a5e11e84ca",
-                "rawOtherCounts_theta.h5:md5,5bb65524e01020eae46c765c31feadf0",
-                "theta.h5:md5,45e4ee34c95792a5b15f566fcadeee21"
+                "delta_jaccard.h5:md5,6c0c30f66dbd093dd33be6a4b73eb83b",
+                "delta_psi3.h5:md5,855cca04238981f883040df32da2009f",
+                "delta_psi5.h5:md5,267245b1452e95407ab4daf8c8aff3ac",
+                "delta_theta.h5:md5,ad2d47362031188cabbb6212091c1e07",
+                "jaccard.h5:md5,49cc85a9a4b2f1ed4ae5e6ff6212c486",
+                "psi3.h5:md5,fe17ce83b753b289af97ed2fbd13a81b",
+                "psi5.h5:md5,66391f87cc7b60413ba3c5136c869e0e",
+                "rawCountsJ.h5:md5,7b24e39d031956e4300842c96b3586ee",
+                "rawCountsJnonsplit.h5:md5,a585346437eff4ca47d889b37d6217d4",
+                "rawCountsSS.h5:md5,ef16111d87967609d57459b89e08bb84",
+                "rawOtherCounts_jaccard.h5:md5,7cbe90b968295e1035fb8f6e22da0f87",
+                "rawOtherCounts_psi3.h5:md5,87ed8e8815cf045047ad266a88fb6d75",
+                "rawOtherCounts_psi5.h5:md5,0dd4abd85b45482e3bb8f36ed7aadce1",
+                "rawOtherCounts_theta.h5:md5,1ff90255faa603c2acb19bbb63e99f8a",
+                "theta.h5:md5,1a015319fe294ef7cc201be90c56fdae"
             ],
             [
                 "fds-object.RDS"
             ],
             [
-                "versions.yml:md5,0f8d89184299cfcea2390103f5ad6ac9"
+                "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
             ]
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-06-30T14:55:03.422369516"
+        "timestamp": "2025-12-02T14:58:07.222831552"
     }
 }
