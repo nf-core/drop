@@ -29,7 +29,7 @@ fitMetrics(fds) <- psiTypes
 implementation <- "$implementation"
 mp <- $max_tested_dimension_proportion
 
-oht <- !${ae_use_grid_search_to_obtain_q ? 'TRUE' : 'FALSE'}
+oht <- !${as_use_grid_search_to_obtain_q ? 'TRUE' : 'FALSE'}
 
 if (isTRUE(oht)){
   message(date(), ": Using OHT implementation to determine optimal q ...")

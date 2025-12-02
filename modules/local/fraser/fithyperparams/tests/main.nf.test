@@ -92,8 +92,9 @@ nextflow_process {
                 input[1] = 22
                 input[2] = "PCA"
                 input[3] = 6
-                input[4] = "FRASER"
-                input[5] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[4] = false
+                input[5] = "FRASER2"
+                input[6] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
@@ -124,8 +125,9 @@ nextflow_process {
                 input[1] = false
                 input[2] = "PCA"
                 input[3] = 6
-                input[4] = "FRASER"
-                input[5] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[4] = false
+                input[5] = "FRASER2"
+                input[6] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
