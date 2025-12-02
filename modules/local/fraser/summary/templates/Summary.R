@@ -48,15 +48,15 @@ dataset_title <- paste0("Dataset: ", dataset, "--", annotation)
 if (isTRUE(metadata(fds)[["useOHTtoObtainQ"]])){
   type <- "jaccard"
   g <- plotEncDimSearch(fds, type=type, plotType="sv")
-  g <- g + theme_cowplot(font_size = 16) + 
+  g <- g + theme_cowplot(font_size = 16) +
     ggtitle(paste0("Q estimation, ", type)) + theme(legend.position = "none")
   png(paste0("q_estimation_", type,"_mqc.png"), width = 4, height = 3, units = "in", res = 196)
   print(g)
   dev.off()
 } else{
   for(type in psiTypes){
-    g <- plotEncDimSearch(fds, type=type, plotType="auc") 
-    g <- g + theme_cowplot(font_size = 16) + 
+    g <- plotEncDimSearch(fds, type=type, plotType="auc")
+    g <- g + theme_cowplot(font_size = 16) +
       ggtitle(paste0("Q estimation, ", type)) + theme(legend.position = "none")
     png(paste0("q_estimation_", type,"_mqc.png"), width = 4, height = 3, units = "in", res = 196)
     print(g)
