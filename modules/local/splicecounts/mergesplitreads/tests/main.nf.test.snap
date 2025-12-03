@@ -31,7 +31,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,b73558d00e7764c4adc0ea91cbd8b49c"
+                    "versions.yml:md5,fea22f6ae0b0a49ce56a8c75d80f61f0"
                 ],
                 "cache": [
                     [
@@ -62,15 +62,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,b73558d00e7764c4adc0ea91cbd8b49c"
+                    "versions.yml:md5,fea22f6ae0b0a49ce56a8c75d80f61f0"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:14:37.356278726"
+        "timestamp": "2025-12-03T10:32:40.896366712"
     },
     "homo_sapiens - fds, cache - true": {
         "content": [
@@ -104,7 +104,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,b73558d00e7764c4adc0ea91cbd8b49c"
+                    "versions.yml:md5,fea22f6ae0b0a49ce56a8c75d80f61f0"
                 ],
                 "cache": [
                     [
@@ -135,15 +135,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,b73558d00e7764c4adc0ea91cbd8b49c"
+                    "versions.yml:md5,fea22f6ae0b0a49ce56a8c75d80f61f0"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:15:22.213285966"
+        "timestamp": "2025-12-03T10:33:29.928752286"
     },
     "homo_sapiens - fds, cache - stub": {
         "content": [
@@ -171,7 +171,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,b73558d00e7764c4adc0ea91cbd8b49c"
+                    "versions.yml:md5,fea22f6ae0b0a49ce56a8c75d80f61f0"
                 ],
                 "cache": [
                     [
@@ -196,14 +196,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,b73558d00e7764c4adc0ea91cbd8b49c"
+                    "versions.yml:md5,fea22f6ae0b0a49ce56a8c75d80f61f0"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:15:39.516930617"
+        "timestamp": "2025-12-03T10:33:47.692252266"
     }
 }

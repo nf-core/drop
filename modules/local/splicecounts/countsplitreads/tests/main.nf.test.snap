@@ -7,30 +7,30 @@
                         {
                             "id": "HG00096"
                         },
-                        "splitCounts-HG00096.RDS:md5,a4035197469eab3e93a46b9bc6836910"
+                        "splitCounts-HG00096.RDS:md5,7f14ad3dc811cc3a34632190b631060c"
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2"
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c"
                 ],
                 "split_counts": [
                     [
                         {
                             "id": "HG00096"
                         },
-                        "splitCounts-HG00096.RDS:md5,a4035197469eab3e93a46b9bc6836910"
+                        "splitCounts-HG00096.RDS:md5,7f14ad3dc811cc3a34632190b631060c"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2"
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:11:15.263398134"
+        "timestamp": "2025-12-03T11:01:18.523794411"
     },
     "homo_sapiens - fds - stub": {
         "content": [
@@ -44,7 +44,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2"
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c"
                 ],
                 "split_counts": [
                     [
@@ -55,15 +55,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2"
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:11:28.808689367"
+        "timestamp": "2025-12-03T11:01:32.574920225"
     },
     "homo_sapiens - fds - false": {
         "content": [
@@ -73,155 +73,155 @@
                         {
                             "id": "HG00096"
                         },
-                        "splitCounts-HG00096.RDS:md5,a4035197469eab3e93a46b9bc6836910"
+                        "splitCounts-HG00096.RDS:md5,7f14ad3dc811cc3a34632190b631060c"
                     ],
                     [
                         {
                             "id": "HG00103"
                         },
-                        "splitCounts-HG00103.RDS:md5,d21d1f0c048826ea22716ec6eff6ce21"
+                        "splitCounts-HG00103.RDS:md5,e16d654208069591e647b9db19cb7a87"
                     ],
                     [
                         {
                             "id": "HG00106"
                         },
-                        "splitCounts-HG00106.RDS:md5,091b2989845ead50e7485ac02e269320"
+                        "splitCounts-HG00106.RDS:md5,ead0bfd08aa2532d7cc8749346a0ba8d"
                     ],
                     [
                         {
                             "id": "HG00111"
                         },
-                        "splitCounts-HG00111.RDS:md5,3dc38ba9012b175baa6ce3f22ba3560c"
+                        "splitCounts-HG00111.RDS:md5,72d61cee0b5d56302357c680b06f708f"
                     ],
                     [
                         {
                             "id": "HG00116"
                         },
-                        "splitCounts-HG00116.RDS:md5,63ff72afe2c465c1d259d9717f954c28"
+                        "splitCounts-HG00116.RDS:md5,83b8de09fb28f31228724fc93b757156"
                     ],
                     [
                         {
                             "id": "HG00126"
                         },
-                        "splitCounts-HG00126.RDS:md5,1cff91002dac8dc6f6549a965c065e01"
+                        "splitCounts-HG00126.RDS:md5,663d5ad058c3e4af4ba812ca7c50772c"
                     ],
                     [
                         {
                             "id": "HG00132"
                         },
-                        "splitCounts-HG00132.RDS:md5,9f89661fb3874ea67ec9021061f0a74c"
+                        "splitCounts-HG00132.RDS:md5,e453a894522f0a3ccb62baedebfaa6fb"
                     ],
                     [
                         {
                             "id": "HG00149"
                         },
-                        "splitCounts-HG00149.RDS:md5,077179e9bac0648eb073f452cd42064a"
+                        "splitCounts-HG00149.RDS:md5,9a648e8ed255c8aa049cd5c05c18dc93"
                     ],
                     [
                         {
                             "id": "HG00150"
                         },
-                        "splitCounts-HG00150.RDS:md5,839da3e4d1291ddcff652f0f803aed77"
+                        "splitCounts-HG00150.RDS:md5,2b23394a943695d4a424a354eccd64f6"
                     ],
                     [
                         {
                             "id": "HG00176"
                         },
-                        "splitCounts-HG00176.RDS:md5,4bfe11400c0a8948471a0e887ef3ea1b"
+                        "splitCounts-HG00176.RDS:md5,0c9d54fb7df388b30f70c5942bdfbaee"
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2"
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c"
                 ],
                 "split_counts": [
                     [
                         {
                             "id": "HG00096"
                         },
-                        "splitCounts-HG00096.RDS:md5,a4035197469eab3e93a46b9bc6836910"
+                        "splitCounts-HG00096.RDS:md5,7f14ad3dc811cc3a34632190b631060c"
                     ],
                     [
                         {
                             "id": "HG00103"
                         },
-                        "splitCounts-HG00103.RDS:md5,d21d1f0c048826ea22716ec6eff6ce21"
+                        "splitCounts-HG00103.RDS:md5,e16d654208069591e647b9db19cb7a87"
                     ],
                     [
                         {
                             "id": "HG00106"
                         },
-                        "splitCounts-HG00106.RDS:md5,091b2989845ead50e7485ac02e269320"
+                        "splitCounts-HG00106.RDS:md5,ead0bfd08aa2532d7cc8749346a0ba8d"
                     ],
                     [
                         {
                             "id": "HG00111"
                         },
-                        "splitCounts-HG00111.RDS:md5,3dc38ba9012b175baa6ce3f22ba3560c"
+                        "splitCounts-HG00111.RDS:md5,72d61cee0b5d56302357c680b06f708f"
                     ],
                     [
                         {
                             "id": "HG00116"
                         },
-                        "splitCounts-HG00116.RDS:md5,63ff72afe2c465c1d259d9717f954c28"
+                        "splitCounts-HG00116.RDS:md5,83b8de09fb28f31228724fc93b757156"
                     ],
                     [
                         {
                             "id": "HG00126"
                         },
-                        "splitCounts-HG00126.RDS:md5,1cff91002dac8dc6f6549a965c065e01"
+                        "splitCounts-HG00126.RDS:md5,663d5ad058c3e4af4ba812ca7c50772c"
                     ],
                     [
                         {
                             "id": "HG00132"
                         },
-                        "splitCounts-HG00132.RDS:md5,9f89661fb3874ea67ec9021061f0a74c"
+                        "splitCounts-HG00132.RDS:md5,e453a894522f0a3ccb62baedebfaa6fb"
                     ],
                     [
                         {
                             "id": "HG00149"
                         },
-                        "splitCounts-HG00149.RDS:md5,077179e9bac0648eb073f452cd42064a"
+                        "splitCounts-HG00149.RDS:md5,9a648e8ed255c8aa049cd5c05c18dc93"
                     ],
                     [
                         {
                             "id": "HG00150"
                         },
-                        "splitCounts-HG00150.RDS:md5,839da3e4d1291ddcff652f0f803aed77"
+                        "splitCounts-HG00150.RDS:md5,2b23394a943695d4a424a354eccd64f6"
                     ],
                     [
                         {
                             "id": "HG00176"
                         },
-                        "splitCounts-HG00176.RDS:md5,4bfe11400c0a8948471a0e887ef3ea1b"
+                        "splitCounts-HG00176.RDS:md5,0c9d54fb7df388b30f70c5942bdfbaee"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2",
-                    "versions.yml:md5,54a6a9a3767d074c7f005f2135ff81b2"
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c",
+                    "versions.yml:md5,2e1b45ddb727d1060273237ed8cc580c"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:10:42.201522704"
+        "timestamp": "2025-12-03T11:00:36.175032773"
     }
 }
