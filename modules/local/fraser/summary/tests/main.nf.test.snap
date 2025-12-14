@@ -79,9 +79,7 @@
                         "id": "fraser"
                     },
                     [
-                        "q_estimation_psi3_mqc.png",
-                        "q_estimation_psi5_mqc.png",
-                        "q_estimation_theta_mqc.png"
+                        "q_estimation_jaccard_mqc.png"
                     ]
                 ]
             ],
@@ -99,12 +97,8 @@
                         "id": "fraser"
                     },
                     [
-                        "batch_correlation_psi3_FALSE_mqc.png",
-                        "batch_correlation_psi3_TRUE_mqc.png",
-                        "batch_correlation_psi5_FALSE_mqc.png",
-                        "batch_correlation_psi5_TRUE_mqc.png",
-                        "batch_correlation_theta_FALSE_mqc.png",
-                        "batch_correlation_theta_TRUE_mqc.png"
+                        "batch_correlation_jaccard_FALSE_mqc.png",
+                        "batch_correlation_jaccard_TRUE_mqc.png"
                     ]
                 ]
             ],
@@ -132,6 +126,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2025-12-02T15:03:31.060508777"
+        "timestamp": "2025-12-14T23:35:23.865034093"
     }
 }
