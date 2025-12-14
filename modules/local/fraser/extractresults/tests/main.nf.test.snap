@@ -68,28 +68,58 @@
         "content": [
             {
                 "0": [
-                    
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        "results.tsv:md5,f0b9603c8fae310b42f4e50f01b3f7ec"
+                    ]
                 ],
                 "1": [
-                    
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        "results_per_junction.tsv:md5,c6daf7d7b82d3ecdd091673c5db4072c"
+                    ]
                 ],
                 "2": [
-                    
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        "results_gene_all.tsv:md5,c9294859604f1997e77593c917cc5d49"
+                    ]
                 ],
                 "3": [
-                    
+                    "versions.yml:md5,738cffb5d9772b3098c7a64099247842"
                 ],
                 "results_aberrant": [
-                    
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        "results.tsv:md5,f0b9603c8fae310b42f4e50f01b3f7ec"
+                    ]
                 ],
                 "results_gene_all": [
-                    
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        "results_gene_all.tsv:md5,c9294859604f1997e77593c917cc5d49"
+                    ]
                 ],
                 "results_junctions": [
-                    
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        "results_per_junction.tsv:md5,c6daf7d7b82d3ecdd091673c5db4072c"
+                    ]
                 ],
                 "versions": [
-                    
+                    "versions.yml:md5,738cffb5d9772b3098c7a64099247842"
                 ]
             }
         ],
@@ -97,6 +127,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2025-12-02T14:57:12.513661755"
+        "timestamp": "2025-12-14T23:24:27.859280991"
     }
 }

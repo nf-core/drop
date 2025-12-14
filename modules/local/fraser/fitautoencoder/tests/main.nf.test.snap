@@ -39,25 +39,27 @@
     "homo_sapiens - fds - fraser": {
         "content": [
             [
-                "delta_jaccard.h5:md5,b02262cdbe16d757e8f1b4845d7309da",
-                "delta_psi3.h5:md5,86e9e11b158f3319b655fb8b86ca53d1",
-                "delta_psi5.h5:md5,773d12bcf117b8bf6e9f0bdc5c094cf1",
-                "delta_theta.h5:md5,567bda0ee5b017e1f3560785dfeb9b05",
-                "jaccard.h5:md5,2a65b5f0548d8c165fe19408dca72e64",
-                "psi3.h5:md5,e4718d51a2deba1a3eac0dd0ecfe725a",
-                "psi5.h5:md5,bc4a333776535472090ad585e8e006ef",
-                "rawCountsJ.h5:md5,64f8b27cc8cb2bc47de81f0a8cdf51e5",
-                "rawCountsJnonsplit.h5:md5,769e925164bf81231c9b325954171e6a",
-                "rawCountsSS.h5:md5,1bd7d5c2256f1c509142d8a779929f01",
-                "rawOtherCounts_jaccard.h5:md5,d58d42e65dff22a86e4351aa47d493a8",
-                "rawOtherCounts_psi3.h5:md5,bd03f8c0b41ef75dc1359dc7a68cd803",
-                "rawOtherCounts_psi5.h5:md5,0180d3be300d91d89a2015a5e11e84ca",
-                "rawOtherCounts_theta.h5:md5,5bb65524e01020eae46c765c31feadf0",
-                "theta.h5:md5,45e4ee34c95792a5b15f566fcadeee21"
+                "delta_jaccard.h5:md5,9bffd2fe847e4411e4227f78fbc20213",
+                "delta_psi3.h5:md5,a4eb0da2989842dac2ffeb9ffdac7c2b",
+                "delta_psi5.h5:md5,73fff57d6c3439eee7a3466cef6f8361",
+                "delta_theta.h5:md5,8d7f21debb3d53d636ba25328ea3693a",
+                "jaccard.h5:md5,b3b37c5954bbb0a9391dca20a23b03fb",
+                "psi3.h5:md5,687fb9fda65b4b3390464f8a9896d595",
+                "psi5.h5:md5,fad5fe329666d0ff35ef316b2d973b2a",
+                "rawCountsJ.h5:md5,35b3592cbdf0df10067368350c85c94e",
+                "rawCountsJnonsplit.h5:md5,45aa687fc589b72512ad1676e94e908b",
+                "rawCountsSS.h5:md5,89bbab2601a5897b92d09261248ae01b",
+                "rawOtherCounts_jaccard.h5:md5,f3d046645ff9741af6cea2ba0ddbb4d3",
+                "rawOtherCounts_psi3.h5:md5,70f4e385938b4da89792880446df846e",
+                "rawOtherCounts_psi5.h5:md5,088d3009aa01f2eef79853e637620599",
+                "rawOtherCounts_theta.h5:md5,c413292d8fd9a03b272b92d7caf4cb8d",
+                "theta.h5:md5,4bef95a9334eaa6346e315470266a457"
             ],
             [
                 "fds-object.RDS",
-                "predictedMeans_jaccard.h5"
+                "predictedMeans_psi3.h5",
+                "predictedMeans_psi5.h5",
+                "predictedMeans_theta.h5"
             ],
             [
                 "versions.yml:md5,a125771b968fcd8b4d7acbf162249017"
@@ -67,26 +69,26 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2025-12-02T14:59:01.506506908"
+        "timestamp": "2025-12-14T22:56:53.824236748"
     },
     "homo_sapiens - fds - fraser2": {
         "content": [
             [
-                "delta_jaccard.h5:md5,b02262cdbe16d757e8f1b4845d7309da",
-                "delta_psi3.h5:md5,86e9e11b158f3319b655fb8b86ca53d1",
-                "delta_psi5.h5:md5,773d12bcf117b8bf6e9f0bdc5c094cf1",
-                "delta_theta.h5:md5,567bda0ee5b017e1f3560785dfeb9b05",
-                "jaccard.h5:md5,2a65b5f0548d8c165fe19408dca72e64",
-                "psi3.h5:md5,e4718d51a2deba1a3eac0dd0ecfe725a",
-                "psi5.h5:md5,bc4a333776535472090ad585e8e006ef",
-                "rawCountsJ.h5:md5,64f8b27cc8cb2bc47de81f0a8cdf51e5",
-                "rawCountsJnonsplit.h5:md5,769e925164bf81231c9b325954171e6a",
-                "rawCountsSS.h5:md5,1bd7d5c2256f1c509142d8a779929f01",
-                "rawOtherCounts_jaccard.h5:md5,d58d42e65dff22a86e4351aa47d493a8",
-                "rawOtherCounts_psi3.h5:md5,bd03f8c0b41ef75dc1359dc7a68cd803",
-                "rawOtherCounts_psi5.h5:md5,0180d3be300d91d89a2015a5e11e84ca",
-                "rawOtherCounts_theta.h5:md5,5bb65524e01020eae46c765c31feadf0",
-                "theta.h5:md5,45e4ee34c95792a5b15f566fcadeee21"
+                "delta_jaccard.h5:md5,9bffd2fe847e4411e4227f78fbc20213",
+                "delta_psi3.h5:md5,a4eb0da2989842dac2ffeb9ffdac7c2b",
+                "delta_psi5.h5:md5,73fff57d6c3439eee7a3466cef6f8361",
+                "delta_theta.h5:md5,8d7f21debb3d53d636ba25328ea3693a",
+                "jaccard.h5:md5,b3b37c5954bbb0a9391dca20a23b03fb",
+                "psi3.h5:md5,687fb9fda65b4b3390464f8a9896d595",
+                "psi5.h5:md5,fad5fe329666d0ff35ef316b2d973b2a",
+                "rawCountsJ.h5:md5,35b3592cbdf0df10067368350c85c94e",
+                "rawCountsJnonsplit.h5:md5,45aa687fc589b72512ad1676e94e908b",
+                "rawCountsSS.h5:md5,89bbab2601a5897b92d09261248ae01b",
+                "rawOtherCounts_jaccard.h5:md5,f3d046645ff9741af6cea2ba0ddbb4d3",
+                "rawOtherCounts_psi3.h5:md5,70f4e385938b4da89792880446df846e",
+                "rawOtherCounts_psi5.h5:md5,088d3009aa01f2eef79853e637620599",
+                "rawOtherCounts_theta.h5:md5,c413292d8fd9a03b272b92d7caf4cb8d",
+                "theta.h5:md5,4bef95a9334eaa6346e315470266a457"
             ],
             [
                 "fds-object.RDS",
@@ -100,6 +102,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2025-12-02T14:59:44.948749996"
+        "timestamp": "2025-12-14T22:54:24.743183013"
     }
 }
