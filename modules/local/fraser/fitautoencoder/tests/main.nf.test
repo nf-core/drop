@@ -87,7 +87,7 @@ nextflow_process {
                     [ [id:'fraser'], fds.resolve("fraser"), "fraser" ]
                 }
                 input[1] = "PCA"
-                input[2] = "FRASER"
+                input[2] = "FRASER2"
                 input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }

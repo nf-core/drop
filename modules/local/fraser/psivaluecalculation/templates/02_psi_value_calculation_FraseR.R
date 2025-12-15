@@ -14,7 +14,8 @@ setAutoBPPARAM(MulticoreParam($task.cpus))
 fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-local-", dataset))
 
 # Calculating PSI values
-fds <- calculatePSIValues(fds)
+fitMetrics(fds) <- psiTypes
+fds <- calculatePSIValues(fds, types=psiTypes)
 
 # FRASER object after PSI value calculation
 fds <- saveFraserDataSet(fds)

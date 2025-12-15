@@ -29,25 +29,40 @@ fitMetrics(fds) <- psiTypes
 implementation <- "$implementation"
 mp <- $max_tested_dimension_proportion
 
-# Get range for latent space dimension
-a <- 2
-b <- min(ncol(fds), nrow(fds)) / mp   # N/mp
+oht <- !${as_use_grid_search_to_obtain_q ? 'TRUE' : 'FALSE'}
 
-maxSteps <- 12
-if(mp < 6){
-    maxSteps <- 15
-}
+if (isTRUE(oht)){
+  message(date(), ": Using OHT implementation to determine optimal q ...")
+  fds <- estimateBestQ(fds, type="jaccard",
+                       useOHT=TRUE,
+                       implementation=implementation,
+                       plot = FALSE)
+  metadata(fds)[["useOHTtoObtainQ"]] <- TRUE
+} else{
+  # Get range for latent space dimension
+  a <- 2
+  b <- min(ncol(fds), nrow(fds)) / mp   # N/mp
 
-Nsteps <- min(maxSteps, b)
-pars_q <- round(exp(seq(log(a),log(b),length.out = Nsteps))) %>% unique
+  maxSteps <- 12
+  if(mp < 6){
+      maxSteps <- 15
+  }
 
-for(type in psiTypes){
-    message(date(), ": ", type)
-    fds <- optimHyperParams(fds, type=type,
-                            implementation=implementation,
-                            q_param=pars_q,
-                            plot = FALSE)
-    fds <- saveFraserDataSet(fds)
+  Nsteps <- min(maxSteps, b)
+  pars_q <- round(exp(seq(log(a),log(b),length.out = Nsteps))) %>% unique
+
+  message(date(), ": Testing the following values of q to determine the optimal one: ",
+          pars_q)
+
+  for(type in psiTypes){
+      message(date(), ": ", type)
+      fds <- estimateBestQ(fds, type=type,
+                           useOHT=FALSE,
+                           implementation=implementation,
+                           q_param=pars_q,
+                           plot = FALSE)
+  }
+  metadata(fds)[["useOHTtoObtainQ"]] <- FALSE
 }
 fds <- saveFraserDataSet(fds)
 

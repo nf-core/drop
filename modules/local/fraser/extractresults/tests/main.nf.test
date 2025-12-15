@@ -46,10 +46,10 @@ nextflow_process {
                     [ id: 'hpo' ],
                     file(params.pipelines_testdata_base_path + 'genome/hpo_genes.tsv.gz', checkIfExists: true)
                 ]
-                input[3] = 0.1
-                input[4] = 0.3
+                input[3] = 1
+                input[4] = 0.05
                 input[5] = "hg19"
-                input[6] = "FRASER"
+                input[6] = "FRASER2"
                 input[7] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 input[8] = file("${projectDir}/assets/helpers/add_HPO_cols.R")
                 """
@@ -90,10 +90,10 @@ nextflow_process {
                     [ id: 'hpo' ],
                     file(params.pipelines_testdata_base_path + 'genome/hpo_genes.tsv.gz', checkIfExists: true)
                 ]
-                input[3] = 0.1
-                input[4] = 0.3
+                input[3] = 1
+                input[4] = 0.05
                 input[5] = "hg19"
-                input[6] = "FRASER"
+                input[6] = "FRASER2"
                 input[7] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 input[8] = file("${projectDir}/assets/helpers/add_HPO_cols.R")
                 """

@@ -2,52 +2,40 @@
     "homo_sapiens - fds, cache - false": {
         "content": [
             [
-                "delta_jaccard.h5:md5,b02262cdbe16d757e8f1b4845d7309da",
-                "delta_psi3.h5:md5,86e9e11b158f3319b655fb8b86ca53d1",
-                "delta_psi5.h5:md5,773d12bcf117b8bf6e9f0bdc5c094cf1",
-                "delta_theta.h5:md5,567bda0ee5b017e1f3560785dfeb9b05",
-                "jaccard.h5:md5,2a65b5f0548d8c165fe19408dca72e64",
-                "padjBetaBinomial_Sample_specific_genes_psi3.h5:md5,8c726b4ac0b89a69e06e7af16032aa19",
-                "padjBetaBinomial_Sample_specific_genes_psi5.h5:md5,bd276981f6e786e56dd6fbefd0cd2d80",
-                "padjBetaBinomial_Sample_specific_genes_theta.h5:md5,a48d289ead83b65a03b57982f5e24ece",
-                "padjBetaBinomial_Test_subset_psi3.h5:md5,3b8e42fb527a8df3e3fe8134601f8eaa",
-                "padjBetaBinomial_Test_subset_psi5.h5:md5,5260a7ce2224c377982f873567b71053",
-                "padjBetaBinomial_Test_subset_theta.h5:md5,d30ab4db089ba5cfb63976c2ed350ca2",
-                "padjBetaBinomial_psi3.h5:md5,e2977bf4621c25aa028994c93ba022a3",
-                "padjBetaBinomial_psi5.h5:md5,891ad620fec1c576abe7a0fe09c1ab94",
-                "padjBetaBinomial_theta.h5:md5,3d197d8f05a07cf6265d3c4e544eb9b7",
-                "predictedMeans_psi3.h5:md5,9761babe89e5bf64b9d1fe52ce096b45",
-                "predictedMeans_psi5.h5:md5,0e8778d36d61e381ffa29047b98a6ea2",
-                "predictedMeans_theta.h5:md5,df10fdbd61c2ceaf9ba64c33b49d0ff5",
-                "psi3.h5:md5,e4718d51a2deba1a3eac0dd0ecfe725a",
-                "psi5.h5:md5,bc4a333776535472090ad585e8e006ef",
-                "pvaluesBetaBinomial_junction_psi3.h5:md5,2c40c6916d6a674ac797f7eb9af1f3e0",
-                "pvaluesBetaBinomial_psi3.h5:md5,ce595a8ef6d382859108f9f23eb7cd58",
-                "rawCountsJ.h5:md5,64f8b27cc8cb2bc47de81f0a8cdf51e5",
-                "rawCountsJnonsplit.h5:md5,769e925164bf81231c9b325954171e6a",
-                "rawCountsSS.h5:md5,1bd7d5c2256f1c509142d8a779929f01",
-                "rawOtherCounts_jaccard.h5:md5,d58d42e65dff22a86e4351aa47d493a8",
-                "rawOtherCounts_psi3.h5:md5,bd03f8c0b41ef75dc1359dc7a68cd803",
-                "rawOtherCounts_psi5.h5:md5,0180d3be300d91d89a2015a5e11e84ca",
-                "rawOtherCounts_theta.h5:md5,5bb65524e01020eae46c765c31feadf0",
-                "theta.h5:md5,45e4ee34c95792a5b15f566fcadeee21"
+                "delta_jaccard.h5:md5,9bffd2fe847e4411e4227f78fbc20213",
+                "delta_psi3.h5:md5,a4eb0da2989842dac2ffeb9ffdac7c2b",
+                "delta_psi5.h5:md5,73fff57d6c3439eee7a3466cef6f8361",
+                "delta_theta.h5:md5,8d7f21debb3d53d636ba25328ea3693a",
+                "jaccard.h5:md5,b3b37c5954bbb0a9391dca20a23b03fb",
+                "padjBetaBinomial_Sample_specific_genes_jaccard.h5:md5,753ff7abb16078f317b1e305d23169e1",
+                "padjBetaBinomial_Test_subset_jaccard.h5:md5,6dd2384e1d51ae8ab1f9ec33859c8b8a",
+                "padjBetaBinomial_jaccard.h5:md5,a9f301423e84f13feca2133b558e678e",
+                "predictedMeans_jaccard.h5:md5,832012ee2e3aaebf88776c433dc7b0e0",
+                "psi3.h5:md5,687fb9fda65b4b3390464f8a9896d595",
+                "psi5.h5:md5,fad5fe329666d0ff35ef316b2d973b2a",
+                "pvaluesBetaBinomial_jaccard.h5:md5,a9b0defe7026c5b79e4ee2993a5ee5b4",
+                "pvaluesBetaBinomial_junction_jaccard.h5:md5,bf5aa4588f8f26703c20043cb1d741bf",
+                "rawCountsJ.h5:md5,35b3592cbdf0df10067368350c85c94e",
+                "rawCountsJnonsplit.h5:md5,45aa687fc589b72512ad1676e94e908b",
+                "rawCountsSS.h5:md5,89bbab2601a5897b92d09261248ae01b",
+                "rawOtherCounts_jaccard.h5:md5,f3d046645ff9741af6cea2ba0ddbb4d3",
+                "rawOtherCounts_psi3.h5:md5,70f4e385938b4da89792880446df846e",
+                "rawOtherCounts_psi5.h5:md5,088d3009aa01f2eef79853e637620599",
+                "rawOtherCounts_theta.h5:md5,c413292d8fd9a03b272b92d7caf4cb8d",
+                "theta.h5:md5,4bef95a9334eaa6346e315470266a457"
             ],
             [
-                "fds-object.RDS",
-                "pvaluesBetaBinomial_junction_psi5.h5",
-                "pvaluesBetaBinomial_junction_theta.h5",
-                "pvaluesBetaBinomial_psi5.h5",
-                "pvaluesBetaBinomial_theta.h5"
+                "fds-object.RDS"
             ],
             [
-                "versions.yml:md5,c2230506da2802610cc2143196972faf"
+                "versions.yml:md5,d755e088ac9ee70055ffbf3ea99031ce"
             ]
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-09-09T12:24:11.592076778"
+        "timestamp": "2025-12-14T23:02:43.828202601"
     },
     "homo_sapiens - fds, cache - stub": {
         "content": [
@@ -63,7 +51,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,c2230506da2802610cc2143196972faf"
+                    "versions.yml:md5,d755e088ac9ee70055ffbf3ea99031ce"
                 ],
                 "fdsobj": [
                     [
@@ -76,14 +64,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,c2230506da2802610cc2143196972faf"
+                    "versions.yml:md5,d755e088ac9ee70055ffbf3ea99031ce"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T13:33:21.096729652"
+        "timestamp": "2025-12-02T14:56:35.945086561"
     }
 }

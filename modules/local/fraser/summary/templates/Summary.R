@@ -44,10 +44,18 @@ write.table(count_df, file="fraser_overview_mqc.tsv", row.names = FALSE, col.nam
 dataset_title <- paste0("Dataset: ", dataset, "--", annotation)
 
 
-#' ## Hyperparameter optimization
-for(type in psiTypes){
-  g <- plotEncDimSearch(fds, type=type)
-  if (!is.null(g)) {
+#' ## Estimation of the optimal latent space dimension
+if (isTRUE(metadata(fds)[["useOHTtoObtainQ"]])){
+  type <- "jaccard"
+  g <- plotEncDimSearch(fds, type=type, plotType="sv")
+  g <- g + theme_cowplot(font_size = 16) +
+    ggtitle(paste0("Q estimation, ", type)) + theme(legend.position = "none")
+  png(paste0("q_estimation_", type,"_mqc.png"), width = 4, height = 3, units = "in", res = 196)
+  print(g)
+  dev.off()
+} else{
+  for(type in psiTypes){
+    g <- plotEncDimSearch(fds, type=type, plotType="auc")
     g <- g + theme_cowplot(font_size = 16) +
       ggtitle(paste0("Q estimation, ", type)) + theme(legend.position = "none")
     png(paste0("q_estimation_", type,"_mqc.png"), width = 4, height = 3, units = "in", res = 196)

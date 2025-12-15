@@ -130,7 +130,7 @@
                 "ae_z_score_cutoff": {
                     "type": "number",
                     "description": "A non-negative number. Z scores (in absolute value) greater than this cutoff are considered as outliers.",
-                    "default": 0,
+                    "default": 0.0,
                     "minimum": 0,
                     "fa_icon": "fas fa-file-export"
                 },
@@ -237,7 +237,7 @@
                     "type": "string",
                     "description": "Version of FRASER to use.",
                     "enume": ["FRASER", "FRASER2"],
-                    "default": "FRASER",
+                    "default": "FRASER2",
                     "fa_icon": "fas fa-file-export"
                 },
                 "as_delta_psi_cutoff": {
@@ -252,7 +252,7 @@
                     "type": "number",
                     "description": "Defines at which percentile the as_quantile_min_expression filter is applied. Recommand 0.95 for FRASER, 0.75 for FRASER2.",
                     "help_text": "A value of 0.95 means that at least 5% of the samples need to have a total read count N >= as_quantile_min_expression to pass the filter.",
-                    "default": 0.95,
+                    "default": 0.75,
                     "minimum": 0,
                     "maximum": 1,
                     "fa_icon": "fas fa-file-export"
@@ -278,6 +278,10 @@
                     "schema": "assets/schema_genes_to_test.json",
                     "pattern": "^\\S+\\.(yaml|yml)$",
                     "description": "Full path to a yaml file specifying lists of candidate genes per sample to test during FDR correction. See the documentation for details on the structure of this file."
+                },
+                "as_use_grid_search_to_obtain_q": {
+                    "type": "boolean",
+                    "description": "If true, the optimal latent space dimension for the autoencoder will be determined by grid search. If false, OHT will be performed.."
                 }
             }
         },

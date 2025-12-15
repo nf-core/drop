@@ -325,6 +325,7 @@ workflow ABERRANTSPLICING {
         params.random_seed,
         params.as_implementation,
         params.as_max_tested_dimension_proportion,
+        params.as_use_grid_search_to_obtain_q,
         fraser_version,
         aberrant_splicing_config_R
     )

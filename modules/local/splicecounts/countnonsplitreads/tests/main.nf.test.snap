@@ -9,10 +9,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ]
@@ -22,11 +22,11 @@
                         {
                             "id": "HG00096"
                         },
-                        "nonSplicedCounts-HG00096.h5:md5,a4d5d2ecdcf1f0e04b8f8a8e7d221588"
+                        "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e"
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c"
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c"
                 ],
                 "fds": [
                     [
@@ -35,10 +35,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ]
@@ -48,19 +48,19 @@
                         {
                             "id": "HG00096"
                         },
-                        "nonSplicedCounts-HG00096.h5:md5,a4d5d2ecdcf1f0e04b8f8a8e7d221588"
+                        "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c"
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:08:33.957423913"
+        "timestamp": "2025-12-14T22:22:23.393311873"
     },
     "homo_sapiens - fds - stub": {
         "content": [
@@ -84,7 +84,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c"
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c"
                 ],
                 "fds": [
                     [
@@ -105,15 +105,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c"
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:08:49.022404288"
+        "timestamp": "2025-12-03T10:55:47.404942576"
     },
     "homo_sapiens - fds - false": {
         "content": [
@@ -125,10 +125,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -138,10 +138,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -151,10 +151,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -164,10 +164,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -177,10 +177,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -190,10 +190,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -203,10 +203,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -216,10 +216,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -229,10 +229,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -242,10 +242,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ]
@@ -255,74 +255,74 @@
                         {
                             "id": "HG00096"
                         },
-                        "nonSplicedCounts-HG00096.h5:md5,a4d5d2ecdcf1f0e04b8f8a8e7d221588"
+                        "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e"
                     ],
                     [
                         {
                             "id": "HG00103"
                         },
-                        "nonSplicedCounts-HG00103.h5:md5,3a2f3b58000318a317b42bc5fe30a6d0"
+                        "nonSplicedCounts-HG00103.h5:md5,528cd1487e6e5bd831b711e639bedf02"
                     ],
                     [
                         {
                             "id": "HG00106"
                         },
-                        "nonSplicedCounts-HG00106.h5:md5,bc36f232634f47f6135a19ef17f05582"
+                        "nonSplicedCounts-HG00106.h5:md5,025f4bfbdde9293d81673a95247e29d7"
                     ],
                     [
                         {
                             "id": "HG00111"
                         },
-                        "nonSplicedCounts-HG00111.h5:md5,76734eba5005572ab99f49a9952951d8"
+                        "nonSplicedCounts-HG00111.h5:md5,defa7c8bbacc9c7612cd6826a1701980"
                     ],
                     [
                         {
                             "id": "HG00116"
                         },
-                        "nonSplicedCounts-HG00116.h5:md5,e263e2acca877ee277f90690371745d2"
+                        "nonSplicedCounts-HG00116.h5:md5,8c1cbd2107647f5ba149322d6e0a0666"
                     ],
                     [
                         {
                             "id": "HG00126"
                         },
-                        "nonSplicedCounts-HG00126.h5:md5,ae18d255773da9d1fa1e8b728d60c9b5"
+                        "nonSplicedCounts-HG00126.h5:md5,09806d617621f173ae58caa273f0cfe8"
                     ],
                     [
                         {
                             "id": "HG00132"
                         },
-                        "nonSplicedCounts-HG00132.h5:md5,ec1597bf538cff92db23f10a38badc9e"
+                        "nonSplicedCounts-HG00132.h5:md5,3fa0da65a71dec519aac59f248698ae8"
                     ],
                     [
                         {
                             "id": "HG00149"
                         },
-                        "nonSplicedCounts-HG00149.h5:md5,482723fa1003c22f2fd43d16cc25c855"
+                        "nonSplicedCounts-HG00149.h5:md5,e8775172820d1cd650f8a135c211069b"
                     ],
                     [
                         {
                             "id": "HG00150"
                         },
-                        "nonSplicedCounts-HG00150.h5:md5,a8cb4f09cf0758398bb4a89138d459fc"
+                        "nonSplicedCounts-HG00150.h5:md5,21dd9caef46736bef98fc9c0e4d9a134"
                     ],
                     [
                         {
                             "id": "HG00176"
                         },
-                        "nonSplicedCounts-HG00176.h5:md5,26f50c198df1c86cb65af70012083ef5"
+                        "nonSplicedCounts-HG00176.h5:md5,8b2b6f9c77b0a1b04842c6101c9d7081"
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c"
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c"
                 ],
                 "fds": [
                     [
@@ -331,10 +331,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -344,10 +344,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -357,10 +357,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -370,10 +370,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -383,10 +383,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -396,10 +396,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -409,10 +409,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -422,10 +422,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -435,10 +435,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ],
@@ -448,10 +448,10 @@
                         },
                         [
                             "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
-                            "rawCountsJ.h5:md5,91bd1f9db78b6d59c34385a8c87a6046",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
                             [
-                                "assays.h5:md5,c6164dcf4634dbf871459c6fc7168818",
-                                "se.rds:md5,4853852e7692b9364dcb076b5708665a"
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
                             ]
                         ]
                     ]
@@ -461,81 +461,81 @@
                         {
                             "id": "HG00096"
                         },
-                        "nonSplicedCounts-HG00096.h5:md5,a4d5d2ecdcf1f0e04b8f8a8e7d221588"
+                        "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e"
                     ],
                     [
                         {
                             "id": "HG00103"
                         },
-                        "nonSplicedCounts-HG00103.h5:md5,3a2f3b58000318a317b42bc5fe30a6d0"
+                        "nonSplicedCounts-HG00103.h5:md5,528cd1487e6e5bd831b711e639bedf02"
                     ],
                     [
                         {
                             "id": "HG00106"
                         },
-                        "nonSplicedCounts-HG00106.h5:md5,bc36f232634f47f6135a19ef17f05582"
+                        "nonSplicedCounts-HG00106.h5:md5,025f4bfbdde9293d81673a95247e29d7"
                     ],
                     [
                         {
                             "id": "HG00111"
                         },
-                        "nonSplicedCounts-HG00111.h5:md5,76734eba5005572ab99f49a9952951d8"
+                        "nonSplicedCounts-HG00111.h5:md5,defa7c8bbacc9c7612cd6826a1701980"
                     ],
                     [
                         {
                             "id": "HG00116"
                         },
-                        "nonSplicedCounts-HG00116.h5:md5,e263e2acca877ee277f90690371745d2"
+                        "nonSplicedCounts-HG00116.h5:md5,8c1cbd2107647f5ba149322d6e0a0666"
                     ],
                     [
                         {
                             "id": "HG00126"
                         },
-                        "nonSplicedCounts-HG00126.h5:md5,ae18d255773da9d1fa1e8b728d60c9b5"
+                        "nonSplicedCounts-HG00126.h5:md5,09806d617621f173ae58caa273f0cfe8"
                     ],
                     [
                         {
                             "id": "HG00132"
                         },
-                        "nonSplicedCounts-HG00132.h5:md5,ec1597bf538cff92db23f10a38badc9e"
+                        "nonSplicedCounts-HG00132.h5:md5,3fa0da65a71dec519aac59f248698ae8"
                     ],
                     [
                         {
                             "id": "HG00149"
                         },
-                        "nonSplicedCounts-HG00149.h5:md5,482723fa1003c22f2fd43d16cc25c855"
+                        "nonSplicedCounts-HG00149.h5:md5,e8775172820d1cd650f8a135c211069b"
                     ],
                     [
                         {
                             "id": "HG00150"
                         },
-                        "nonSplicedCounts-HG00150.h5:md5,a8cb4f09cf0758398bb4a89138d459fc"
+                        "nonSplicedCounts-HG00150.h5:md5,21dd9caef46736bef98fc9c0e4d9a134"
                     ],
                     [
                         {
                             "id": "HG00176"
                         },
-                        "nonSplicedCounts-HG00176.h5:md5,26f50c198df1c86cb65af70012083ef5"
+                        "nonSplicedCounts-HG00176.h5:md5,8b2b6f9c77b0a1b04842c6101c9d7081"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c",
-                    "versions.yml:md5,e098aa7c53b490fc7292aff5d136e62c"
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c",
+                    "versions.yml:md5,4d3621f9dfcf5e43b01f1e92d602464c"
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-08-12T15:08:05.843068369"
+        "timestamp": "2025-12-14T22:21:59.765874646"
     }
 }
