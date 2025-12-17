@@ -169,15 +169,13 @@ if (isEmpty(sex_idx)) {
 } else {
 
     # Verify if both XIST and UTY were counted
-    xist_id <- "XIST"
-    uty_id <- "UTY"
-
-    if (grepl("ENSG0", rownames(ods)[1])) {
-        xist_id <- "ENSG00000229807"
-        uty_id <- "ENSG00000183878"
+    if(grepl('ENSG0', rownames(ods)[1])){
+        xist_idx <- grep('ENSG00000229807', rownames(ods))
+        uty_idx <- grep('ENSG00000183878', rownames(ods))
+    } else{
+        xist_idx <- which(rownames(ods) == 'XIST')
+        uty_idx <- which(rownames(ods) == 'UTY')
     }
-    xist_idx <- grep(xist_id, rownames(ods))
-    uty_idx <- grep(uty_id, rownames(ods))
 
     if (isEmpty(xist_idx) | isEmpty(uty_idx)) {
         writeLines(c('# plot_type: "html"','Sex column not found in sample annotation'), con = file.path("expression_sex_mqc.tsv"))
@@ -195,19 +193,27 @@ if (isEmpty(sex_idx)) {
         # Train only in male/female in case there are other values
         train_dt <- sex_dt[SEX %in% c("f", "m", "female", "male")]
 
-        library("MASS")
-        lda <- lda(SEX ~ log2(XIST + 1) + log2(UTY + 1), data = train_dt)
+        if(uniqueN(train_dt\$SEX) > 1){
+            library("MASS")
+            lda <- lda(SEX ~ log2(XIST + 1) + log2(UTY + 1), data = train_dt)
 
-        sex_dt[, predicted_sex := predict(lda, sex_dt)\$class]
-        sex_dt[, match_sex := SEX == predicted_sex]
-        table(sex_dt[, .(SEX, predicted_sex)])
+            sex_dt[, predicted_sex := predict(lda, sex_dt)\$class]
+            sex_dt[, match_sex := SEX == predicted_sex]
+            table(sex_dt[, .(SEX, predicted_sex)])
 
-        g <- ggplot(sex_dt, aes(XIST + 1, UTY + 1)) + geom_point(aes(col = SEX, shape = predicted_sex,
-            alpha = match_sex)) + scale_x_log10(limits = c(1, NA)) + scale_y_log10(limits = c(1,
-            NA)) + scale_alpha_manual(values = c(1, 0.1)) + theme_cowplot() + background_grid(major = "xy",
-            minor = "xy") + annotation_logticks(sides = "bl") + labs(color = "Sex",
-            shape = "Predicted sex", alpha = "Matches sex")
-        ggsave("sex_matched_mqc.png", g, width = 5, height = 3.75, dpi = 196, bg = "white")
+            g <- ggplot(sex_dt, aes(XIST + 1, UTY + 1)) + geom_point(aes(col = SEX, shape = predicted_sex,
+                alpha = match_sex)) + scale_x_log10(limits = c(1, NA)) + scale_y_log10(limits = c(1,
+                NA)) + scale_alpha_manual(values = c(1, 0.1)) + theme_cowplot() + background_grid(major = "xy",
+                minor = "xy") + annotation_logticks(sides = "bl") + labs(color = "Sex",
+                shape = "Predicted sex", alpha = "Matches sex")
+            ggsave("sex_matched_mqc.png", g, width = 5, height = 3.75, dpi = 196, bg = "white")
+        } else{
+            g <- ggplot(sex_dt, aes(XIST+1, UTY+1)) + geom_point(aes(col = SEX)) +
+                scale_x_log10(limits = c(1,NA)) + scale_y_log10(limits = c(1,NA)) +
+                theme_cowplot() + background_grid(major = 'xy', minor = 'xy') +
+                annotation_logticks(sides = 'bl')
+            ggsave("sex_matched_mqc.png", g, width = 5, height = 3.75, dpi = 196, bg = "white")
+        }
 
         writeLines(c('# plot_type: "table"', '# format: "tsv"'), con = file.path("expression_sex_mqc.tsv"))
         write.table(sex_dt[match_sex == F], file="expression_sex_mqc.tsv", row.names = FALSE, col.names = TRUE, quote = FALSE, append = TRUE, sep = "\t")
