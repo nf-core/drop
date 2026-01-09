@@ -123,7 +123,7 @@
             },
             "SEX": {
                 "type": "string",
-                "description": "The sex of the sample. Samples with 'm','male','f','femal' will be analysed for sex bias abrrant expression report",
+                "description": "The sex of the sample. Samples with 'm','male','f','female' will be analysed for sex bias abrrant expression report",
                 "meta": "sex"
             },
             "TISSUE": {
