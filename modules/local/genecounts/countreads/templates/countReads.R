@@ -11,10 +11,18 @@ suppressPackageStartupMessages({
 # Initialize the prefix from the module
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
-# Rename the BAM file to make sure the correct ID is used
-if ("$bam" != "${meta.id}.bam") {
-    file.rename("$bam", "${meta.id}.bam")
+# Rename the BAM file and its indexto make sure the correct ID is used
+
+if ($"bam" != "${meta.id}.bam") {
+	file.rename("$bam", "${meta.id}.bam")
+	# Rename the BAM index file
+	bam_index <- paste0("$bam", ".bai")
+	if (file.exists(bam_index)) {
+		file.rename(bam_index, "${meta.id}.bam.bai)
+	}
 }
+
+
 
 # Get strand specific information from sample annotation
 
