@@ -18,9 +18,10 @@ if ("$bam" != "${meta.id}.bam") {
     bam_index <- paste0("$bam", ".bai")
     if (file.exists(bam_index)) {
         file.rename(bam_index, "${meta.id}.bam.bai")
+        # Update timestamp to be newer than BAM file
+        Sys.setFileTime("${meta.id}.bam.bai", Sys.time())
     }
 }
-
 
 # Get strand specific information from sample annotation
 
