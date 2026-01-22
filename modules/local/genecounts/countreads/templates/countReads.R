@@ -96,7 +96,8 @@ message("\nstarting counting expression ...")
 starttime <- Sys.time()
 
 iterate <- seqlevels(count_ranges)
-bpparam <- MulticoreParam(workers = $task.cpus, tasks = length(iterate))
+# Use SerialParam to avoid BiocParallel forking issues in containerized environments
+bpparam <- SerialParam()
 counts <- bplapply(iterate, count_per_chromosome,
           gene_seqnames, count_ranges, bam_file, $yield_size,
           count_mode, paired_end, strand_spec, preprocess_reads,
