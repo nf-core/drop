@@ -12,16 +12,16 @@ suppressPackageStartupMessages({
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
 # Rename the BAM file and its index to make sure the correct ID is used
-if ("$bam" != "${meta.id}.bam") {
-    file.rename("$bam", "${meta.id}.bam")
+# if ("$bam" != "${meta.id}.bam") {
+ #   file.rename("$bam", "${meta.id}.bam")
     # Also rename the BAM index file
-    bam_index <- paste0("$bam", ".bai")
-    if (file.exists(bam_index)) {
-        file.rename(bam_index, "${meta.id}.bam.bai")
+  #  bam_index <- paste0("$bam", ".bai")
+  #  if (file.exists(bam_index)) {
+   #     file.rename(bam_index, "${meta.id}.bam.bai")
         # Update timestamp to be newer than BAM file
-        Sys.setFileTime("${meta.id}.bam.bai", Sys.time())
-    }
-}
+    #    Sys.setFileTime("${meta.id}.bam.bai", Sys.time())
+   # }
+# }
 
 # Get strand specific information from sample annotation
 
@@ -46,7 +46,7 @@ if (strand == "yes") {
 }
 
 # read files
-bam_file <- BamFile("${meta.id}.bam", yieldSize = $yield_size)
+bam_file <- BamFile("$bam", yieldSize = $yield_size)
 count_ranges <- readRDS("$count_ranges")
 # set chromosome style
 seqlevelsStyle(count_ranges) <- seqlevelsStyle(bam_file)
@@ -55,7 +55,7 @@ seqlevelsStyle(count_ranges) <- seqlevelsStyle(bam_file)
 gene_seqnames = as.character(sapply(seqnames(count_ranges), runValue))
 
 # show info
-message(paste("input:", "${meta.id}.bam"))
+message(paste("input:", "$bam"))
 message(paste("output:", paste(prefix, ".Rds", sep="")))
 message(paste('\tcount mode:', count_mode, sep = "\t"))
 message(paste('\tpaired end:', paired_end, sep = "\t"))
@@ -74,7 +74,7 @@ count_per_chromosome <- function(i, gene_seqnames, count_ranges, bam_file, yield
   current_ranges <- count_ranges[genes_to_count]
 
   # create a new BamFile for the current seqname
-  current_bam_file <- BamFile("${meta.id}.bam", yieldSize=$yield_size)
+  current_bam_file <- BamFile("$bam", yieldSize=$yield_size)
   # summarize overlaps
   summarizeOverlaps(
     current_ranges,
