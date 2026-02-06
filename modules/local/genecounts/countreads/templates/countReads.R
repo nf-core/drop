@@ -12,16 +12,17 @@ suppressPackageStartupMessages({
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
 # Rename the BAM file and its index to make sure the correct ID is used
-# if ("$bam" != "${meta.id}.bam") {
- #   file.rename("$bam", "${meta.id}.bam")
+ if ("$bam" != "${meta.id}.bam") {
+    file.rename("$bam", "${meta.id}.bam")
     # Also rename the BAM index file
-  #  bam_index <- paste0("$bam", ".bai")
-  #  if (file.exists(bam_index)) {
-   #     file.rename(bam_index, "${meta.id}.bam.bai")
+    bam_index <- paste0("$bam", ".bai")
+    if (file.exists(bam_index)) {
+        file.rename(bam_index, "${meta.id}.bam.bai")
         # Update timestamp to be newer than BAM file
-    #    Sys.setFileTime("${meta.id}.bam.bai", Sys.time())
-   # }
-# }
+        Sys.setFileTime("${meta.id}.bam.bai", Sys.time())
+    }
+}
+
 
 # Get strand specific information from sample annotation
 
@@ -96,7 +97,6 @@ message("\nstarting counting expression ...")
 starttime <- Sys.time()
 
 iterate <- seqlevels(count_ranges)
-# Use SerialParam to avoid BiocParallel forking issues in containerized environments
 bpparam <- SerialParam()
 counts <- bplapply(iterate, count_per_chromosome,
           gene_seqnames, count_ranges, bam_file, $yield_size,
