@@ -25,9 +25,9 @@ workflow ABERRANTEXPRESSION {
     include_groups      // list:          A list of groups to include in the aberrant expression analysis
 
     main:
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
-    def inputs_to_analyse = Channel.empty()
+    def inputs_to_analyse = channel.empty()
     if (include_groups) {
         // Filter out the BAM files that don't have a group in the include_groups list
         def include_branch = input.branch { meta, _bam, _bai, _gene_counts ->
@@ -260,14 +260,14 @@ workflow ABERRANTEXPRESSION {
         .join(GENECOUNTS_SUMMARY.out.sex_matched, remainder: true)
         .map { tup ->
         def meta  = tup[0]
-        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def files = tup.drop(1).findAll { f -> f instanceof Path } // drop meta and null
         def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
         [ tag, files ]
     }
     .tap { genecounts_by_tag }
 
     def ch_extra_cfg_genecounts = genecounts_by_tag
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:genecounts_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:genecounts_${tag}]_multiqc_data"
@@ -283,12 +283,15 @@ workflow ABERRANTEXPRESSION {
 
     def ch_genecounts_bundle = multiqc_genecounts_input
         .join(ch_extra_cfg_genecounts)
-        .map { _tag, files, cfg -> [files, cfg] }
+        .multiMap { _tag, files, cfg ->
+            files: files
+            cfg: cfg
+        }
 
     MULTIQC_GENECOUNTS(
-        ch_genecounts_bundle.map { it[0] },
-        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
-        ch_genecounts_bundle.map { it[1] },
+        ch_genecounts_bundle.files,
+        channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_genecounts_config.yml", checkIfExists: true).collect(),
+        ch_genecounts_bundle.cfg,
         [],
         [],
         []
@@ -310,14 +313,14 @@ workflow ABERRANTEXPRESSION {
         .join(OUTRIDER_SUMMARY.out.significant_results)
         .map { tup ->
         def meta  = tup[0]
-        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def files = tup.drop(1).findAll { f -> f instanceof Path } // drop meta and null
         def tag   = "${meta.id}__${meta.drop_group}" // tag for publishDir
         [ tag, files ]
     }
     .tap { outrider_by_tag }
 
     def ch_extra_cfg_outrider = outrider_by_tag
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:outrider_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:outrider_${tag}]_multiqc_data"
@@ -333,12 +336,15 @@ workflow ABERRANTEXPRESSION {
 
     def ch_outrider_bundle = multiqc_outrider_input
         .join(ch_extra_cfg_outrider)
-        .map { _tag, files, cfg -> [files, cfg] }
+        .multiMap { _tag, files, cfg ->
+            files: files
+            cfg: cfg
+        }
 
     MULTIQC_OUTRIDER(
-        ch_outrider_bundle.map { it[0] },
-        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_outrider_config.yml", checkIfExists: true).collect(),
-        ch_outrider_bundle.map { it[1] },
+        ch_outrider_bundle.files,
+        channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_outrider_config.yml", checkIfExists: true).collect(),
+        ch_outrider_bundle.cfg,
         [],
         [],
         []

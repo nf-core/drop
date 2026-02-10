@@ -68,18 +68,18 @@ workflow {
         error "You must provide either a UCSC FASTA file (--ucsc_fasta) or a NCBI FASTA file (--ncbi_fasta)."
     }
 
-    def ucsc_fasta = params.ucsc_fasta ? Channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : Channel.of([[id:'ucsc'], []])
-    def ucsc_fai = params.ucsc_fai ? Channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : Channel.of([[id:'ucsc'], []])
-    def ncbi_fasta = params.ncbi_fasta ? Channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : Channel.of([[id:'ncbi'], []])
-    def ncbi_fai = params.ncbi_fai ? Channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : Channel.of([[id:'ncbi'], []])
+    def ucsc_fasta = params.ucsc_fasta ? channel.value([[id: 'ucsc'], file(params.ucsc_fasta)]) : channel.of([[id:'ucsc'], []])
+    def ucsc_fai = params.ucsc_fai ? channel.value([[id: 'ucsc'], file(params.ucsc_fai)]) : channel.of([[id:'ucsc'], []])
+    def ncbi_fasta = params.ncbi_fasta ? channel.value([[id: 'ncbi'], file(params.ncbi_fasta)]) : channel.of([[id:'ncbi'], []])
+    def ncbi_fai = params.ncbi_fai ? channel.value([[id: 'ncbi'], file(params.ncbi_fai)]) : channel.of([[id:'ncbi'], []])
 
     def qc_vcf = params.mae_qc_vcf ?
-        Channel.value([[id: 'qc_vcf'], file(params.mae_qc_vcf), params.mae_qc_vcf_tbi ? file(params.mae_qc_vcf_tbi) : []]) :
+        channel.value([[id: 'qc_vcf'], file(params.mae_qc_vcf), params.mae_qc_vcf_tbi ? file(params.mae_qc_vcf_tbi) : []]) :
         [[:], [], []]
 
-    def ucsc_dict = Channel.of([[id:'ucsc'], []])
+    def ucsc_dict = channel.of([[id:'ucsc'], []])
     if (params.ucsc_dict) {
-        ucsc_dict = Channel.value([[id: 'ucsc'], file(params.ucsc_dict)])
+        ucsc_dict = channel.value([[id: 'ucsc'], file(params.ucsc_dict)])
     } else if (params.ucsc_fasta) {
         GATK4_CREATESEQUENCEDICTIONARY_UCSC(
             ucsc_fasta
@@ -87,9 +87,9 @@ workflow {
         ucsc_dict = GATK4_CREATESEQUENCEDICTIONARY_UCSC.out.dict.collect()
     }
 
-    def ncbi_dict = Channel.of([[id:'ncbi'], []])
+    def ncbi_dict = channel.of([[id:'ncbi'], []])
     if (params.ncbi_dict) {
-        ncbi_dict = Channel.value([[id: 'ncbi'], file(params.ncbi_dict)])
+        ncbi_dict = channel.value([[id: 'ncbi'], file(params.ncbi_dict)])
     } else if (params.ncbi_fasta) {
         GATK4_CREATESEQUENCEDICTIONARY_NCBI(
             ncbi_fasta
@@ -97,15 +97,15 @@ workflow {
         ncbi_dict = GATK4_CREATESEQUENCEDICTIONARY_NCBI.out.dict.collect()
     }
 
-    def samplesheet_file = Channel.value([[id: 'samplesheet'], file(params.input)])
+    def samplesheet_file = channel.value([[id: 'samplesheet'], file(params.input)])
 
-    def hpo_file = params.hpo_file ? Channel.value([[id: 'hpo'], file(params.hpo_file)]) : [[:], []]
+    def hpo_file = params.hpo_file ? channel.value([[id: 'hpo'], file(params.hpo_file)]) : [[:], []]
 
     def ae_groups = params.ae_groups ? params.ae_groups.tokenize(",") : []
-    def ae_genes_to_test = params.ae_genes_to_test ? Channel.value([[id: 'genes_to_test'], file(params.ae_genes_to_test)]) : [[:], []]
+    def ae_genes_to_test = params.ae_genes_to_test ? channel.value([[id: 'genes_to_test'], file(params.ae_genes_to_test)]) : [[:], []]
 
     def as_groups = params.as_groups ? params.as_groups.tokenize(",") : []
-    def as_genes_to_test = params.as_genes_to_test ? Channel.value([[id: 'genes_to_test'], file(params.as_genes_to_test)]) : [[:], []]
+    def as_genes_to_test = params.as_genes_to_test ? channel.value([[id: 'genes_to_test'], file(params.as_genes_to_test)]) : [[:], []]
 
     def mae_groups = params.mae_groups ? params.mae_groups.tokenize(",") : []
     def mae_qc_groups = params.mae_qc_groups ? params.mae_qc_groups.tokenize(",") : []

@@ -104,11 +104,11 @@ workflow PIPELINE_INITIALISATION {
         ? samplesheetToList(params.gene_annotation, "assets/schema_gene_annotation.json")
         : []
 
-    def all_gene_annotations = gene_annotation_list.collect { it[0].id }.sort().toSet()
+    def all_gene_annotations = gene_annotation_list.collect { entry -> entry[0].id }.sort().toSet()
 
     def ch_gene_annotation = params.gene_annotation
-        ? Channel.fromList(gene_annotation_list)
-        : Channel.empty()
+        ? channel.fromList(gene_annotation_list)
+        : channel.empty()
 
     //
     // Create channel from input file provided through params.input
@@ -155,7 +155,7 @@ workflow PIPELINE_INITIALISATION {
         }
     }
 
-    def ch_samplesheet = Channel.fromList(samplesheet_list)
+    def ch_samplesheet = channel.fromList(samplesheet_list)
         .map { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
             def new_meta = meta + [
                 id: meta.id as String,
@@ -362,9 +362,9 @@ def validateGroupStrandedness(List samplesheet_list) {
         }
     }
 
-    def offending = flags.findAll { k, v -> v.hasNo && v.hasStranded }.keySet().sort()
+    def offending = flags.findAll { _k, v -> v.hasNo && v.hasStranded }.keySet().sort()
     if (offending && !offending.isEmpty()) {
         error("Samples within each DROP_GROUP must be consistently stranded or unstranded. " +
-              "Mixed strandedness found in: ${offending.join(', ')}. Please analyze these groups separately.")
+                "Mixed strandedness found in: ${offending.join(', ')}. Please analyze these groups separately.")
     }
 }

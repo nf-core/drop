@@ -24,12 +24,12 @@ workflow MAE {
     samplesheet         // value channel: [ val(meta), path(samplesheet) ]
     qc_vcf              // value channel: [ val(meta), path(vcf), path(tbi) ]
     include_groups      // list         : A list of groups to include in the mono allelic expression analysis
-    include_qc_groups   // list         : A list of groups to include in the QC steps of the mono allelic expression analysis
+    _include_qc_groups   // list         : A list of groups to include in the QC steps of the mono allelic expression analysis. TODO implement this logic in the workflow
     ncbi2ucsc           // value channel: path to the NCBI to UCSC mapping file
     ucsc2ncbi           // value channel: path to the UCSC to NCBI mapping file
 
     main:
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
     def ch_ucsc_refs = ucsc_fasta
         .join(ucsc_fai, failOnDuplicate:true, failOnMismatch:true)
@@ -41,7 +41,7 @@ workflow MAE {
 
     def ch_references = ch_ucsc_refs.mix(ch_ncbi_refs)
 
-    def ch_filtered_inputs = Channel.empty()
+    def ch_filtered_inputs = channel.empty()
     if (include_groups) {
         ch_filtered_inputs = input.filter { meta, _vcf, _tbi, _bam, _bai ->
             meta.drop_group.tokenize(",").intersect(include_groups).size() > 0
@@ -164,7 +164,6 @@ workflow MAE {
         .map { meta, mat_qc, _ss_meta, samplesheet_file ->
             [ meta, mat_qc, samplesheet_file, meta.drop_group ]
         }
-        .view {println "[DEBUG ch_dnarnamatrixplot_input] $it"}
 
     MAEQC_DNARNAMATRIXPLOT(
         ch_dnarnamatrixplot_input,
@@ -182,14 +181,14 @@ workflow MAE {
         .join(MAE_RESULTS.out.results)
         .map { tup ->
         def meta  = tup[0]
-        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def files = tup.drop(1).findAll { f -> f instanceof Path } // drop meta and null
         def tag   = "${meta.id}" // tag for publishDir
         [ tag, files ]
     }
     .tap { mae_by_tag }
 
     def ch_extra_cfg_mae = mae_by_tag
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:mae_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:mae_${tag}]_multiqc_data"
@@ -205,12 +204,15 @@ workflow MAE {
 
     def ch_mae_bundle = multiqc_mae_input
         .join(ch_extra_cfg_mae)
-        .map { _tag, files, cfg -> [files, cfg] }
+        .multiMap { _tag, files, cfg ->
+            files: files
+            cfg: cfg
+        }
 
     MULTIQC_MAE(
-        ch_mae_bundle.map { it[0] },
-        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_mae_config.yml", checkIfExists: true).collect(),
-        ch_mae_bundle.map { it[1] },
+        ch_mae_bundle.files,
+        channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_mae_config.yml", checkIfExists: true).collect(),
+        ch_mae_bundle.cfg,
         [],
         [],
         []
@@ -226,14 +228,14 @@ workflow MAE {
         .join(MAEQC_DNARNAMATRIXPLOT.out.false_mismatches)
         .map { tup ->
         def meta  = tup[0]
-        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def files = tup.drop(1).findAll { f -> f instanceof Path } // drop meta and null
         def tag   = "${meta.id}" // tag for publishDir
         [ tag, files ]
     }
     .tap { maeqc_by_tag }
 
     def ch_extra_cfg_maeqc = maeqc_by_tag
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:maeqc_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:maeqc_${tag}]_multiqc_data"
@@ -249,12 +251,15 @@ workflow MAE {
 
     def ch_maeqc_bundle = multiqc_maeqc_input
         .join(ch_extra_cfg_maeqc)
-        .map { _tag, files, cfg -> [files, cfg] }
+        .multiMap { _tag, files, cfg ->
+            files: files
+            cfg: cfg
+        }
 
     MULTIQC_MAEQC(
-        ch_maeqc_bundle.map { it[0] },
-        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_maeqc_config.yml", checkIfExists: true).collect(),
-        ch_maeqc_bundle.map { it[1] },
+        ch_maeqc_bundle.files,
+        channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_maeqc_config.yml", checkIfExists: true).collect(),
+        ch_maeqc_bundle.cfg,
         [],
         [],
         []

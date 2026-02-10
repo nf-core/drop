@@ -9,9 +9,9 @@ workflow BAM_STATS_IDXSTATS_MERGE {
 
     main:
     def ucsc2ncbi = file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists:true).splitCsv(header: false, sep: " ")
-    def ucsc_chr = ucsc2ncbi.collect { it[0] }
-    def ncbi_chr = ucsc2ncbi.collect { it[1] }
-    def ch_versions = Channel.empty()
+    def ucsc_chr = ucsc2ncbi.collect { ucsc, _ncbi -> ucsc }
+    def ncbi_chr = ucsc2ncbi.collect { _ucsc, ncbi -> ncbi }
+    def ch_versions = channel.empty()
 
     SAMTOOLS_IDXSTATS(
         bams

@@ -59,8 +59,8 @@ workflow DROP {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc_files = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc_files = channel.empty()
 
     def preprocess = samplesheet.multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
         bam: [ meta, rna_bam, rna_bai ]
@@ -210,8 +210,8 @@ workflow DROP {
             qc_vcf,
             mae_groups,
             mae_qc_groups,
-            Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
-            Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
+            channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
+            channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )
         ch_versions = ch_versions.mix(MAE.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(MAE.out.mae_report)
@@ -221,7 +221,7 @@ workflow DROP {
     //
     // Collate and save software versions
     //
-    def topic_versions = Channel.topic("versions")
+    def topic_versions = channel.topic("versions")
         .distinct()
         .branch { entry ->
             versions_file: entry instanceof Path
