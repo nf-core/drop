@@ -21,52 +21,53 @@
 
 ## Introduction
 
-**nf-core/drop** is a bioinformatics pipeline that ...
+**nf-core/drop**(Detection of RNA Outliers Pipeline) is a bioinformatics pipeline that detects aberrant expression, aberrant splicing, and mono-allelic expression from RNA sequencing data.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+![A high-level diagram of the DROP workflow in a metro map style](docs/images/drop_metromap.png)
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/guidelines/graphic_design/workflow_diagrams#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+- aberrant expression
+  1. Compute read count matrix ([`GenomicAlignments`](https://github.com/Bioconductor/GenomicAlignments))
+  2. Detect expression outliers ([`OUTRIDER`](https://github.com/gagneurlab/OUTRIDER/))
+- aberrant splicing
+  1. Count split reads and non-split reads ([`GenomicAlignments`](https://github.com/Bioconductor/GenomicAlignments)) and ([`Subread`](https://bioconductor.org/packages/devel/bioc/html/Rsubread.html))
+  2. Detect aberrant splicing events ([`FRASER`](https://github.com/gagneurlab/FRASER/))
+- mono-allelic expression
+  1. Compute allelic counts (GATK ASEReadCounter)
+  2. Detect aberrant mono-allelically expressed genes ([`DESeq2`](https://bioconductor.org/packages/release/bioc/html/DESeq2.html))
+- Present QC Reports ([`MultiQC`](http://multiqc.info/))
 
 ## Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
-
 First, prepare a samplesheet with your input data that looks as follows:
 
-`samplesheet.csv`:
+`samplesheet.tsv`:
 
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-```
+| RNA_ID  | RNA_BAM_FILE        | RNA_BAI_FILE            | DROP_GROUP    | STRAND | DNA_ID  | DNA_VCF_FILE              | DNA_TBI_FILE                  | GENOME |
+| ------- | ------------------- | ----------------------- | ------------- | ------ | ------- | ------------------------- | ----------------------------- | ------ |
+| HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | group1,group2 | no     | HG00103 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
+| HG00106 | path/to/HG00106.bam | path/to/HG00106.bam.bai | group1,group2 | no     | HG00106 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+Each row requires a unique RNA_ID, a BAM file, DROP_GROUP and STRAND. For MAE additional DNA_ID, DNA_VCF_FILE and GENOME.
 
--->
+Here is an example of a [samplesheet](assets/samplesheet.tsv). Of note, to detect outliers confidently, a sufficiently large sample size is needed (>30 samples).
 
 Now, you can run the pipeline using:
 
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
-
 ```bash
 nextflow run nf-core/drop \
-   -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
-   --outdir <OUTDIR>
+   -profile <docker/singularity/conda/...> \
+   --input samplesheet.tsv \
+   --outdir <OUTDIR> \
+   --genome hg19 \
+   --gene_annotation <path/to/gene/annotation/yaml> \
+   --ucsc_fasta <path/to/fasta>
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files). Here is an example of a [custom config](conf/test.config).
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/drop/usage) and the [parameter documentation](https://nf-co.re/drop/parameters).
 
@@ -76,13 +77,28 @@ To see the results of an example test run with a full size dataset refer to the 
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/drop/output).
 
+## License notice
+
+OUTRIDER and FRASER are released under CC-BY-NC 4.0, meaning a license is requiredfor any commercial use. If you intend to use the aberrant expression and aberrant splicing modules for commercial purposes, please contact the authors: Julien Gagneur (gagneur [at] in.tum.de), Christian Mertes (mertes [at] in.tum.de), and Vicente Yepez (yepez [at] in.tum.de).
+
 ## Credits
 
-nf-core/drop was originally written by Michaela Mueller, Vicente Yepez, Christian Mertes, Daniela Andrade, Cristian Sandu, Andrew Behrens, Julien Gagneur.
+nf-core/drop was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
+
+The Nextflow DSL2 conversion of the pipeline was lead by Nicolas Vannieuwkerke and Yun Wang.
+
+Main developers:
+
+- [Nicolas Vannieuwkerke](https://github.com/nvnieuwk)
+- [Yun Wang](https://github.com/fulaibaowang)
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- [Ata Jadid Ahari](https://github.com/AtaJadidAhari)
+- [Drew Behrens](https://github.com/drewjbeh)
+
+<!-- TODO Acknowledgements -->
+<!-- GHGA -->
 
 ## Contributions and Support
 

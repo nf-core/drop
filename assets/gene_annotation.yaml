@@ -1,0 +1,2 @@
+- name: v29
+  gtf: https://github.com/gagneurlab/drop_demo_data/raw/refs/heads/main/Data/gencode_annotation_trunc.gtf

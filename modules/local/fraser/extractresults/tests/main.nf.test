@@ -1,0 +1,111 @@
+nextflow_process {
+
+    name "Test Process FRASER_EXTRACTRESULTS"
+    script "../main.nf"
+    process "FRASER_EXTRACTRESULTS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "fraser/extractresults"
+
+    setup {
+        run("UNTAR") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/fraser/calculationstats/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens - fds") {
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("fraser--v29"),
+                        file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db'),
+                        "fraser",
+                        "v29",
+                        ["HG00096", "HG00103", "HG00106", "HG00111", "HG00116", "HG00126", "HG00132", "HG00149", "HG00150", "HG00176"]
+                    ]
+                }
+                input[1] = [
+                    [id:'samplesheet'],
+                    file("${projectDir}/assets/samplesheet.tsv")
+                ]
+                input[2] = [
+                    [ id: 'hpo' ],
+                    file(params.pipelines_testdata_base_path + 'genome/hpo_genes.tsv.gz', checkIfExists: true)
+                ]
+                input[3] = 1
+                input[4] = 0.05
+                input[5] = "hg19"
+                input[6] = "FRASER2"
+                input[7] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[8] = file("${projectDir}/assets/helpers/add_HPO_cols.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - fds - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("fraser--v29"),
+                        file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db'),
+                        "fraser",
+                        "v29",
+                        ["HG00096", "HG00103", "HG00106", "HG00111", "HG00116", "HG00126", "HG00132", "HG00149", "HG00150", "HG00176"]
+                    ]
+                }
+                input[1] = [
+                    [id:'samplesheet'],
+                    file("${projectDir}/assets/samplesheet.tsv")
+                ]
+                input[2] = [
+                    [ id: 'hpo' ],
+                    file(params.pipelines_testdata_base_path + 'genome/hpo_genes.tsv.gz', checkIfExists: true)
+                ]
+                input[3] = 1
+                input[4] = 0.05
+                input[5] = "hg19"
+                input[6] = "FRASER2"
+                input[7] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                input[8] = file("${projectDir}/assets/helpers/add_HPO_cols.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

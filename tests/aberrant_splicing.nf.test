@@ -1,0 +1,28 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "../main.nf"
+
+    test("Aberrant Splicing Workflow") {
+
+        when {
+            params {
+                outdir = "${outputDir}"
+                ae_skip = true
+                as_skip = false
+                mae_skip = true
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    getAllFilesFromDir(params.outdir, relative:true, ignoreFile: 'tests/.nftignore')
+                ).match() }
+            )
+        }
+
+    }
+
+}

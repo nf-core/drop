@@ -1,0 +1,111 @@
+{
+    "homo_sapiens - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "fdsobj_raw": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-02T14:58:18.689134277"
+    },
+    "homo_sapiens": {
+        "content": [
+            [
+                "delta_jaccard.h5:md5,9bffd2fe847e4411e4227f78fbc20213",
+                "delta_psi3.h5:md5,a4eb0da2989842dac2ffeb9ffdac7c2b",
+                "delta_psi5.h5:md5,73fff57d6c3439eee7a3466cef6f8361",
+                "delta_theta.h5:md5,8d7f21debb3d53d636ba25328ea3693a",
+                "jaccard.h5:md5,b3b37c5954bbb0a9391dca20a23b03fb",
+                "psi3.h5:md5,687fb9fda65b4b3390464f8a9896d595",
+                "psi5.h5:md5,fad5fe329666d0ff35ef316b2d973b2a",
+                "rawCountsJ.h5:md5,35b3592cbdf0df10067368350c85c94e",
+                "rawCountsJnonsplit.h5:md5,45aa687fc589b72512ad1676e94e908b",
+                "rawCountsSS.h5:md5,89bbab2601a5897b92d09261248ae01b",
+                "rawOtherCounts_jaccard.h5:md5,f3d046645ff9741af6cea2ba0ddbb4d3",
+                "rawOtherCounts_psi3.h5:md5,70f4e385938b4da89792880446df846e",
+                "rawOtherCounts_psi5.h5:md5,088d3009aa01f2eef79853e637620599",
+                "rawOtherCounts_theta.h5:md5,c413292d8fd9a03b272b92d7caf4cb8d",
+                "theta.h5:md5,4bef95a9334eaa6346e315470266a457"
+            ],
+            [
+                "fds-object.RDS"
+            ],
+            [
+                "delta_jaccard.h5:md5,9bffd2fe847e4411e4227f78fbc20213",
+                "delta_psi3.h5:md5,a4eb0da2989842dac2ffeb9ffdac7c2b",
+                "delta_psi5.h5:md5,73fff57d6c3439eee7a3466cef6f8361",
+                "delta_theta.h5:md5,8d7f21debb3d53d636ba25328ea3693a",
+                "jaccard.h5:md5,b3b37c5954bbb0a9391dca20a23b03fb",
+                "psi3.h5:md5,687fb9fda65b4b3390464f8a9896d595",
+                "psi5.h5:md5,fad5fe329666d0ff35ef316b2d973b2a",
+                "rawCountsJ.h5:md5,35b3592cbdf0df10067368350c85c94e",
+                "rawCountsJnonsplit.h5:md5,45aa687fc589b72512ad1676e94e908b",
+                "rawCountsSS.h5:md5,89bbab2601a5897b92d09261248ae01b",
+                "rawOtherCounts_jaccard.h5:md5,f3d046645ff9741af6cea2ba0ddbb4d3",
+                "rawOtherCounts_psi3.h5:md5,70f4e385938b4da89792880446df846e",
+                "rawOtherCounts_psi5.h5:md5,088d3009aa01f2eef79853e637620599",
+                "rawOtherCounts_theta.h5:md5,c413292d8fd9a03b272b92d7caf4cb8d",
+                "theta.h5:md5,4bef95a9334eaa6346e315470266a457"
+            ],
+            [
+                "fds-object.RDS"
+            ],
+            [
+                "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-14T22:38:49.329861923"
+    }
+}

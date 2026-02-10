@@ -1,0 +1,35 @@
+{
+    "homo_sapiens - counts, true - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096_res.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,99e49c5a3f6dc12a012dcf9744bc88bb"
+                ],
+                "res": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096_res.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,99e49c5a3f6dc12a012dcf9744bc88bb"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-07-23T13:09:03.471725697"
+    }
+}

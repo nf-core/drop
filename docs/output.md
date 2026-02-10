@@ -2,32 +2,76 @@
 
 ## Introduction
 
-This document describes the output produced by the pipeline. Most of the plots are taken from the MultiQC report, which summarises results at the end of the pipeline.
-
-The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
-
-<!-- TODO nf-core: Write this documentation describing your workflow's output -->
+This document describes the output produced by the pipeline. The directories listed below will be created in the result directory after the pipeline has finished. All paths are relative to the top-level result directory.
 
 ## Pipeline overview
 
-The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
+Besides result tables, the pipeline uses MultiQC to generate comprehensive reports for each {annotation}\_{drop_group} combination within every subworkflow.
 
-- [FastQC](#fastqc) - Raw read QC
-- [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
-- [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+### Aberrant Expression
 
-### FastQC
+- HTML report
+  at the resulting `reports/aberrant_expression/genecounts` and `reports/aberrant_expression/outrider`
+  - Counts Summaries for each aberrant expression group
+    - number of local and external samples
+    - Mapped reads and size factors for each sample
+    - histograms showing the mean count distribution with different conditions
+    - expressed genes within each sample and as a dataset
+  - Outrider Summaries for each aberrant expression group
+    - aberrantly expressed genes per sample
+    - correlation between samples before and after the autoencoder
+    - biological coefficient of variation
+    - aberrant samples
+    - results table
+- Files for each aberrant expression group
+  - OUTRIDER datasets
+    - Follow the [OUTRIDER vignette](https://www.bioconductor.org/packages/devel/bioc/vignettes/OUTRIDER/inst/doc/OUTRIDER.pdf) for individual OUTRIDER object file (`processed_results/aberrant_expression/{annotation}/outrider/{drop_group}/*.ods`) analysis.
+  - Results tables
+    - file `processed_results/aberrant_expression/{annotation}/outrider/{drop_group}/OUTRIDER_results.tsv` this text file contains only the significant genes and samples that meet the cutoffs defined in the config file for `padjCutoff` and `zScoreCutoff`.
+    - file `processed_results/aberrant_expression/{annotation}/outrider/{drop_group}/OUTRIDER_results_all.Rds` contains the entire OUTRIDER results table regardless of significance.
 
-<details markdown="1">
-<summary>Output files</summary>
+### Aberrant Splicing
 
-- `fastqc/`
-  - `*_fastqc.html`: FastQC report containing quality metrics.
-  - `*_fastqc.zip`: Zip archive containing the FastQC report, tab-delimited data file and plot images.
+- HTML report
+  at the resulting `reports/aberrant_splicing/splicecounts` and `reports/aberrant_splicing/fraser`
+  - Counting Summaries for each aberrant splicing group
+    - number of local and external samples
+    - number introns/splice sites before and after merging
+    - comparison of local and external mean counts
+    - histograms showing the junction expression before and after filtering and variability
+  - FRASER Summaries for each aberrant splicing group
+    - the number of samples, introns, and splice sites
+    - correlation between samples before and after the autoencoder
+    - results table
+- Files for each aberrant splicing group
+  - FRASER datasets (fds)
+    - Follow the [FRASER vignette](https://www.bioconductor.org/packages/devel/bioc/vignettes/FRASER/inst/doc/FRASER.pdf) for individual FRASER object file (fds) analysis.
+  - Results tables
+    - file `processed_results/aberrant_splicing/results/{annotation}/fraser/{drop_group}/results_per_junction.tsv` this text file contains only significant junctions that meet the cutoffs defined in the config file.
+    - file `processed_results/aberrant_splicing/results/{annotation}/fraser/{drop_group}/results.tsv` contains only significant junctions that meet the cutoffs defined in the config file, aggregated at the gene level. Any sample/gene pair is represented by only the most significant junction.
 
-</details>
+### Mono-allelic Expression
 
-[FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) gives general quality metrics about your sequenced reads. It provides information about the quality score distribution across your reads, per base sequence content (%A/T/G/C), adapter contamination and overrepresented sequences. For further reading and documentation see the [FastQC help pages](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
+HTML report
+at the resulting `reports/mae/mae` and `reports/mae/maeqc`
+
+- Results for each mae group
+  - number of samples, genes, and mono-allelically expressed heterozygous SNVs
+  - a cascade plot that shows additional filters
+  - histogram of inner cohort frequency
+  - summary of the cascade plot and results table
+- Quality Control
+  - QC Overview
+    - For each mae group QC checks for DNA/RNA matching
+
+Additionally the `mae` subworkflow creates the following files:
+
+- `processed_results/mae/{drop_group}/MAE_results_all_{annotation}.tsv.gz`
+  - this file contains the MAE results of all heterozygous SNVs regardless of significance
+- `processed_results/mae/{drop_group}/MAE_results_{annotation}.tsv`
+  - this is the file linked in the HTML document and described above
+- `processed_results/mae/{drop_group}/MAE_results_{annotation}_rare.tsv`
+  - this file is a subset of `MAE_results_{annotation}.tsv` with only the variants that pass the allele frequency cutoffs. If `add_AF` is set to `true` in config file must meet minimum AF set by `max_AF`. Additionally, the inner-cohort frequency must meet the `maxVarFreqCohort` cutoff
 
 ### MultiQC
 
@@ -35,7 +79,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 <summary>Output files</summary>
 
 - `multiqc/`
-  - `multiqc_report.html`: a standalone HTML file that can be viewed in your web browser.
+  - `multiqc_report.html`: a merged report for all subworkflows.
   - `multiqc_data/`: directory containing parsed statistics from the different tools used in the pipeline.
   - `multiqc_plots/`: directory containing static images from the report in various formats.
 

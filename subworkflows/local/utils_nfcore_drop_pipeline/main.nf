@@ -29,7 +29,6 @@ workflow PIPELINE_INITIALISATION {
     take:
     version           // boolean: Display version and exit
     validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
-    monochrome_logs   // boolean: Do not use coloured log outputs
     nextflow_cli_args //   array: List of positional nextflow CLI args
     outdir            //  string: The output directory where the results will be saved
     input             //  string: Path to input samplesheet
@@ -98,32 +97,81 @@ workflow PIPELINE_INITIALISATION {
     validateInputParameters()
 
     //
+    // Create channel from gene annotations provided through params.gene_annotation
+    //
+
+    def gene_annotation_list = params.gene_annotation
+        ? samplesheetToList(params.gene_annotation, "assets/schema_gene_annotation.json")
+        : []
+
+    def all_gene_annotations = gene_annotation_list.collect { it[0].id }.sort().toSet()
+
+    def ch_gene_annotation = params.gene_annotation
+        ? Channel.fromList(gene_annotation_list)
+        : Channel.empty()
+
+    //
     // Create channel from input file provided through params.input
     //
 
-    channel
-        .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
-        .map {
-            meta, fastq_1, fastq_2 ->
-                if (!fastq_2) {
-                    return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
-                } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
+    def samplesheet_list = samplesheetToList(input, "${projectDir}/assets/schema_input.json")
+
+    // Enforce consistent strandedness per DROP_GROUP (no mixing 'no' with 'yes'/'reverse')
+    validateGroupStrandedness(samplesheet_list)
+
+    def group_counts = [:]
+    samplesheet_list.each { it ->
+        def groups = it[0].drop_group.tokenize(",")
+        groups.each { group ->
+            group_counts[group] = group_counts.get(group, 0) + 1
         }
-        .groupTuple()
-        .map { samplesheet ->
-            validateInputSamplesheet(samplesheet)
+    }
+
+    // Warn about license
+    log.warn("OUTRIDER and FRASER are now released under CC-BY-NC 4.0, meaning a license is required\n" +
+        "for any commercial use. If you intend to use the aberrant expression and aberrant splicing\n" +
+        "modules for commercial purposes, please contact the authors: Julien Gagneur (gagneur [at] in.tum.de),\n" +
+        "Christian Mertes (mertes [at] in.tum.de), and Vicente Yepez (yepez [at] in.tum.de).\n")
+
+    // Check that each AE and AS group contains at least 30 samples
+    def groups_to_warn = (params.ae_groups.tokenize(",") + params.as_groups.tokenize(",")).toSet()
+    group_counts.each { group, count ->
+        if (count < 30 && groups_to_warn.contains(group)) {
+            log.warn("Less than 30 IDs in DROP_GROUP ${group}")
         }
-        .map {
-            meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
+    }
+
+    // Calculate counts for combination of drop group count and gene annotation
+    def group_annotation_counts = [:]
+    samplesheet_list.each { meta, _bam, _bai, _vcf, _tbi, gene_counts, _splice_counts ->
+        def groups = meta.drop_group
+        def annotations = gene_counts ? [meta.gene_annotation] : all_gene_annotations // Only use the gene_annotation for samples that have external counts
+        groups.tokenize(",").each { group ->
+            def group_ann_counts = group_annotation_counts.get(group, [:])
+            annotations.each { annotation ->
+                group_ann_counts[annotation] = group_ann_counts.get(annotation, 0) + 1
+            }
+            group_annotation_counts[group] = group_ann_counts
         }
-        .set { ch_samplesheet }
+    }
+
+    def ch_samplesheet = Channel.fromList(samplesheet_list)
+        .map { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
+            def new_meta = meta + [
+                id: meta.id as String,
+                dna_id: meta.dna_id as String,
+                // Add counts for combination of drop group and gene annotation
+                drop_group_ann_counts:group_annotation_counts,
+                // Add counts for drop group
+                drop_group_counts:group_counts
+            ]
+            [ new_meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ]
+        }
 
     emit:
-    samplesheet = ch_samplesheet
-    versions    = ch_versions
+    gene_annotation = ch_gene_annotation
+    samplesheet     = ch_samplesheet
+    versions        = ch_versions
 }
 
 /*
@@ -184,6 +232,10 @@ workflow PIPELINE_COMPLETION {
 //
 def validateInputParameters() {
     genomeExistsError()
+
+    if ((!params.ae_skip) && params.gene_annotation == null) {
+        error("Please provide a gene annotation file using the --gene_annotation parameter when running the aberrant expression analysis.")
+    }
 }
 
 //
@@ -289,4 +341,30 @@ def methodsDescriptionText(mqc_methods_yaml) {
     def description_html = engine.createTemplate(methods_text).make(meta)
 
     return description_html.toString()
+}
+
+//
+// Validate: within each DROP_GROUP, samples must be either all unstranded ('no') or all stranded ('yes'/'reverse'). Mixing is not allowed.
+//
+def validateGroupStrandedness(List samplesheet_list) {
+    // Map<String, Map> e.g. [group: [hasNo:bool, hasStranded:bool]]
+    def flags = [:].withDefault { [hasNo:false, hasStranded:false] }
+
+    samplesheet_list.each { meta, _bam, _bai, _vcf, _tbi, _gene_counts, _splice_counts ->
+        def s = meta.strand
+        def groups = meta.drop_group.tokenize(',')
+        groups.each { g ->
+            if (s == 'no') {
+                flags[g].hasNo = true
+            } else if (s == 'yes' || s == 'reverse') {
+                flags[g].hasStranded = true
+            }
+        }
+    }
+
+    def offending = flags.findAll { k, v -> v.hasNo && v.hasStranded }.keySet().sort()
+    if (offending && !offending.isEmpty()) {
+        error("Samples within each DROP_GROUP must be consistently stranded or unstranded. " +
+              "Mixed strandedness found in: ${offending.join(', ')}. Please analyze these groups separately.")
+    }
 }

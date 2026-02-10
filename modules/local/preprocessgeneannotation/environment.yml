@@ -1,0 +1,11 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - conda-forge::r-base=4.4.3
+  - conda-forge::r-magrittr=2.0.3
+  - conda-forge::r-data.table=1.17.0
+  - conda-forge::r-r.utils=2.13.0
+  - bioconda::bioconductor-genomicfeatures=1.58.0
+  - bioconda::bioconductor-rtracklayer=1.66.0
+  - bioconda::bioconductor-txdbmaker=1.2.0
