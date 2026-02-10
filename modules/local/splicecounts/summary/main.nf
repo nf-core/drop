@@ -28,7 +28,6 @@ process SPLICECOUNTS_SUMMARY {
     template 'Summary.R'
 
     stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     #!/usr/bin/env Rscript
     a <- file("number_of_samples_mqc.tsv", "w")

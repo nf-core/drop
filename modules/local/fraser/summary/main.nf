@@ -30,7 +30,6 @@ process FRASER_SUMMARY {
     template 'Summary.R'
 
     stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     #!/usr/bin/env Rscript
     a <- file("fraser_overview_mqc.tsv", "w")
