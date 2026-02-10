@@ -5,7 +5,7 @@ lint:
   files_unchanged:
     - .gitignore
   nf_test_content: false
-nf_core_version: 3.3.2
+nf_core_version: 3.5.2
 repository_type: pipeline
 template:
   author: Michaela Mueller, Vicente Yepez, Christian Mertes, Daniela Andrade, Cristian
