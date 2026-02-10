@@ -84,24 +84,19 @@ workflow DROP {
 
     SAMTOOLS_CONVERT_UCSC(
         bams_branch.cram_ucsc,
-        ucsc_fasta,
-        ucsc_fai
+        ucsc_fasta.join(ucsc_fai),
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_CONVERT_UCSC.out.versions.first())
     def ch_ucsc_converted_bams = SAMTOOLS_CONVERT_UCSC.out.bam.join(SAMTOOLS_CONVERT_UCSC.out.bai, failOnDuplicate:true, failOnMismatch:true)
 
     SAMTOOLS_CONVERT_NCBI(
         bams_branch.cram_ncbi,
-        ncbi_fasta,
-        ncbi_fai
+        ncbi_fasta.join(ncbi_fai),
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_CONVERT_NCBI.out.versions.first())
     def ch_ncbi_converted_bams = SAMTOOLS_CONVERT_NCBI.out.bam.join(SAMTOOLS_CONVERT_NCBI.out.bai, failOnDuplicate:true, failOnMismatch:true)
 
     SAMTOOLS_INDEX(
         bams_branch.to_index
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
     def bams = bams_branch.to_index
         .join(SAMTOOLS_INDEX.out.bai, failOnDuplicate:true, failOnMismatch:true)
@@ -122,10 +117,9 @@ workflow DROP {
     TABIX_TABIX(
         vcfs_to_index.yes
     )
-    ch_versions = ch_versions.mix(TABIX_TABIX.out.versions.first())
 
     def vcfs = vcfs_to_index.yes
-        .join(TABIX_TABIX.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .join(TABIX_TABIX.out.index, failOnDuplicate:true, failOnMismatch:true)
         .mix(vcfs_to_index.no)
 
     //

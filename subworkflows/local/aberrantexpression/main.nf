@@ -208,7 +208,6 @@ workflow ABERRANTEXPRESSION {
         external_samples,                               // sample external counts
         include_groups
     )
-    ch_versions = ch_versions.mix(BAM_STATS_IDXSTATS_MERGE.out.versions)
 
     //
     // summary for expression counts
