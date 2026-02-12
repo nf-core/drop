@@ -38,7 +38,6 @@ nextflow_workflow {
                 { assert workflow.success },
                 { assert snapshot(
                     getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore'),
-                    workflow.out.versions
                 ).match() }
             )
         }

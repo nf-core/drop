@@ -7,9 +7,6 @@
                 "external.txt:md5,02d20c109d8e5ea005bfb97d6aaeeaf5",
                 "test1.txt:md5,adbc82b09b152b44810d14e40c79f75b",
                 "test2.txt:md5,ea5d9ebb035fb0a465cd265191bdb351"
-            ],
-            [
-                "versions.yml:md5,c32c66ffbb0a2dbc23a3fbcbfde9363e"
             ]
         ],
         "meta": {
