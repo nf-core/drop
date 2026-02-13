@@ -47,7 +47,7 @@ if (strand == "yes") {
 }
 
 # read files
-bam_file <- BamFile("$bam", yieldSize = $yield_size)
+bam_file <- BamFile("${meta.id}.bam", yieldSize = $yield_size)
 count_ranges <- readRDS("$count_ranges")
 # set chromosome style
 seqlevelsStyle(count_ranges) <- seqlevelsStyle(bam_file)
@@ -56,7 +56,7 @@ seqlevelsStyle(count_ranges) <- seqlevelsStyle(bam_file)
 gene_seqnames = as.character(sapply(seqnames(count_ranges), runValue))
 
 # show info
-message(paste("input:", "$bam"))
+message(paste("input:", "${meta.id}.bam"))
 message(paste("output:", paste(prefix, ".Rds", sep="")))
 message(paste('\tcount mode:', count_mode, sep = "\t"))
 message(paste('\tpaired end:', paired_end, sep = "\t"))
@@ -75,7 +75,7 @@ count_per_chromosome <- function(i, gene_seqnames, count_ranges, bam_file, yield
   current_ranges <- count_ranges[genes_to_count]
 
   # create a new BamFile for the current seqname
-  current_bam_file <- BamFile("$bam", yieldSize=$yield_size)
+  current_bam_file <- BamFile("${meta.id}.bam", yieldSize=$yield_size)
   # summarize overlaps
   summarizeOverlaps(
     current_ranges,
