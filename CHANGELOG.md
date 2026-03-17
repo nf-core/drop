@@ -11,8 +11,6 @@ Initial release of nf-core/drop, created with the [nf-core](https://nf-co.re/) t
 
 ### `Fixed`
 
-- Fixed BAM index file renaming issue in `countReads.R` that caused "valid 'index' file required" errors ([#94](https://github.com/nf-core/drop/pull/94))
-- Switched to SerialParam for BiocParallel to improve compatibility with containerized environments
 
 ### `Dependencies`
 
