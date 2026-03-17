@@ -35,7 +35,7 @@ if (is.null(ods@colData\$GENE_COUNTS_FILE)){ #column does not exist in sample an
 }
 
 if(has_external){
-    ods@colData\$isExternal <- as.factor(ods@colData\$GENE_COUNTS_FILE != "")
+    ods@colData\$isExternal <- as.factor(!(ods@colData\$GENE_COUNTS_FILE %in% c("", NA)))
 }else{
     ods@colData\$isExternal <- as.factor(FALSE)
 }
