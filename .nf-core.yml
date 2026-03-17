@@ -4,6 +4,7 @@ lint:
     - tests/default.nf.test
   files_unchanged:
     - .gitignore
+    - .github/PULL_REQUEST_TEMPLATE.md
   nf_test_content: false
 nf_core_version: 3.5.2
 repository_type: pipeline
