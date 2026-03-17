@@ -59,8 +59,8 @@ workflow DROP {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc_files = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc_files = channel.empty()
 
     def preprocess = samplesheet.multiMap { meta, rna_bam, rna_bai, dna_vcf, dna_tbi, gene_counts, splice_counts ->
         bam: [ meta, rna_bam, rna_bai ]
@@ -84,24 +84,19 @@ workflow DROP {
 
     SAMTOOLS_CONVERT_UCSC(
         bams_branch.cram_ucsc,
-        ucsc_fasta,
-        ucsc_fai
+        ucsc_fasta.join(ucsc_fai),
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_CONVERT_UCSC.out.versions.first())
     def ch_ucsc_converted_bams = SAMTOOLS_CONVERT_UCSC.out.bam.join(SAMTOOLS_CONVERT_UCSC.out.bai, failOnDuplicate:true, failOnMismatch:true)
 
     SAMTOOLS_CONVERT_NCBI(
         bams_branch.cram_ncbi,
-        ncbi_fasta,
-        ncbi_fai
+        ncbi_fasta.join(ncbi_fai),
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_CONVERT_NCBI.out.versions.first())
     def ch_ncbi_converted_bams = SAMTOOLS_CONVERT_NCBI.out.bam.join(SAMTOOLS_CONVERT_NCBI.out.bai, failOnDuplicate:true, failOnMismatch:true)
 
     SAMTOOLS_INDEX(
         bams_branch.to_index
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
 
     def bams = bams_branch.to_index
         .join(SAMTOOLS_INDEX.out.bai, failOnDuplicate:true, failOnMismatch:true)
@@ -122,10 +117,9 @@ workflow DROP {
     TABIX_TABIX(
         vcfs_to_index.yes
     )
-    ch_versions = ch_versions.mix(TABIX_TABIX.out.versions.first())
 
     def vcfs = vcfs_to_index.yes
-        .join(TABIX_TABIX.out.tbi, failOnDuplicate:true, failOnMismatch:true)
+        .join(TABIX_TABIX.out.index, failOnDuplicate:true, failOnMismatch:true)
         .mix(vcfs_to_index.no)
 
     //
@@ -210,8 +204,8 @@ workflow DROP {
             qc_vcf,
             mae_groups,
             mae_qc_groups,
-            Channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
-            Channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
+            channel.value(file("${projectDir}/assets/chr_NCBI_UCSC.txt", checkIfExists: true)),
+            channel.value(file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists: true))
         )
         ch_versions = ch_versions.mix(MAE.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(MAE.out.mae_report)
@@ -221,7 +215,7 @@ workflow DROP {
     //
     // Collate and save software versions
     //
-    def topic_versions = Channel.topic("versions")
+    def topic_versions = channel.topic("versions")
         .distinct()
         .branch { entry ->
             versions_file: entry instanceof Path

@@ -30,9 +30,9 @@ workflow ABERRANTSPLICING {
     aberrant_splicing_config_R  // file:          Path to the R script with configuration for aberrant splicing analysis
 
     main:
-    def ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
 
-    def inputs_to_analyse_unfiltered = Channel.empty()
+    def inputs_to_analyse_unfiltered = channel.empty()
     if (include_groups) {
         // Filter out the BAM files that don't have a group in the include_groups list
         inputs_to_analyse_unfiltered = inputs.filter { it ->
@@ -279,15 +279,15 @@ workflow ABERRANTSPLICING {
     def ch_filterexpression_input = FRASER_PSIVALUECALCULATION.out.fdsobj
         .map { meta, fds ->
             def splice_counts_group = splice_counts.get(meta.drop_group, [])
-            def count_dirs = splice_counts_group.collect { it.file }.unique() // Prevent the same directory from being used multiple times
-            def count_ids = splice_counts_group.collect { it.id }
+            def count_dirs = splice_counts_group.collect { count_group -> count_group.file }.unique() // Prevent the same directory from being used multiple times
+            def count_ids = splice_counts_group.collect { count_group -> count_group.id }
             def new_meta = meta + [group_size: meta.group_size + count_ids.size(), samples: (meta.samples.tokenize(",") + count_ids).sort().join(",")]
             [ new_meta, fds, count_dirs, count_ids, meta.drop_group ]
         }
 
     FRASER_FILTEREXPRESSION(
         ch_filterexpression_input,
-        Channel.value([[id:'samplesheet'], samplesheet]),
+        channel.value([[id:'samplesheet'], samplesheet]),
         params.as_min_expression_in_one_sample,
         params.as_quantile_for_filtering,
         params.as_quantile_min_expression,
@@ -399,7 +399,7 @@ workflow ABERRANTSPLICING {
 
     FRASER_EXTRACTRESULTS(
         ch_extractresults_input,
-        Channel.value([[id:'samplesheet'], samplesheet]),
+        channel.value([[id:'samplesheet'], samplesheet]),
         hpo_file,
         params.as_padj_cutoff,
         params.as_delta_psi_cutoff,
@@ -437,14 +437,14 @@ workflow ABERRANTSPLICING {
         .join(SPLICECOUNTS_SUMMARY.out.variability_filtering)
         .map { tup ->
         def meta  = tup[0]
-        def files = tup.drop(1).findAll { it instanceof Path } // drop meta and null
+        def files = tup.drop(1).findAll { f -> f instanceof Path } // drop meta and null
         def tag   = "${meta.id}" // tag for publishDir
         [ tag, files ]
     }
     .tap { splicecounts_by_tag }
 
     def ch_extra_cfg_splicecounts = splicecounts_by_tag
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:splicecounts_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:splicecounts_${tag}]_multiqc_data"
@@ -460,12 +460,15 @@ workflow ABERRANTSPLICING {
 
     def ch_splicecounts_bundle = multiqc_splicecounts_input
         .join(ch_extra_cfg_splicecounts)
-        .map { _tag, files, cfg -> [files, cfg] }
+        .multiMap { _tag, files, cfg ->
+            files: files
+            cfg: cfg
+        }
 
     MULTIQC_SPLICECOUNTS(
-        ch_splicecounts_bundle.map { it[0] },
-        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_splicecounts_config.yml", checkIfExists: true).collect(),
-        ch_splicecounts_bundle.map { it[1] },
+        ch_splicecounts_bundle.files,
+        channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_splicecounts_config.yml", checkIfExists: true).collect(),
+        ch_splicecounts_bundle.cfg,
         [],
         [],
         []
@@ -482,14 +485,14 @@ workflow ABERRANTSPLICING {
         .join(FRASER_SUMMARY.out.total_outliers)
         .join(FRASER_SUMMARY.out.results)
         .map {  meta, overview, q_list, aberrant_png, bc_list, total_outliers, results_tsv  ->
-        def files = ([overview, aberrant_png, total_outliers, results_tsv] + q_list + bc_list).flatten().findAll { it instanceof Path } // drop meta and null
+        def files = ([overview, aberrant_png, total_outliers, results_tsv] + q_list + bc_list).flatten().findAll { f -> f instanceof Path } // drop meta and null
         def tag   = "${meta.id}" // tag for publishDir
         [ tag, files ]
     }
     .tap { fraser_by_tag }
 
     def ch_extra_cfg_fraser = fraser_by_tag
-        .collectFile { tag, _ ->
+        .collectFile { tag, _files ->
             def yaml = """
             output_fn_name: "[TAG:fraser_${tag}]_multiqc_report.html"
             data_dir_name:  "[TAG:fraser_${tag}]_multiqc_data"
@@ -505,12 +508,15 @@ workflow ABERRANTSPLICING {
 
     def ch_fraser_bundle = multiqc_fraser_input
         .join(ch_extra_cfg_fraser)
-        .map { _tag, files, cfg -> [files, cfg] }
+        .multiMap { _tag, files, cfg ->
+            files: files
+            cfg: cfg
+        }
 
     MULTIQC_FRASER(
-        ch_fraser_bundle.map { it[0] },
-        Channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_fraser_config.yml", checkIfExists: true).collect(),
-        ch_fraser_bundle.map { it[1] },
+        ch_fraser_bundle.files,
+        channel.fromPath("$projectDir/assets/multiqc_configs/multiqc_fraser_config.yml", checkIfExists: true).collect(),
+        ch_fraser_bundle.cfg,
         [],
         [],
         []

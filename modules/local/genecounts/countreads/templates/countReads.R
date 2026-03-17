@@ -106,7 +106,7 @@ counts <- bplapply(iterate, count_per_chromosome,
 # merge SE objects - concatenate by rows (genes) across chromosomes
 se <- do.call(rbind, counts)
 se <- se[names(count_ranges), ]
-colnames(se) <- "{$meta.id}"
+colnames(se) <- "$meta.id"
 
 saveRDS(se, paste(prefix, ".Rds", sep=""))
 message("done")

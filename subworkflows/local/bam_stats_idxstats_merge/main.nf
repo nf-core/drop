@@ -9,14 +9,12 @@ workflow BAM_STATS_IDXSTATS_MERGE {
 
     main:
     def ucsc2ncbi = file("${projectDir}/assets/chr_UCSC_NCBI.txt", checkIfExists:true).splitCsv(header: false, sep: " ")
-    def ucsc_chr = ucsc2ncbi.collect { it[0] }
-    def ncbi_chr = ucsc2ncbi.collect { it[1] }
-    def ch_versions = Channel.empty()
+    def ucsc_chr = ucsc2ncbi.collect { ucsc, _ncbi -> ucsc }
+    def ncbi_chr = ucsc2ncbi.collect { _ucsc, ncbi -> ncbi }
 
     SAMTOOLS_IDXSTATS(
         bams
     )
-    ch_versions = ch_versions.mix(SAMTOOLS_IDXSTATS.out.versions.first())
 
     def externals_entries = externals
         .map { meta -> [ meta, "${meta.id}\tNA" ] }
@@ -66,6 +64,5 @@ workflow BAM_STATS_IDXSTATS_MERGE {
         }
 
     emit:
-    versions =         ch_versions          // value channel: path(versions)
     merged_bam_stats = ch_merged_bam_stats  // value channel: path(merged_bam_stats)
 }
