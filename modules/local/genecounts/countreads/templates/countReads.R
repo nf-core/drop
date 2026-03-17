@@ -11,10 +11,18 @@ suppressPackageStartupMessages({
 # Initialize the prefix from the module
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
-# Rename the BAM file to make sure the correct ID is used
-if ("$bam" != "${meta.id}.bam") {
+# Rename the BAM file and its index to make sure the correct ID is used
+ if ("$bam" != "${meta.id}.bam") {
     file.rename("$bam", "${meta.id}.bam")
+    # Also rename the BAM index file
+    bam_index <- paste0("$bam", ".bai")
+    if (file.exists(bam_index)) {
+        file.rename(bam_index, "${meta.id}.bam.bai")
+        # Update timestamp to be newer than BAM file
+        Sys.setFileTime("${meta.id}.bam.bai", Sys.time())
+    }
 }
+
 
 # Get strand specific information from sample annotation
 
@@ -45,7 +53,7 @@ count_ranges <- readRDS("$count_ranges")
 seqlevelsStyle(count_ranges) <- seqlevelsStyle(bam_file)
 
 # run it in parallel across all chromosomes
-gene_seqnames = as.character(sapply(seqnames(count_ranges), runValue))
+gene_seqnames <- as.character(sapply(seqnames(count_ranges), runValue))
 
 # show info
 message(paste("input:", "${meta.id}.bam"))
@@ -97,6 +105,7 @@ counts <- bplapply(iterate, count_per_chromosome,
 )
 # merge SE objects - concatenate by rows (genes) across chromosomes
 se <- do.call(rbind, counts)
+se <- se[names(count_ranges), ]
 colnames(se) <- "{$meta.id}"
 
 saveRDS(se, paste(prefix, ".Rds", sep=""))
