@@ -11,7 +11,6 @@ Initial release of nf-core/drop, created with the [nf-core](https://nf-co.re/) t
 
 ### `Fixed`
 
-
 ### `Dependencies`
 
 ### `Deprecated`
