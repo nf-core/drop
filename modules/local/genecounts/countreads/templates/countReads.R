@@ -45,7 +45,7 @@ count_ranges <- readRDS("$count_ranges")
 seqlevelsStyle(count_ranges) <- seqlevelsStyle(bam_file)
 
 # run it in parallel across all chromosomes
-gene_seqnames = as.character(sapply(seqnames(count_ranges), runValue))
+gene_seqnames <- as.character(sapply(seqnames(count_ranges), runValue))
 
 # show info
 message(paste("input:", "${meta.id}.bam"))
@@ -97,6 +97,7 @@ counts <- bplapply(iterate, count_per_chromosome,
 )
 # merge SE objects - concatenate by rows (genes) across chromosomes
 se <- do.call(rbind, counts)
+se <- se[names(count_ranges), ]
 colnames(se) <- "{$meta.id}"
 
 saveRDS(se, paste(prefix, ".Rds", sep=""))
