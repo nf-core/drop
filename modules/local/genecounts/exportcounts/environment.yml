@@ -1,0 +1,8 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::bioconductor-outrider=1.28.0
+  - bioconda::bioconductor-summarizedexperiment=1.40.0
+  - conda-forge::r-base=4.5.3
+  - conda-forge::r-data.table=1.17.8
