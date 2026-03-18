@@ -5,7 +5,15 @@
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
 source("$config", echo=FALSE)
-configure_fraser("$fraser_version")
+if("$fraser_version" == "FRASER2"){
+    pseudocount(0.1)
+    psiTypes <- c("jaccard")
+    psiTypesNotUsed <- c("psi5", "psi3", "theta")
+} else{
+    pseudocount(1)
+    psiTypes <- c("psi5", "psi3", "theta")
+    psiTypesNotUsed <- c("jaccard")
+}
 
 dataset    <- "$drop_group"
 colDataFile <- "$col_data"

@@ -2,7 +2,15 @@
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/03_filter_expression_FraseR.R
 
 source("$config", echo=FALSE)
-configure_fraser("$fraser_version")
+if("$fraser_version" == "FRASER2"){
+    pseudocount(0.1)
+    psiTypes <- c("jaccard")
+    psiTypesNotUsed <- c("psi5", "psi3", "theta")
+} else{
+    pseudocount(1)
+    psiTypes <- c("psi5", "psi3", "theta")
+    psiTypesNotUsed <- c("jaccard")
+}
 
 dataset    <- "$drop_group"
 workingDir <- "./"
