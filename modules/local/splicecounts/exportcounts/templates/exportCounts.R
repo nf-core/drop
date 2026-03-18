@@ -14,7 +14,7 @@ if("$fraser_version" == "FRASER2"){
 
 library(AnnotationDbi)
 
-# 
+#
 # input
 #
 annotation_file <- "${annotation}"
@@ -48,12 +48,12 @@ fds_known <- fds[unique(to(findOverlaps(introns, rowRanges(fds, type="j"), type=
 sapply(c(out_k_files, out_n_files), function(i){
     ctsType <- toupper(strsplit(basename(i), "_")[[1]][1])
     psiType <- strsplit(basename(i), "_")[[1]][2]
-    
+
     cts <- as.data.table(get(ctsType)(fds_known, type=psiType))
     grAnno <- rowRanges(fds_known, type=psiType)
     anno <- as.data.table(grAnno)
     anno <- anno[,.(seqnames, start, end, strand)]
-    
+
     fwrite(cbind(anno, cts), file=i, quote=FALSE, row.names=FALSE, sep="\t", compress="gzip")
 }) %>% invisible()
 

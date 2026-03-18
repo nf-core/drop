@@ -268,7 +268,7 @@ workflow ABERRANTSPLICING {
         .combine(txdb)
         .map { meta, fds, annotation_meta, txdb_ ->
             def new_meta = meta + [id:"${meta.id}.${annotation_meta.id}", annotation:annotation_meta.id]
-            [ new_meta, txdb_, fds, meta.drop_group ] 
+            [ new_meta, txdb_, fds, meta.drop_group ]
         }
 
     SPLICECOUNTS_EXPORTCOUNTS(
