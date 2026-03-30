@@ -9,7 +9,7 @@ dependencies:
   - bioconda::bioconductor-fraser=2.4.6
   - bioconda::bioconductor-genomicalignments=1.42.0
   - conda-forge::r-base=4.4.3
-  - conda-forge::r-bbmisc=1.13
+  - conda-forge::r-bbmisc=1.13.0
   - conda-forge::r-biocmanager=1.30.25
   - conda-forge::r-data.table=1.17.4
   - conda-forge::r-devtools=2.4.5
