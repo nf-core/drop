@@ -1,0 +1,72 @@
+{
+    "homo_sapiens - counts": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "expression",
+                            "drop_group": "expression"
+                        },
+                        "geneCounts.tsv.gz:md5,42cbf4dc76bc8b40154e87798e00a07a"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,4d9655d232c4d64b1da475758c308ba5"
+                ],
+                "counts": [
+                    [
+                        {
+                            "id": "expression",
+                            "drop_group": "expression"
+                        },
+                        "geneCounts.tsv.gz:md5,42cbf4dc76bc8b40154e87798e00a07a"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,4d9655d232c4d64b1da475758c308ba5"
+                ]
+            }
+        ],
+        "timestamp": "2026-03-18T10:59:44.138613136",
+        "meta": {
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
+    },
+    "homo_sapiens - counts - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "expression",
+                            "drop_group": "expression"
+                        },
+                        "expression.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,4d9655d232c4d64b1da475758c308ba5"
+                ],
+                "counts": [
+                    [
+                        {
+                            "id": "expression",
+                            "drop_group": "expression"
+                        },
+                        "expression.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,4d9655d232c4d64b1da475758c308ba5"
+                ]
+            }
+        ],
+        "timestamp": "2026-03-18T10:59:54.611327978",
+        "meta": {
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
+    }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_5_SPLICECOUNTS_COLLECTCOUNTS.R
+# https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/exportCounts.R
 
 source("$config", echo=FALSE)
 if("$fraser_version" == "FRASER2"){
@@ -12,37 +12,50 @@ if("$fraser_version" == "FRASER2"){
     psiTypesNotUsed <- c("jaccard")
 }
 
-dataset    <- "$drop_group"
-workingDir <- "./"
-saveDir    <- "savedObjects/raw-local-$drop_group"
+library(AnnotationDbi)
 
-# Read FRASER object
+#
+# input
+#
+annotation_file <- "${annotation}"
+workingDir <- "."
+dataset    <- "${drop_group}"
+
+out_k_files <- c("k_j_counts.tsv.gz", "k_theta_counts.tsv.gz")
+out_n_files <- c("n_psi5_counts.tsv.gz", "n_psi3_counts.tsv.gz", "n_theta_counts.tsv.gz")
+
+# Read annotation and extract known junctions
+txdb <- loadDb(annotation_file)
+introns <- unique(unlist(intronsByTranscript(txdb)))
+introns <- keepStandardChromosomes(introns, pruning.mode = 'coarse')
+length(introns)
+
+# Read FRASER object, adapt chr style and subset to known junctions
 fds <- loadFraserDataSet(dir=workingDir, name=paste0("raw-local-", dataset))
-splitCounts_gRanges <- readRDS("$splitcounts_granges")
-spliceSiteCoords <- readRDS("$splicesites_splitcounts")
+seqlevels(fds) <- seqlevelsInUse(fds)
+seqlevelsStyle(fds) <- seqlevelsStyle(introns)[1]
 
-# Get splitReads and nonSplitRead counts in order to store them in FRASER object
-splitCounts_h5 <- HDF5Array::HDF5Array(file.path(saveDir, "rawCountsJ.h5"), "rawCountsJ")
-splitCounts_se <- SummarizedExperiment(
-    colData = colData(fds),
-    rowRanges = splitCounts_gRanges,
-    assays = list(rawCountsJ=splitCounts_h5)
-)
+# recalculate theta.h5 in Jaccard metric
+if (fitMetrics(fds) == "jaccard") {
+    fds <- calculatePSIValues(fds, type="theta")
+} else {
+    fds <- calculatePSIValues(fds, type="jaccard")
+}
 
+fds_known <- fds[unique(to(findOverlaps(introns, rowRanges(fds, type="j"), type="equal"))),]
 
-nonSplitCounts_h5 <- HDF5Array::HDF5Array(file.path(saveDir, "rawCountsSS.h5"), "rawCountsSS")
-nonSplitCounts_se <- SummarizedExperiment(
-    colData = colData(fds),
-    rowRanges = spliceSiteCoords,
-    assays = list(rawCountsSS=nonSplitCounts_h5)
-)
+# save k/n counts
+sapply(c(out_k_files, out_n_files), function(i){
+    ctsType <- toupper(strsplit(basename(i), "_")[[1]][1])
+    psiType <- strsplit(basename(i), "_")[[1]][2]
 
-# Add Counts to FRASER object
-fds <- addCountsToFraserDataSet(fds=fds, splitCounts=splitCounts_se,
-                                nonSplitCounts=nonSplitCounts_se)
+    cts <- as.data.table(get(ctsType)(fds_known, type=psiType))
+    grAnno <- rowRanges(fds_known, type=psiType)
+    anno <- as.data.table(grAnno)
+    anno <- anno[,.(seqnames, start, end, strand)]
 
-# Save final FRASER object
-fds <- saveFraserDataSet(fds)
+    fwrite(cbind(anno, cts), file=i, quote=FALSE, row.names=FALSE, sep="\t", compress="gzip")
+}) %>% invisible()
 
 ## VERSIONS FILE
 writeLines(
@@ -59,6 +72,7 @@ writeLines(
         paste('    r-dplyr:', as.character(packageVersion('dplyr'))),
         paste('    r-plotly:', as.character(packageVersion('plotly'))),
         paste('    r-rhdf5:', as.character(packageVersion('rhdf5'))),
+        paste('    bioconductor-annotationdbi:', as.character(packageVersion('AnnotationDbi'))),
         paste('    bioconductor-genomicalignments:', as.character(packageVersion('GenomicAlignments'))),
         paste('    bioconductor-delayedmatrixstats:', as.character(packageVersion('DelayedMatrixStats'))),
         paste('    bioconductor-bsgenome:', as.character(packageVersion('BSgenome'))),

@@ -5,6 +5,7 @@ include { SPLICECOUNTS_COUNTNONSPLITREADS       } from '../../../modules/local/s
 include { SPLICECOUNTS_MERGENONSPLITREADS       } from '../../../modules/local/splicecounts/mergenonsplitreads'
 include { SPLICECOUNTS_COLLECTCOUNTS            } from '../../../modules/local/splicecounts/collectcounts'
 include { SPLICECOUNTS_SUMMARY                  } from '../../../modules/local/splicecounts/summary'
+include { SPLICECOUNTS_EXPORTCOUNTS             } from '../../../modules/local/splicecounts/exportcounts'
 include { FRASER_PSIVALUECALCULATION            } from '../../../modules/local/fraser/psivaluecalculation'
 include { FRASER_FILTEREXPRESSION               } from '../../../modules/local/fraser/filterexpression'
 include { FRASER_FITHYPERPARAMS                 } from '../../../modules/local/fraser/fithyperparams'
@@ -258,6 +259,24 @@ workflow ABERRANTSPLICING {
         aberrant_splicing_config_R
     )
     ch_versions = ch_versions.mix(FRASER_PSIVALUECALCULATION.out.versions.first())
+
+    //
+    // SPLICECOUNTS_EXPORTCOUNTS
+    //
+
+    def ch_exportcounts_input = FRASER_PSIVALUECALCULATION.out.fdsobj
+        .combine(txdb)
+        .map { meta, fds, annotation_meta, txdb_ ->
+            def new_meta = meta + [id:"${meta.id}.${annotation_meta.id}", annotation:annotation_meta.id]
+            [ new_meta, txdb_, fds, meta.drop_group ]
+        }
+
+    SPLICECOUNTS_EXPORTCOUNTS(
+        ch_exportcounts_input,
+        fraser_version,
+        aberrant_splicing_config_R
+    )
+    ch_versions = ch_versions.mix(SPLICECOUNTS_EXPORTCOUNTS.out.versions.first())
 
     //
     // FRASER_FILTEREXPRESSION

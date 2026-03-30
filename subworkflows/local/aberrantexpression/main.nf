@@ -1,5 +1,6 @@
 include { GENECOUNTS_COUNTREADS              } from '../../../modules/local/genecounts/countreads/'
 include { GENECOUNTS_MERGECOUNTS             } from '../../../modules/local/genecounts/mergecounts/'
+include { GENECOUNTS_EXPORTCOUNTS            } from '../../../modules/local/genecounts/exportcounts/'
 include { GENECOUNTS_FILTERCOUNTS            } from '../../../modules/local/genecounts/filtercounts/'
 include { GENECOUNTS_SUMMARY                 } from '../../../modules/local/genecounts/summary/'
 include { OUTRIDER_FIT                       } from '../../../modules/local/outrider/fit'
@@ -113,6 +114,11 @@ workflow ABERRANTEXPRESSION {
         samplesheet
     )
     ch_versions = ch_versions.mix(GENECOUNTS_MERGECOUNTS.out.versions.first())
+
+    GENECOUNTS_EXPORTCOUNTS(
+        GENECOUNTS_MERGECOUNTS.out.output
+    )
+    ch_versions = ch_versions.mix(GENECOUNTS_EXPORTCOUNTS.out.versions.first())
 
     //
     // Filter the merged counts

@@ -1,0 +1,74 @@
+nextflow_process {
+
+    name "Test Process SPLICECOUNTS_EXPORTCOUNTS"
+    script "../main.nf"
+    process "SPLICECOUNTS_EXPORTCOUNTS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "splicecounts/exportcounts"
+
+    setup {
+        run("UNTAR") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/fraser/psivaluecalculation/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens - annotation, metrics") {
+        when {
+            process {
+                """
+                input[0] = channel.of([
+                    [id: 'test'],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db')
+                ]).combine(UNTAR.out.untar.map { it -> it[1] })
+                .map { meta, ann, fds -> [ meta, ann, fds.resolve("raw-local-fraser"), 'fraser' ]}
+                input[1] = "FRASER2"
+                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - annotation, metrics - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = channel.of([
+                    [id: 'test'],
+                    file(params.pipelines_testdata_base_path + 'intermediates/preprocessgeneannotation/genome.db')
+                ]).combine(UNTAR.out.untar.map { it -> it[1] })
+                .map { meta, ann, fds -> [ meta, ann, fds.resolve("raw-local-fraser"), 'fraser' ]}
+                input[1] = "FRASER2"
+                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}
