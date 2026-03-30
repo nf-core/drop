@@ -2,7 +2,6 @@
     "homo_sapiens - fds": {
         "content": [
             [
-                "delta_jaccard.h5:md5,5871db74ed61bcfc779132844bd2ae96",
                 "delta_psi3.h5:md5,69f8bd431c9b0769b6e9cfe1e87d17df",
                 "delta_psi5.h5:md5,a46939fc3279550f57604ebd7a6f0a7c",
                 "delta_theta.h5:md5,b15dfcd30a1b2bd0bbc5ddca39938d95",
@@ -48,11 +47,11 @@
                 "versions.yml:md5,d10c70de6477bd857b1ed66f383ec7b4"
             ]
         ],
+        "timestamp": "2026-03-30T15:12:01.431570496",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2025-12-14T22:35:45.698845141"
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
     },
     "homo_sapiens - fds, cache - stub": {
         "content": [
@@ -105,10 +104,10 @@
                 ]
             }
         ],
+        "timestamp": "2025-12-02T15:02:46.067127422",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2025-12-02T15:02:46.067127422"
+        }
     }
 }
