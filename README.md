@@ -21,7 +21,7 @@
 
 ## Introduction
 
-**nf-core/drop** is a Nextflow rewrite of [drop](https://github.com/gagneurlab/drop/tree/master)(Detection of RNA Outliers Pipeline), a bioinformatics pipeline that detects aberrant expression, aberrant splicing, and mono-allelic expression from RNA sequencing data. drop was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
+**nf-core/drop** is a Nextflow rewrite of [drop](https://github.com/gagneurlab/drop/tree/master) (Detection of RNA Outliers Pipeline), a bioinformatics pipeline that detects aberrant expression, aberrant splicing, and mono-allelic expression from RNA sequencing data. drop was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
 
 ![A high-level diagram of the DROP workflow in a metro map style](docs/images/drop_metromap.png)
 
