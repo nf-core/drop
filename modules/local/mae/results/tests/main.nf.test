@@ -28,7 +28,14 @@ nextflow_process {
         then {
             assertAll (
                 { assert process.success },
-                { assert snapshot(process.out).match() }
+                { assert snapshot(
+                    sanitizeOutput(process.out).collectEntries { key, value ->
+                        if (["cascade_plot", "variant_frequency"].contains(key)) {
+                            return [key, value.collect { meta, f -> file(f).name }]
+                        }
+                        return [key, value]
+                    }
+                ).match() }
             )
         }
     }

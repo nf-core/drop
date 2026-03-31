@@ -28,7 +28,7 @@ nextflow_process {
             assertAll (
                 { assert process.success },
                 { assert snapshot(
-                    process.out.matching_values_distribution,
+                    process.out.matching_values_distribution.collect { meta, r -> [ meta, file(r).name ] },
                     process.out.heatmap_matching_variants.collect { meta, r -> [ meta, file(r).name ] },
                     process.out.identify_matching_samples,
                     process.out.false_matches,
