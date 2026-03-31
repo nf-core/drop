@@ -83,7 +83,7 @@ OUTRIDER and FRASER are released under CC-BY-NC 4.0, meaning a license is requir
 
 ## Credits
 
-[drop](https://github.com/gagneurlab/drop/tree/master) was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
+nf-core/drop is a Nextflow rewrite of the [drop](https://github.com/gagneurlab/drop/tree/master) pipeline that was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
 
 nfcore/drop is the Nextflow DSL2 conversion of the pipeline, and was lead by Nicolas Vannieuwkerke and Yun Wang.
 
