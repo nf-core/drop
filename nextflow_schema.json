@@ -130,7 +130,7 @@
                 "ae_z_score_cutoff": {
                     "type": "number",
                     "description": "A non-negative number. Z scores (in absolute value) greater than this cutoff are considered as outliers.",
-                    "default": 0.0,
+                    "default": 0,
                     "minimum": 0,
                     "fa_icon": "fas fa-file-export"
                 },
