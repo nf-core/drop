@@ -3,7 +3,7 @@ nextflow_pipeline {
     name "Test Workflow main.nf"
     script "../main.nf"
 
-    test("Mono Allelic Expression Workflow") {
+    test("Mono Allelic Expression Workflow - stub") {
 
         // The container for MAEQC_DNARNADESEQ is too big for the CI tests, running it in stub mode with a smaller container
         options "-stub"

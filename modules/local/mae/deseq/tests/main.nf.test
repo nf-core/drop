@@ -8,60 +8,6 @@ nextflow_process {
     tag "modules_local"
     tag "mae/deseq"
 
-    // test("homo_sapiens - counts, true") {
-
-    //     when {
-    //         process {
-    //             """
-    //             input[0] = Channel.of([
-    //                 [ id: 'HG00096' ],
-    //                 file(params.pipelines_testdata_base_path + 'intermediates/alleliccounts/HG00096.csv.gz', checkIfExists: true),
-    //             ])
-    //             input[1] = true
-    //             input[2] = 'hg19'
-    //             input[3] = 0.001
-    //             """
-    //         }
-    //     }
-
-    //     then {
-    //         assertAll (
-    //             { assert process.success },
-    //             { assert snapshot(
-    //                 process.out.res.collect { [ it[0], file(it[1]).name ] },
-    //                 process.out.versions
-    //             ).match() }
-    //         )
-    //     }
-    // }
-
-    // test("homo_sapiens - counts, false") {
-
-    //     when {
-    //         process {
-    //             """
-    //             input[0] = Channel.of([
-    //                 [ id: 'HG00096' ],
-    //                 file(params.pipelines_testdata_base_path + 'intermediates/alleliccounts/HG00096.csv.gz', checkIfExists: true),
-    //             ])
-    //             input[1] = true
-    //             input[2] = 'hg19'
-    //             input[3] = 0.001
-    //             """
-    //         }
-    //     }
-
-    //     then {
-    //         assertAll (
-    //             { assert process.success },
-    //             { assert snapshot(
-    //                 process.out.res.collect { [ it[0], file(it[1]).name ] },
-    //                 process.out.versions
-    //             ).match() }
-    //         )
-    //     }
-    // }
-
     test("homo_sapiens - counts, true - stub") {
 
         options "-stub"
