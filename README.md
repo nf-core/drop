@@ -83,22 +83,25 @@ OUTRIDER and FRASER are released under CC-BY-NC 4.0, meaning a license is requir
 
 ## Credits
 
-nf-core/drop was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
+[drop](https://github.com/gagneurlab/drop/tree/master) was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
 
-The Nextflow DSL2 conversion of the pipeline was lead by Nicolas Vannieuwkerke and Yun Wang.
+nfcore/drop is the Nextflow DSL2 conversion of the pipeline, and was lead by Nicolas Vannieuwkerke and Yun Wang.
 
 Main developers:
 
 - [Nicolas Vannieuwkerke](https://github.com/nvnieuwk)
 - [Yun Wang](https://github.com/fulaibaowang)
+- [Ata Jadid Ahari](https://github.com/AtaJadidAhari)
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-- [Ata Jadid Ahari](https://github.com/AtaJadidAhari)
 - [Drew Behrens](https://github.com/drewjbeh)
 
-<!-- TODO Acknowledgements -->
-<!-- GHGA -->
+## Acknowledgements
+
+<a href="https://www.ghga.de/">
+  <img src="docs/images/GHGA_short_Logo_orange.png" alt="GHGA" width="200"/>
+</a>
 
 ## Contributions and Support
 
