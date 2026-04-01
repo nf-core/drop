@@ -5,11 +5,11 @@
     "description": "The detection of RNA Outliers Pipeline (DROP) is an integrative workflow to detect aberrant expression, aberrant splicing, and mono-allelic expression from raw sequencing files.",
     "type": "object",
     "$defs": {
-        "global_parameters": {
-            "title": "Global parameters",
+        "input_output_options": {
+            "title": "Parameters defining the input and output options of the pipeline",
             "type": "object",
             "fa_icon": "fas fa-cogs",
-            "description": "Global parameters for the pipeline.",
+            "description": "Parameters defining the input and output options of the pipeline.",
             "required": ["input", "outdir", "genome"],
             "properties": {
                 "input": {
@@ -625,7 +625,7 @@
     },
     "allOf": [
         {
-            "$ref": "#/$defs/global_parameters"
+            "$ref": "#/$defs/input_output_options"
         },
         {
             "$ref": "#/$defs/export_counts"
