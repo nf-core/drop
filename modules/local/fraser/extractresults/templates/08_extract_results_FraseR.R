@@ -13,7 +13,7 @@ if("$fraser_version" == "FRASER2"){
     psiTypesNotUsed <- c("jaccard")
 }
 
-source("$add_HPO_cols")
+source(Sys.which("add_HPO_cols.R"))
 library(AnnotationDbi)
 
 annotation    <- "$annotation_id"

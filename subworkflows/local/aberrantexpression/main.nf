@@ -191,8 +191,7 @@ workflow ABERRANTEXPRESSION {
         samplesheet,
         hpo,
         params.ae_padj_cutoff,
-        params.ae_z_score_cutoff,
-        file("${projectDir}/assets/helpers/add_HPO_cols.R")
+        params.ae_z_score_cutoff
     )
     ch_versions = ch_versions.mix(OUTRIDER_RESULTS.out.versions.first())
 

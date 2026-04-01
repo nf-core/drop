@@ -16,7 +16,6 @@ process FRASER_EXTRACTRESULTS {
     val(delta_psi_cutoff)
     val(genome_assembly)
     val(fraser_version)
-    path(add_HPO_cols) // Pass "${projectDir}/assets/helpers/add_HPO_cols.R" to this input
 
     output:
     tuple val(meta), path("results.tsv")                , emit: results_aberrant

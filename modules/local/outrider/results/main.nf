@@ -13,7 +13,6 @@ process OUTRIDER_RESULTS {
     tuple val(meta3), path(hpo_file)
     val(padjCutoff)
     val(zScoreCutoff)
-    path(add_HPO_cols) // Pass ${projectDir}/assets/helpers/add_HPO_cols.R to this input
 
     output:
     tuple val(meta), path("*.tsv")  , emit: results

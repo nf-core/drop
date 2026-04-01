@@ -408,8 +408,7 @@ workflow ABERRANTSPLICING {
         params.as_padj_cutoff,
         params.as_delta_psi_cutoff,
         params.genome,
-        fraser_version,
-        file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_EXTRACTRESULTS.out.versions.first())
 
