@@ -383,8 +383,7 @@ workflow ABERRANTSPLICING {
     FRASER_CALCULATESTATS(
         ch_calculationstats_input,
         genes_to_test,
-        fraser_version,
-        file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true),
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_CALCULATESTATS.out.versions.first())
 

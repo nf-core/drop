@@ -19,7 +19,7 @@ implementation <- "$implementation"
 register(MulticoreParam($task.cpus))
 
 # read in gene subsets from sample anno if present (returns NULL if not present)
-source("$parse_subsets_for_FDR")
+source(Sys.which("parse_subsets_for_FDR.R"))
 outrider_sample_ids <- list(${ids.collect { return "\"$it\"" }.join(', ')})
 subsets <- parse_subsets_for_FDR("$genes_to_test", sampleIDs=outrider_sample_ids)
 subsets_final <- convert_to_geneIDs(subsets, "$gene_name_mapping")

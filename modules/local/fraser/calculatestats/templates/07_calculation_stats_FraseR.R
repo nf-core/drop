@@ -22,7 +22,7 @@ register(MulticoreParam($task.cpus))
 setAutoBPPARAM(MulticoreParam($task.cpus))
 
 # read in subsets from sample anno if present (returns NULL if not present)
-source("$parse_subsets_for_FDR")
+source(Sys.which("parse_subsets_for_FDR.R"))
 fraser_sample_ids <- list(${sample_ids.collect { "\"$it\"" }.join(', ')})
 subsets <- parse_subsets_for_FDR("$genes_to_test",
                                 sampleIDs=fraser_sample_ids)
