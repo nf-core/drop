@@ -2,3 +2,6 @@ multiqc/**
 pipeline_info/**
 .DS_Store
 reports/**
+**.RDS
+**.Rds
+**.rds

@@ -1,33 +1,153 @@
 {
     "Mono Allelic Expression Workflow - stub": {
         "content": [
+            26,
+            {
+                "GATK4_CREATESEQUENCEDICTIONARY_NCBI": {
+                    "gatk4": "4.6.2.0"
+                },
+                "GATK4_CREATESEQUENCEDICTIONARY_UCSC": {
+                    "gatk4": "4.6.2.0"
+                },
+                "MAEQC_DNARNADESEQ": {
+                    "bioconductor-genomicranges": "1.46.0",
+                    "r-base": "4.1.3",
+                    "r-tmae": "1.0.4"
+                },
+                "MAEQC_DNARNAMATRIX": {
+                    "bioconductor-biocparallel": "1.40.0",
+                    "bioconductor-genomicranges": "1.58.0",
+                    "bioconductor-variantannotation": "1.52.0",
+                    "r-base": "4.4.3",
+                    "r-data.table": "1.17.6",
+                    "r-magrittr": "2.0.3"
+                },
+                "MAEQC_DNARNAMATRIXPLOT": {
+                    "r-base": "4.4.3",
+                    "r-data.table": "1.17.6",
+                    "r-ggplot2": "3.5.2",
+                    "r-pheatmap": "1.0.13",
+                    "r-rcolorbrewer": "1.1.3",
+                    "r-reshape2": "1.4.4"
+                },
+                "MAE_ALLELICCOUNTS": {
+                    "bcftools": 1.22,
+                    "bgzip": "1.22.1",
+                    "gatk4": "4.6.2.0",
+                    "samtools": "1.22.1"
+                },
+                "MAE_CREATESNVS": {
+                    "bcftools": 1.22,
+                    "bgzip": "1.22.1",
+                    "gatk4": "4.6.2.0",
+                    "samtools": "1.22.1"
+                },
+                "MAE_DESEQ": {
+                    "r-base": "4.3.1"
+                },
+                "MAE_GENENAMEMAPPING": {
+                    "bioconductor-rtracklayer": "1.66.0",
+                    "r-base": "4.4.3",
+                    "r-data.table": "1.17.6",
+                    "r-magrittr": "2.0.3",
+                    "r-tidyr": "1.3.1"
+                },
+                "MAE_RESULTS": {
+                    "bioconductor-genomicranges": "1.58.0",
+                    "bioconductor-summarizedexperiment": "1.36.0",
+                    "r-base": "4.4.3",
+                    "r-data.table": "1.17.6",
+                    "r-dplyr": "1.1.4",
+                    "r-dt": 0.33,
+                    "r-ggplot2": "3.5.2",
+                    "r-r.utils": "2.13.0",
+                    "r-tidyr": "1.3.1"
+                },
+                "PREPROCESSGENEANNOTATION": {
+                    "bioconductor-genomicfeatures": "1.58.0",
+                    "bioconductor-rtracklayer": "1.66.0",
+                    "bioconductor-txdbmaker": "1.2.0",
+                    "r-base": "4.4.3",
+                    "r-data.table": "1.17.0",
+                    "r-magrittr": "2.0.3"
+                },
+                "SAMTOOLS_INDEX": {
+                    "samtools": "1.22.1"
+                },
+                "TABIX_TABIX": {
+                    "tabix": 1.21
+                }
+            },
             [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/.stub",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_drop_software_mqc_versions.yml",
+                "processed_data",
+                "processed_data/mae",
+                "processed_data/mae/RNA_GT",
                 "processed_data/mae/RNA_GT/HG00096.Rds",
                 "processed_data/mae/RNA_GT/HG00103.Rds",
                 "processed_data/mae/RNA_GT/HG00106.Rds",
+                "processed_data/mae/allelic_counts",
                 "processed_data/mae/allelic_counts/HG00096--HG00096.csv.gz",
                 "processed_data/mae/allelic_counts/HG00103--HG00103.csv.gz",
                 "processed_data/mae/allelic_counts/HG00106--HG00106.csv.gz",
+                "processed_data/mae/snvs",
                 "processed_data/mae/snvs/HG00096--HG00096.vcf.gz",
                 "processed_data/mae/snvs/HG00096--HG00096.vcf.gz.tbi",
                 "processed_data/mae/snvs/HG00103--HG00103.vcf.gz",
                 "processed_data/mae/snvs/HG00103--HG00103.vcf.gz.tbi",
                 "processed_data/mae/snvs/HG00106--HG00106.vcf.gz",
                 "processed_data/mae/snvs/HG00106--HG00106.vcf.gz.tbi",
+                "processed_results",
+                "processed_results/mae",
                 "processed_results/mae/gene_name_mapping_gene_name_mapping_v29.tsv",
+                "processed_results/mae/mae",
                 "processed_results/mae/mae/MAE_results_all_v29.tsv.gz",
                 "processed_results/mae/mae/MAE_results_v29.tsv",
                 "processed_results/mae/mae/MAE_results_v29_rare.tsv",
                 "processed_results/mae/mae/dna_rna_qc_matrix.Rds",
+                "processed_results/mae/samples",
                 "processed_results/mae/samples/HG00096--HG00096_res.Rds",
                 "processed_results/mae/samples/HG00103--HG00103_res.Rds",
-                "processed_results/mae/samples/HG00106--HG00106_res.Rds"
+                "processed_results/mae/samples/HG00106--HG00106_res.Rds",
+                "reports",
+                "reports/mae",
+                "reports/mae/mae",
+                "reports/mae/mae/multiqc_data",
+                "reports/mae/mae/multiqc_data/.stub",
+                "reports/mae/mae/multiqc_plots",
+                "reports/mae/mae/multiqc_report.html",
+                "reports/mae/maeqc",
+                "reports/mae/maeqc/multiqc_data",
+                "reports/mae/maeqc/multiqc_data/.stub",
+                "reports/mae/maeqc/multiqc_plots",
+                "reports/mae/maeqc/multiqc_report.html"
+            ],
+            [
+                "HG00096--HG00096.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                "HG00103--HG00103.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                "HG00106--HG00106.csv.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                "HG00096--HG00096.vcf.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                "HG00096--HG00096.vcf.gz.tbi:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "HG00103--HG00103.vcf.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                "HG00103--HG00103.vcf.gz.tbi:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "HG00106--HG00106.vcf.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                "HG00106--HG00106.vcf.gz.tbi:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "gene_name_mapping_gene_name_mapping_v29.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "MAE_results_all_v29.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "MAE_results_v29.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "MAE_results_v29_rare.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
+        "timestamp": "2026-04-01T13:31:09.609485938",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2025-07-22T13:44:35.500666753"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     }
 }
