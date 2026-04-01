@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/FRASER/04_fit_hyperparameters_FraseR.R
 
-source("$config", echo=FALSE)
+source(Sys.which("aberrant_splicing_config.R"), echo=FALSE)
 configure_fraser("$fraser_version")
 
 rseed <- ${random_seed instanceof Integer ? random_seed : random_seed ? 'TRUE' : 'FALSE'}

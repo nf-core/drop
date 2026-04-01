@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/Summary.R
 
-source("$config", echo=FALSE)
+source(Sys.which("aberrant_splicing_config.R"), echo=FALSE)
 configure_fraser("$fraser_version")
 
 suppressPackageStartupMessages({

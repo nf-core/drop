@@ -4,7 +4,7 @@
 # Initialize the prefix from the module
 prefix <- ifelse('$task.ext.prefix' == 'null', '$meta.id', '$task.ext.prefix')
 
-source("$config", echo=FALSE)
+source(Sys.which("aberrant_splicing_config.R"), echo=FALSE)
 if("$fraser_version" == "FRASER2"){
     pseudocount(0.1)
     psiTypes <- c("jaccard")

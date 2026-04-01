@@ -11,7 +11,6 @@ process FRASER_ANNOTATEGENES {
     input:
     tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), path(txdb), path(gene_name_mapping), val(drop_group), val(annotation_id)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("savedObjects/${drop_group}--${annotation_id}"), emit: fdsobj

@@ -13,7 +13,6 @@ process SPLICECOUNTS_MERGENONSPLITREADS {
     val(long_read)
     val(recount)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("cache/nonSplicedCounts/raw-local-${drop_group}"), emit: cache

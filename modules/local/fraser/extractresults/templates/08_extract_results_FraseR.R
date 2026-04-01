@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/FRASER/08_extract_results_FraseR.R
 
-source("$config", echo=FALSE)
+source(Sys.which("aberrant_splicing_config.R"), echo=FALSE)
 
 if("$fraser_version" == "FRASER2"){
     pseudocount(0.1)

@@ -178,8 +178,7 @@ workflow DROP {
             as_fraser_version,
             as_groups,
             as_genes_to_test,
-            hpo_file,
-            file("${projectDir}/assets/helpers/aberrant_splicing_config.R", checkIfExists: true)
+            hpo_file
         )
         ch_versions = ch_versions.mix(ABERRANTSPLICING.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(ABERRANTSPLICING.out.count_report)

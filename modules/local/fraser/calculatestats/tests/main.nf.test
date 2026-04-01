@@ -39,8 +39,7 @@ nextflow_process {
                 }
                 input[1] = [ [id:'genes_to_test'], file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml')]
                 input[2] = "FRASER2"
-                input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
-                input[4] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
+                input[3] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
                 """
             }
         }
@@ -77,8 +76,7 @@ nextflow_process {
                 }
                 input[1] = [ [id:'genes_to_test'], file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml')]
                 input[2] = "FRASER2"
-                input[3] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
-                input[4] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
+                input[3] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
                 """
             }
         }

@@ -11,7 +11,6 @@ process FRASER_PSIVALUECALCULATION {
     input:
     tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("cache/otherCounts/raw-local-${drop_group}")                  , emit: cache

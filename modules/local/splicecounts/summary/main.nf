@@ -10,7 +10,6 @@ process SPLICECOUNTS_SUMMARY {
     input:
     tuple val(meta), path(fdsobj_raw_local, stageAs: "savedObjects/*"), path(fdsobj_raw, stageAs: "savedObjects/*"), val(drop_group)
     val(fraser_version)
-    path(config)
 
     output:
     tuple val(meta), path("number_of_samples_mqc.tsv")              , emit: number_of_samples

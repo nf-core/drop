@@ -14,7 +14,6 @@ process SPLICECOUNTS_COUNTSPLITREADS {
     val(recount)
     val(genome_assembly)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("cache/splitCounts/splitCounts-${sample_id}.RDS") , emit: split_counts
