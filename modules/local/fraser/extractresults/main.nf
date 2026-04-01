@@ -16,8 +16,6 @@ process FRASER_EXTRACTRESULTS {
     val(delta_psi_cutoff)
     val(genome_assembly)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
-    path(add_HPO_cols) // Pass "${projectDir}/assets/helpers/add_HPO_cols.R" to this input
 
     output:
     tuple val(meta), path("results.tsv")                , emit: results_aberrant

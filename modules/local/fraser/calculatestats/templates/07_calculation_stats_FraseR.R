@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/FRASER/07_calculation_stats_FraseR.R
 
-source("$config", echo=FALSE)
+source(Sys.which("aberrant_splicing_config.R"), echo=FALSE)
 if("$fraser_version" == "FRASER2"){
     pseudocount(0.1)
     psiTypes <- c("jaccard")
@@ -22,7 +22,7 @@ register(MulticoreParam($task.cpus))
 setAutoBPPARAM(MulticoreParam($task.cpus))
 
 # read in subsets from sample anno if present (returns NULL if not present)
-source("$parse_subsets_for_FDR")
+source(Sys.which("parse_subsets_for_FDR.R"))
 fraser_sample_ids <- list(${sample_ids.collect { "\"$it\"" }.join(', ')})
 subsets <- parse_subsets_for_FDR("$genes_to_test",
                                 sampleIDs=fraser_sample_ids)

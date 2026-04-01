@@ -169,7 +169,6 @@ workflow ABERRANTEXPRESSION {
         outrider_pvals_input,
         genes_to_test,
         params.ae_implementation,
-        file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R")
     )
     ch_versions = ch_versions.mix(OUTRIDER_PVALS.out.versions.first())
 
@@ -192,7 +191,6 @@ workflow ABERRANTEXPRESSION {
         hpo,
         params.ae_padj_cutoff,
         params.ae_z_score_cutoff,
-        file("${projectDir}/assets/helpers/add_HPO_cols.R")
     )
     ch_versions = ch_versions.mix(OUTRIDER_RESULTS.out.versions.first())
 

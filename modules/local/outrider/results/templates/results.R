@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 #https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-expression-pipeline/OUTRIDER/results.R
 
-source("$add_HPO_cols")
+source(Sys.which("add_HPO_cols.R"))
 
 suppressPackageStartupMessages({
     library(dplyr)

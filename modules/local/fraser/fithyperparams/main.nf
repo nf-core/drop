@@ -15,7 +15,6 @@ process FRASER_FITHYPERPARAMS {
     val(max_tested_dimension_proportion)
     val(as_use_grid_search_to_obtain_q)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("savedObjects/${drop_group}") , emit: fdsobj

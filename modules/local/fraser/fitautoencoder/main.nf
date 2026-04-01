@@ -12,7 +12,6 @@ process FRASER_FITAUTOENCODER {
     tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group)
     val(implementation)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("savedObjects/${drop_group}") , emit: fdsobj

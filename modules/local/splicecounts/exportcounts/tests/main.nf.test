@@ -32,7 +32,6 @@ nextflow_process {
                 ]).combine(UNTAR.out.untar.map { it -> it[1] })
                 .map { meta, ann, fds -> [ meta, ann, fds.resolve("raw-local-fraser"), 'fraser' ]}
                 input[1] = "FRASER2"
-                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
@@ -58,7 +57,6 @@ nextflow_process {
                 ]).combine(UNTAR.out.untar.map { it -> it[1] })
                 .map { meta, ann, fds -> [ meta, ann, fds.resolve("raw-local-fraser"), 'fraser' ]}
                 input[1] = "FRASER2"
-                input[2] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }

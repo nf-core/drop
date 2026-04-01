@@ -24,7 +24,6 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml', checkIfExists: true)
                 ]
                 input[2] = 'autoencoder'
-                input[3] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true)
                 """
             }
         }
@@ -58,7 +57,6 @@ nextflow_process {
                     file(params.pipelines_testdata_base_path + 'inputs/genes_to_test.yaml', checkIfExists: true)
                 ]
                 input[2] = 'autoencoder'
-                input[3] = file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true)
                 """
             }
         }

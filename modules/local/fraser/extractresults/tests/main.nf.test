@@ -50,8 +50,6 @@ nextflow_process {
                 input[4] = 0.05
                 input[5] = "hg19"
                 input[6] = "FRASER2"
-                input[7] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
-                input[8] = file("${projectDir}/assets/helpers/add_HPO_cols.R")
                 """
             }
         }
@@ -94,8 +92,6 @@ nextflow_process {
                 input[4] = 0.05
                 input[5] = "hg19"
                 input[6] = "FRASER2"
-                input[7] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
-                input[8] = file("${projectDir}/assets/helpers/add_HPO_cols.R")
                 """
             }
         }

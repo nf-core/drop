@@ -13,7 +13,6 @@ process SPLICECOUNTS_MERGESPLITREADS {
     val(min_expression_in_one_sample)
     val(recount)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("cache/raw-local-${drop_group}")       , emit: cache

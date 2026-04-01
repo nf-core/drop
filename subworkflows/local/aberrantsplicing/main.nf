@@ -28,7 +28,6 @@ workflow ABERRANTSPLICING {
     include_groups              // list:          A list of groups to include in the aberrant splicing analysis
     genes_to_test               // value channel: [ val(meta), path(genes_to_test) ]
     hpo_file                    // value channel: [ val(meta), path(hpo_file) ]
-    aberrant_splicing_config_R  // file:          Path to the R script with configuration for aberrant splicing analysis
 
     main:
     def ch_versions = channel.empty()
@@ -110,8 +109,7 @@ workflow ABERRANTSPLICING {
         ch_abberant_splicing_input.dataset.map { meta, dataset ->
             [ meta, dataset, meta.drop_group ]
         },
-        fraser_version,
-        aberrant_splicing_config_R,
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_INIT.out.versions.first())
 
@@ -141,8 +139,7 @@ workflow ABERRANTSPLICING {
         params.as_keep_non_standard_chrs,
         params.as_recount,
         params.genome,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_COUNTSPLITREADS.out.versions.first())
 
@@ -166,8 +163,7 @@ workflow ABERRANTSPLICING {
         ch_splitreadsmerge_input,
         params.as_min_expression_in_one_sample,
         params.as_recount,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_MERGESPLITREADS.out.versions.first())
 
@@ -191,8 +187,7 @@ workflow ABERRANTSPLICING {
         ch_nonsplitreadssamplewise_input,
         params.as_long_read,
         params.as_recount,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_COUNTNONSPLITREADS.out.versions.first())
 
@@ -218,8 +213,7 @@ workflow ABERRANTSPLICING {
         ch_nonsplitreadsmerge_input,
         params.as_long_read,
         params.as_recount,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_MERGENONSPLITREADS.out.versions.first())
 
@@ -241,8 +235,7 @@ workflow ABERRANTSPLICING {
 
     SPLICECOUNTS_COLLECTCOUNTS(
         ch_collect_input,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_COLLECTCOUNTS.out.versions.first())
 
@@ -255,8 +248,7 @@ workflow ABERRANTSPLICING {
 
     FRASER_PSIVALUECALCULATION(
         ch_psivaluecalculation_input,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_PSIVALUECALCULATION.out.versions.first())
 
@@ -273,8 +265,7 @@ workflow ABERRANTSPLICING {
 
     SPLICECOUNTS_EXPORTCOUNTS(
         ch_exportcounts_input,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_EXPORTCOUNTS.out.versions.first())
 
@@ -312,8 +303,7 @@ workflow ABERRANTSPLICING {
         params.as_quantile_min_expression,
         params.as_min_delta_psi,
         !params.as_skip_filter,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_FILTEREXPRESSION.out.versions.first())
 
@@ -327,8 +317,7 @@ workflow ABERRANTSPLICING {
 
     SPLICECOUNTS_SUMMARY(
         ch_splicecounts_summary,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(SPLICECOUNTS_SUMMARY.out.versions.first())
 
@@ -345,8 +334,7 @@ workflow ABERRANTSPLICING {
         params.as_implementation,
         params.as_max_tested_dimension_proportion,
         params.as_use_grid_search_to_obtain_q,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_FITHYPERPARAMS.out.versions.first())
 
@@ -360,8 +348,7 @@ workflow ABERRANTSPLICING {
     FRASER_FITAUTOENCODER(
         ch_fitautoencoder_input,
         params.as_implementation,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_FITAUTOENCODER.out.versions.first())
 
@@ -380,8 +367,7 @@ workflow ABERRANTSPLICING {
 
     FRASER_ANNOTATEGENES(
         ch_annotategenes_input,
-        fraser_version,
-        aberrant_splicing_config_R
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_ANNOTATEGENES.out.versions.first())
 
@@ -397,9 +383,7 @@ workflow ABERRANTSPLICING {
     FRASER_CALCULATESTATS(
         ch_calculationstats_input,
         genes_to_test,
-        fraser_version,
-        aberrant_splicing_config_R,
-        file("${projectDir}/assets/helpers/parse_subsets_for_FDR.R", checkIfExists: true),
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_CALCULATESTATS.out.versions.first())
 
@@ -423,9 +407,7 @@ workflow ABERRANTSPLICING {
         params.as_padj_cutoff,
         params.as_delta_psi_cutoff,
         params.genome,
-        fraser_version,
-        aberrant_splicing_config_R,
-        file("${projectDir}/assets/helpers/add_HPO_cols.R", checkIfExists: true)
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_EXTRACTRESULTS.out.versions.first())
 
@@ -440,8 +422,7 @@ workflow ABERRANTSPLICING {
         ch_fraser_summary_input,
         params.as_padj_cutoff,
         params.as_delta_psi_cutoff,
-        fraser_version,
-        aberrant_splicing_config_R,
+        fraser_version
     )
     ch_versions = ch_versions.mix(FRASER_SUMMARY.out.versions.first())
 

@@ -11,7 +11,6 @@ process SPLICECOUNTS_COLLECTCOUNTS {
     input:
     tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), path(splitcounts_granges), path(splicesites_splitcounts), val(drop_group)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("savedObjects/raw-local-${drop_group}")  , emit: fdsobj

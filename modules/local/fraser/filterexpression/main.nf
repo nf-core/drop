@@ -17,7 +17,6 @@ process FRASER_FILTEREXPRESSION {
     val(min_delta_psi)
     val(filter)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("savedObjects/raw-${drop_group}"), emit: fdsobj_raw

@@ -11,7 +11,6 @@ process OUTRIDER_PVALS {
     tuple val(meta) , path(ods_fitted), val(ids), path(gene_name_mapping)
     tuple val(meta3), path(genes_to_test)
     val(implementation)
-    path(parse_subsets_for_FDR) // Pass ${projectDir}/assets/helpers/parse_subsets_for_FDR.R to this input
 
     output:
     tuple val(meta), path("*.Rds")  , emit: ods_with_pvals

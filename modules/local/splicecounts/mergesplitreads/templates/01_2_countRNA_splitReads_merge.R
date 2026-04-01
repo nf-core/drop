@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # https://github.com/gagneurlab/drop/blob/master/drop/modules/aberrant-splicing-pipeline/Counting/01_2_countRNA_splitReads_merge.R
 
-source("$config", echo=FALSE)
+source(Sys.which("aberrant_splicing_config.R"), echo=FALSE)
 if("$fraser_version" == "FRASER2"){
     pseudocount(0.1)
     psiTypes <- c("jaccard")

@@ -11,7 +11,6 @@ process SPLICECOUNTS_EXPORTCOUNTS {
     input:
     tuple val(meta), path(annotation), path(splice_metrics, stageAs: "savedObjects/*"), val(drop_group)
     val(fraser_version)
-    path(config) // Pass "${projectDir}/assets/helpers/aberrant_splicing_config.R" to this input
 
     output:
     tuple val(meta), path("k_*_counts.tsv.gz") , emit: k_counts

@@ -47,7 +47,6 @@ nextflow_process {
                 input[5] = 0.05 // min delta psi
                 input[6] = true // filter
                 input[7] = "FRASER2" // fraser version
-                input[8] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }
@@ -96,7 +95,6 @@ nextflow_process {
                 input[5] = 0.05 // min delta psi
                 input[6] = true // filter
                 input[7] = "FRASER2" // fraser version
-                input[8] = file("${projectDir}/assets/helpers/aberrant_splicing_config.R")
                 """
             }
         }

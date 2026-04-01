@@ -12,7 +12,6 @@ process FRASER_SUMMARY {
     val(padj_cutoff)
     val(deltaPsi_cutoff)
     val(fraser_version)
-    path(config)
 
     output:
     tuple val(meta), path("fraser_overview_mqc.tsv")           , emit: fraser_overview
