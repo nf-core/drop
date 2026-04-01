@@ -168,7 +168,7 @@ workflow ABERRANTEXPRESSION {
     OUTRIDER_PVALS(
         outrider_pvals_input,
         genes_to_test,
-        params.ae_implementation
+        params.ae_implementation,
     )
     ch_versions = ch_versions.mix(OUTRIDER_PVALS.out.versions.first())
 
