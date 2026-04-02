@@ -1,0 +1,86 @@
+
+nextflow_process {
+
+    name "Test Process FRASER_PSIVALUECALCULATION"
+    script "../main.nf"
+    process "FRASER_PSIVALUECALCULATION"
+
+    tag "modules"
+    tag "modules_local"
+    tag "fraser_psivaluecalculation"
+
+    setup {
+        run("UNTAR") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/countrna/collect/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens - fds") {
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("raw-local-fraser"),
+                        "fraser"
+                    ]
+                }
+                input[1] = "FRASER"
+                """
+            }
+        }
+
+        then {
+            def file_list = path(process.out.fdsobj[0][1]).list()
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    file_list.findAll { file(it.toString()).name != "fds-object.RDS"},
+                    file_list.findAll { file(it.toString()).name == "fds-object.RDS"}.collect { file(it.toString()).name },
+                    process.out.cache,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - fds, cache - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("raw-local-fraser"),
+                        "fraser"
+                    ]
+                }
+                input[1] = "FRASER"
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+dependencies:
+  - conda-forge::r-base=4.4.3
+  - conda-forge::r-data.table=1.17.6
+  - conda-forge::r-reshape2=1.4.4
+  - conda-forge::r-rcolorbrewer=1.1_3
+  - conda-forge::r-ggplot2=3.5.2
+  - conda-forge::r-pheatmap=1.0.13

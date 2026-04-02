@@ -1,0 +1,113 @@
+{
+    "homo_sapiens - fds": {
+        "content": [
+            [
+                "delta_psi3.h5:md5,69f8bd431c9b0769b6e9cfe1e87d17df",
+                "delta_psi5.h5:md5,a46939fc3279550f57604ebd7a6f0a7c",
+                "delta_theta.h5:md5,b15dfcd30a1b2bd0bbc5ddca39938d95",
+                "jaccard.h5:md5,e0ef3482ecdd5e5b49b69b0a6ca9ea6b",
+                "psi3.h5:md5,413da762f2e4f77a1c6e49c07f02d5ae",
+                "psi5.h5:md5,ebf23863d312d11fb90d156c66ad1654",
+                "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
+                "rawCountsJnonsplit.h5:md5,53d3603a1308c61d09714205413768e0",
+                "rawCountsSS.h5:md5,ecb04be331b9e07fbe76c1c865551ba0",
+                "rawOtherCounts_jaccard.h5:md5,9a25d20e1e369c0ae1c9d1616feb9765",
+                "rawOtherCounts_psi3.h5:md5,bf639fca4bfd9beb052904181935bab7",
+                "rawOtherCounts_psi5.h5:md5,debac7b62923ecfe9b94825fe2975229",
+                "rawOtherCounts_theta.h5:md5,b02c0baf3ffb1a24e5ab29798a359eb8",
+                [
+                    "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                    "se.rds:md5,cc47269550305e0714707e2037943cc2"
+                ],
+                "theta.h5:md5,83d93dd67ec907ee9e8d35005b62a4fe"
+            ],
+            [
+                "fds-object.RDS"
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    [
+                        "otherCounts-HG00096.h5:md5,a4d69ede2417db56416774da4ffdfcee",
+                        "otherCounts-HG00103.h5:md5,44825793c3cd5a366f95b6a1abd5f266",
+                        "otherCounts-HG00106.h5:md5,7dd7349154471047f5a54b5583641c97",
+                        "otherCounts-HG00111.h5:md5,2199e8c7f7f1b2dc68d70e97b90523a8",
+                        "otherCounts-HG00116.h5:md5,8262bc647793edc33f2df19361ccf913",
+                        "otherCounts-HG00126.h5:md5,632d8ceb49cf4f17ea09833723b18ab7",
+                        "otherCounts-HG00132.h5:md5,160f054ac8a8999e2940281f06d6611c",
+                        "otherCounts-HG00149.h5:md5,d4d12a320e9e6e7498a4736e83c672e8",
+                        "otherCounts-HG00150.h5:md5,10df4014f0f3c09cbde4162742ab7bcc",
+                        "otherCounts-HG00176.h5:md5,2426e263ff97098908505e4d346592d7"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,d10c70de6477bd857b1ed66f383ec7b4"
+            ]
+        ],
+        "timestamp": "2026-03-30T15:12:01.431570496",
+        "meta": {
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
+    },
+    "homo_sapiens - fds, cache - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,d10c70de6477bd857b1ed66f383ec7b4"
+                ],
+                "cache": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,d10c70de6477bd857b1ed66f383ec7b4"
+                ]
+            }
+        ],
+        "timestamp": "2025-12-02T15:02:46.067127422",
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        }
+    }
+}

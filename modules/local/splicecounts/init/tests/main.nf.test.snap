@@ -1,0 +1,76 @@
+{
+    "homo_sapiens - col_data": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f"
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,01bdafcf96a4e6d281711fda2134811a"
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,01bdafcf96a4e6d281711fda2134811a"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-03T10:16:05.676188234"
+    },
+    "homo_sapiens - col_data - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,01bdafcf96a4e6d281711fda2134811a"
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,01bdafcf96a4e6d281711fda2134811a"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-03T10:16:18.138073809"
+    }
+}

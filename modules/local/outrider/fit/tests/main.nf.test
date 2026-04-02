@@ -1,0 +1,64 @@
+nextflow_process {
+
+    name "Test Process OUTRIDER_FIT"
+    script "../main.nf"
+    process "OUTRIDER_FIT"
+
+    tag "modules"
+    tag "modules_local"
+    tag "OUTRIDER_FIT"
+
+    test("drop demo - ods_unfitted.Rds") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
+                ])
+                input[1] = 'autoencoder'
+                input[2] = 3
+                input[3] = false
+                input[4] = false
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.ods_fitted.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+        test("homo_sapiens - gtf - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'test' ],
+                    [ file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/ods_unfitted.Rds', checkIfExists: true) ]
+                ])
+                input[1] = 'autoencoder'
+                input[2] = 3
+                input[3] = false
+                input[4] = false
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

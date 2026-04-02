@@ -1,0 +1,10 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::bioconductor-biocparallel=1.40.0
+  - bioconda::bioconductor-genomicranges=1.58.0
+  - bioconda::bioconductor-variantannotation=1.52.0
+  - conda-forge::r-base=4.4.3
+  - conda-forge::r-data.table=1.17.6
+  - conda-forge::r-magrittr=2.0.3

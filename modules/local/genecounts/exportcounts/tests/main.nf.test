@@ -1,0 +1,56 @@
+nextflow_process {
+
+    name "Test Process GENECOUNTS_EXPORTCOUNTS"
+    script "../main.nf"
+    process "GENECOUNTS_EXPORTCOUNTS"
+
+    tag "modules"
+    tag "modules_local"
+    tag "preprocessgeneannotation"
+    tag "genecounts/exportcounts"
+
+    test("homo_sapiens - counts") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'expression', drop_group: 'expression'],
+                    file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/HG00096_HG00103_filter.Rds'),
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("homo_sapiens - counts - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [id: 'expression', drop_group: 'expression'],
+                    file(params.pipelines_testdata_base_path + 'intermediates/filtercounts/HG00096_HG00103_filter.Rds')
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

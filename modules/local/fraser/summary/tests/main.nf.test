@@ -1,0 +1,139 @@
+nextflow_process {
+
+    name "Test Process FRASER_SUMMARY"
+    script "../main.nf"
+    process "FRASER_SUMMARY"
+
+    tag "modules"
+    tag "modules_local"
+    tag "FRASER_SUMMARY"
+
+    setup {
+        run("UNTAR") {
+            script "../../../../nf-core/untar/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"savedObjects"],
+                    file(params.pipelines_testdata_base_path + 'intermediates/fraser/calculationstats/savedObjects.tar.gz')
+                ])
+                """
+            }
+        }
+    }
+
+    test("homo_sapiens - fds") {
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("fraser--v29"),
+                        file(params.pipelines_testdata_base_path + 'intermediates/fraser/extractresults/results.tsv'),
+                        "fraser",
+                        "v29"
+                    ]
+                }
+                input[1] = 1
+                input[2] = 0.05
+                input[3] = "FRASER2"
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.fraser_overview.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.q_estimation
+                                            .groupBy { it[0] }
+                                            .collect { meta, vals ->
+                                            [ meta,
+                                            vals.collectMany { _, paths ->
+                                                (paths instanceof Collection ? paths : [paths])
+                                            }
+                                            .collect { new File(it.toString()).name }
+                                            .sort()
+                                            ]
+                                            },
+                    process.out.aberrantly_spliced_genes.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.batch_correlation
+                                            .groupBy { it[0] }
+                                            .collect { meta, vals ->
+                                            [ meta,
+                                            vals.collectMany { _, paths ->
+                                                (paths instanceof Collection ? paths : [paths])
+                                            }
+                                            .collect { new File(it.toString()).name }
+                                            .sort()
+                                            ]
+                                            },
+                    process.out.total_outliers.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.results.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+        test("homo_sapiens - fds - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = UNTAR.out.untar
+                .map { meta, fds ->
+                    [
+                        [id:'fraser'],
+                        fds.resolve("fraser--v29"),
+                        file(params.pipelines_testdata_base_path + 'intermediates/fraser/extractresults/results.tsv'),
+                        "fraser",
+                        "v29"
+                    ]
+                }
+                input[1] = 1
+                input[2] = 0.05
+                input[3] = "FRASER2"
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(
+                    process.out.fraser_overview.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.q_estimation
+                                            .groupBy { it[0] }
+                                            .collect { meta, vals ->
+                                            [ meta,
+                                            vals.collectMany { _, paths ->
+                                                (paths instanceof Collection ? paths : [paths])
+                                            }
+                                            .collect { new File(it.toString()).name }
+                                            .sort()
+                                            ]
+                                            },
+                    process.out.aberrantly_spliced_genes.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.batch_correlation
+                                            .groupBy { it[0] }
+                                            .collect { meta, vals ->
+                                            [ meta,
+                                            vals.collectMany { _, paths ->
+                                                (paths instanceof Collection ? paths : [paths])
+                                            }
+                                            .collect { new File(it.toString()).name }
+                                            .sort()
+                                            ]
+                                            },
+                    process.out.total_outliers.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.results.collect { meta, r -> [ meta, file(r).name ] },
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+}

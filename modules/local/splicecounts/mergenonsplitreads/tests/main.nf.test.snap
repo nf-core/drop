@@ -1,0 +1,237 @@
+{
+    "homo_sapiens - fds, cache - false": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e",
+                            "nonSplicedCounts-HG00103.h5:md5,528cd1487e6e5bd831b711e639bedf02",
+                            "nonSplicedCounts-HG00106.h5:md5,025f4bfbdde9293d81673a95247e29d7",
+                            "nonSplicedCounts-HG00111.h5:md5,defa7c8bbacc9c7612cd6826a1701980",
+                            "nonSplicedCounts-HG00116.h5:md5,8c1cbd2107647f5ba149322d6e0a0666",
+                            "nonSplicedCounts-HG00126.h5:md5,09806d617621f173ae58caa273f0cfe8",
+                            "nonSplicedCounts-HG00132.h5:md5,3fa0da65a71dec519aac59f248698ae8",
+                            "nonSplicedCounts-HG00149.h5:md5,e8775172820d1cd650f8a135c211069b",
+                            "nonSplicedCounts-HG00150.h5:md5,21dd9caef46736bef98fc9c0e4d9a134",
+                            "nonSplicedCounts-HG00176.h5:md5,8b2b6f9c77b0a1b04842c6101c9d7081",
+                            "spliceSiteCoordinates.RDS:md5,33f638c5e101549c1bc4ad15469ea23b"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
+                            "rawCountsSS.h5:md5,ecb04be331b9e07fbe76c1c865551ba0",
+                            [
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
+                            ]
+                        ]
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,2304ab5893ea12727ce901f131af884e"
+                ],
+                "cache": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e",
+                            "nonSplicedCounts-HG00103.h5:md5,528cd1487e6e5bd831b711e639bedf02",
+                            "nonSplicedCounts-HG00106.h5:md5,025f4bfbdde9293d81673a95247e29d7",
+                            "nonSplicedCounts-HG00111.h5:md5,defa7c8bbacc9c7612cd6826a1701980",
+                            "nonSplicedCounts-HG00116.h5:md5,8c1cbd2107647f5ba149322d6e0a0666",
+                            "nonSplicedCounts-HG00126.h5:md5,09806d617621f173ae58caa273f0cfe8",
+                            "nonSplicedCounts-HG00132.h5:md5,3fa0da65a71dec519aac59f248698ae8",
+                            "nonSplicedCounts-HG00149.h5:md5,e8775172820d1cd650f8a135c211069b",
+                            "nonSplicedCounts-HG00150.h5:md5,21dd9caef46736bef98fc9c0e4d9a134",
+                            "nonSplicedCounts-HG00176.h5:md5,8b2b6f9c77b0a1b04842c6101c9d7081",
+                            "spliceSiteCoordinates.RDS:md5,33f638c5e101549c1bc4ad15469ea23b"
+                        ]
+                    ]
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
+                            "rawCountsSS.h5:md5,ecb04be331b9e07fbe76c1c865551ba0",
+                            [
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
+                            ]
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2304ab5893ea12727ce901f131af884e"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-14T22:28:19.657090839"
+    },
+    "homo_sapiens - fds, cache - true": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e",
+                            "nonSplicedCounts-HG00103.h5:md5,528cd1487e6e5bd831b711e639bedf02",
+                            "nonSplicedCounts-HG00106.h5:md5,025f4bfbdde9293d81673a95247e29d7",
+                            "nonSplicedCounts-HG00111.h5:md5,defa7c8bbacc9c7612cd6826a1701980",
+                            "nonSplicedCounts-HG00116.h5:md5,8c1cbd2107647f5ba149322d6e0a0666",
+                            "nonSplicedCounts-HG00126.h5:md5,09806d617621f173ae58caa273f0cfe8",
+                            "nonSplicedCounts-HG00132.h5:md5,3fa0da65a71dec519aac59f248698ae8",
+                            "nonSplicedCounts-HG00149.h5:md5,e8775172820d1cd650f8a135c211069b",
+                            "nonSplicedCounts-HG00150.h5:md5,21dd9caef46736bef98fc9c0e4d9a134",
+                            "nonSplicedCounts-HG00176.h5:md5,8b2b6f9c77b0a1b04842c6101c9d7081",
+                            "spliceSiteCoordinates.RDS:md5,33f638c5e101549c1bc4ad15469ea23b"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
+                            "rawCountsSS.h5:md5,ecb04be331b9e07fbe76c1c865551ba0",
+                            [
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
+                            ]
+                        ]
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,2304ab5893ea12727ce901f131af884e"
+                ],
+                "cache": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "nonSplicedCounts-HG00096.h5:md5,dea797e4b26ac9a2edcc7002c90cc01e",
+                            "nonSplicedCounts-HG00103.h5:md5,528cd1487e6e5bd831b711e639bedf02",
+                            "nonSplicedCounts-HG00106.h5:md5,025f4bfbdde9293d81673a95247e29d7",
+                            "nonSplicedCounts-HG00111.h5:md5,defa7c8bbacc9c7612cd6826a1701980",
+                            "nonSplicedCounts-HG00116.h5:md5,8c1cbd2107647f5ba149322d6e0a0666",
+                            "nonSplicedCounts-HG00126.h5:md5,09806d617621f173ae58caa273f0cfe8",
+                            "nonSplicedCounts-HG00132.h5:md5,3fa0da65a71dec519aac59f248698ae8",
+                            "nonSplicedCounts-HG00149.h5:md5,e8775172820d1cd650f8a135c211069b",
+                            "nonSplicedCounts-HG00150.h5:md5,21dd9caef46736bef98fc9c0e4d9a134",
+                            "nonSplicedCounts-HG00176.h5:md5,8b2b6f9c77b0a1b04842c6101c9d7081",
+                            "spliceSiteCoordinates.RDS:md5,33f638c5e101549c1bc4ad15469ea23b"
+                        ]
+                    ]
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "fds-object.RDS:md5,9ff37ae9c5568bbaadd9ea645903485f",
+                            "rawCountsJ.h5:md5,305dcf867ade2ae36077e08421c05bde",
+                            "rawCountsSS.h5:md5,ecb04be331b9e07fbe76c1c865551ba0",
+                            [
+                                "assays.h5:md5,c1c6a8060b6898642193549ddb5d6844",
+                                "se.rds:md5,cc47269550305e0714707e2037943cc2"
+                            ]
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2304ab5893ea12727ce901f131af884e"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-14T22:28:54.565240052"
+    },
+    "homo_sapiens - fds, cache - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "spliceSitesCoordinates.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,2304ab5893ea12727ce901f131af884e"
+                ],
+                "cache": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "spliceSitesCoordinates.RDS:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            "rawCountsSS.h5:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2304ab5893ea12727ce901f131af884e"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-03T10:20:46.712029689"
+    }
+}

@@ -1,45 +1,430 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/nf-core/drop/master/nextflow_schema.json",
     "title": "nf-core/drop pipeline parameters",
     "description": "The detection of RNA Outliers Pipeline (DROP) is an integrative workflow to detect aberrant expression, aberrant splicing, and mono-allelic expression from raw sequencing files.",
     "type": "object",
-    "definitions": {
+    "$defs": {
         "input_output_options": {
-            "title": "Input/output options",
+            "title": "Parameters defining the input and output options of the pipeline",
             "type": "object",
-            "fa_icon": "fas fa-terminal",
-            "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "fa_icon": "fas fa-cogs",
+            "description": "Parameters defining the input and output options of the pipeline.",
+            "required": ["input", "outdir", "genome"],
             "properties": {
                 "input": {
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
-                    "schema": "assets/schema_input.json",
-                    "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/drop/usage#samplesheet-input).",
+                    "pattern": "^\\S+\\.tsv$",
+                    "description": "Path to the samplesheet file used by the pipeline. The file should be a TSV file. Equivalent to the `sampleAnnotation` parameter in the snakemake pipeline.",
+                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. See [usage docs](https://nf-co.re/drop/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
                 },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
-                    "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
+                    "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure. Equivalent to the `root` parameter in the snakemake pipeline.",
                     "fa_icon": "fas fa-folder-open"
-                },
-                "email": {
-                    "type": "string",
-                    "description": "Email address for completion summary.",
-                    "fa_icon": "fas fa-envelope",
-                    "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
-                    "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
                 },
                 "multiqc_title": {
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                },
+                "project_title": {
+                    "type": "string",
+                    "description": "Title of the project to be displayed on the rendered HTML output"
+                },
+                "genome": {
+                    "type": "string",
+                    "description": "Equivalent to the `genomeAssembly` parameter in the snakemake pipeline. Either hg19/hs37d5 or hg38/GRCh38, depending on the genome assembly used for mapping",
+                    "enum": ["hg19", "hs37d5 ", "hg38", "GRCh38"],
+                    "fa_icon": "fas fa-book"
+                },
+                "gene_annotation": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.(csv|tsv|json|yml|yaml)$",
+                    "description": "Path to GTF gene annotations file. Equivalent to the `geneAnnotation` parameter in the snakemake pipeline, with the difference that a file depicting the kev-value pairs is expected here instead.",
+                    "help_text": "See [example](https://github.com/nf-core/drop/blob/dev/assets/gene_annotation.yaml)",
+                    "fa_icon": "far fa-file-code"
+                },
+                "hpo_file": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.tsv(\\.gz)?$",
+                    "description": "Full path of the file containing HPO terms. If missing, it reads it from our webserver. Refer to [files-to-download](https://gagneurlab-drop.readthedocs.io/en/latest/prepare.html?highlight=drop_group#files-to-download). Equivalent to the `hpoFile` parameter in the snakemake pipeline.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "random_seed": {
+                    "type": ["boolean", "integer"],
+                    "description": "Specify a random seed for reproducibility"
+                }
+            }
+        },
+        "export_counts": {
+            "title": "Export counts options",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Export counts options.",
+            "properties": {
+                "ec_gene_annotations": {
+                    "type": "string",
+                    "description": "A comma-separated list of gene annotations to export."
+                },
+                "ec_exclude_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of aberrant expression and aberrant splicing groups whose counts should not be exported. If empty, all groups are exported."
+                }
+            }
+        },
+        "aberrant_expression": {
+            "title": "Aberrant expression options",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Aberrant expression options.",
+            "properties": {
+                "ae_skip": {
+                    "type": "boolean",
+                    "description": "Skip aberrant expression analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of aberrant expression groups to run. If empty, all groups are run."
+                },
+                "ae_min_ids": {
+                    "type": "integer",
+                    "description": "A positive number indicating the minimum number of samples that a group needs in order to be analyzed. We recommend at least 50.",
+                    "default": 1,
+                    "minimum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_fpkm_cutoff": {
+                    "type": "integer",
+                    "description": "A positive number indicating the minimum FPKM value for a gene to be considered expressed.",
+                    "default": 1,
+                    "minimum": 0,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_implementation": {
+                    "type": "string",
+                    "description": "Methods to remove sample covariation in OUTRIDER.",
+                    "enum": ["autoencoder", "pca", "peer"],
+                    "default": "autoencoder",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_padj_cutoff": {
+                    "type": "number",
+                    "description": "A number between (0, 1] indicating the maximum FDR an event can have in order to be considered an outlier.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_z_score_cutoff": {
+                    "type": "number",
+                    "description": "A non-negative number. Z scores (in absolute value) greater than this cutoff are considered as outliers.",
+                    "default": 0,
+                    "minimum": 0,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "ae_max_tested_dimension_proportion": {
+                    "type": "integer",
+                    "description": "An integer that controls the maximum value that the encoding dimension can take.",
+                    "minimum": 1,
+                    "default": 3
+                },
+                "ae_yield_size": {
+                    "type": "integer",
+                    "description": "An integer that sets the batch size for counting reads within a bam file. If memory issues persist lower the yieldSize.",
+                    "minimum": 1,
+                    "default": 2000000
+                },
+                "ae_genes_to_test": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_genes_to_test.json",
+                    "pattern": "^\\S+\\.(yaml|yml)$",
+                    "description": "Full path to a yaml file specifying lists of candidate genes per sample to test during FDR correction. See the documentation for details on the structure of this file.",
+                    "help_text": "In addition to returning transcriptome-wide results, DROP provides the option to limit the FDR correction to user-provided genes of interest. See more [details](https://gagneurlab-drop.readthedocs.io/en/latest/prepare.html?highlight=hpo#limiting-fdr-correction-to-subsets-of-genes-of-interest)"
+                },
+                "ae_use_grid_search_to_obtain_q": {
+                    "type": "boolean",
+                    "description": "If true, the optimal latent space dimension for the autoencoder will be determined by grid search. If false, OHT will be performed..",
+                    "fa_icon": "fas fa-file-export"
+                }
+            }
+        },
+        "aberrant_splicing": {
+            "title": "Aberrant splicing options",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Aberrant splicing options.",
+            "properties": {
+                "as_skip": {
+                    "type": "boolean",
+                    "description": "Skip aberrant splicing analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of aberrant splicing groups to run. If empty, all groups are run."
+                },
+                "as_min_ids": {
+                    "type": "integer",
+                    "description": "A positive number indicating the minimum number of samples that a group needs in order to be analyzed. We recommend at least 50.",
+                    "default": 1,
+                    "minimum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_recount": {
+                    "type": "boolean",
+                    "description": "If true, it forces samples to be recounted.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_long_read": {
+                    "type": "boolean",
+                    "description": "Set to true only if counting Nanopore or PacBio long reads.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_keep_non_standard_chrs": {
+                    "type": "boolean",
+                    "description": "Set to true if non standard chromosomes are to be kept for further analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_skip_filter": {
+                    "type": "boolean",
+                    "description": "If true, no filter is applied. We recommend filtering.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_min_expression_in_one_sample": {
+                    "type": "integer",
+                    "description": "The minimal read count in at least one sample required for an intron to pass the filter.",
+                    "default": 20,
+                    "minimum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_quantile_min_expression": {
+                    "type": "integer",
+                    "description": "The minimum total read count (N) an intron needs to have at the specified quantile across samples to pass the filter. See --as_quantile_for_filtering.",
+                    "default": 10,
+                    "minimum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_min_delta_psi": {
+                    "type": "number",
+                    "description": "The minimal variation (in delta psi) required for an intron to pass the filter.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_implementation": {
+                    "type": "string",
+                    "description": "Methods to remove sample covariation in FRASER.",
+                    "enum": ["PCA", "PCA-BB-Decoder"],
+                    "default": "PCA",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_fraser_version": {
+                    "type": "string",
+                    "description": "Version of FRASER to use.",
+                    "enume": ["FRASER", "FRASER2"],
+                    "default": "FRASER2",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_delta_psi_cutoff": {
+                    "type": "number",
+                    "description": "A non-negative number. Delta psi values greater than this cutoff are considered as outliers. Recommand 0.3 for FRASER, 0.1 for FRASER2.",
+                    "default": 0.3,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_quantile_for_filtering": {
+                    "type": "number",
+                    "description": "Defines at which percentile the as_quantile_min_expression filter is applied. Recommand 0.95 for FRASER, 0.75 for FRASER2.",
+                    "help_text": "A value of 0.95 means that at least 5% of the samples need to have a total read count N >= as_quantile_min_expression to pass the filter.",
+                    "default": 0.75,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_padj_cutoff": {
+                    "type": "number",
+                    "description": "Same as in aberrant expression.",
+                    "default": 0.1,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "as_max_tested_dimension_proportion": {
+                    "type": "integer",
+                    "description": "An integer that controls the maximum value that the encoding dimension can take.",
+                    "minimum": 1,
+                    "default": 6
+                },
+                "as_genes_to_test": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_genes_to_test.json",
+                    "pattern": "^\\S+\\.(yaml|yml)$",
+                    "description": "Full path to a yaml file specifying lists of candidate genes per sample to test during FDR correction. See the documentation for details on the structure of this file."
+                },
+                "as_use_grid_search_to_obtain_q": {
+                    "type": "boolean",
+                    "description": "If true, the optimal latent space dimension for the autoencoder will be determined by grid search. If false, OHT will be performed.."
+                }
+            }
+        },
+        "mono_allelic_expression": {
+            "title": "Mono-allelic expression options",
+            "type": "object",
+            "fa_icon": "fas fa-file-export",
+            "description": "Mono-allelic expression options.",
+            "properties": {
+                "mae_skip": {
+                    "type": "boolean",
+                    "description": "Skip mono-allelic expression analysis.",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_groups": {
+                    "type": "string",
+                    "description": "A comma-separated list of mono-allelic expression groups to run. If empty, all groups are run."
+                },
+                "ucsc_fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "description": "Path to UCSC FASTA genome file. Equivalent to the `ucsc` option in the `genome` parameter in the snakemake pipeline.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ucsc_fai": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fai$",
+                    "description": "Path to UCSC FASTA index file.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ucsc_dict": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.dict$",
+                    "description": "Path to UCSC sequence dictionary file. . If not provided, the pipeline will try to create it from the FASTA file.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ncbi_fasta": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "description": "Path to NCBI FASTA genome file. Equivalent to the `ncbi` option in the `genome` parameter in the snakemake pipeline.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ncbi_fai": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.fai$",
+                    "description": "Path to NCBI FASTA index file.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "ncbi_dict": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.dict$",
+                    "description": "Path to NCBI sequence dictionary file. If not provided, the pipeline will try to create it from the FASTA file.",
+                    "fa_icon": "far fa-file-code"
+                },
+                "mae_gatk_header_check": {
+                    "type": "boolean",
+                    "description": "If true (recommended), it emits the header warnings of a VCF file when performing the allelic counts",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_padj_cutoff": {
+                    "type": "number",
+                    "description": "Same as in aberrant expression.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_allelic_ratio_cutoff": {
+                    "type": "number",
+                    "description": "A number between [0.5, 1) indicating the maximum allelic ratio allele1/(allele1+allele2) for the test to be significant.",
+                    "default": 0.8,
+                    "minimum": 0.5,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_add_af": {
+                    "type": "boolean",
+                    "description": "Add the allele frequencies from gnomAD",
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_max_af": {
+                    "type": "number",
+                    "description": "Maximum allele frequency (of the minor allele) cut-off. Variants with AF equal or below this number are considered rare.",
+                    "default": 0.001,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_max_var_freq_cohort": {
+                    "type": "number",
+                    "description": "Maximum variant frequency among the cohort.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
+                },
+                "mae_qc_vcf": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.vcf\\.gz$",
+                    "description": "Full path to the vcf file used for VCF-BAM matching. Refer to [files-to-download](https://gagneurlab-drop.readthedocs.io/en/latest/prepare.html?highlight=drop_group#files-to-download).",
+                    "fa_icon": "far fa-file-code"
+                },
+                "mae_qc_vcf_tbi": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "mimetype": "text/plain",
+                    "pattern": "^\\S+\\.tbi$",
+                    "description": "Full path to the index of the vcf file used for VCF-BAM matching. Refer to [files-to-download](https://gagneurlab-drop.readthedocs.io/en/latest/prepare.html?highlight=drop_group#files-to-download)",
+                    "fa_icon": "far fa-file-code"
+                },
+                "mae_qc_groups": {
+                    "type": "string",
+                    "description": "Same as 'groups', but for the VCF-BAM matching"
+                },
+                "mae_dna_rna_match_cutoff": {
+                    "type": "number",
+                    "description": "fraction (0-1) used to seperate 'matching' samples and 'non-matching' samples comparing the DNA and RNA data during QC.",
+                    "default": 0.05,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "fa_icon": "fas fa-file-export"
                 }
             }
         },
@@ -49,28 +434,20 @@
             "fa_icon": "fas fa-dna",
             "description": "Reference genome related files and options required for the workflow.",
             "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "Name of iGenomes reference.",
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
-                "fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
-                },
                 "igenomes_ignore": {
                     "type": "boolean",
                     "description": "Do not load the iGenomes reference config.",
                     "fa_icon": "fas fa-ban",
                     "hidden": true,
                     "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
+                },
+                "igenomes_base": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "The base path to the igenomes reference files",
+                    "fa_icon": "fas fa-ban",
+                    "hidden": true,
+                    "default": "s3://ngi-igenomes/igenomes/"
                 }
             }
         },
@@ -122,41 +499,6 @@
                 }
             }
         },
-        "max_job_request_options": {
-            "title": "Max job request options",
-            "type": "object",
-            "fa_icon": "fab fa-acquisitions-incorporated",
-            "description": "Set the top limit for requested resources for any single job.",
-            "help_text": "If you are running on a smaller system, a pipeline step requesting more resources than are available may cause the Nextflow to stop the run with an error. These options allow you to cap the maximum resources requested by any single job so that the pipeline will run on your system.\n\nNote that you can not _increase_ the resources requested by any job using these options. For that you will need your own configuration file. See [the nf-core website](https://nf-co.re/usage/configuration) for details.",
-            "properties": {
-                "max_cpus": {
-                    "type": "integer",
-                    "description": "Maximum number of CPUs that can be requested for any single job.",
-                    "default": 16,
-                    "fa_icon": "fas fa-microchip",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the CPU requirement for each process. Should be an integer e.g. `--max_cpus 1`"
-                },
-                "max_memory": {
-                    "type": "string",
-                    "description": "Maximum amount of memory that can be requested for any single job.",
-                    "default": "128.GB",
-                    "fa_icon": "fas fa-memory",
-                    "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the memory requirement for each process. Should be a string in the format integer-unit e.g. `--max_memory '8.GB'`"
-                },
-                "max_time": {
-                    "type": "string",
-                    "description": "Maximum amount of time that can be requested for any single job.",
-                    "default": "240.h",
-                    "fa_icon": "far fa-clock",
-                    "pattern": "^(\\d+\\.?\\s*(s|m|h|d|day)\\s*)+$",
-                    "hidden": true,
-                    "help_text": "Use to set an upper-limit for the time requirement for each process. Should be a string in the format integer-unit e.g. `--max_time '2.h'`"
-                }
-            }
-        },
         "generic_options": {
             "title": "Generic options",
             "type": "object",
@@ -164,11 +506,12 @@
             "description": "Less common options for the pipeline, typically set in a config file.",
             "help_text": "These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
             "properties": {
-                "help": {
-                    "type": "boolean",
-                    "description": "Display help text.",
-                    "fa_icon": "fas fa-question-circle",
-                    "hidden": true
+                "email": {
+                    "type": "string",
+                    "description": "Email address for completion summary.",
+                    "fa_icon": "fas fa-envelope",
+                    "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
+                    "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
                 },
                 "version": {
                     "type": "boolean",
@@ -245,45 +588,65 @@
                     "fa_icon": "fas fa-check-square",
                     "hidden": true
                 },
-                "validationShowHiddenParams": {
-                    "type": "boolean",
-                    "fa_icon": "far fa-eye-slash",
-                    "description": "Show all params when using `--help`",
-                    "hidden": true,
-                    "help_text": "By default, parameters set as _hidden_ in the schema are not shown on the command line when a user runs with `--help`. Specifying this option will tell the pipeline to show all parameters."
-                },
-                "validationFailUnrecognisedParams": {
-                    "type": "boolean",
+                "pipelines_testdata_base_path": {
+                    "type": "string",
                     "fa_icon": "far fa-check-circle",
-                    "description": "Validation of parameters fails when an unrecognised parameter is found.",
-                    "hidden": true,
-                    "help_text": "By default, when an unrecognised parameter is found, it returns a warinig."
+                    "description": "Base URL or local path to location of pipeline test dataset files",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/drop/data/",
+                    "hidden": true
                 },
-                "validationLenientMode": {
-                    "type": "boolean",
+                "modules_testdata_base_path": {
+                    "type": "string",
                     "fa_icon": "far fa-check-circle",
-                    "description": "Validation of parameters in lenient more.",
-                    "hidden": true,
-                    "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
+                    "description": "Base URL or local path to location of module test dataset files",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/modules/data/",
+                    "hidden": true
+                },
+                "trace_report_suffix": {
+                    "type": "string",
+                    "fa_icon": "far calendar",
+                    "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
+                    "hidden": true
+                },
+                "help": {
+                    "type": ["boolean", "string"],
+                    "description": "Display the help message."
+                },
+                "help_full": {
+                    "type": "boolean",
+                    "description": "Display the full detailed help message."
+                },
+                "show_hidden": {
+                    "type": "boolean",
+                    "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
                 }
             }
         }
     },
     "allOf": [
         {
-            "$ref": "#/definitions/input_output_options"
+            "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/definitions/reference_genome_options"
+            "$ref": "#/$defs/export_counts"
         },
         {
-            "$ref": "#/definitions/institutional_config_options"
+            "$ref": "#/$defs/aberrant_expression"
         },
         {
-            "$ref": "#/definitions/max_job_request_options"
+            "$ref": "#/$defs/aberrant_splicing"
         },
         {
-            "$ref": "#/definitions/generic_options"
+            "$ref": "#/$defs/mono_allelic_expression"
+        },
+        {
+            "$ref": "#/$defs/reference_genome_options"
+        },
+        {
+            "$ref": "#/$defs/institutional_config_options"
+        },
+        {
+            "$ref": "#/$defs/generic_options"
         }
     ]
 }

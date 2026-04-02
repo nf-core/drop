@@ -1,0 +1,27 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/nf-core/drop/master/assets/schema_input.json",
+    "title": "nf-core/drop pipeline - params.gene_annotation schema",
+    "description": "Schema for the file provided with params.gene_annotation",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Name must be provided and cannot contain spaces",
+                "description": "Unique identifier for the gene annotation. Must not contain spaces.",
+                "meta": "id"
+            },
+            "gtf": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.gtf(\\.gz)?$",
+                "errorMessage": "The GTF file has to exist, cannot contain spaces and must have extension '.gtf' or '.gtf.gz'",
+                "description": "Path to the GTF file. Must exist and cannot contain spaces."
+            }
+        }
+    }
+}

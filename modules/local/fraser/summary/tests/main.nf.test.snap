@@ -1,0 +1,131 @@
+{
+    "homo_sapiens - fds - stub": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "fraser_overview_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    [
+                        "q_estimation_x_mqc.png"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "aberrantly_spliced_genes_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    [
+                        "batch_correlation_x_mqc.png"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "total_outliers_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "results_mqc.tsv"
+                ]
+            ],
+            [
+                "versions.yml:md5,3e5fcb7692e8318c199fe28184aa62c5"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-02T15:03:42.346064273"
+    },
+    "homo_sapiens - fds": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "fraser_overview_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    [
+                        "q_estimation_jaccard_mqc.png"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "aberrantly_spliced_genes_mqc.png"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    [
+                        "batch_correlation_jaccard_FALSE_mqc.png",
+                        "batch_correlation_jaccard_TRUE_mqc.png"
+                    ]
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "total_outliers_mqc.tsv"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "fraser"
+                    },
+                    "results_mqc.tsv"
+                ]
+            ],
+            [
+                "versions.yml:md5,3e5fcb7692e8318c199fe28184aa62c5"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2025-12-14T23:35:23.865034093"
+    }
+}

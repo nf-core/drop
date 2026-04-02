@@ -1,0 +1,101 @@
+{
+    "homo_sapiens - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
+                ],
+                "fdsobj": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "fdsobj_raw": [
+                    [
+                        {
+                            "id": "fraser"
+                        },
+                        [
+                            
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
+                ]
+            }
+        ],
+        "timestamp": "2025-12-02T14:58:18.689134277",
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        }
+    },
+    "homo_sapiens": {
+        "content": [
+            [
+                "delta_jaccard.h5:md5,6106369138d6495bc28fc52179a05f08",
+                "jaccard.h5:md5,229089a4047fc014cade622962b5471b",
+                "psi3.h5:md5,06df0030a2ffb2cc502583b1d37738f3",
+                "psi5.h5:md5,3da5041afab25c5fa74a76840b7efab4",
+                "rawCountsJ.h5:md5,e6a2a122e13fa7a0330adf9bc7d187c5",
+                "rawCountsJnonsplit.h5:md5,bb22171d0617cb1ccc49d6b171ff4757",
+                "rawCountsSS.h5:md5,712366061d708f1079a51939e9c85eb2",
+                "rawOtherCounts_jaccard.h5:md5,ecc5b6ce6a778e0cb84ab16eb9b85126",
+                "rawOtherCounts_psi3.h5:md5,c9eb58441fa11e5e2a07c79a311b1a6a",
+                "rawOtherCounts_psi5.h5:md5,d28f0d8d45739697452621cff929990c"
+            ],
+            [
+                "fds-object.RDS"
+            ],
+            [
+                "delta_jaccard.h5:md5,6106369138d6495bc28fc52179a05f08",
+                "jaccard.h5:md5,229089a4047fc014cade622962b5471b",
+                "psi3.h5:md5,06df0030a2ffb2cc502583b1d37738f3",
+                "psi5.h5:md5,3da5041afab25c5fa74a76840b7efab4",
+                "rawCountsJ.h5:md5,e6a2a122e13fa7a0330adf9bc7d187c5",
+                "rawCountsJnonsplit.h5:md5,bb22171d0617cb1ccc49d6b171ff4757",
+                "rawCountsSS.h5:md5,712366061d708f1079a51939e9c85eb2",
+                "rawOtherCounts_jaccard.h5:md5,ecc5b6ce6a778e0cb84ab16eb9b85126",
+                "rawOtherCounts_psi3.h5:md5,c9eb58441fa11e5e2a07c79a311b1a6a",
+                "rawOtherCounts_psi5.h5:md5,d28f0d8d45739697452621cff929990c"
+            ],
+            [
+                "fds-object.RDS"
+            ],
+            [
+                "versions.yml:md5,05e03df63ac5d1b032ddb3760de6f962"
+            ]
+        ],
+        "timestamp": "2026-03-30T15:10:40.089975499",
+        "meta": {
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
+    }
+}

@@ -1,0 +1,37 @@
+nextflow_process {
+
+    name "Test Process MAE_DESEQ"
+    script "../main.nf"
+    process "MAE_DESEQ"
+
+    tag "modules"
+    tag "modules_local"
+    tag "mae/deseq"
+
+    test("homo_sapiens - counts, true - stub") {
+
+        options "-stub"
+        config "./nextflow.config"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [ id: 'HG00096' ],
+                    file(params.pipelines_testdata_base_path + 'intermediates/alleliccounts/HG00096.csv.gz', checkIfExists: true),
+                ])
+                input[1] = true
+                input[2] = 'hg19'
+                input[3] = 0.001
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

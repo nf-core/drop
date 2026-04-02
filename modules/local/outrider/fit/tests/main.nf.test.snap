@@ -1,0 +1,55 @@
+{
+    "drop demo - ods_unfitted.Rds": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "test.Rds"
+                ]
+            ],
+            [
+                "versions.yml:md5,845d7a1cc1053eb910355c05378a0d3c"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-11T12:18:03.111865"
+    },
+    "homo_sapiens - gtf - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,845d7a1cc1053eb910355c05378a0d3c"
+                ],
+                "ods_fitted": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,845d7a1cc1053eb910355c05378a0d3c"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-11T12:18:08.061369"
+    }
+}

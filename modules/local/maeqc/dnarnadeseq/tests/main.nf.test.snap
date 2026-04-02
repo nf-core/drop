@@ -1,0 +1,82 @@
+{
+    "homo_sapiens - counts": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.Rds:md5,0f0acaecfc4e6770f9eb84738a7da7b3"
+                    ],
+                    [
+                        {
+                            "id": "HG00103"
+                        },
+                        "HG00103.Rds:md5,464c8977c58a928cb9f08589db0064df"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,f16eb030dcd808edc1a3ffef060b4eec",
+                    "versions.yml:md5,f16eb030dcd808edc1a3ffef060b4eec"
+                ],
+                "ods_with_pvals": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.Rds:md5,0f0acaecfc4e6770f9eb84738a7da7b3"
+                    ],
+                    [
+                        {
+                            "id": "HG00103"
+                        },
+                        "HG00103.Rds:md5,464c8977c58a928cb9f08589db0064df"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f16eb030dcd808edc1a3ffef060b4eec",
+                    "versions.yml:md5,f16eb030dcd808edc1a3ffef060b4eec"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-09-11T13:24:10.450689926"
+    },
+    "homo_sapiens - counts - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,f16eb030dcd808edc1a3ffef060b4eec"
+                ],
+                "ods_with_pvals": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "HG00096.Rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f16eb030dcd808edc1a3ffef060b4eec"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-09-11T13:24:28.69271683"
+    }
+}

@@ -1,0 +1,36 @@
+custom_content:
+  order:
+    - mae_overview
+    - cascade_plot
+    - variant_frequency
+    - median_of_each_category
+    - results
+
+custom_data:
+  mae_overview:
+    section_name: "MAE overview"
+    format: "tsv"
+    plot_type: "table"
+
+  cascade_plot:
+    section_name: "Cascade plot"
+    description: |
+      a cascade plot that shows a progression of added filters
+
+      - `>10 counts`: only variants supported by more than 10 counts
+      - `+MAE`: and shows mono allelic expression
+      - `+MAE for REF`: the monoallelic expression favors the reference allele
+      - `+MAE for ALT`: the monoallelic expression favors the alternative allele
+      - `rare`:
+        - if add_AF is set to true in config file must meet minimum AF set by the config value max_AF
+        - must meet the inner-cohort frequency maxVarFreqCohort cutoff
+
+  variant_frequency:
+    section_name: "Variant Frequency within Cohort"
+
+  median_of_each_category:
+    section_name: "Median of each category"
+
+  results:
+    section_name: "MAE Results table"
+    description: "MAE results (up to 500 rows shown)"

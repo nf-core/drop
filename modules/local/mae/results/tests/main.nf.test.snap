@@ -1,0 +1,215 @@
+{
+    "homo_sapiens - res, mapping - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_all_HG00096.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_HG00096.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_HG00096_rare.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "mae_overview_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "cascade_plot_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "variant_frequency_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "median_of_each_category_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "results_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "8": [
+                    "versions.yml:md5,2ed7332197c0f988d7db1de8319d38c0"
+                ],
+                "cascade_plot": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "cascade_plot_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "mae_overview": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "mae_overview_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "median_of_each_category": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "median_of_each_category_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "res_all": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_all_HG00096.tsv.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "res_signif": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_HG00096.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "res_signif_rare": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_HG00096_rare.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "results": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "results_mqc.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "variant_frequency": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "variant_frequency_mqc.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,2ed7332197c0f988d7db1de8319d38c0"
+                ]
+            }
+        ],
+        "timestamp": "2025-08-29T14:06:53.355764342",
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        }
+    },
+    "homo_sapiens - res, mapping": {
+        "content": [
+            {
+                "cascade_plot": [
+                    "cascade_plot_mqc.png"
+                ],
+                "mae_overview": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "mae_overview_mqc.tsv:md5,237f30af88505bb345f1fe51c1f20b61"
+                    ]
+                ],
+                "median_of_each_category": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "median_of_each_category_mqc.tsv:md5,6844b6885e0faa4c32ee7e2a65c4834a"
+                    ]
+                ],
+                "res_all": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_all_HG00096.tsv.gz:md5,0bd9b3b66cd518d66707686069df94bd"
+                    ]
+                ],
+                "res_signif": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_HG00096.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
+                    ]
+                ],
+                "res_signif_rare": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "MAE_results_HG00096_rare.tsv:md5,ea706fcb98fe31c8ea8bddc6a7dad80e"
+                    ]
+                ],
+                "results": [
+                    [
+                        {
+                            "id": "HG00096"
+                        },
+                        "results_mqc.tsv:md5,59e1ab6361ede06230230bfc9ad0691d"
+                    ]
+                ],
+                "variant_frequency": [
+                    "variant_frequency_mqc.png"
+                ],
+                "versions": [
+                    "versions.yml:md5,2ed7332197c0f988d7db1de8319d38c0"
+                ]
+            }
+        ],
+        "timestamp": "2026-03-31T09:52:05.515461279",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    }
+}
