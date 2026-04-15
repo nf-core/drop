@@ -75,7 +75,7 @@ workflow ABERRANTSPLICING {
             }
             return [group, header + lines.sort()]
         }
-        .collectFile(newLine:true, storeDir:"${workflow.workDir.resolve('aberrant_splicing_datasets/')}") { group, lines ->
+        .collectFile(newLine:true, storeDir:workflow.workDir.resolve('aberrant_splicing_datasets/').toUriString()) { group, lines ->
             [ "${group}.tsv", lines.join("\n") ]
         }
 
