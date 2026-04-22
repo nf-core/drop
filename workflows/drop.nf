@@ -84,13 +84,13 @@ workflow DROP {
 
     SAMTOOLS_CONVERT_UCSC(
         bams_branch.cram_ucsc,
-        ucsc_fasta.join(ucsc_fai),
+        ucsc_fasta.join(ucsc_fai).collect(),
     )
     def ch_ucsc_converted_bams = SAMTOOLS_CONVERT_UCSC.out.bam.join(SAMTOOLS_CONVERT_UCSC.out.bai, failOnDuplicate:true, failOnMismatch:true)
 
     SAMTOOLS_CONVERT_NCBI(
         bams_branch.cram_ncbi,
-        ncbi_fasta.join(ncbi_fai),
+        ncbi_fasta.join(ncbi_fai).collect(),
     )
     def ch_ncbi_converted_bams = SAMTOOLS_CONVERT_NCBI.out.bam.join(SAMTOOLS_CONVERT_NCBI.out.bai, failOnDuplicate:true, failOnMismatch:true)
 
