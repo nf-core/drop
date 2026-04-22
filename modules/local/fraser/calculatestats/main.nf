@@ -5,8 +5,8 @@ process FRASER_CALCULATESTATS {
     // TODO discuss if this container should be split up, library loading should be done in the module script instead in that case
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/43/4319818c9416d02ea4e4bd81bad32533ce5268b81a5c53b7117984edad6655f1/data' :
-        'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_bioconductor-delayedmatrixstats_pruned:e8af96bc80316fdc' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/ff/ffa8a0cabe0d92e58c583162eb9fa946edcffc5a16958405f070c99ce93a7c59/data' :
+        'community.wave.seqera.io/library/bioconductor-bsgenome.hsapiens.ncbi.grch38_bioconductor-bsgenome.hsapiens.ucsc.hg19_bioconductor-bsgenome.hsapiens.ucsc.hg38_bioconductor-bsgenome_pruned:0776613eaf49b161' }"
 
     input:
     tuple val(meta), path(fds, stageAs: "input/savedObjects/*"), val(drop_group), val(annotation_id), val(sample_ids)
