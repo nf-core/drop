@@ -4,12 +4,14 @@ lint:
     - tests/default.nf.test
   files_unchanged:
     - .gitignore
+    - .github/PULL_REQUEST_TEMPLATE.md
   nf_test_content: false
-nf_core_version: 3.5.1
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
-  author: Michaela Mueller, Vicente Yepez, Christian Mertes, Daniela Andrade, Cristian
-    Sandu, Andrew Behrens, Julien Gagneur
+  author: "Vicente A. Y\xE9pez, Michaela M\xFCller, Nicholas H. Smith, Ata Jadid Ahari,\
+    \ Daniela Klaproth-Andrade, Luise Schuller, Ines Scheller, Christian Mertes, Julien\
+    \ Gagneur, Nicolas Vannieuwkerke"
   description: The detection of RNA Outliers Pipeline (DROP) is an integrative workflow
     to detect aberrant expression, aberrant splicing, and mono-allelic expression
     from raw sequencing files.
@@ -18,4 +20,4 @@ template:
   name: drop
   org: nf-core
   outdir: .
-  version: 1.0dev
+  version: 1.1.0dev
