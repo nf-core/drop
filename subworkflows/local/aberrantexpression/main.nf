@@ -90,7 +90,9 @@ workflow ABERRANTEXPRESSION {
     def mergereads_input = GENECOUNTS_COUNTREADS.out.counts
         .mix(inputs_branch.counts_present)
         .map { meta, count ->
-            [ meta, count, meta.drop_group.tokenize(",").intersect(include_groups) ]
+            def all_groups = meta.drop_group.tokenize(",")
+            def target_groups = include_groups ? all_groups.intersect(include_groups) : all_groups
+            [meta, count, target_groups]
         }
         .transpose(by: 2) // Split the entries per included group
         .map { meta, count, group ->
