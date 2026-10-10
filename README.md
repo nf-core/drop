@@ -21,7 +21,7 @@
 
 ## Introduction
 
-**nf-core/drop** is a Nextflow rewrite of [drop](https://github.com/gagneurlab/drop/tree/master) (Detection of RNA Outliers Pipeline), a bioinformatics pipeline that detects aberrant expression, aberrant splicing, and mono-allelic expression from RNA sequencing data. drop was originally written by Vicente Yepez, Christian Mertes, Michaela Mueller, Daniela Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
+**nf-core/drop** is a Nextflow rewrite of [DROP](https://github.com/gagneurlab/drop/tree/master) (Detection of RNA Outliers Pipeline), a bioinformatics pipeline that detects aberrant expression, aberrant splicing, and mono-allelic expression from RNA sequencing data. DROP was originally written by Vicente Yépez, Christian Mertes, Michaela Mueller, Daniela Klaproth-Andrade, Leonhard Wachutka from the Gagneur lab at the Department of Informatics and School of Medicine of the Technical University of Munich (TUM) and The German Human Genome-Phenome Archive (GHGA).
 
 ![A high-level diagram of the DROP workflow in a metro map style](docs/images/drop_metromap.png)
 
@@ -39,7 +39,7 @@
 ## Usage
 
 > [!NOTE]
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
+> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
 First, prepare a samplesheet with your input data that looks as follows:
 
@@ -50,9 +50,9 @@ First, prepare a samplesheet with your input data that looks as follows:
 | HG00103 | path/to/HG00103.bam | path/to/HG00103.bam.bai | group1,group2 | no     | HG00103 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
 | HG00106 | path/to/HG00106.bam | path/to/HG00106.bam.bai | group1,group2 | no     | HG00106 | path/to/demo_chr21.vcf.gz | path/to/demo_chr21.vcf.gz.tbi | ucsc   |
 
-Each row requires a unique RNA_ID, a BAM file, DROP_GROUP and STRAND. For MAE additional DNA_ID, DNA_VCF_FILE and GENOME.
+Each row requires a unique RNA_ID, a BAM file, DROP_GROUP and STRAND. For MAE, additional DNA_ID, DNA_VCF_FILE and GENOME.
 
-Here is an example of a [samplesheet](assets/samplesheet.tsv). Of note, to detect outliers confidently, a sufficiently large sample size is needed (>30 samples).
+Here is an example of a [samplesheet](assets/samplesheet.tsv). Of note, to detect outliers confidently, a sufficiently large sample size is needed (>50 samples).
 
 Now, you can run the pipeline using:
 
@@ -67,23 +67,23 @@ nextflow run nf-core/drop \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files). Here is an example of a [custom config](conf/test.config).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files, including those provided by the `-c` Nextflow option, can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files). Here is an example of a [custom config](conf/test.config).
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/drop/usage) and the [parameter documentation](https://nf-co.re/drop/parameters).
 
 ## Pipeline output
 
-To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/drop/results) tab on the nf-core website pipeline page.
+To see the results of an example test run with a full-size dataset, refer to the [results](https://nf-co.re/drop/results) tab on the nf-core website pipeline page.
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/drop/output).
 
 ## License notice
 
-OUTRIDER and FRASER are released under CC-BY-NC 4.0, meaning a license is required for any commercial use. If you intend to use the aberrant expression and aberrant splicing modules for commercial purposes, please contact the authors: Julien Gagneur (gagneur [at] in.tum.de), Christian Mertes (mertes [at] in.tum.de), and Vicente Yepez (yepez [at] in.tum.de).
+OUTRIDER and FRASER are released under CC-BY-NC 4.0, meaning a license is required for any commercial use. If you intend to use the aberrant expression and aberrant splicing modules for commercial purposes, please contact the authors: Julien Gagneur (gagneur [at] in.tum.de), Christian Mertes (mertes [at] in.tum.de), and Vicente Yépez (yepez [at] in.tum.de).
 
 ## Credits
 
-The development of nfcore/drop was lead by Nicolas Vannieuwkerke and Yun Wang.
+The development of nfcore/drop was led by Nicolas Vannieuwkerke and Yun Wang.
 
 Main developers:
 
